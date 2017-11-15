@@ -88,6 +88,10 @@ if(BUILD_ENGINE)
         endif(ENABLE_DIRECTSHOW)
 
 		add_subdirectory(runtime/winbuild/ltmsg)		# DLL_LTMsg
+	else(WIN32)
+        if(ENABLE_OPENGL)
+            add_subdirectory(runtime/render_a/src/sys/ogl)	# LIB_OGLRender
+        endif(ENABLE_OPENGL)
 	endif(WIN32)
 endif(BUILD_ENGINE)
 

@@ -41,12 +41,12 @@ extern int32	g_CV_CursorCenter;
 RMode g_RMode;
 
 RenderStruct g_Render;
-
+/*
 void rdll_RenderDLLSetup(RenderStruct *pStruct)
 {
 	r_InitRenderStruct(true);
 }
-
+*/
 LTObject*
 r_ProcessAttachment(LTObject *pParent, Attachment *pAttachment)
 {
