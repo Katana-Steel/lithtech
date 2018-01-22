@@ -1,5 +1,8 @@
 #include "bdefs.h"
 #include "ogl_render.h"
+#include "iclientshell.h"
+#include "iltclient.h"
+#include <GL/gl.h>
 
 OGlRenderStruct::OGlRenderStruct()
 {
@@ -12,13 +15,35 @@ bool OGlRenderStruct::LoadWorldData(ILTStream *pStream)
 
 HRENDERCONTEXT OGlRenderStruct::CreateContext()
 {
-    return nullptr;
+    SDL_Window *_win;
+    g_pLTClient->GetEngineHook("SDL_Window", (void**)&_win);
+    SDL_GLContext cx = SDL_GL_CreateContext(_win);
+    return (HRENDERCONTEXT)cx;
 }
 
-void            OGlRenderStruct::DeleteContext(HRENDERCONTEXT hContext){}
-int             OGlRenderStruct::RenderScene(SceneDesc *pScene){return 0;}
+void OGlRenderStruct::DeleteContext(HRENDERCONTEXT hContext){
+    SDL_GL_DeleteContext((SDL_GLContext)hContext);
+}
+
+int OGlRenderStruct::RenderScene(SceneDesc *pScene){
+    glClearColor(0,0,0,1);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glBegin(GL_TRIANGLES);
+        glColor4f(0.5,0.5,1.0,1.0);
+        glVertex3f(-0.5,-0.5,0.1);
+        glVertex3f(0.0, 0.5,0.1);
+        glVertex3f(0.5,-0.5,0.1);
+    glEnd();
+    return 0;
+}
+
+void OGlRenderStruct::SwapBuffers(uint flags ){
+    SDL_Window *_win;
+    g_pLTClient->GetEngineHook("SDL_Window", (void**)&_win);
+    SDL_GL_SwapWindow(_win);    
+}
+
 void            OGlRenderStruct::RenderCommand(uint32 argc, const char** argv){}
-void            OGlRenderStruct::SwapBuffers(uint flags ){}
 void			OGlRenderStruct::MakeCubicEnvMap(const char* pszPrefix, uint32 nSize, const SceneDesc& InSceneDesc){}
 void            OGlRenderStruct::ReadConsoleVariables(){}
 void            OGlRenderStruct::GetRenderInfo(RenderInfoStruct* pRenderInfo){}

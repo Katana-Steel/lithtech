@@ -21,6 +21,19 @@ void oglReadConsoleVariables()
 
 void r_InitRenderStruct(bool bFullClear)
 {
+    char filename[MAX_PATH];
+    memset(filename, 0, MAX_PATH);
+
+    const char* renderlib = "libOglrender.so";
+    bool copied;
+    LTRESULT dResult = GetOrCopyClientFile(renderlib, filename, MAX_PATH, copied);
+    if (dResult != LTTRUE) {
+        g_pClientMgr->SetupError(LT_ERRORCOPYINGFILE, renderlib);
+        RETURN_ERROR_PARAM(1, InitClientShellDE, LT_ERRORCOPYINGFILE, renderlib);
+    }
+
+    auto status = bm_BindModule(filename, copied, g_Render);
+
     RenderStructInit rsi{0,bFullClear, '\0'};
     g_Render.Init(&rsi);
 }
