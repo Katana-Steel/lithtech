@@ -18,6 +18,7 @@
 #include "iltmessage.h"
 #include "iltdrawprim.h"
 #include "ClientFXMgr.h"
+#include "ClientFXDB.h"
 #include "PlayerMgr.h"
 #include "CMoveMgr.h"
 #include "WinUtil.h"
@@ -323,6 +324,7 @@ CClientFXMgr::~CClientFXMgr()
 			g_pCLIENTFX_INSTANCE_Bank = NULL;
 		}
 	}
+	CClientFXDB::GetSingleton().UnloadFxDll();
 }
 
 //------------------------------------------------------------------

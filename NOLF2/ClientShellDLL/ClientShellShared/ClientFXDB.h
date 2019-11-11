@@ -152,6 +152,7 @@ public:
 
 	//finds the data for creating a specific effect key
 	FX_REF*							FindFX(const char *sName);
+	void							UnloadFxDll();
 
 private:
 
@@ -159,7 +160,6 @@ private:
 
 	//for managing the DLL
 	bool							LoadFxDll();
-	void							UnloadFxDll();
 
 	//for loading in the FX files
 	bool							LoadFxGroups(ILTClient* pClient, const char *sName);

@@ -217,8 +217,6 @@ void CClientFXDB::Term()
 		pGroupNode = pGroupNode->m_pNext;
 	}
 	m_collGroupFX.RemoveAll();
-
-	UnloadFxDll();
 }
 
 //-----------------------------------------------------------------
