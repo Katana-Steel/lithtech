@@ -1,5 +1,4 @@
 #include "iltsound.h"
-#include "SDL2/SDL_mixer.h"
 
 typedef sint16	S16;
 typedef uint16	U16;

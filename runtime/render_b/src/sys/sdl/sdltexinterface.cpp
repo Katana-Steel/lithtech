@@ -4,7 +4,6 @@
 #include "render.h"
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
 // interface database
 define_interface(CSysTexInterface, ILTTexInterface);

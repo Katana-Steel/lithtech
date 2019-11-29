@@ -3,3 +3,7 @@ Rez
 *.REZ
 .vscode
 codeblocks
+
+cmake-build-debug/
+
+.idea/
