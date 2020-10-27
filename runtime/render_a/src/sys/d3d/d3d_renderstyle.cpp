@@ -240,6 +240,8 @@ bool CD3DRenderStyle::CopyRenderStyle(CRenderStyle* pSrcRenderStyle)
 // Set the render style to it's defaults...
 void CD3DRenderStyle::SetDefaults()
 {
+	LTMatrix ident;
+	ident.Identity();
 	// Lighting Material...
 	m_LightingMaterial.Ambient									= FourFloatColor(1.0f,1.0f,1.0f,1.0f);
 	m_LightingMaterial.Diffuse									= FourFloatColor(0.8f,0.8f,0.8f,1.0f);
@@ -285,7 +287,7 @@ void CD3DRenderStyle::SetDefaults()
 		RenderPass.RenderPass.TextureStages[i].ProjectTexCoord	= false;
 		RenderPass.RenderPass.TextureStages[i].TexCoordCount	= 2;
 
-		D3DXMatrixIdentity((D3DXMATRIX*)RenderPass.RenderPass.TextureStages[i].UVTransform_Matrix);
+		memcpy(RenderPass.RenderPass.TextureStages[i].UVTransform_Matrix, ident.m, sizeof(float) * 16);
 	}
 	RenderPass.RenderPass.TextureStages[0].TextureParam			= RENDERSTYLE_USE_TEXTURE1;
 	RenderPass.RenderPass.TextureStages[0].ColorOp				= RENDERSTYLE_COLOROP_MODULATE;

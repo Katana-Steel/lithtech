@@ -125,6 +125,9 @@ DWORD d3d_VectorToRGB(LTVector * vector);
 //replacement for D3DXMatrixPerspectiveFovLH
 D3DMATRIX* D3DMatrixPerspectiveFovLH(D3DMATRIX* out, float fovy, float aspect, float zn, float zf);
 
+//replacement for D3DXMatrixIdentity
+void D3DMatrixIdentity(D3DMATRIX* out);
+
 inline void d3d_SetupTransformation(const LTVector *pPos, float *pRotation, LTVector *pScale, LTMatrix *pMat)
 {
 	if(pRotation[0] > ROTATION_MAX || pRotation[0] < -ROTATION_MAX)

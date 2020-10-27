@@ -98,9 +98,9 @@ private:
 	CD3DRenderStyle*	m_pBackupRenderStyle;
 
 	// Current State...
-	D3DXMATRIX			m_World[MAX_WORLDMATRIX];
-	D3DXMATRIX			m_View;
-	D3DXMATRIX			m_Proj;
+	D3DMATRIX			m_World[MAX_WORLDMATRIX];
+	D3DMATRIX			m_View;
+	D3DMATRIX			m_Proj;
 	list<D3DXMATRIX>	m_PrevWorld;
 	HD3DVERTEXSHADER	m_VertexShader;
 	D3DMATERIAL9		m_Material;

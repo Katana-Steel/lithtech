@@ -44,9 +44,9 @@ void CD3DRenderStateMgr::FreeAll()
 // Reset the internal state (Note: This doesn't free stuff - if this isn't a first time thing, call FreeAll() first)...
 void CD3DRenderStateMgr::Reset()
 {
-	for (uint32 i = 0; i < MAX_WORLDMATRIX; ++i) D3DXMatrixIdentity(&m_World[i]);
-	D3DXMatrixIdentity(&m_View);
-	D3DXMatrixIdentity(&m_Proj);
+	for (uint32 i = 0; i < MAX_WORLDMATRIX; ++i) D3DMatrixIdentity(&m_World[i]);
+	D3DMatrixIdentity(&m_View);
+	D3DMatrixIdentity(&m_Proj);
 	m_VertexShader				= NULL;
 	m_pBackupRenderStyle		= NULL;
 
@@ -299,9 +299,9 @@ void CD3DRenderStateMgr::SetBumpEnvMapMatrix(uint32 BumpEnvMapStage)
 	VS._44	= 1.0f;
 
 	D3DXMATRIX mat, mat2, mat3;							// Generate D3D pipeline's model to screen transformation.
-	D3DXMatrixMultiply(&mat,  &m_Proj,  &VS);
-	D3DXMatrixMultiply(&mat2, &m_View,  &mat);
-	D3DXMatrixMultiply(&mat3, &m_World[0], &mat2);
+	D3DXMatrixMultiply(&mat,  (D3DXMATRIX*)&m_Proj,  &VS);
+	D3DXMatrixMultiply(&mat2, (D3DXMATRIX*)&m_View,  &mat);
+	D3DXMatrixMultiply(&mat3, (D3DXMATRIX*)&m_World[0], &mat2);
 
 	D3DXVECTOR3 v(0.0f,0.0f,0.0f);						// Transform X (1, 0, 0) and Y (0, 1, 0) vectors to screen space for this transformation.
 	D3DXVECTOR4 res; D3DXVec3Transform(&res, &v, &mat3);

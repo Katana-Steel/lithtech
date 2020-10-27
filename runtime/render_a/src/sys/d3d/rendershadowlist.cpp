@@ -909,8 +909,8 @@ void CRenderShadowList::RenderQueuedShadows(const ViewParams& Params)
 	//we need to make sure to preserve some transformation information so it can be properly
 	//restored
 	//restore our viewport
-	D3DXMATRIX mIdentity;
-	D3DXMatrixIdentity(&mIdentity);
+	D3DMATRIX mIdentity;
+	D3DMatrixIdentity(&mIdentity);
 
 	//now get our old viewport for saving
 	D3DVIEWPORT9 OldViewport;
