@@ -122,6 +122,8 @@ void d3d_SetBumpMapTransform(uint32 nStage, float fTextureScale);
 
 DWORD d3d_VectorToRGB(LTVector * vector);
 
+//replacement for D3DXMatrixPerspectiveFovLH
+D3DMATRIX* D3DMatrixPerspectiveFovLH(D3DMATRIX* out, float fovy, float aspect, float zn, float zf);
 
 inline void d3d_SetupTransformation(const LTVector *pPos, float *pRotation, LTVector *pScale, LTMatrix *pMat)
 {

@@ -70,9 +70,9 @@ void d3d_SetReallyClose(CReallyCloseData* pData)
 	float aspect = g_ViewParams.m_fScreenWidth / g_ViewParams.m_fScreenHeight;
 
 	// Setup the projection transform by using the power of D3D.
-	D3DXMATRIX NewProj;
+	D3DMATRIX NewProj;
 
-	D3DXMatrixPerspectiveFovLH(&NewProj,
+	D3DMatrixPerspectiveFovLH(&NewProj,
 							   g_CV_PVModelFOV.m_Val * 0.01745329251994f, // convert degrees to rad on the fly.
 							   aspect,
 							   g_CV_ModelNear.m_Val,
@@ -181,4 +181,16 @@ DWORD d3d_VectorToRGB(LTVector * vector)
 	DWORD dwB = (DWORD)(127 * vector->z + 128);
 
 return (DWORD)(0xff000000 + (dwR << 16) + (dwG << 8) + dwB);
+}
+
+D3DMATRIX* D3DMatrixPerspectiveFovLH(D3DMATRIX* out, float fovy, float aspect, float zn, float zf)
+{
+	float yScale = 1.0f / tan(fovy / 2.0f);
+	float xScale = yScale / aspect;
+	out->_11 = xScale; out->_12 = 0.0f; out->_13 = 0.0f; out->_14 = 0.0f;
+	out->_21 = 0.0f; out->_22 = yScale; out->_23 = 0.0f; out->_24 = 0.0f;
+	out->_31 = 0.0f; out->_32 = 0.0f; out->_33 = zf / (zf - zn); out->_34 = 1.0f;
+	out->_41 = 0.0f; out->_42 = 0.0f; out->_43 = -zn * zf / (zf - zn); out->_44 = 0.0f;
+
+	return out;
 }
