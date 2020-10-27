@@ -101,7 +101,6 @@ private:
 	D3DMATRIX			m_World[MAX_WORLDMATRIX];
 	D3DMATRIX			m_View;
 	D3DMATRIX			m_Proj;
-	list<D3DXMATRIX>	m_PrevWorld;
 	HD3DVERTEXSHADER	m_VertexShader;
 	D3DMATERIAL9		m_Material;
 	FourFloatVector		m_AmbientLight;
