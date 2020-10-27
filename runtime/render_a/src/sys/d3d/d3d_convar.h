@@ -3,7 +3,7 @@
 
 //for RoundFloatToInt
 #ifndef __FIXEDPOINT_H__
-#	include "fixedpoint.h"
+#	include "FixedPoint.h"
 #endif
 
 typedef void*	HLTPARAM;

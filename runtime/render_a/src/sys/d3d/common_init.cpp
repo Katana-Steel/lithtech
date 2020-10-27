@@ -17,7 +17,7 @@
 #include "rendererframestats.h"
 
 // Shadow texture map related includes...
-#include "..\shadows\d3dshadowtexture.h"
+#include "../shadows/d3dshadowtexture.h"
 
 
 RMode* g_pModeList;

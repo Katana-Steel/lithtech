@@ -4,7 +4,7 @@
 #include "d3d_draw.h"
 #include "common_draw.h"
 #include "common_init.h"
-#include "fixedpoint.h"
+#include "FixedPoint.h"
 #include "d3d_texture.h"
 
 // Make sure the right intel compiler is being used.

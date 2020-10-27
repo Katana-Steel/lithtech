@@ -4,7 +4,7 @@
 #include "3d_ops.h"
 #include "d3d_draw.h"
 #include "common_stuff.h"
-#include "fixedpoint.h"
+#include "FixedPoint.h"
 #include "d3d_utils.h"
 #include "renderstruct.h"
 #include "common_draw.h"

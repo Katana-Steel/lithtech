@@ -4,7 +4,7 @@
 #include "d3d_draw.h"
 #include "tagnodes.h"
 #include "3d_ops.h"
-#include "fixedpoint.h"
+#include "FixedPoint.h"
 #include "common_draw.h"
 #include "d3d_texture.h"
 #include "drawobjects.h"

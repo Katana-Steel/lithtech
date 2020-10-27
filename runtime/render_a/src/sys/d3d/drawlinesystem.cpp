@@ -5,7 +5,7 @@ class ViewParams;
 #include "de_objects.h"
 #include "3d_ops.h"
 #include "d3d_texture.h"
-#include "fixedpoint.h"
+#include "FixedPoint.h"
 #include "tagnodes.h"
 #include "drawobjects.h"
 #include "d3d_draw.h"

@@ -9,7 +9,7 @@ define_holder(IClientShell, i_client_shell);
 #include "3d_ops.h"
 #include "common_draw.h"
 #include "de_mainworld.h"
-#include "fixedpoint.h"
+#include "FixedPoint.h"
 #include "d3d_texture.h"
 #include "tagnodes.h"
 #include "drawobjects.h"
