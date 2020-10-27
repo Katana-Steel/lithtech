@@ -1,3 +1,4 @@
+#include <string>
 #include <d3dx9shader.h>
 #include <iltclient.h>
 

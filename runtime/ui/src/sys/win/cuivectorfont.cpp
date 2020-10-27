@@ -33,6 +33,9 @@
 
 #ifdef _MSC_VER
 #include <TCHAR.h>
+#if _MSC_VER >= 1921
+#include <string>
+#endif
 #else
 #include <string>
 #endif
