@@ -399,8 +399,9 @@ bool CRenderShader_DynamicLight::SetupLight(const ViewParams *pParams, const Dyn
 		0.0f, 0.0f, 0.0f, 1.0f);
 	mXYTransform = mXYTransform * pParams->m_mInvView;
 
-	D3DXMATRIX mD3DXYTransform;
-	D3DXMatrixTranspose(&mD3DXYTransform, (D3DXMATRIX*)&mXYTransform);
+	D3DMATRIX mD3DXYTransform;
+	mXYTransform.Transpose();
+	memcpy(&mD3DXYTransform, &mXYTransform, sizeof(D3DMATRIX));
 	PD3DDEVICE->SetTransform(D3DTS_TEXTURE1, &mD3DXYTransform);
 
 	LTMatrix mZTransform;
@@ -411,8 +412,9 @@ bool CRenderShader_DynamicLight::SetupLight(const ViewParams *pParams, const Dyn
 		0.0f, 0.0f, 0.0f, 1.0f);
 	mZTransform = mZTransform * pParams->m_mInvView;
 
-	D3DXMATRIX mD3DZTransform;
-	D3DXMatrixTranspose(&mD3DZTransform, (D3DXMATRIX*)&mZTransform);
+	D3DMATRIX mD3DZTransform;
+	mZTransform.Transpose();
+	memcpy(&mD3DZTransform, &mZTransform, sizeof(D3DMATRIX));
 	PD3DDEVICE->SetTransform(D3DTS_TEXTURE0, &mD3DZTransform);
 
 	// Ok, your turn..  Render them triangles...
