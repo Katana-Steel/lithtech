@@ -344,6 +344,7 @@ void CD3DVAMesh::Render(ModelInstance *pInstance, D3DMATRIX& WorldTransform, CD3
 	if(rsD3DOptions.bUseEffectShader)
 	{
 		LTEffectImpl* _pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(rsD3DOptions.EffectShaderID);
+#ifdef USE_ID3DXEFFECT
 		ID3DXEffect* pEffect = _pEffect->GetEffect();
 
 		if(pEffect)
@@ -351,6 +352,7 @@ void CD3DVAMesh::Render(ModelInstance *pInstance, D3DMATRIX& WorldTransform, CD3
 			i_client_shell->OnEffectShaderSetParams((LTEffectShader*)_pEffect, pRenderStyle, pInstance, LTShaderDeviceStateImp::GetSingleton());
 			pEffect->CommitChanges();
 		}
+#endif
 	}
 
 	m_VBController.Render(0,0,m_iVertCount,m_iPolyCount);

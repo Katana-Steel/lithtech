@@ -504,6 +504,7 @@ void CD3DSkelMesh::Render(ModelInstance *pInstance, D3DMATRIX* pD3DTransforms, C
 				if(rsD3DOptions.bUseEffectShader)
 				{
 					LTEffectImpl* _pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(rsD3DOptions.EffectShaderID);
+#ifdef USE_ID3DXEFFECT
 					ID3DXEffect* pEffect = _pEffect->GetEffect();
 				
 					if(pEffect)
@@ -512,7 +513,7 @@ void CD3DSkelMesh::Render(ModelInstance *pInstance, D3DMATRIX* pD3DTransforms, C
 						pEffect->SetInt("BoneCount", nNumActiveBones);
 						pEffect->CommitChanges();
 					}
-				
+#endif
 				}
 
 				m_VBController.Render(	pBoneSet->iFirstVertIndex,
@@ -566,6 +567,7 @@ void CD3DSkelMesh::Render(ModelInstance *pInstance, D3DMATRIX* pD3DTransforms, C
 			if(rsD3DOptions.bUseEffectShader)
 			{
 				LTEffectImpl* _pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(rsD3DOptions.EffectShaderID);
+#ifdef USE_ID3DXEFFECT
 				ID3DXEffect* pEffect = _pEffect->GetEffect();
 
 				if(pEffect)
@@ -574,7 +576,7 @@ void CD3DSkelMesh::Render(ModelInstance *pInstance, D3DMATRIX* pD3DTransforms, C
 					pEffect->SetInt("BoneCount", nNumActiveBones);
 					pEffect->CommitChanges();
 				}
-
+#endif
 			}
 
 			m_VBController.Render(0,0,m_iVertCount,m_iPolyCount);

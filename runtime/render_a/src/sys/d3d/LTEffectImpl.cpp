@@ -13,7 +13,9 @@
 #include "de_world.h"
 
 LTEffectImpl::LTEffectImpl():
+#ifdef USE_ID3DXEFFECT
 m_pEffect(NULL),
+#endif
 m_pVertexElements(NULL),
 m_pVertexDeclaration(NULL),
 m_bCompileShader(true),
@@ -56,12 +58,13 @@ bool LTEffectImpl::Init(ILTStream *pStream, const uint32 *pVertexElements, uint3
 
 void LTEffectImpl::Term()
 {
+#ifdef USE_ID3DXEFFECT
 	if(m_pEffect)
 	{
 		m_pEffect->Release();
 		m_pEffect = NULL;
 	}
-
+#endif
 	if(m_pVertexDeclaration)
 	{
 		m_pVertexDeclaration->Release();
@@ -83,12 +86,13 @@ void  LTEffectImpl::FreeDeviceObject()
 		m_pVertexDeclaration->Release();
 		m_pVertexDeclaration = NULL;
 	}
-
+#ifdef USE_ID3DXEFFECT
 	if(m_pEffect)
 	{
 		m_pEffect->Release();
 		m_pEffect = NULL;
 	}
+#endif
 }
 
 bool  LTEffectImpl::Recreate()
@@ -134,6 +138,7 @@ bool  LTEffectImpl::Recreate()
 		pEffectPool = LTEffectShaderMgr::GetSingleton().GetEffectPool(m_EffectPoolID);
 	}
 	
+#ifdef USE_ID3DXEFFECT
 	LTEffectInclude includeHandler;
 	includeHandler.SetParentFilename(m_FileName);
 	hr = D3DXCreateEffect(r_GetRenderStruct()->GetD3DDevice(),
@@ -165,7 +170,7 @@ bool  LTEffectImpl::Recreate()
 	{
 		pErrorBuffer->Release();
 	}
-
+#endif
 	return true;
 }
 
@@ -176,80 +181,87 @@ void LTEffectImpl::SetName(const char *pName)
 
 LTRESULT LTEffectImpl::SetBool(const char* szParam, LTBOOL bBool)  const
 {
+#ifdef USE_ID3DXEFFECT
 	HRESULT hr = m_pEffect->SetBool(szParam, bBool);
 
 	if(FAILED(hr))
 	{
 		return LT_ERROR;
 	}
-
+#endif
 	return LT_OK;
 }
 
 
 LTRESULT LTEffectImpl::SetBoolArray(const char* szParam, LTBOOL *bBool, int nCount) const
 {	
+#ifdef USE_ID3DXEFFECT
 	HRESULT hr = m_pEffect->SetBoolArray(szParam, (const BOOL*)bBool, nCount);
 
 	if(FAILED(hr))
 	{
 		return LT_ERROR;
 	}
-
+#endif
 	return LT_OK;
 }
 
 LTRESULT LTEffectImpl::SetFloat(const char* szParam, float fFloat) const
 {
+#ifdef USE_ID3DXEFFECT
 	HRESULT hr = m_pEffect->SetFloat(szParam, fFloat);
 
 	if(FAILED(hr))
 	{
 		return LT_ERROR;
 	}
-
+#endif
 	return LT_OK;
 }
 
 LTRESULT LTEffectImpl::SetFloatArray(const char* szParam, float *fFloat, int nCount) const
 {
+#ifdef USE_ID3DXEFFECT
 	HRESULT hr = m_pEffect->SetFloatArray(szParam, (const float*)fFloat, nCount);
 
 	if(FAILED(hr))
 	{
 		return LT_ERROR;
 	}
-
+#endif
 	return LT_OK;
 }
 
 LTRESULT LTEffectImpl::SetInt(const char* szParam, int nInt) const
 {
+#ifdef USE_ID3DXEFFECT
 	HRESULT hr = m_pEffect->SetInt(szParam, nInt);
 
 	if(FAILED(hr))
 	{
 		return LT_ERROR;
 	}
-
+#endif
 	return LT_OK;
 }
 
 LTRESULT LTEffectImpl::SetIntArray(const char* szParam, int *nInt, int nCount) const
 {
+#ifdef USE_ID3DXEFFECT
 	HRESULT hr = m_pEffect->SetIntArray(szParam, (const int*)nInt, nCount);
 
 	if(FAILED(hr))
 	{
 		return LT_ERROR;
 	}
-
+#endif
 
 	return LT_OK;
 }
 
 LTRESULT LTEffectImpl::SetMatrix(const char* szParam, LTMatrix &mMatrix) const
 {
+#ifdef USE_ID3DXEFFECT
 	D3DXMATRIX matD3DX( *(const D3DMATRIX*)&mMatrix );
 	HRESULT hr = m_pEffect->SetMatrix(szParam, &matD3DX);
 
@@ -257,12 +269,13 @@ LTRESULT LTEffectImpl::SetMatrix(const char* szParam, LTMatrix &mMatrix) const
 	{
 		return LT_ERROR;
 	}
-
+#endif
 	return LT_OK;
 }
 
 LTRESULT LTEffectImpl::SetMatrixArray(const char* szParam, LTMatrix *mMatrix, int nCount) const
 {
+#ifdef USE_ID3DXEFFECT
 	D3DXMATRIX matD3DX( *(const D3DMATRIX*)&mMatrix );
 	HRESULT hr = m_pEffect->SetMatrixArray(szParam, &matD3DX, nCount);
 
@@ -270,12 +283,13 @@ LTRESULT LTEffectImpl::SetMatrixArray(const char* szParam, LTMatrix *mMatrix, in
 	{
 		return LT_ERROR;
 	}
-
+#endif
 	return LT_OK;
 }
 
 LTRESULT LTEffectImpl::SetMatrixTranspose(const char* szParam, LTMatrix &mMatrix) const
 {
+#ifdef USE_ID3DXEFFECT
 	D3DXMATRIX matD3DX( *(const D3DMATRIX*)&mMatrix );
 	HRESULT hr = m_pEffect->SetMatrixTranspose(szParam, &matD3DX);
 
@@ -283,12 +297,13 @@ LTRESULT LTEffectImpl::SetMatrixTranspose(const char* szParam, LTMatrix &mMatrix
 	{
 		return LT_ERROR;
 	}
-
+#endif
 	return LT_OK;
 }
 
 LTRESULT LTEffectImpl::SetMatrixTransposeArray(const char* szParam, LTMatrix *mMatrix, int nCount) const
 {
+#ifdef USE_ID3DXEFFECT
 	D3DXMATRIX matD3DX( *(const D3DMATRIX*)&mMatrix );
 	HRESULT hr = m_pEffect->SetMatrixTransposeArray(szParam, &matD3DX, nCount);
 
@@ -296,17 +311,18 @@ LTRESULT LTEffectImpl::SetMatrixTransposeArray(const char* szParam, LTMatrix *mM
 	{
 		return LT_ERROR;
 	}
-
+#endif
 	return LT_OK;
 }
 
 LTRESULT LTEffectImpl::SetString(const char* szParam, const char* szString) const
 {
+#ifdef USE_ID3DXEFFECT
 	if(FAILED(m_pEffect->SetString(szParam, szString)))
 	{
 		return LT_ERROR;
 	}
-
+#endif
 	return LT_OK;
 }
 
@@ -314,18 +330,20 @@ LTRESULT LTEffectImpl::SetTechnique(const char* szTechnique) const
 {
 	if(szTechnique)
 	{
+#ifdef USE_ID3DXEFFECT
 		D3DXHANDLE hTechnique = m_pEffect->GetTechniqueByName(szTechnique);
 		if(NULL == hTechnique)
 		{
 			return LT_ERROR;
 		}
-		
+
 		if( FAILED(m_pEffect->SetTechnique(hTechnique)) )
 		{
 			return LT_ERROR;
 		}
 
 		return LT_OK;
+#endif
 	}
 
 	return LT_ERROR;
@@ -335,12 +353,13 @@ LTRESULT LTEffectImpl::ValidateTechnique(const char* szTechnique) const
 {
 	if(szTechnique)
 	{
+#ifdef USE_ID3DXEFFECT
 		if(FAILED(m_pEffect->ValidateTechnique(szTechnique)))
 		{
 			// It's bad!
 			return LT_ERROR;
 		}
-
+#endif
 		// It's good!
 		return LT_OK;
 	}
@@ -358,6 +377,7 @@ LTRESULT LTEffectImpl::FindFirstValidTechnique(LTTechniqueInfo* pInfo) const
 	}
 
 	D3DXHANDLE hHandle = NULL;
+#ifdef USE_ID3DXEFFECT
 	if(FAILED(m_pEffect->FindNextValidTechnique(NULL, &hHandle)))
 	{
 		return LT_ERROR;
@@ -371,7 +391,7 @@ LTRESULT LTEffectImpl::FindFirstValidTechnique(LTTechniqueInfo* pInfo) const
 
 	strncpy(pInfo->szName, desc.Name, 127);
 	pInfo->nPasses = desc.Passes;
-
+#endif
 	return LT_OK;
 }
 
@@ -384,12 +404,12 @@ LTRESULT LTEffectImpl::SetTexture(const char* szParam, HTEXTURE hTexture) const
 
 	SharedTexture* pSharedTexture = (SharedTexture*)hTexture;
 	RTexture *pRenderTexture = (RTexture*)pSharedTexture->m_pRenderData;
-	
+#ifdef USE_ID3DXEFFECT
 	if(FAILED(m_pEffect->SetTexture(szParam, pRenderTexture->m_pD3DTexture)))
 	{
 		return LT_ERROR;
 	}
-
+#endif
 	return LT_OK;
 }
 
@@ -401,11 +421,12 @@ LTRESULT LTEffectImpl::SetTextureRT(const char* szParam, HRENDERTARGET hRenderTa
 		IDirect3DTexture9* pTexture = pRenderTarget->GetRenderTargetTexture();
 		if(pTexture)
 		{
+#ifdef USE_ID3DXEFFECT
 			if(FAILED(m_pEffect->SetTexture(szParam, pTexture)))
 			{
 				return LT_ERROR;
 			}
-
+#endif
 			return LT_OK;
 		}
 	}
@@ -420,14 +441,14 @@ LTRESULT LTEffectImpl::SetVector(const char* szParam, float *fFloat) const
 	vecFour.y = fFloat[1];
 	vecFour.z = fFloat[2];
 	vecFour.w = fFloat[3];
-
+#ifdef USE_ID3DXEFFECT
 	HRESULT hr = m_pEffect->SetVector(szParam, &vecFour);
 
 	if(FAILED(hr))
 	{
 		return LT_ERROR;
 	}
-
+#endif
 	return LT_OK;
 }
 

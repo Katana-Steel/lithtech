@@ -2912,6 +2912,7 @@ bool CRenderShader_Gouraud_Effect::ValidateShader(const CRBSection &cSection)
 			bool bPassed = true;
 			if(_pEffect)
 			{
+#ifdef USE_ID3DXEFFECT
 				ID3DXEffect* pEffect = _pEffect->GetEffect();
 				if(pEffect)
 				{
@@ -2921,11 +2922,13 @@ bool CRenderShader_Gouraud_Effect::ValidateShader(const CRBSection &cSection)
 					{						
 						bPassed = false;
 					}
+
 				}
 				else
 				{
 						bPassed = false;
 				}
+#endif
 			}
 			else
 			{
@@ -3029,6 +3032,7 @@ bool CRenderShader_Gouraud_Effect::FlushWithEffect(CInternalSection &cSection,
 	//if(cSection.m_pTexture && (cSection.m_pTexture->m_nShaderID != 0))
 	//{
 		LTEffectImpl* _pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(cSection.m_pTexture->m_nShaderID);
+#ifdef USE_ID3DXEFFECT
 		ID3DXEffect* pEffect = _pEffect->GetEffect();
 
 		if(!pEffect)
@@ -3036,7 +3040,7 @@ bool CRenderShader_Gouraud_Effect::FlushWithEffect(CInternalSection &cSection,
 			//dsi_ConsolePrint("Error! cSection.m_pTexture->m_nShaderID (%d) is not valid!", cSection.m_pTexture->m_nShaderID);
 			return false;
 		}
-
+#
 		if(!cSection.m_pTexture)
 		{
 			dsi_ConsolePrint("Error! cSection.m_pTexture is NULL!");
@@ -3118,7 +3122,7 @@ bool CRenderShader_Gouraud_Effect::FlushWithEffect(CInternalSection &cSection,
 			pEffect->EndPass();
 		}
 		pEffect->End();
-
+#endif
 		return true;
 	//}
 

@@ -795,6 +795,7 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 					LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pGrid->m_nEffectShaderID);
 					if(pEffect)
 					{
+#ifdef USE_ID3DXEFFECT
 						ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 						if(pD3DEffect)
 						{
@@ -810,6 +811,7 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 							}
 
 						}
+#endif
 					}else
 					{
 						d3d_SetTexture(pBaseTex, 0, eFS_PolyGridBaseTexMemory);
@@ -922,11 +924,13 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 	LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pGrid->m_nEffectShaderID);
 	if(pEffect)
 	{
+#ifdef USE_ID3DXEFFECT
 		ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 		if(pD3DEffect)
 		{
 			bEffect = true;
 		}
+#endif
 	}
 
 	if(bBumpMap)
@@ -1137,11 +1141,13 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 			LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pGrid->m_nEffectShaderID);
 			if(pEffect)
 			{
+#ifdef USE_ID3DXEFFECT
 				ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 				if(pD3DEffect)
 				{
 					GeneratePolyGridVectors(pGrid, (CPolyGridEffectVertex*)g_TriVertList, GenerateEffectBasisSpace);
 				}
+#endif
 			}
 			else
 			{
@@ -1253,11 +1259,13 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 			LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pGrid->m_nEffectShaderID);
 			if(pEffect)
 			{
+#ifdef USE_ID3DXEFFECT
 				ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 				if(pD3DEffect)
 				{
 					GeneratePolyGridVectors(pGrid, (CPolyGridEffectVertex*)g_TriVertList, GenerateEffectBasisSpace);
 				}
+#endif
 			}
 			else
 			{
@@ -1360,7 +1368,7 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 				if(pEffect)
 				{
 					pEffect->UploadVertexDeclaration();
-
+#ifdef USE_ID3DXEFFECT
 					ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 					if(pD3DEffect)
 					{
@@ -1378,7 +1386,7 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 
 						pD3DEffect->End();
 					}
-
+#endif
 				}
 				else
 				{
@@ -1395,7 +1403,7 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 			if(pEffect)
 			{
 				pEffect->UploadVertexDeclaration();
-
+#ifdef USE_ID3DXEFFECT
 				ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 				if(pD3DEffect)
 				{
@@ -1413,7 +1421,7 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 
 					pD3DEffect->End();
 				}
-
+#endif
 			}
 			else
 			{

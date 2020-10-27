@@ -49,16 +49,18 @@ public:
 	//SetValue Set the value of an arbitrary parameter or annotation, including simple types, structs, arrays, strings, shaders and textures.  
 	virtual LTRESULT SetVector(const char* szParam, float *fFloat) const;  //4 floats
 	virtual LTRESULT SetVectorArray(const char* szParam, float *fFloat, int nCount) const; // 4 floats * nCount
-
+#ifdef USE_ID3DXEFFECT
 	void			SetEffect(ID3DXEffect* pEffect){m_pEffect = pEffect;}
 	ID3DXEffect*	GetEffect() {return m_pEffect;}
-
+#endif
 	virtual LTRESULT UploadVertexDeclaration();
 
 	IDirect3DVertexDeclaration9* GetVertexDeclaration(){return m_pVertexDeclaration;}
 
 protected:
+#ifdef USE_ID3DXEFFECT
 	ID3DXEffect*					m_pEffect;
+#endif
 	D3DVERTEXELEMENT9*				m_pVertexElements;		// An array of vertex elements used to create the vertex shader declaration
 	IDirect3DVertexDeclaration9* 	m_pVertexDeclaration;	// d3d vertex shader input declaration interface
 	bool							m_bCompileShader;		// this flag specifies whether the shader is already compiled

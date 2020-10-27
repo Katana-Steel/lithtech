@@ -256,6 +256,7 @@ static void DrawDynamicParticles(const ViewParams& Params, LTVolumeEffect* pEffe
 				LTEffectImpl* pEffectShader = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pEffect->m_nEffectShaderID);
 				if(pEffectShader)
 				{
+#ifdef USE_ID3DXEFFECT
 					ID3DXEffect* pD3DEffect = pEffectShader->GetEffect();
 					if(pD3DEffect)
 					{
@@ -265,6 +266,7 @@ static void DrawDynamicParticles(const ViewParams& Params, LTVolumeEffect* pEffe
 							pD3DEffect->SetTexture("texture0", pRTexture->m_pD3DTexture);
 						}
 					}
+#endif
 				}
 			}
 		}
@@ -284,6 +286,7 @@ static void DrawDynamicParticles(const ViewParams& Params, LTVolumeEffect* pEffe
 			LTEffectImpl* pEffectShader = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pEffect->m_nEffectShaderID);
 			if(pEffectShader)
 			{
+#ifdef USE_ID3DXEFFECT
 				ID3DXEffect* pD3DEffect = pEffectShader->GetEffect();
 				if(pD3DEffect)
 				{
@@ -313,6 +316,7 @@ static void DrawDynamicParticles(const ViewParams& Params, LTVolumeEffect* pEffe
 						return;
 					}
 				}
+#endif
 			}	
 			else
 			{	if(FAILED( PD3DDEVICE->DrawPrimitive( D3DPT_TRIANGLELIST, g_nDynamicParticleVBIndex, numTris ) ))
@@ -337,6 +341,7 @@ static void DrawDynamicParticles(const ViewParams& Params, LTVolumeEffect* pEffe
 			LTEffectImpl* pEffectShader = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pEffect->m_nEffectShaderID);
 			if(pEffectShader)			
 			{
+#ifdef USE_ID3DXEFFECT
 				ID3DXEffect* pD3DEffect = pEffectShader->GetEffect();
 				if(pD3DEffect)
 				{
@@ -366,6 +371,7 @@ static void DrawDynamicParticles(const ViewParams& Params, LTVolumeEffect* pEffe
 						return;
 					}
 				}
+#endif
 			}
 			else
 			{			

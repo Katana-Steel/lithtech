@@ -315,6 +315,7 @@ static PSParticle* d3d_DrawParticleBatch(LTParticleSystem *pSystem, PSParticle *
 		LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pSystem->m_nEffectShaderID);
 		if(pEffect)
 		{
+#ifdef USE_ID3DXEFFECT
 			ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 			if(pD3DEffect)
 			{
@@ -350,6 +351,7 @@ static PSParticle* d3d_DrawParticleBatch(LTParticleSystem *pSystem, PSParticle *
 
 				pD3DEffect->End();
 			}
+#endif
 		}
 		else
 		{

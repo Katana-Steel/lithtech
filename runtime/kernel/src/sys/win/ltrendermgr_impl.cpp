@@ -345,6 +345,7 @@ LTRESULT CLTRenderMgr::UploadCurrentFrameToEffect(LTEffectShader* pEffect, const
 	LTEffectImpl* pEffectImpl = (LTEffectImpl*)pEffect;
 	if(pEffectImpl && (szParam[0] != '\0'))
 	{
+#ifdef USE_ID3DXEFFECT
 		ID3DXEffect* pD3DEffect = pEffectImpl->GetEffect();
 
 		if(pD3DEffect && g_Device.m_pCurrentFrame)
@@ -359,8 +360,8 @@ LTRESULT CLTRenderMgr::UploadCurrentFrameToEffect(LTEffectShader* pEffect, const
 				return LT_OK;
 			}
 		}
+#endif
 	}
-
 	return LT_ERROR;
 }
 
@@ -369,6 +370,7 @@ LTRESULT CLTRenderMgr::UploadPreviousFrameToEffect(LTEffectShader* pEffect, cons
 	LTEffectImpl* pEffectImpl = (LTEffectImpl*)pEffect;
 	if(pEffectImpl && (szParam[0] != '\0'))
 	{
+#ifdef USE_ID3DXEFFECT
 		ID3DXEffect* pD3DEffect = pEffectImpl->GetEffect();
 
 		if(pD3DEffect && g_Device.m_pPreviousFrame)
@@ -383,6 +385,7 @@ LTRESULT CLTRenderMgr::UploadPreviousFrameToEffect(LTEffectShader* pEffect, cons
 				return LT_OK;
 			}
 		}
+#endif
 	}
 
 	return LT_ERROR;

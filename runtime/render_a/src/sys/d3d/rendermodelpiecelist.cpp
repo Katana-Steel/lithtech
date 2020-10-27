@@ -510,6 +510,7 @@ void CRenderModelPieceList::RenderPieceList(float fAlpha)
 				}
 
 				LTEffectImpl* _pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(rsD3DOptions.EffectShaderID);
+#ifdef USE_ID3DXEFFECT
 				ID3DXEffect* pEffect = _pEffect->GetEffect();
 
 				if(pEffect)
@@ -561,6 +562,7 @@ void CRenderModelPieceList::RenderPieceList(float fAlpha)
 					//ok, we can finally render our piece
 					//RenderModelPiece(Piece.m_pRenderPiece, Piece.m_pInstance, Piece.m_pTransforms, pCurrRenderStyle, nCurrPass, true);
 				}
+#endif
 			}
 
 			//we should end any outstanding pieces being rendered so the changing of the pass won't mess them up

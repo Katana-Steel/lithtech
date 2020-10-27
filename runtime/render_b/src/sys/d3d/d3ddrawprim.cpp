@@ -44,6 +44,8 @@ extern uint32 g_ScreenHeight;
 extern ViewParams g_ViewParams;
 
 //Not a fan of this, but it makes the code below much easier to read.
+#ifdef USE_ID3DXEFFECT
+
 #define EFFECT_SHADER_MACRO(result, primcall)\
 LTEffectImpl* pEffectShader = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(m_nEffectShaderID);\
 if(pEffectShader)\
@@ -68,6 +70,9 @@ else\
 	result = primcall;\
 }\
 
+#else
+#define EFFECT_SHADER_MACRO(result, primcall) result = primcall;
+#endif
 //------------------------------------------------------------------------------
 //Utility classes
 
@@ -292,6 +297,7 @@ void CD3DDrawPrim::SetTexture(LPDIRECT3DDEVICE9 pDevice)
 		LTEffectImpl* pEffectShader = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(m_nEffectShaderID);
 		if(pEffectShader)
 		{
+#ifdef USE_ID3DXEFFECT
 			ID3DXEffect* pD3DEffect = pEffectShader->GetEffect();
 			if(pD3DEffect)
 			{
@@ -301,6 +307,7 @@ void CD3DDrawPrim::SetTexture(LPDIRECT3DDEVICE9 pDevice)
 					pD3DEffect->SetTexture("texture0", pRTexture->m_pD3DTexture);
 				}
 			}
+#endif
 		}
 	}
 	else

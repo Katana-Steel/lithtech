@@ -342,7 +342,7 @@ static void d3d_DrawRotatableSprite(const ViewParams& Params, SpriteInstance *pI
 	if(pEffect)
 	{
 		pEffect->UploadVertexDeclaration();
-
+#ifdef USE_ID3DXEFFECT
 		ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 		if(pD3DEffect)
 		{
@@ -363,7 +363,7 @@ static void d3d_DrawRotatableSprite(const ViewParams& Params, SpriteInstance *pI
 
 			pD3DEffect->End();
 		}
-
+#endif
 	}
 	else
 	{	
@@ -471,7 +471,7 @@ static void d3d_DrawSprite(const ViewParams& Params, SpriteInstance *pInstance, 
 	if(pEffect)
 	{
 		pEffect->UploadVertexDeclaration();
-
+#ifdef USE_ID3DXEFFECT
 		ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 		if(pD3DEffect)
 		{
@@ -492,7 +492,7 @@ static void d3d_DrawSprite(const ViewParams& Params, SpriteInstance *pInstance, 
 
 			pD3DEffect->End();
 		}
-
+#endif
 	}
 	else
 	{	
