@@ -246,10 +246,10 @@ bool CTextureScriptInstance::Install(uint32 nNumChannels, ...)
 		LTMatrix& mSrcMat = pStage->m_mTransform;
 
 		//convert our matrix to a D3D matrix (our source transposed)
-		D3DXMATRIX mMat(	mSrcMat.m[0][0], mSrcMat.m[1][0], mSrcMat.m[2][0], mSrcMat.m[3][0],
+		D3DMATRIX mMat = { mSrcMat.m[0][0], mSrcMat.m[1][0], mSrcMat.m[2][0], mSrcMat.m[3][0],
 							mSrcMat.m[0][1], mSrcMat.m[1][1], mSrcMat.m[2][1], mSrcMat.m[3][1],
 							mSrcMat.m[0][2], mSrcMat.m[1][2], mSrcMat.m[2][2], mSrcMat.m[3][2],
-							mSrcMat.m[0][3], mSrcMat.m[1][3], mSrcMat.m[2][3], mSrcMat.m[3][3] );
+							mSrcMat.m[0][3], mSrcMat.m[1][3], mSrcMat.m[2][3], mSrcMat.m[3][3] };
 
 		//see if the channel this maps to is valid
 		for(uint32 nChannel = 0; nChannel < nNumChannels; nChannel++)
