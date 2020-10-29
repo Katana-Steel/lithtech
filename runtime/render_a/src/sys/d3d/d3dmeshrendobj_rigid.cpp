@@ -10,7 +10,7 @@
 #include "ltpixelshadermgr.h"
 #include "d3d_renderstyle.h"
 #include "de_objects.h"
-#include "ltshaderdevicestateimp.h"
+#include "LTShaderDeviceStateImp.h"
 #include "rendererconsolevars.h"
 
 

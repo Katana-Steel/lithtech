@@ -13,7 +13,7 @@
 #include "ltvertexshadermgr.h"
 #include "ltpixelshadermgr.h"
 #include "de_objects.h"
-#include "ltshaderdevicestateimp.h"
+#include "LTShaderDeviceStateImp.h"
 #include "rendererconsolevars.h"
 #include "LTEffectImpl.h"
 #include "lteffectshadermgr.h"

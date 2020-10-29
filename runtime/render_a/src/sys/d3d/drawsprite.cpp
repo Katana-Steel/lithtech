@@ -20,7 +20,7 @@ define_holder(IClientShell, i_client_shell);
 
 #include "LTEffectImpl.h"
 #include "lteffectshadermgr.h"
-#include "ltshaderdevicestateimp.h"
+#include "LTShaderDeviceStateImp.h"
 #include "rendererconsolevars.h"
 
 //------------------------------------------------------------------
