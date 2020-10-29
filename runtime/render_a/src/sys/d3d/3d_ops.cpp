@@ -202,3 +202,24 @@ void D3DMatrixIdentity(D3DMATRIX* out)
 	out->_31 = 0.0f; out->_32 = 0.0f; out->_33 = 1.0f; out->_34 = 0.0f;
 	out->_41 = 0.0f; out->_42 = 0.0f; out->_43 = 0.0f; out->_44 = 1.0f;
 }
+
+LTMatrix LTMatrixFromD3DMatrix(D3DMATRIX* in)
+{
+	LTMatrix ret;
+	ret.Init(in->m[0][0], in->m[0][1], in->m[0][2], in->m[0][3],
+	in->m[1][0], in->m[1][1], in->m[1][2], in->m[1][3],
+	in->m[2][0], in->m[2][1], in->m[2][2], in->m[2][3],
+	in->m[3][0], in->m[3][1], in->m[3][2], in->m[3][3]);
+	return ret;
+}
+
+D3DMATRIX* D3DMatrixMultiply(D3DMATRIX* in, D3DMATRIX* m1, D3DMATRIX* m2)
+{
+	LTMatrix mat = LTMatrixFromD3DMatrix(m1) * LTMatrixFromD3DMatrix(m2);
+
+	*in = { mat.m[0][0], mat.m[0][1], mat.m[0][2], mat.m[0][3],
+		mat.m[1][0], mat.m[1][1], mat.m[1][2], mat.m[1][3],
+		mat.m[2][0], mat.m[2][1], mat.m[2][2], mat.m[2][3],
+		mat.m[3][0], mat.m[3][1], mat.m[3][2], mat.m[3][3] };
+	return in;
+}

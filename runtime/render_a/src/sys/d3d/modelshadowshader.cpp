@@ -80,23 +80,26 @@ bool CModelShadowShader::EndRendering()
 //data it is using
 bool CModelShadowShader::SetWorldTransform(const LTMatrix& mInvWorldTrans)
 {
+	LTMatrix operand, mD3DInvTrans, mResult;
 	//transform all of positions that we use for testing into the new world space
 	m_vTransBSphereCenter = mInvWorldTrans * m_vBSphereCenter;
 
 	//now we need to apply this to our internal texture transforms
 
 	//first make the transpose version so D3D can use it
-	D3DXMATRIX mD3DInvTrans ( mInvWorldTrans.m[0][0], mInvWorldTrans.m[1][0], mInvWorldTrans.m[2][0], mInvWorldTrans.m[3][0],
+	mD3DInvTrans.Init( mInvWorldTrans.m[0][0], mInvWorldTrans.m[1][0], mInvWorldTrans.m[2][0], mInvWorldTrans.m[3][0],
 							  mInvWorldTrans.m[0][1], mInvWorldTrans.m[1][1], mInvWorldTrans.m[2][1], mInvWorldTrans.m[3][1],
 							  mInvWorldTrans.m[0][2], mInvWorldTrans.m[1][2], mInvWorldTrans.m[2][2], mInvWorldTrans.m[3][2],
 							  mInvWorldTrans.m[0][3], mInvWorldTrans.m[1][3], mInvWorldTrans.m[2][3], mInvWorldTrans.m[3][3]);
 
 	//now apply it to the two channels
-	D3DXMATRIX mResult = mD3DInvTrans * m_mWorldToProjector;
-	PD3DDEVICE->SetTransform(D3DTS_TEXTURE0, &mResult);
+	operand = LTMatrixFromD3DMatrix(&m_mWorldToProjector);
+	mResult = mD3DInvTrans * operand;
+	PD3DDEVICE->SetTransform(D3DTS_TEXTURE0, (D3DMATRIX*)&operand);
 
-	mResult = mD3DInvTrans * m_mFadeTex;
-	PD3DDEVICE->SetTransform(D3DTS_TEXTURE1, &mResult);
+	operand = LTMatrixFromD3DMatrix(&m_mFadeTex);
+	mResult = mD3DInvTrans * operand;
+	PD3DDEVICE->SetTransform(D3DTS_TEXTURE1, (D3DMATRIX*)&operand);
 
 	//success
 	return true;
@@ -556,20 +559,20 @@ void CModelShadowShader::SetShadowInfo(	const ViewParams& Params,			//the view p
 	//build our final transformation matrix, along with the far upper left point (used for culling)
 	if (m_bPerspective) 
 	{
-		D3DXMATRIX mDot(	vCamRight.x,					vCamUp.x,				vCamForward.x, 0.0f,
+		D3DMATRIX mDot = { vCamRight.x,					vCamUp.x,				vCamForward.x, 0.0f,
 							vCamRight.y,					vCamUp.y,				vCamForward.y, 0.0f,
-							vCamRight.z,					vCamUp.z,				vCamForward.z, 0.0f, 
+							vCamRight.z,					vCamUp.z,				vCamForward.z, 0.0f,
 							-vCamRight.Dot(vCamLightOrg),	-vCamUp.Dot(vCamLightOrg), -vCamForward.Dot(vCamLightOrg), 1.0f
-						);
+		};
 
 
-		D3DXMATRIX mProj(	fNearClip / fSizeX,		0.0f,					0.0f,		0.0f,
+		D3DMATRIX mProj = { fNearClip / fSizeX,		0.0f,					0.0f,		0.0f,
 							0.0f,					-fNearClip / fSizeY,	0.0f,		0.0f,
 							0.5f,					0.5f,					1.0f,		0.0f,
 							0.0f,					0.0f,					0.0f,		1.0f
-						);
+		};
 
-		m_mWorldToProjector = mDot * mProj;
+		D3DMatrixMultiply(&m_mWorldToProjector, &mDot, &mProj);
 		
 		//now we need to calculate the far upper right corner
 
@@ -591,21 +594,21 @@ void CModelShadowShader::SetShadowInfo(	const ViewParams& Params,			//the view p
 	}
 	else
 	{
-		D3DXMATRIX mDot(	vCamRight.x,					vCamUp.x,				vCamForward.x, 0.0f,
+		D3DMATRIX mDot = { vCamRight.x,					vCamUp.x,				vCamForward.x, 0.0f,
 							vCamRight.y,					vCamUp.y,				vCamForward.y, 0.0f,
-							vCamRight.z,					vCamUp.z,				vCamForward.z, 0.0f, 
+							vCamRight.z,					vCamUp.z,				vCamForward.z, 0.0f,
 							-vCamRight.Dot(vCamUL),			-vCamUp.Dot(vCamUL),	-vCamForward.Dot(vCamLightOrg), 1.0f
-						);
+		};
 
 
-		D3DXMATRIX mScale(	fTexScaleX / fSizeX,				0.0f,								0.0f, 0.0f,
+		D3DMATRIX mScale = { fTexScaleX / fSizeX,				0.0f,								0.0f, 0.0f,
 							0.0f,								fTexScaleY / fSizeY,				0.0f, 0.0f,
-							0.0f,								0.0f,								1.0f, 0.0f, 
-							( 1.0f - fTexScaleX ) * 0.5f,		( 1.0f - fTexScaleY ) * 0.5f,		0.0f, 1.0f
-						);
+							0.0f,								0.0f,								1.0f, 0.0f,
+							(1.0f - fTexScaleX) * 0.5f,		(1.0f - fTexScaleY) * 0.5f,		0.0f, 1.0f
+		};
 
 		// Our transform is to simply do a dot product on each plane axis, and then scale it accordingly
-		m_mWorldToProjector = mDot * mScale;
+		D3DMatrixMultiply(&m_mWorldToProjector, &mDot, &mScale);
 
 		//figure out the far upper left point
 
@@ -638,11 +641,11 @@ void CModelShadowShader::SetShadowInfo(	const ViewParams& Params,			//the view p
 	LTVector vPlanePos = Params.m_mView * (m_ProjectorPlane.Normal() * m_ProjectorPlane.Dist());
 	float fOffset = -vScaledNormal.Dot(vPlanePos) + 1.0f / m_nFadeTextureX + fTexelFadeOffset;
 
-	D3DXMATRIX mFade(	vScaledNormal.x,	vCamRight.x, 0.0f, 0.0f,
+	D3DMATRIX mFade = { vScaledNormal.x,	vCamRight.x, 0.0f, 0.0f,
 						vScaledNormal.y,	vCamRight.y, 0.0f, 0.0f,
-						vScaledNormal.z,	vCamRight.z, 1.0f, 0.0f, 
+						vScaledNormal.z,	vCamRight.z, 1.0f, 0.0f,
 						fOffset,			0.0f,		 0.0f, 1.0f
-					);
+	};
 
 	m_mFadeTex = mFade;
 
