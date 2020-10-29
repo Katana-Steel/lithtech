@@ -130,6 +130,7 @@ bool  LTEffectImpl::Recreate()
 		dwShaderFlags |= D3DXSHADER_DEBUG;
 	}
 
+#ifdef USE_ID3DXEFFECT
 	//m_EffectPoolID
 	LPD3DXEFFECTPOOL pEffectPool = NULL;
 	
@@ -137,8 +138,7 @@ bool  LTEffectImpl::Recreate()
 	{
 		pEffectPool = LTEffectShaderMgr::GetSingleton().GetEffectPool(m_EffectPoolID);
 	}
-	
-#ifdef USE_ID3DXEFFECT
+
 	LTEffectInclude includeHandler;
 	includeHandler.SetParentFilename(m_FileName);
 	hr = D3DXCreateEffect(r_GetRenderStruct()->GetD3DDevice(),

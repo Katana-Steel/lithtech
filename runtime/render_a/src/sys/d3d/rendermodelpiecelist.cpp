@@ -508,9 +508,9 @@ void CRenderModelPieceList::RenderPieceList(float fAlpha)
 
 					IncFrameStat(eFS_ModelRender_ScaleSets, 1);
 				}
-
-				LTEffectImpl* _pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(rsD3DOptions.EffectShaderID);
 #ifdef USE_ID3DXEFFECT
+				LTEffectImpl* _pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(rsD3DOptions.EffectShaderID);
+
 				ID3DXEffect* pEffect = _pEffect->GetEffect();
 
 				if(pEffect)

@@ -2900,7 +2900,9 @@ bool CRenderShader_Gouraud_Effect::ValidateShader(const CRBSection &cSection)
 
 	s_bValidateRequired = false;
 	s_bValidateResult = !FAILED(hr);
-
+#ifndef USE_ID3DXEFFECT
+	return s_bValidateResult;
+#else
 	// If we have an Effect Shader attached to this section
 	// Try to find a valid technique for this effect.
 	if(cSection.m_pTexture[0])
@@ -2912,7 +2914,7 @@ bool CRenderShader_Gouraud_Effect::ValidateShader(const CRBSection &cSection)
 			bool bPassed = true;
 			if(_pEffect)
 			{
-#ifdef USE_ID3DXEFFECT
+
 				ID3DXEffect* pEffect = _pEffect->GetEffect();
 				if(pEffect)
 				{
@@ -2928,7 +2930,6 @@ bool CRenderShader_Gouraud_Effect::ValidateShader(const CRBSection &cSection)
 				{
 						bPassed = false;
 				}
-#endif
 			}
 			else
 			{
@@ -2944,6 +2945,7 @@ bool CRenderShader_Gouraud_Effect::ValidateShader(const CRBSection &cSection)
 	}
 
 	return s_bValidateResult;
+#endif
 }
 
 void CRenderShader_Gouraud_Effect::TranslateVertices(SVertex_Gouraud_Effect *pOut, const SRBVertex *pIn, uint32 nCount)
@@ -3031,8 +3033,11 @@ bool CRenderShader_Gouraud_Effect::FlushWithEffect(CInternalSection &cSection,
 	// If we have an Effect Shader attached to this section
 	//if(cSection.m_pTexture && (cSection.m_pTexture->m_nShaderID != 0))
 	//{
+#ifndef USE_ID3DXEFFECT
+	return true;
+#else
 		LTEffectImpl* _pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(cSection.m_pTexture->m_nShaderID);
-#ifdef USE_ID3DXEFFECT
+
 		ID3DXEffect* pEffect = _pEffect->GetEffect();
 
 		if(!pEffect)
@@ -3122,10 +3127,10 @@ bool CRenderShader_Gouraud_Effect::FlushWithEffect(CInternalSection &cSection,
 			pEffect->EndPass();
 		}
 		pEffect->End();
-#endif
+
 		return true;
 	//}
-
+#endif
 	//return false;
 }
 

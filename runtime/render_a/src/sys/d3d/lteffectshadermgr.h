@@ -10,7 +10,7 @@
 
 #ifndef __LTEFFECTSHADERMGR_H__
 #define __LTEFFECTSHADERMGR_H__
-
+#ifdef USE_ID3DXEFFECT
 
 #include "ltbasedefs.h"
 #include "ltidtoobjecttable.h"
@@ -75,5 +75,5 @@ private:
 };
 
 
-
+#endif
 #endif // __LTEFFECTSHADERMGR_H__

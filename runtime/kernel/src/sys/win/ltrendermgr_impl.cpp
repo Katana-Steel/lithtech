@@ -55,7 +55,7 @@ LTRESULT CLTRenderMgr::AddEffectShader (const char *pFileName,
 	{
 		RETURN_ERROR(3, CLTRenderMgr::AddEffectShader, LT_NOTFOUND);
 	}
-
+#ifdef USE_ID3DXEFFECT
 	if(!LTEffectShaderMgr::GetSingleton().AddEffectShader(pStream, pFileName, EffectShaderID, pVertexElements, VertexElementsSize, EffectPoolID))
 	{
 		// Close the file.
@@ -67,7 +67,7 @@ LTRESULT CLTRenderMgr::AddEffectShader (const char *pFileName,
 
 		return LT_ERROR;
 	}
-	
+#endif
 
 	// Close the file.
 	if (pStream != NULL)
@@ -81,12 +81,20 @@ LTRESULT CLTRenderMgr::AddEffectShader (const char *pFileName,
 
 LTEffectShader* CLTRenderMgr::GetEffectShader(int EffectShaderID)
 {
+#ifdef USE_ID3DXEFFECT
 	return LTEffectShaderMgr::GetSingleton().GetEffectShader(EffectShaderID);
+#else
+	return NULL;
+#endif
 }
 
 LTRESULT CLTRenderMgr::CreateEffectPool (HEFFECTPOOL EffectPoolID)
 {
+#ifdef USE_ID3DXEFFECT
 	bool bSuccess = LTEffectShaderMgr::GetSingleton().AddEffectPool(EffectPoolID);
+#else
+	bool bSuccess = 1;
+#endif
 	if(bSuccess)
 	{
 		return LT_OK;
@@ -342,10 +350,10 @@ LTRESULT CLTRenderMgr::SaveCurrentFrameToPrevious()
 
 LTRESULT CLTRenderMgr::UploadCurrentFrameToEffect(LTEffectShader* pEffect, const char* szParam)
 {
+#ifdef USE_ID3DXEFFECT
 	LTEffectImpl* pEffectImpl = (LTEffectImpl*)pEffect;
 	if(pEffectImpl && (szParam[0] != '\0'))
 	{
-#ifdef USE_ID3DXEFFECT
 		ID3DXEffect* pD3DEffect = pEffectImpl->GetEffect();
 
 		if(pD3DEffect && g_Device.m_pCurrentFrame)
@@ -360,17 +368,19 @@ LTRESULT CLTRenderMgr::UploadCurrentFrameToEffect(LTEffectShader* pEffect, const
 				return LT_OK;
 			}
 		}
-#endif
+
 	}
+#endif
 	return LT_ERROR;
 }
 
 LTRESULT CLTRenderMgr::UploadPreviousFrameToEffect(LTEffectShader* pEffect, const char* szParam)
 {
+#ifdef USE_ID3DXEFFECT
 	LTEffectImpl* pEffectImpl = (LTEffectImpl*)pEffect;
 	if(pEffectImpl && (szParam[0] != '\0'))
 	{
-#ifdef USE_ID3DXEFFECT
+
 		ID3DXEffect* pD3DEffect = pEffectImpl->GetEffect();
 
 		if(pD3DEffect && g_Device.m_pPreviousFrame)
@@ -385,8 +395,8 @@ LTRESULT CLTRenderMgr::UploadPreviousFrameToEffect(LTEffectShader* pEffect, cons
 				return LT_OK;
 			}
 		}
-#endif
-	}
 
+	}
+#endif
 	return LT_ERROR;
 }

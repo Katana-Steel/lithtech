@@ -17,7 +17,7 @@
 // LTPixelShaderMgr
 //-------------------------------------------------------------------------------------------------
 
-
+#ifdef USE_ID3DXEFFECT
 LTEffectShaderMgr::LTEffectShaderMgr()
 {
 }
@@ -176,3 +176,4 @@ void LTEffectShaderMgr::RecreateEffectShaders()
 		pShader = (LTEffectImpl*)(pShader->GetNext());
 	}
 }
+#endif

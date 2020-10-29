@@ -312,10 +312,10 @@ static PSParticle* d3d_DrawParticleBatch(LTParticleSystem *pSystem, PSParticle *
 
 	if (pCurVert != CParticleVertex::m_BatchVerts)
 	{
+#ifdef USE_ID3DXEFFECT
 		LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pSystem->m_nEffectShaderID);
 		if(pEffect)
 		{
-#ifdef USE_ID3DXEFFECT
 			ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 			if(pD3DEffect)
 			{
@@ -351,8 +351,11 @@ static PSParticle* d3d_DrawParticleBatch(LTParticleSystem *pSystem, PSParticle *
 
 				pD3DEffect->End();
 			}
-#endif
+
 		}
+#else
+		if (0) {}
+#endif
 		else
 		{
 			int nParticlesDrawn = (pCurVert - CParticleVertex::m_BatchVerts) >> 2;

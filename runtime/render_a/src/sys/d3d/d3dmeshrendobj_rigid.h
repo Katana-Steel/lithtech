@@ -7,7 +7,7 @@
 #define __D3DMESHRENDOBJ_RIGID_H__
 
 #include "model.h" //genrenobj_model.h"				// For the DI Definitions...
-#include "vertexbuffercontroller.h"
+#include "VertexBufferController.h"
 #include "d3d_renderstyle.h"
 #include <vector>
 

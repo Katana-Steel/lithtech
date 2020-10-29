@@ -792,10 +792,11 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 				}
 				else
 				{
+#ifdef USE_ID3DXEFFECT
 					LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pGrid->m_nEffectShaderID);
 					if(pEffect)
 					{
-#ifdef USE_ID3DXEFFECT
+
 						ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 						if(pD3DEffect)
 						{
@@ -811,8 +812,12 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 							}
 
 						}
+
+					}
+#else
+					if (0) {}
 #endif
-					}else
+					else
 					{
 						d3d_SetTexture(pBaseTex, 0, eFS_PolyGridBaseTexMemory);
 
@@ -921,18 +926,17 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 	uint32 nNumVerts;
 
 	bool bEffect = false;
+#ifdef USE_ID3DXEFFECT
 	LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pGrid->m_nEffectShaderID);
 	if(pEffect)
 	{
-#ifdef USE_ID3DXEFFECT
 		ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 		if(pD3DEffect)
 		{
 			bEffect = true;
 		}
-#endif
 	}
-
+#endif
 	if(bBumpMap)
 	{
 		CPolyGridBumpVertex* pVertexPos = (CPolyGridBumpVertex*)g_TriVertList;
@@ -1138,17 +1142,21 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 			}
 
 			//now we need to generate the normals for the polygrid
+#ifdef USE_ID3DXEFFECT
 			LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pGrid->m_nEffectShaderID);
 			if(pEffect)
 			{
-#ifdef USE_ID3DXEFFECT
+
 				ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 				if(pD3DEffect)
 				{
 					GeneratePolyGridVectors(pGrid, (CPolyGridEffectVertex*)g_TriVertList, GenerateEffectBasisSpace);
 				}
-#endif
+
 			}
+#else
+			if (0) {}
+#endif
 			else
 			{
 				GeneratePolyGridVectors(pGrid, (CPolyGridVertex*)g_TriVertList, GenerateNormal);
@@ -1256,17 +1264,21 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 			}
 
 			//now we need to generate the normals for the polygrid
+#ifdef USE_ID3DXEFFECT
 			LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pGrid->m_nEffectShaderID);
 			if(pEffect)
 			{
-#ifdef USE_ID3DXEFFECT
+
 				ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 				if(pD3DEffect)
 				{
 					GeneratePolyGridVectors(pGrid, (CPolyGridEffectVertex*)g_TriVertList, GenerateEffectBasisSpace);
 				}
-#endif
+
 			}
+#else
+			if (0) {}
+#endif
 			else
 			{
 				GeneratePolyGridVectors(pGrid, (CPolyGridVertex*)g_TriVertList, GenerateNormal);
@@ -1363,12 +1375,11 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 			while(nRemainingPolies > 0)
 			{
 				uint32 nPoliesThisFrame = (nRemainingPolies > g_CV_PolyGridBufferSize) ? g_CV_PolyGridBufferSize: nRemainingPolies;
-				
+#ifdef USE_ID3DXEFFECT
 				LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pGrid->m_nEffectShaderID);
 				if(pEffect)
 				{
 					pEffect->UploadVertexDeclaration();
-#ifdef USE_ID3DXEFFECT
 					ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 					if(pD3DEffect)
 					{
@@ -1386,8 +1397,11 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 
 						pD3DEffect->End();
 					}
-#endif
+
 				}
+#else
+				if (0) {}
+#endif
 				else
 				{
 					D3D_CALL(PD3DDEVICE->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST,0,nNumVerts,nPoliesThisFrame,&pGrid->m_Indices[nCurrentVertPosition],D3DFMT_INDEX16,g_TriVertList, nVertexSize));
@@ -1399,11 +1413,11 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 		}
 		else
 		{
+#ifdef USE_ID3DXEFFECT
 			LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pGrid->m_nEffectShaderID);
 			if(pEffect)
 			{
 				pEffect->UploadVertexDeclaration();
-#ifdef USE_ID3DXEFFECT
 				ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 				if(pD3DEffect)
 				{
@@ -1421,8 +1435,11 @@ void d3d_DrawPolyGrid(const ViewParams &Params, LTObject *pObj)
 
 					pD3DEffect->End();
 				}
-#endif
+
 			}
+#else
+			if (0) {}
+#endif
 			else
 			{
 				// No Effect Shader, just fixed function.

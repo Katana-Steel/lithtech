@@ -294,10 +294,11 @@ void CD3DDrawPrim::SetTexture(LPDIRECT3DDEVICE9 pDevice)
 		r_GetRenderStruct()->DrawPrimSetTexture(m_pTexture);
 		
 		// If we've got an effect
+#ifdef USE_ID3DXEFFECT
 		LTEffectImpl* pEffectShader = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(m_nEffectShaderID);
 		if(pEffectShader)
 		{
-#ifdef USE_ID3DXEFFECT
+
 			ID3DXEffect* pD3DEffect = pEffectShader->GetEffect();
 			if(pD3DEffect)
 			{
@@ -307,8 +308,9 @@ void CD3DDrawPrim::SetTexture(LPDIRECT3DDEVICE9 pDevice)
 					pD3DEffect->SetTexture("texture0", pRTexture->m_pD3DTexture);
 				}
 			}
-#endif
+
 		}
+#endif
 	}
 	else
 	{

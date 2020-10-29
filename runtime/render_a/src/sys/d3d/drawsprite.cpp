@@ -337,12 +337,12 @@ static void d3d_DrawRotatableSprite(const ViewParams& Params, SpriteInstance *pI
 				  (fZ + fBiasDist) * Params.m_Forward + Params.m_Pos;
 		}
 	}
-	
+#ifdef USE_ID3DXEFFECT
 	LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pInstance->m_nEffectShaderID);
 	if(pEffect)
 	{
 		pEffect->UploadVertexDeclaration();
-#ifdef USE_ID3DXEFFECT
+
 		ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 		if(pD3DEffect)
 		{
@@ -363,8 +363,11 @@ static void d3d_DrawRotatableSprite(const ViewParams& Params, SpriteInstance *pI
 
 			pD3DEffect->End();
 		}
-#endif
+
 	}
+#else
+	if (0) {}
+#endif
 	else
 	{	
 		D3D_CALL(PD3DDEVICE->SetVertexShader(NULL));
@@ -467,11 +470,12 @@ static void d3d_DrawSprite(const ViewParams& Params, SpriteInstance *pInstance, 
 	}
 
 	//Render our lovely verts
+#ifdef USE_ID3DXEFFECT
 	LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pInstance->m_nEffectShaderID);
 	if(pEffect)
 	{
 		pEffect->UploadVertexDeclaration();
-#ifdef USE_ID3DXEFFECT
+
 		ID3DXEffect* pD3DEffect = pEffect->GetEffect();
 		if(pD3DEffect)
 		{
@@ -492,8 +496,11 @@ static void d3d_DrawSprite(const ViewParams& Params, SpriteInstance *pInstance, 
 
 			pD3DEffect->End();
 		}
-#endif
+
 	}
+#else
+	if (0) {}
+#endif
 	else
 	{	
 		D3D_CALL(PD3DDEVICE->SetVertexShader(NULL));

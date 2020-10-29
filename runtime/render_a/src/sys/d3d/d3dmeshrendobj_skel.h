@@ -9,7 +9,7 @@
 #pragma warning (disable:4786)
 
 #include "model.h"
-#include "vertexbuffercontroller.h"
+#include "VertexBufferController.h"
 #include "d3d_renderstyle.h"
 
 // DEFINES

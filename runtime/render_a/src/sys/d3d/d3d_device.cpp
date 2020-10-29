@@ -24,7 +24,7 @@
 #include "screenglowmgr.h"
 #include "d3d_draw.h"
 #include "rendererconsolevars.h"
-#include "ConsoleCommands.h"
+#include "consolecommands.h"
 
 // The global D3D Shell...
 CD3D_Device g_Device;
@@ -173,10 +173,10 @@ bool CD3D_Device::ReleaseDevObjects(bool bFullRelease)
 
 	// Free the pixel shaders.
 	LTPixelShaderMgr::GetSingleton().FreeDeviceObjects();
-
+#ifdef USE_ID3DXEFFECT
 	// Free the effect shaders.
 	LTEffectShaderMgr::GetSingleton().FreeDeviceObjects();
-
+#endif
 	// Free the rendertarget textures and surfaces
 	CRenderTargetMgr::GetSingleton().FreeDeviceObjects();
 
@@ -214,7 +214,9 @@ bool CD3D_Device::RestoreDevObjects()
 {
 	LTVertexShaderMgr::GetSingleton().RecreateVertexShaders();
 	LTPixelShaderMgr::GetSingleton().RecreatePixelShaders();
+#ifdef USE_ID3DXEFFECT
 	LTEffectShaderMgr::GetSingleton().RecreateEffectShaders();
+#endif
 	CRenderTargetMgr::GetSingleton().RecreateRenderTargets();
 
 	// Notify all RenderObjects that they need to re-create themselves...

@@ -341,8 +341,12 @@ void NModelDebug::DrawModelVertexNormals(ModelInstance* pInstance)
 					pRenderStyle->GetDirect3D_Options(&options);
 					if(options.bUseEffectShader)
 					{
+#ifdef USE_ID3DXEFFECT
 						LTEffectImpl* pEffect = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(options.EffectShaderID);
 						IDirect3DVertexDeclaration9* pDecl = pEffect->GetVertexDeclaration();
+#else
+						IDirect3DVertexDeclaration9* pDecl = NULL;
+#endif
 						if(pDecl)
 						{
 							D3DVERTEXELEMENT9 element[256];

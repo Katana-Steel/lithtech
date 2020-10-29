@@ -253,10 +253,11 @@ static void DrawDynamicParticles(const ViewParams& Params, LTVolumeEffect* pEffe
 			else
 			{
 				//if it passed and we have an Associated Effect, we need to upload the texture to the effect
+#ifdef USE_ID3DXEFFECT
 				LTEffectImpl* pEffectShader = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pEffect->m_nEffectShaderID);
 				if(pEffectShader)
 				{
-#ifdef USE_ID3DXEFFECT
+
 					ID3DXEffect* pD3DEffect = pEffectShader->GetEffect();
 					if(pD3DEffect)
 					{
@@ -266,8 +267,9 @@ static void DrawDynamicParticles(const ViewParams& Params, LTVolumeEffect* pEffe
 							pD3DEffect->SetTexture("texture0", pRTexture->m_pD3DTexture);
 						}
 					}
-#endif
+
 				}
+#endif
 			}
 		}
 
@@ -282,11 +284,11 @@ static void DrawDynamicParticles(const ViewParams& Params, LTVolumeEffect* pEffe
 			{
 				return;
 			}
-
+#ifdef USE_ID3DXEFFECT
 			LTEffectImpl* pEffectShader = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pEffect->m_nEffectShaderID);
 			if(pEffectShader)
 			{
-#ifdef USE_ID3DXEFFECT
+
 				ID3DXEffect* pD3DEffect = pEffectShader->GetEffect();
 				if(pD3DEffect)
 				{
@@ -316,8 +318,11 @@ static void DrawDynamicParticles(const ViewParams& Params, LTVolumeEffect* pEffe
 						return;
 					}
 				}
+
+			}
+#else
+			if (0) {}
 #endif
-			}	
 			else
 			{	if(FAILED( PD3DDEVICE->DrawPrimitive( D3DPT_TRIANGLELIST, g_nDynamicParticleVBIndex, numTris ) ))
 				{
@@ -337,11 +342,10 @@ static void DrawDynamicParticles(const ViewParams& Params, LTVolumeEffect* pEffe
 			{
 				return;
 			}
-			
+#ifdef USE_ID3DXEFFECT
 			LTEffectImpl* pEffectShader = (LTEffectImpl*)LTEffectShaderMgr::GetSingleton().GetEffectShader(pEffect->m_nEffectShaderID);
 			if(pEffectShader)			
 			{
-#ifdef USE_ID3DXEFFECT
 				ID3DXEffect* pD3DEffect = pEffectShader->GetEffect();
 				if(pD3DEffect)
 				{
@@ -371,8 +375,11 @@ static void DrawDynamicParticles(const ViewParams& Params, LTVolumeEffect* pEffe
 						return;
 					}
 				}
-#endif
+
 			}
+#else
+			if (0) {}
+#endif
 			else
 			{			
 				if(FAILED( PD3DDEVICE->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, 0, g_nDynamicParticleVBIndex, curFilled, (g_nDynamicParticleVBIndex/4)*6, numTris ) ) )
