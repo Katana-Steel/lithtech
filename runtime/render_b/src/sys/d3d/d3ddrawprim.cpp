@@ -25,7 +25,7 @@ define_holder(IClientShell, i_client_shell);
 
 #include "LTEffectImpl.h"
 #include "lteffectshadermgr.h"
-#include "ltshaderdevicestateimp.h"
+#include "LTShaderDeviceStateImp.h"
 #include "rendererconsolevars.h"
 
 #ifndef __ILTTEXINTERFACE_H__
@@ -251,18 +251,18 @@ LTRESULT CD3DDrawPrim::SetFogEnable(bool bFogEnable)
 void CD3DDrawPrim::SaveStates(LPDIRECT3DDEVICE9 pDevice)
 {
 	// Save the render states...
-	pDevice->GetTextureStageState(0,D3DTSS_COLOROP,(unsigned long*)&m_PrevColorOp);
-	pDevice->GetRenderState(D3DRS_ALPHABLENDENABLE,(unsigned long*)&m_PrevAlphaBlendEnable);
-	pDevice->GetRenderState(D3DRS_SRCBLEND,(unsigned long*)&m_PrevSrcBlend);
-	pDevice->GetRenderState(D3DRS_DESTBLEND,(unsigned long*)&m_PrevDstBlend);
-	pDevice->GetRenderState(D3DRS_ZENABLE,(unsigned long*)&m_PrevZEnable);
-	pDevice->GetRenderState(D3DRS_ZWRITEENABLE,(unsigned long*)&m_PrevZWriteEnable);
-	pDevice->GetRenderState(D3DRS_ALPHATESTENABLE,(unsigned long*)&m_PrevAlphaTestEnable);
-	pDevice->GetRenderState(D3DRS_ALPHAFUNC,(unsigned long*)&m_PrevAlphaTestFunc);
-	pDevice->GetRenderState(D3DRS_FILLMODE,(unsigned long*)&m_PrevFillMode);
-	pDevice->GetRenderState(D3DRS_CLIPPING,(unsigned long*)&m_PrevClipMode);
-	pDevice->GetRenderState(D3DRS_CULLMODE,(unsigned long*)&m_PrevCullMode);
-	pDevice->GetRenderState(D3DRS_FOGENABLE,(unsigned long*)&m_PrevFogMode);
+	pDevice->GetTextureStageState(0,D3DTSS_COLOROP,(DWORD*)&m_PrevColorOp);
+	pDevice->GetRenderState(D3DRS_ALPHABLENDENABLE,(DWORD*)&m_PrevAlphaBlendEnable);
+	pDevice->GetRenderState(D3DRS_SRCBLEND,(DWORD*)&m_PrevSrcBlend);
+	pDevice->GetRenderState(D3DRS_DESTBLEND,(DWORD*)&m_PrevDstBlend);
+	pDevice->GetRenderState(D3DRS_ZENABLE,(DWORD*)&m_PrevZEnable);
+	pDevice->GetRenderState(D3DRS_ZWRITEENABLE,(DWORD*)&m_PrevZWriteEnable);
+	pDevice->GetRenderState(D3DRS_ALPHATESTENABLE,(DWORD*)&m_PrevAlphaTestEnable);
+	pDevice->GetRenderState(D3DRS_ALPHAFUNC,(DWORD*)&m_PrevAlphaTestFunc);
+	pDevice->GetRenderState(D3DRS_FILLMODE,(DWORD*)&m_PrevFillMode);
+	pDevice->GetRenderState(D3DRS_CLIPPING,(DWORD*)&m_PrevClipMode);
+	pDevice->GetRenderState(D3DRS_CULLMODE,(DWORD*)&m_PrevCullMode);
+	pDevice->GetRenderState(D3DRS_FOGENABLE,(DWORD*)&m_PrevFogMode);
 
 	pDevice->GetTransform(D3DTS_VIEW,&m_PrevTransView);
 	pDevice->GetTransform(D3DTS_PROJECTION,&m_PrevTransProj);
@@ -387,8 +387,8 @@ void CD3DDrawPrim::SetCamera(LPDIRECT3DDEVICE9 pDevice)
 
 void CD3DDrawPrim::SetTransformMode(LPDIRECT3DDEVICE9 pDevice)
 {
-	D3DXMATRIX mIdentity; 
-	D3DXMatrixIdentity(&mIdentity);
+	D3DMATRIX mIdentity;
+	D3DMatrixIdentity(&mIdentity);
 
 	CameraInstance* pCamera = NULL;
 
@@ -419,11 +419,11 @@ void CD3DDrawPrim::SetTransformMode(LPDIRECT3DDEVICE9 pDevice)
 		m_bResetViewport = true;
 
 		//setup our new projection based on player view parameters.
-		D3DXMATRIX NewProj;
+		D3DMATRIX NewProj;
 
 		float aspect = g_ScreenWidth / float(g_ScreenHeight);
 
-		D3DXMatrixPerspectiveFovLH(&NewProj,g_CV_PVModelFOV.m_Val * 0.01745329251994f, 
+		D3DMatrixPerspectiveFovLH(&NewProj,g_CV_PVModelFOV.m_Val * 0.01745329251994f,
 											aspect, 
 											g_CV_ModelNear.m_Val, 
 											g_CV_ModelFar.m_Val);
@@ -699,8 +699,8 @@ void CD3DDrawPrim::PushRenderStates(LPDIRECT3DDEVICE9 pDevice)
 	pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
 
-	D3DXMATRIX mIdentity;
-	D3DXMatrixIdentity(&mIdentity);
+	D3DMATRIX mIdentity;
+	D3DMatrixIdentity(&mIdentity);
 
 	g_RenderStateMgr.SetTransform(D3DTS_WORLDMATRIX(0), &mIdentity); 
 }
