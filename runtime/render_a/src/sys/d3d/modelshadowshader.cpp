@@ -9,7 +9,7 @@
 #include "setupmodel.h"
 #include "d3d_texture.h"
 #include "rendererframestats.h"
-#include "..\shadows\d3dshadowtexture.h"			//for the optional ALPHAREF_SHADOWS compile define
+#include "../shadows/d3dshadowtexture.h"			//for the optional ALPHAREF_SHADOWS compile define
 
 //----------------------------------------------------------
 // Singleton implementation
