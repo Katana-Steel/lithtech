@@ -368,20 +368,20 @@ static void d3d_SetEnvMapTextureStates(const ViewParams& Params, uint32 envMapTy
 	Params.m_mView.GetBasisVectors(&vRight, &vUp, &vForward);
 
 	//now setup the transpose, thus converting the normals into worldspace
-	D3DXMATRIX mCamToWorld( vRight.x, vUp.x, vForward.x, 0.0f,
+	D3DMATRIX mCamToWorld = { vRight.x, vUp.x, vForward.x, 0.0f,
 							vRight.y, vUp.y, vForward.y, 0.0f,
 							vRight.z, vUp.z, vForward.z, 0.0f,
-							0.0f,	  0.0f,	 0.0f,		 1.0f);
+							0.0f,	  0.0f,	 0.0f,		 1.0f };
 
 	if(!bCubic)
 	{
 		//setup our texture channel 1 to generate environment maps
-		D3DXMATRIX mTex1Trans(	0.5f,	0.0f,	0.0f,	0.0f,
+		D3DMATRIX mTex1Trans = { 0.5f,	0.0f,	0.0f,	0.0f,
 								0.0f,	0.0f,	0.0f,	0.0f,
 								0.0f,	0.5f,	1.0f,	0.0f,
-								0.5f,	0.5f,	0.0f,	1.0f );
+								0.5f,	0.5f,	0.0f,	1.0f };
 
-		mCamToWorld = mCamToWorld * mTex1Trans;
+		D3DMatrixMultiply(&mCamToWorld, &mCamToWorld, &mTex1Trans);
 	}
 
 	//setup our input parameters for the texture coordinates
