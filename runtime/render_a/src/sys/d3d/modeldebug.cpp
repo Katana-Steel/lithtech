@@ -378,7 +378,11 @@ void NModelDebug::DrawModelVertexNormals(ModelInstance* pInstance)
 										bBinormal = true;
 									}
 								}
-
+#ifndef USE_ID3DXEFFECT
+								UINT nVertexSize = 0;
+								uint32 nVertCount = 0;
+								uint8* pVertexData = NULL;
+#else
 								UINT nVertexSize = D3DXGetDeclVertexSize(element, 0);
 								//dsi_ConsolePrint("Vert Size: %d", nVertexSize);								
 
@@ -395,7 +399,7 @@ void NModelDebug::DrawModelVertexNormals(ModelInstance* pInstance)
 									nVertCount = ((CD3DRigidMesh*)pLOD)->GetVertexCount();
 									pVertexData = (uint8*)((CD3DRigidMesh*)pLOD)->GetVertexData();
 								}
-
+#endif
 								if(pVertexData)
 								{
 									float fVerts[3];
