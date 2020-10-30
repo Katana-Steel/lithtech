@@ -125,6 +125,8 @@ DWORD d3d_VectorToRGB(LTVector * vector);
 //replacement for D3DXMatrixPerspectiveFovLH
 D3DMATRIX* D3DMatrixPerspectiveFovLH(D3DMATRIX* out, float fovy, float aspect, float zn, float zf);
 
+void D3DVec3Transform(LTVector* pOut, LTVector* pV, D3DMATRIX* pM);
+
 //replacement for D3DXMatrixIdentity
 void D3DMatrixIdentity(D3DMATRIX* out);
 

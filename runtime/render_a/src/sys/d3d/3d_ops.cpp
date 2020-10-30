@@ -195,6 +195,13 @@ D3DMATRIX* D3DMatrixPerspectiveFovLH(D3DMATRIX* out, float fovy, float aspect, f
 	return out;
 }
 
+void D3DVec3Transform(LTVector* pOut, LTVector* pV, D3DMATRIX* pM)
+{
+	pOut->x = pV->x * pM->_11 + pV->y * pM->_21 + pV->z * pM->_31 + pM->_41;
+	pOut->y = pV->x * pM->_12 + pV->y * pM->_22 + pV->z * pM->_32 + pM->_42;
+	pOut->z = pV->x * pM->_13 + pV->y * pM->_23 + pV->z * pM->_33 + pM->_43;
+}
+
 void D3DMatrixIdentity(D3DMATRIX* out)
 {
 	out->_11 = 1.0f; out->_12 = 0.0f; out->_13 = 0.0f; out->_14 = 0.0f;
