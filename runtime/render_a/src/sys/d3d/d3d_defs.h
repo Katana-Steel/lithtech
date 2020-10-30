@@ -21,4 +21,8 @@
 #define LPDIRECTDRAWSURFACECUR		LPDIRECT3DSURFACE9
 #define LPD3DVERTEXBUFFERCUR		LPDIRECT3DVERTEXBUFFER9
 
+#ifdef __LINUX
+#define OutputDebugString printf
+#endif
+
 #endif
