@@ -43,7 +43,7 @@ void d3d_DrawSolidWorldModel(const ViewParams& Params, LTObject *pObj)
 	pInstance = (WorldModelInstance*)pObj;
 	
 	// Maybe disable fog.
-	D3D_CALL(PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, (unsigned long *)&oldFog));
+	D3D_CALL(PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, (DWORD *)&oldFog));
 	if(oldFog)
 	{	
 		D3D_CALL(PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, 
