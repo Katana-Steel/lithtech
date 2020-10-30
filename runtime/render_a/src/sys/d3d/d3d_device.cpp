@@ -116,7 +116,7 @@ bool CD3D_Device::SetMode(D3DModeInfo* pMode)
 		uint32 nMaxWait = 20;
 		do
 		{
-			Sleep(100);
+			SDL_Delay(100);
 			hResetResult = m_pD3DDevice->TestCooperativeLevel();
 		} while ((hResetResult == D3DERR_DEVICELOST) && (nMaxWait--));
 		// Now try and reset again.
@@ -842,7 +842,7 @@ void CD3D_Device::PreventFrameBuffering()
 		ASSERT(m_pEndOfFrameQuery);
 	}
 
-	uint nStartTime = timeGetTime();
+	uint nStartTime = SDL_GetTicks();
 
 	// Wait until the previous frame is done
 	HRESULT hr;
@@ -853,16 +853,16 @@ void CD3D_Device::PreventFrameBuffering()
 		if (!SUCCEEDED(hr) || ((hr == S_OK) && bStatus))
 			break;
 		// Yield a timeslice
-		Sleep(0);
+		SDL_Delay(0);
 		// Don't wait for more than 1 second.
-		if ((timeGetTime() - nStartTime) > 1000)
+		if ((SDL_GetTicks() - nStartTime) > 1000)
 			break;
 	}
 
 	// Show stats if necessary
 	if (g_CV_ShowFrameBufferingInfo)
 	{
-		uint nTotalTicks = timeGetTime() - nStartTime;
+		uint nTotalTicks = SDL_GetTicks() - nStartTime;
 		dsi_ConsolePrint("Buffered frame delay: %3dms", nTotalTicks);
 	}
 
