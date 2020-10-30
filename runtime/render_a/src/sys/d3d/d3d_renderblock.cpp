@@ -346,12 +346,12 @@ ILTStream &operator>>(ILTStream &cStream, SRBOccluder &cPoly)
 ILTStream &operator>>(ILTStream &cStream, SRBLightGroup &cLightGroup)
 {
 	uint16 nLength;
-	cStream >> (uint16)nLength;
+	cStream.Read(&nLength, sizeof(uint16));
 	cLightGroup.m_nID = 0;
 	for (; nLength; --nLength)
 	{
 		uint8 nNextChar;
-		cStream >> (uint8)nNextChar;
+		cStream.Read(&nNextChar, sizeof(uint8));
 		cLightGroup.m_nID *= 31;
 		cLightGroup.m_nID += (uint32)nNextChar;
 	}
@@ -359,7 +359,7 @@ ILTStream &operator>>(ILTStream &cStream, SRBLightGroup &cLightGroup)
 	cStream >> cLightGroup.m_vColor;
 
 	uint32 nDataLength;
-	cStream >> (uint32)nDataLength;
+	cStream.Read(&nDataLength, sizeof(uint32));
 	LT_MEM_TRACK_ALLOC(cLightGroup.m_aVertexIntensities.resize(nDataLength, 0), LT_MEM_TYPE_RENDER_LIGHTGROUP);
 	cStream.Read(static_cast<void*>(&(*cLightGroup.m_aVertexIntensities.begin())), nDataLength);
 
@@ -398,7 +398,7 @@ bool CD3D_RenderBlock::IsSpriteTexture(const char *pFilename)
 	if (nTexNameLen < 4)
 		return false;
 
-	return _stricmp(&pFilename[nTexNameLen - 4], ".spr") == 0;
+	return stricmp(&pFilename[nTexNameLen - 4], ".spr") == 0;
 }
 
 SharedTexture *CD3D_RenderBlock::LoadSpriteData(CRBSection &cSection, uint32 nTextureIndex, const char *pFilename)
@@ -523,9 +523,9 @@ bool CD3D_RenderBlock::Load(ILTStream *pStream)
 			}
 
 			// Load the lightmap
-			*pStream >> (uint32)cCurSection.m_nLightmapWidth;
-			*pStream >> (uint32)cCurSection.m_nLightmapHeight;
-			*pStream >> (uint32)cCurSection.m_nLightmapSize;
+			pStream->Read(&cCurSection.m_nLightmapWidth, sizeof(uint32));
+			pStream->Read(&cCurSection.m_nLightmapHeight, sizeof(uint32));
+			pStream->Read(&cCurSection.m_nLightmapSize, sizeof(uint32));
 			if (cCurSection.m_nLightmapSize)
 			{
 				LT_MEM_TRACK_ALLOC(cCurSection.m_pLightmapData = new uint8[cCurSection.m_nLightmapSize],LT_MEM_TYPE_RENDER_LIGHTMAP);
@@ -541,7 +541,7 @@ bool CD3D_RenderBlock::Load(ILTStream *pStream)
 	}
 
 	// Get the vertex data
-	*pStream >> (uint32)m_nVertexCount;
+	pStream->Read(&m_nVertexCount, sizeof(uint32));
 	if (m_nVertexCount)
 	{
 		LT_MEM_TRACK_ALLOC(m_aVertices = new SRBVertex[m_nVertexCount],LT_MEM_TYPE_RENDER_WORLD);
@@ -560,7 +560,7 @@ bool CD3D_RenderBlock::Load(ILTStream *pStream)
 	}
 
 	// Get the triangle count
-	*pStream >> (uint32)m_nTriCount;
+	pStream->Read(&m_nTriCount, sizeof(uint32));
 	if (m_nTriCount)
 	{
 		LT_MEM_TRACK_ALLOC(m_aIndices = new uint16[m_nTriCount * 3],LT_MEM_TYPE_RENDER_WORLD);
