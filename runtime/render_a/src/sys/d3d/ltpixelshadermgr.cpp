@@ -26,7 +26,7 @@ bool LTPixelShaderImp::Init(ILTStream *pStream, bool bCompileShader)
 {
 	Term();
 
-	ZeroMemory(m_Constants, sizeof(m_Constants));
+	memset(m_Constants, 0, sizeof(m_Constants));
 
 	// The old LithTech pixel shader format is no longer supported.
 	uint32 nTag;
@@ -53,7 +53,7 @@ bool LTPixelShaderImp::Init(ILTStream *pStream, bool bCompileShader)
 			Term();
 			return false;
 		}
-    	ZeroMemory(m_pByteCode, m_ByteCodeSize + 4);
+    	memset(m_pByteCode, 0, m_ByteCodeSize + 4);
 
     	// Read the pre-compiled pixel shader microcode
 		if (pStream->Read(m_pByteCode, m_ByteCodeSize) != LT_OK)
@@ -82,7 +82,7 @@ bool LTPixelShaderImp::Recreate()
 	}
 
 	HRESULT hr;
-
+#ifdef USE_ID3DXEFFECT
 	// Should we assemble the shader? If this is true, then the byte code must be raw text.
 	if (m_bCompileShader)
 	{
@@ -105,6 +105,9 @@ bool LTPixelShaderImp::Recreate()
 			return false;
 		}
 	}
+#else
+	if (0) {}
+#endif
 	else
 	{
     	// Create the pixel shader directly from the byte code.
