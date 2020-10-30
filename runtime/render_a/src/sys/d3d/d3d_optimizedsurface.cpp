@@ -377,7 +377,7 @@ bool d3d_StartOptimized2D()
 	if (g_bInOptimized2D) return true;
 
 	// Set states...
-	PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, (unsigned long *)&g_OldFogEnable);
+	PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, (DWORD *)&g_OldFogEnable);
 	PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, FALSE);
 
 	PD3DDEVICE->SetRenderState(D3DRS_ZENABLE, FALSE);

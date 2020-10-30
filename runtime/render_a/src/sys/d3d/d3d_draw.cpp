@@ -60,7 +60,7 @@ void VerifyRenderState(D3DRENDERSTATETYPE state, uint32 val, char *pStateName, c
 {
 	uint32 stateVal;
 
-	D3D_CALL(PD3DDEVICE->GetRenderState(state, (unsigned long *) &stateVal));
+	D3D_CALL(PD3DDEVICE->GetRenderState(state, (DWORD *) &stateVal));
 	if (stateVal != val) 
 	{
 		g_pStruct->ConsolePrint("D3D Error: state %s != %s", pStateName, pValName); 
@@ -72,7 +72,7 @@ void VerifyStageState(uint32 stage, D3DTEXTURESTAGESTATETYPE state, uint32 val, 
 {
 	uint32 stateVal;
 
-	D3D_CALL(PD3DDEVICE->GetTextureStageState(stage, state, (unsigned long *) &stateVal));
+	D3D_CALL(PD3DDEVICE->GetTextureStageState(stage, state, (DWORD *) &stateVal));
 	if (stateVal != val) 
 	{
 		g_pStruct->ConsolePrint("D3D Error: (stage %d) state %s != %s", stage, pStateName, pValName); 

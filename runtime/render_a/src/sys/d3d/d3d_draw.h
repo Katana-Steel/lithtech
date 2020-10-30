@@ -57,7 +57,7 @@ class StateSet
 public:
 						StateSet(D3DRENDERSTATETYPE state, uint32 val) {
 							m_State = state;
-							PD3DDEVICE->GetRenderState(m_State, (unsigned long *)&m_OldVal);
+							PD3DDEVICE->GetRenderState(m_State, (DWORD *)&m_OldVal);
 							PD3DDEVICE->SetRenderState(m_State, val); }
 
 						~StateSet() {
@@ -77,7 +77,7 @@ public:
 						{
 							m_Stage = stage;
 							m_State = state;
-							PD3DDEVICE->GetTextureStageState(m_Stage, m_State, (unsigned long *)&m_OldVal);
+							PD3DDEVICE->GetTextureStageState(m_Stage, m_State, (DWORD*)&m_OldVal);
 
 							if(m_OldVal != val)
 								PD3DDEVICE->SetTextureStageState(m_Stage, m_State, val); 
@@ -103,7 +103,7 @@ public:
 						{
 							m_Stage = stage;
 							m_State = state;
-							PD3DDEVICE->GetSamplerState(m_Stage, m_State, (unsigned long *)&m_OldVal);
+							PD3DDEVICE->GetSamplerState(m_Stage, m_State, (DWORD*)&m_OldVal);
 
 							if(m_OldVal != val)
 								PD3DDEVICE->SetSamplerState(m_Stage, m_State, val); 
@@ -127,9 +127,9 @@ public:
 // Get special alpha blend states based on the object's flags2.
 inline void d3d_GetBlendStates(LTObject *pObject, uint32 &srcBlend, uint32 &destBlend, uint32 &dwFog, uint32 &dwFogColor)
 {
-	PD3DDEVICE->GetRenderState(D3DRS_FOGCOLOR, (unsigned long *)&dwFogColor);
+	PD3DDEVICE->GetRenderState(D3DRS_FOGCOLOR, (DWORD *)&dwFogColor);
 
-	PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, (unsigned long *)&dwFog);
+	PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, (DWORD *)&dwFog);
 	if (pObject->m_Flags & FLAG_FOGDISABLE) 
 	{
 		dwFog = 0; 

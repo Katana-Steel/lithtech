@@ -49,7 +49,7 @@ void d3d_DrawSkyObjects(const ViewParams& SkyParams)
 
 	//Preserve the old fog state so it can be properly restored
 	uint32 oldFogEnable;
-	D3D_CALL(PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, (unsigned long *) &oldFogEnable));
+	D3D_CALL(PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, (DWORD *) &oldFogEnable));
 
 	// Disable SPMT.
 	StageStateSet tssColorOp1(1, D3DTSS_COLOROP, D3DTOP_DISABLE);

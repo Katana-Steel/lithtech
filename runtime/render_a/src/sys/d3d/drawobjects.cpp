@@ -330,7 +330,7 @@ void ObjectDrawList::Draw(const ViewParams& Params)
 		// Save the Alpha blend state (models may reset it...
 		uint32 PrevAlphaBlendEnable;
 		if (cObjDrawer.m_pObject->m_ObjectType == OT_MODEL)
-			PD3DDEVICE->GetRenderState(D3DRS_ALPHABLENDENABLE,(unsigned long*)&PrevAlphaBlendEnable);
+			PD3DDEVICE->GetRenderState(D3DRS_ALPHABLENDENABLE,(DWORD*)&PrevAlphaBlendEnable);
 
 		cObjDrawer.Draw(Params);
 

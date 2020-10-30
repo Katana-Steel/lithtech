@@ -104,7 +104,7 @@ static void d3d_DrawTranslucentModel(const ViewParams& Params, LTObject *pObject
 	//comment that code (except for the filtering) and run it again, it won't crash.  After 
 	//a reboot, it will crash again.  For reference, this was NOLF2 issue #2008.
 	unsigned long nWasEnabled;
-	PD3DDEVICE->GetRenderState(D3DRS_ZWRITEENABLE, &nWasEnabled);
+	PD3DDEVICE->GetRenderState(D3DRS_ZWRITEENABLE, (DWORD*)&nWasEnabled);
 	if (nWasEnabled)
 		D3D_CALL(PD3DDEVICE->SetRenderState(D3DRS_ZWRITEENABLE, D3DZB_FALSE));
 
@@ -120,7 +120,7 @@ static void d3d_DrawTranslucentGlowModel(const ViewParams& Params, LTObject *pOb
 
 	//See above comments as to why the following is necessary
 	unsigned long nWasEnabled;
-	PD3DDEVICE->GetRenderState(D3DRS_ZWRITEENABLE, &nWasEnabled);
+	PD3DDEVICE->GetRenderState(D3DRS_ZWRITEENABLE, (DWORD*)&nWasEnabled);
 	if (nWasEnabled)
 		D3D_CALL(PD3DDEVICE->SetRenderState(D3DRS_ZWRITEENABLE, D3DZB_FALSE));
 
