@@ -24,7 +24,7 @@ bool LTVertexShaderImp::Init(ILTStream *pStream, const D3DVERTEXELEMENT9 *pVerte
 {
 	Term();
 
-	ZeroMemory(m_Constants, sizeof(m_Constants));
+	memset(m_Constants, 0, sizeof(m_Constants));
 
 	// Allocate memory to read the vertex shader file.
     m_ByteCodeSize = pStream->GetLen();
@@ -33,7 +33,7 @@ bool LTVertexShaderImp::Init(ILTStream *pStream, const D3DVERTEXELEMENT9 *pVerte
 	{
 		return false;
 	}
-    ZeroMemory(m_pByteCode, m_ByteCodeSize + 4);
+	memset(m_pByteCode, 0, m_ByteCodeSize + 4);
 
     // Read the pre-compiled vertex shader microcode
 	if (pStream->Read(m_pByteCode, m_ByteCodeSize) != LT_OK)
@@ -89,6 +89,7 @@ bool LTVertexShaderImp::Recreate()
 	}
 
 	// Should we assemble the shader? If this is true, then the byte code must be raw text.
+#ifdef USE_ID3DXEFFECT
 	if (m_bCompileShader)
 	{
 		// Assemble the shader.
@@ -110,6 +111,9 @@ bool LTVertexShaderImp::Recreate()
 			return false;
 		}
 	}
+#else
+	if (0) {}
+#endif
 	else
 	{
     	// Create the vertex shader directly from the byte code.
