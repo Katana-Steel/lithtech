@@ -42,7 +42,7 @@ bool LTShaderDeviceStateImp::GetMatrix(LTMatrixType MatrixType, bool Transpose, 
 	}
 
 	// Get the desired matrix from the device.
-	D3DXMATRIX Mat;
+	D3DMATRIX Mat;
 	switch (MatrixType)
 	{
 		case MATRIXTYPE_WORLD0:
@@ -68,19 +68,18 @@ bool LTShaderDeviceStateImp::GetMatrix(LTMatrixType MatrixType, bool Transpose, 
 			//
 			// This is a special case in which we need two matrices.
 			//
-
-			D3DXMATRIX MatView;
+			D3DMATRIX MatView;
 			PD3DDEVICE->GetTransform(D3DTS_VIEW, &MatView);
 
-			D3DXMATRIX MatProj;
+			D3DMATRIX MatProj;
 			PD3DDEVICE->GetTransform(D3DTS_PROJECTION, &MatProj);
 
-			D3DXMATRIX MatViewProj;
-    		D3DXMatrixMultiply(&MatViewProj, &MatView, &MatProj);
+			D3DMATRIX MatViewProj;
+			D3DMatrixMultiply(&MatViewProj, &MatView, &MatProj);
 
 			if (Transpose)
 			{
-				D3DXMatrixTranspose(&MatViewProj, &MatViewProj);
+				D3DMatrixTranspose(&MatViewProj, &MatViewProj);
 			}
 
     		pMatrix->Init(MatViewProj._11, MatViewProj._12, MatViewProj._13, MatViewProj._14,
@@ -123,7 +122,7 @@ bool LTShaderDeviceStateImp::GetMatrix(LTMatrixType MatrixType, bool Transpose, 
 	// Transpose the matrix.
 	if (Transpose)
 	{
-    	D3DXMatrixTranspose(&Mat, &Mat);
+    	D3DMatrixTranspose(&Mat, &Mat);
 	}
 
     pMatrix->Init(Mat._11, Mat._12, Mat._13, Mat._14,

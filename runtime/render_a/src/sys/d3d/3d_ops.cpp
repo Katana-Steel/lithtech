@@ -220,13 +220,27 @@ LTMatrix LTMatrixFromD3DMatrix(D3DMATRIX* in)
 	return ret;
 }
 
-D3DMATRIX* D3DMatrixMultiply(D3DMATRIX* in, D3DMATRIX* m1, D3DMATRIX* m2)
+D3DMATRIX D3DMatrixFromLTMatrix(LTMatrix mat)
 {
-	LTMatrix mat = LTMatrixFromD3DMatrix(m1) * LTMatrixFromD3DMatrix(m2);
-
-	*in = { mat.m[0][0], mat.m[0][1], mat.m[0][2], mat.m[0][3],
+	D3DMATRIX ret;
+	ret = { mat.m[0][0], mat.m[0][1], mat.m[0][2], mat.m[0][3],
 		mat.m[1][0], mat.m[1][1], mat.m[1][2], mat.m[1][3],
 		mat.m[2][0], mat.m[2][1], mat.m[2][2], mat.m[2][3],
 		mat.m[3][0], mat.m[3][1], mat.m[3][2], mat.m[3][3] };
+	return ret;
+}
+
+D3DMATRIX* D3DMatrixMultiply(D3DMATRIX* in, D3DMATRIX* m1, D3DMATRIX* m2)
+{
+	LTMatrix mat = LTMatrixFromD3DMatrix(m1) * LTMatrixFromD3DMatrix(m2);
+	*in = D3DMatrixFromLTMatrix(mat);
+	return in;
+}
+
+D3DMATRIX* D3DMatrixTranspose(D3DMATRIX* out, D3DMATRIX* in)
+{
+	LTMatrix mat = LTMatrixFromD3DMatrix(in);
+	mat.Transpose();
+	*in = D3DMatrixFromLTMatrix(mat);
 	return in;
 }
