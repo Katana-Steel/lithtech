@@ -1,3 +1,4 @@
+#ifdef USE_ID3DXEFFECT
 #include "precompile.h"
 #include "LTEffectInclude.h"
 #include "rendererconsolevars.h"
@@ -289,3 +290,4 @@ void LTEffectInclude::BuildPath(char* szBuffer, const char* szPath, int nMaxLeng
 	strncpy(szBuffer, (*(m_PathList.begin())).c_str(), nMaxLength);
 	strncat(szBuffer, pszFilename, nMaxLength);
 }
+#endif
