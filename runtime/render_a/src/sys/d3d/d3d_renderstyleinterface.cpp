@@ -63,7 +63,7 @@ CRenderStyle* D3DRenderStyles::LoadRenderStyle(const char* szFilename)
 					string szTmp = "Couldn't Load Renderstyle "; 
 					szTmp += szFilename; szTmp += "\n"; 
 					OutputDebugString(szTmp.c_str()); 
-					return false; 
+					return NULL;
 				} 
 
 				// We're keeping a pointer to it in the m_pData member, so inc it's ref count. 

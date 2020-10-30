@@ -34,7 +34,7 @@ struct D3DDeviceInfo
     // Device data
     D3DDEVTYPE				DeviceType;		// Reference, HAL, etc.
     D3DCAPS9				d3dCaps;		// Capabilities of this device
-    TCHAR*					strDesc;		// Name of this device
+    char*					strDesc;		// Name of this device
     BOOL					bCanDoWindowed;	// Whether this device can work in windowed mode
 
     // Mode data

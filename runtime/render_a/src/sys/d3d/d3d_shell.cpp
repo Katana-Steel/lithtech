@@ -138,7 +138,7 @@ bool CD3D_Shell::BuildDeviceList()
         sort(modes.begin(),modes.end()); // Sort the list of display modes...
 
         // Add devices to adapter (these are the device types we care about)...
-		TCHAR*		strDeviceDescs[] = { "HAL", "REF" };
+		char*		strDeviceDescs[] = { "HAL", "REF" };
 		D3DDEVTYPE	DeviceTypes[]    = { D3DDEVTYPE_HAL, D3DDEVTYPE_REF };
 		uint32		iNumDeviceTypes	 = sizeof(DeviceTypes) / sizeof(DeviceTypes[0]);
 

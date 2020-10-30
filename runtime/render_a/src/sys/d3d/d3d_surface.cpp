@@ -1,6 +1,7 @@
 #include "precompile.h"
-
+#ifdef _WINDOWS
 #include "interface_helpers.h"
+#endif
 #include "pixelformat.h"
 #include "d3d_surface.h"
 #include "renderstruct.h"
@@ -325,6 +326,7 @@ bool d3d_GetScreenFormat(PFormat* pFormat)
 
 void d3d_MakeScreenShotBMP(const char *pFilename, uint32 nWidth, uint32 nHeight)
 {
+#ifdef _WINDOWS
 	LPDIRECT3DSURFACE9 pBackBuffer = NULL; D3DSURFACE_DESC SurfDesc;
 	if (FAILED(PD3DDEVICE->GetBackBuffer(0,D3DBACKBUFFER_TYPE_MONO,&pBackBuffer)))	{ return; }
 	pBackBuffer->GetDesc(&SurfDesc);
@@ -404,6 +406,7 @@ void d3d_MakeScreenShotBMP(const char *pFilename, uint32 nWidth, uint32 nHeight)
 	}
 
 	dsi_ConsolePrint("ScreenShot: Created %s successfully.", pFilename);
+#endif
 }
 
 void d3d_MakeScreenShotTGA(const char *pFilename, uint32 nWidth, uint32 nHeight)
