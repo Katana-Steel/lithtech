@@ -103,8 +103,9 @@ void d3d_Term(bool bFullTerm)						// We don't do a FullTerm on Alt-Tab (will be
 		g_bInStandby = g_Device.Standby();
 	}
 
-
+#ifdef _WINDOWS
 	ShowCursor(true);							// Show the cursor
+#endif
 }
 
 int d3d_Init(RenderStructInit *pInit)
@@ -209,9 +210,9 @@ int d3d_Init(RenderStructInit *pInit)
 
 	// We're definitely not in standby mode any more
 	g_bInStandby = false;
-
+#ifdef _WINDOWS
 	ShowCursor(false);
-
+#endif
 	g_Device.RestoreDevObjects();					// Let the render objects restore their D3D data (if there is any already created)...
 
 	// Copy the info for the device we used into the RMode.
@@ -220,7 +221,7 @@ int d3d_Init(RenderStructInit *pInit)
 
 	// Finish initializing...
 	AddDebugMessage(0, "Using Direct3D Device %s", pDeviceInfo->strDesc);
-
+#ifdef _WINDOWS
 	// Either maximize the window or set its size.
 	if (g_bRunWindowed || d3d_IsNullRenderOn()) 
 	{
@@ -253,7 +254,7 @@ int d3d_Init(RenderStructInit *pInit)
 	{
 		SetWindowPos(g_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE); 
 	}
-
+#endif
 	if (!d3d_PostInitializeDevice(pInit,!g_bInStandby)) 
 		return RENDER_ERROR;
 
