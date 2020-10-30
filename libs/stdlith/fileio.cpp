@@ -61,7 +61,7 @@ LTBOOL CMoFileIO::Open( const char *pFilename, const char *pAccess )
 	}
 
 	if( !(m_pFile = fopen(pFilename, pAccess)) )
-		return FALSE;
+		return 0;
 
 	fseek( m_pFile, 0, SEEK_END );
 	m_FileLen = ftell( m_pFile );
@@ -70,7 +70,7 @@ LTBOOL CMoFileIO::Open( const char *pFilename, const char *pAccess )
 	m_FileMin = 0;
 	m_FileMax = m_FileLen;
 
-	return TRUE;
+	return 1;
 }
 
 
@@ -137,12 +137,12 @@ LTBOOL CMoFileIO::Write(const void *pBlock, uint32 blockSize )
 	
 	if( fwrite(pBlock, 1, blockSize, m_pFile) == blockSize )
 	{
-		return TRUE;
+		return 1;
 	}
 	else
 	{
 		MaybeThrowIOException( MoWriteError );
-		return FALSE;
+		return 0;
 	}
 }
 
@@ -156,12 +156,12 @@ LTBOOL CMoFileIO::Read( void *pBlock, uint32 blockSize )
 	nBytesRead = (uint32)fread( pBlock, 1, blockSize, m_pFile );
 	if( nBytesRead == blockSize )
 	{
-		return TRUE;
+		return 1;
 	}
 	else
 	{
 		MaybeThrowIOException( MoReadError );
-		return FALSE;
+		return 0;
 	}
 }
 
@@ -210,12 +210,12 @@ LTBOOL CMoFileIO::SeekTo( uint32 pos )
 	
 	if( fseek(m_pFile, pos+m_FileMin, SEEK_SET) == 0 )
 	{
-		return TRUE;
+		return 1;
 	}
 	else
 	{
 		MaybeThrowIOException( MoSeekError );
-		return FALSE;
+		return 0;
 	}
 }
 

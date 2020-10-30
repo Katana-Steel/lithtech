@@ -25,7 +25,7 @@ LTBOOL CopyGListToArray(CGLinkedList<T> &theList, CMoArray<T> &theArray)
 	uint32 curOut;
 
 	if(!theArray.SetSize(theList.GetSize()))
-		return FALSE;
+		return 0;
 
 	curOut = 0;
 	for(pos=theList.GetHeadPosition(); pos; )
@@ -34,7 +34,7 @@ LTBOOL CopyGListToArray(CGLinkedList<T> &theList, CMoArray<T> &theArray)
 		curOut++;
 	}
 
-	return TRUE;
+	return 1;
 }
 
 
@@ -50,7 +50,7 @@ LTBOOL CopyArrayToGList(CMoArray<T> &theArray, CGLinkedList<T> &theList)
 		theList.Append(theArray[i]);
 	}
 
-	return TRUE;
+	return 1;
 }
 
 

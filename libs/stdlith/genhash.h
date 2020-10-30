@@ -116,14 +116,14 @@ inline LTBOOL GenHash<T, BucketType>::Init(
 
     m_pLists = new BucketType[nLists];
     if (!m_pLists)
-        return FALSE;
+        return 0;
     m_nLists = nLists;
 
     for (i=0; i < m_nLists; i++)
         m_pLists[i].GenSetCacheSize(listCacheSize);
 
     m_pHelper = pHelper;
-    return TRUE;
+    return 1;
 }
 
 
@@ -164,7 +164,7 @@ inline GenListPos GenHash<T, BucketType>::GenBegin() const
         }
 
         // Ok, something's wrong with m_nElements.
-        ASSERT(FALSE);
+        ASSERT(0);
         return GenListPos(m_nLists, 0);
     }
 }
@@ -224,11 +224,11 @@ inline LTBOOL GenHash<T, BucketType>::GenAppend(T &toAppend)
     if (m_pLists[m_pHelper->GetHashCode(toAppend) % m_nLists].GenAppend(toAppend))
     {
         ++m_nElements;
-        return TRUE;
+        return 1;
     }
     else
     {
-        return FALSE;
+        return 0;
     }
 }
 
@@ -281,11 +281,11 @@ inline LTBOOL GenHash<T, BucketType>::GenAppendList(const GenList<T> &other)
         if (!GenAppend(other.GenGetNext(pos)))
         {
             Term();
-            return FALSE;
+            return 0;
         }
     }
 
-    return TRUE;
+    return 1;
 }
 
 
@@ -299,7 +299,7 @@ inline LTBOOL GenHash<T, BucketType>::GenFindElement(const T &toFind, GenListPos
 
     // Trivial reject.
     if (m_nElements == 0)
-        return FALSE;
+        return 0;
 
     thePos.m_Index = m_pHelper->GetHashCode(toFind) % m_nLists;
     pList = &m_pLists[thePos.m_Index];
@@ -308,11 +308,11 @@ inline LTBOOL GenHash<T, BucketType>::GenFindElement(const T &toFind, GenListPos
         thePos.m_SubIndex = pos;
         if (m_pHelper->Compare(pList->GenGetNext(pos), toFind))
         {
-            return TRUE;
+            return 1;
         }
     }
 
-    return FALSE;
+    return 0;
 }
 
 

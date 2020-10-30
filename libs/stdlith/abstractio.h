@@ -69,7 +69,7 @@ class CAbstractIO
         CAbstractIO();
         ~CAbstractIO();
 
-        virtual LTBOOL          Open(const char *pFilename, const char *pAccess)  { return TRUE; }
+        virtual LTBOOL          Open(const char *pFilename, const char *pAccess)  { return 1; }
         virtual void            Close()                                             {}
 
 

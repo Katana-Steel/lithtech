@@ -172,7 +172,7 @@ public:
     virtual LTBOOL      GenAppend(T &toAppend)
     {
         Append(toAppend);
-        return TRUE;
+        return 1;
     }
 
     virtual void        GenRemoveAt(GenListPos pos)
@@ -205,7 +205,7 @@ public:
             Append(other.GenGetNext(pos));
         }
 
-        return TRUE;
+        return 1;
     }
 
 
@@ -350,11 +350,11 @@ LTBOOL CLinkedList<T>::RemoveElement(T el)
     if (pos)
     {
         RemoveAt(pos);
-        return TRUE;
+        return 1;
     }
     else
     {
-        return FALSE;
+        return 0;
     }
 }
 
@@ -446,7 +446,7 @@ LPOS CLinkedList<T>::FindIndex(uint32 index)  const
 
     } while (pCur != m_pHead);
 
-    ASSERT(FALSE);    // Shouldn't ever get here.
+    ASSERT(0);    // Shouldn't ever get here.
     return NULL;
 }
 

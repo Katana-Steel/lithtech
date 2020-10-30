@@ -148,7 +148,7 @@ class CMoArray : public GenList<T>
 
 
         // Accessors
-        LTBOOL          IsValid() { return TRUE; }
+        LTBOOL          IsValid() { return 1; }
         
         // Helpers for if you want to wrap around...
         T&              Last()      const   { ASSERT(m_nElements>0); return m_pArray[ m_nElements-1 ]; }
@@ -198,12 +198,12 @@ class CMoArray : public GenList<T>
  
         // Same as SetSize but preserves the old contents (ie: sizing from 8 to 4 preserves
         // the first 4 and sizing from 4 to 8 preserves the first 4).
-        LTBOOL          NiceSetSize(uint32 newSize)                     {return InternalNiceSetSize(newSize, FALSE, &g_DefAlloc);}
-        LTBOOL          NiceSetSize2(uint32 newSize, LAlloc *pAlloc)        {return InternalNiceSetSize(newSize, FALSE, pAlloc);}
+        LTBOOL          NiceSetSize(uint32 newSize)                     {return InternalNiceSetSize(newSize, 0, &g_DefAlloc);}
+        LTBOOL          NiceSetSize2(uint32 newSize, LAlloc *pAlloc)        {return InternalNiceSetSize(newSize, 0, pAlloc);}
         
         // Same as NiceSetSize, but uses memcpy instead of operator=.
-        LTBOOL          Fast_NiceSetSize(uint32 newSize)                        {return InternalNiceSetSize(newSize, TRUE, &g_DefAlloc);}
-        LTBOOL          Fast_NiceSetSize2(uint32 newSize, LAlloc *pAlloc)   {return InternalNiceSetSize(newSize, TRUE, pAlloc);}
+        LTBOOL          Fast_NiceSetSize(uint32 newSize)                        {return InternalNiceSetSize(newSize, 1, &g_DefAlloc);}
+        LTBOOL          Fast_NiceSetSize2(uint32 newSize, LAlloc *pAlloc)   {return InternalNiceSetSize(newSize, 1, pAlloc);}
 
 
         uint32          GetSize() const { return m_nElements; }
@@ -300,7 +300,7 @@ public:
         uint32 iCurOut;
 
         if (!SetSize(theList.GenGetSize()))
-            return FALSE;
+            return 0;
 
         iCurOut = 0;
         for (pos=theList.GenBegin(); theList.GenIsValid(pos);)
@@ -309,14 +309,14 @@ public:
             if (iCurOut >= GetSize())
             {
                 Term();
-                return FALSE;
+                return 0;
             }
 
             (*this)[iCurOut] = theList.GenGetNext(pos);
             iCurOut++;
         }
 
-        return TRUE;
+        return 1;
     }
 
     virtual LTBOOL      GenAppendList(const GenList<T> &theList)
@@ -328,7 +328,7 @@ public:
         prevSize = GetSize();
         
         if (!NiceSetSize(prevSize + theList.GenGetSize()))
-            return FALSE;
+            return 0;
 
         iCurOut = prevSize;
         for (pos=theList.GenBegin(); theList.GenIsValid(pos);)
@@ -337,14 +337,14 @@ public:
             if (iCurOut >= GetSize())
             {
                 Term();
-                return FALSE;
+                return 0;
             }
 
             (*this)[iCurOut] = theList.GenGetNext(pos);
             iCurOut++;
         }
 
-        return TRUE;
+        return 1;
     }
 
     virtual LTBOOL      GenFindElement(const T &toFind, GenListPos &thePos) const
@@ -430,13 +430,13 @@ LTBOOL CMoArray<T, C>::Compare(const CMoArray<T, C> &other)
     uint32  i;
 
     if (m_nElements != other.m_nElements)
-        return FALSE;
+        return 0;
 
     for (i=0; i < m_nElements; i++)
         if (m_pArray[i] != other.m_pArray[i])
-            return FALSE;
+            return 0;
 
-    return TRUE;
+    return 1;
 }
 
 
@@ -486,7 +486,7 @@ LTBOOL CMoArray<T, C>::CopyArray2(const CMoArray<T,C> &other, LAlloc *pAlloc)
         m_nElements = 0;
         m_Cache.SetCacheSize(0);
         m_pArray = NULL;
-        return TRUE;
+        return 1;
     }
 
     // Could it allocate the array?
@@ -494,13 +494,13 @@ LTBOOL CMoArray<T, C>::CopyArray2(const CMoArray<T,C> &other, LAlloc *pAlloc)
     {
         m_nElements = 0;
         m_Cache.SetCacheSize(0);
-        return FALSE;
+        return 0;
     }
 
     for (i=0; i < m_nElements; i++)
         m_pArray[i] = other.m_pArray[i];
 
-    return TRUE;
+    return 1;
 }
 
 
@@ -511,9 +511,9 @@ LTBOOL CMoArray<T, C>::AppendArray(const CMoArray<T, C> &other)
 
     for (i=0; i < other; i++)
         if (!Append(other[i]))
-            return FALSE;
+            return 0;
 
-    return TRUE;
+    return 1;
 }
 
 
@@ -552,7 +552,7 @@ LTBOOL CMoArray<T, C>::Insert2(uint32 index, const T &toInsert, LAlloc *pAlloc)
 
     ASSERT(index <= m_nElements);
     if (index > m_nElements)
-        return FALSE;
+        return 0;
 
     // Create a new array (possibly).
     newSize = m_nElements + 1;
@@ -562,7 +562,7 @@ LTBOOL CMoArray<T, C>::Insert2(uint32 index, const T &toInsert, LAlloc *pAlloc)
     {
         pNewArray = _AllocateTArray(newSize + m_Cache.GetWantedCache(), pAlloc);
         if (!pNewArray)
-            return FALSE;
+            return 0;
 
         // Copy the old array into the new one, start inserting at index.
         for (i=0; i < index; i++)
@@ -595,7 +595,7 @@ LTBOOL CMoArray<T, C>::Insert2(uint32 index, const T &toInsert, LAlloc *pAlloc)
 
     ++m_nElements;      
 
-    return TRUE;
+    return 1;
 }
 
 
@@ -617,7 +617,7 @@ void CMoArray<T, C>::Remove2(uint32 index, LAlloc *pAlloc)
 
     ASSERT(index < m_nElements && m_pArray);
 
-    bSlideDown = TRUE;
+    bSlideDown = 1;
     if (m_Cache.GetCacheSize() >= (m_Cache.GetWantedCache()*2))
     {
         newSize = m_nElements - 1;
@@ -639,7 +639,7 @@ void CMoArray<T, C>::Remove2(uint32 index, LAlloc *pAlloc)
             m_pArray = pNewArray;
 
             m_Cache.SetCacheSize(m_Cache.GetWantedCache());
-            bSlideDown = FALSE;
+            bSlideDown = 0;
         }
     }
 
@@ -671,7 +671,7 @@ LTBOOL CMoArray<T, C>::SetSize2(uint32 newSize, LAlloc *pAlloc, bool bQuadWordAl
     // If they request the current settings, there's no need to change
     if ((newSize == m_nElements) && (newSize != 0))
     {
-        return TRUE;
+        return 1;
     }
 
     if (m_pArray)
@@ -687,13 +687,13 @@ LTBOOL CMoArray<T, C>::SetSize2(uint32 newSize, LAlloc *pAlloc, bool bQuadWordAl
         {
             m_nElements = 0;
             m_Cache.SetCacheSize(0);
-            return FALSE;
+            return 0;
         }
         
         m_Cache.SetCacheSize(m_Cache.GetWantedCache());
     }
 
-    return TRUE;
+    return 1;
 }
 
 
@@ -717,14 +717,14 @@ LTBOOL CMoArray<T, C>::SetSizeInit3(uint32 newSize, T &val, LAlloc *pAlloc)
     uint32 i;
 
     if (!SetSize2(newSize, pAlloc))
-        return FALSE;
+        return 0;
 
     for (i=0; i < GetSize(); i++)
     {
         m_pArray[i] = val;
     }
     
-    return TRUE;
+    return 1;
 }
 
 
@@ -746,23 +746,23 @@ LTBOOL CMoArray<T, C>::InternalNiceSetSize(uint32 newSize, LTBOOL bFast, LAlloc 
     {
         m_Cache.SetCacheSize(m_Cache.GetCacheSize() + (m_nElements - newSize));
         m_nElements = newSize;
-        return TRUE;
+        return 1;
     }
     else if (newSize > m_nElements && (m_nElements + m_Cache.GetCacheSize()) >= newSize)
     {
         m_Cache.SetCacheSize(m_Cache.GetCacheSize() - (newSize - m_nElements));
         m_nElements = newSize;
-        return TRUE;
+        return 1;
     }
     else if (newSize == m_nElements)
     {
         // uhhh ok..
-        return TRUE;
+        return 1;
     }
 
     pNewArray = _AllocateTArray(newSize + m_Cache.GetWantedCache(), pAlloc);
     if (!pNewArray)
-        return FALSE;
+        return 0;
 
     nToCopy = m_nElements;
     if (nToCopy > newSize)
@@ -787,7 +787,7 @@ LTBOOL CMoArray<T, C>::InternalNiceSetSize(uint32 newSize, LTBOOL bFast, LAlloc 
     m_nElements = newSize;
     m_Cache.SetCacheSize(m_Cache.GetWantedCache());
 
-    return TRUE;
+    return 1;
 }
 
 
@@ -835,10 +835,10 @@ LTBOOL AllocateArray2(CMoArray<T, C> &theArray, ToAlloc *pToAlloc, LAlloc *pAllo
     {
         theArray[i] = LNew(pAllocator, ToAlloc);
         if (!theArray[i])
-            return FALSE;
+            return 0;
     }
 
-    return TRUE;
+    return 1;
 }
 
 

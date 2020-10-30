@@ -171,17 +171,17 @@ LTBOOL sb_IsObjectAllocated(StructBank *pBank, void *pObj)
 		while(count--)
 		{
 			if(*pBytes != 0xEA)
-				return TRUE;
+				return 1;
 		
 			++pBytes;
 		}
 	
 		// All bytes are 0xEA.. this object is freed.
-		return FALSE;
+		return 0;
 	}
 	else
 	{
-		return TRUE;
+		return 1;
 	}
 }
 

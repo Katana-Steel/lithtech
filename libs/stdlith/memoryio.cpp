@@ -17,7 +17,7 @@
 
 CMemoryIO::CMemoryIO()
 {
-	m_bRanOutOfMemory = FALSE;
+	m_bRanOutOfMemory = 0;
 	m_Pos = 0;
 	m_Data.SetCacheSize( 200 );
 }
@@ -36,9 +36,9 @@ LTBOOL CMemoryIO::Write(const void *pBlock, uint32 blockSize )
 		{
 			if( !m_Data.Append(0) )
 			{
-				m_bRanOutOfMemory = TRUE;
+				m_bRanOutOfMemory = 1;
 				MaybeThrowIOException( MoWriteError );
-				return FALSE;
+				return 0;
 			}
 		}
 	}
@@ -46,7 +46,7 @@ LTBOOL CMemoryIO::Write(const void *pBlock, uint32 blockSize )
 	memcpy( &(m_Data.GetArray()[m_Pos]), pBlock, blockSize );
 	m_Pos += blockSize;
 	
-	return TRUE;
+	return 1;
 }
 
 
@@ -55,13 +55,13 @@ LTBOOL CMemoryIO::Read( void *pBlock, uint32 blockSize )
 	if( (m_Pos+blockSize) > m_Data.GetSize() )
 	{
 		MaybeThrowIOException( MoReadError );
-		return FALSE;
+		return 0;
 	}
 
 	memcpy( pBlock, &(m_Data.GetArray()[m_Pos]), blockSize );
 	m_Pos += blockSize;
 	
-	return TRUE;		
+	return 1;
 }
 
 
@@ -80,11 +80,11 @@ LTBOOL CMemoryIO::SeekTo( uint32 pos )
 	if( pos > m_Data.GetSize() )
 	{
 		MaybeThrowIOException( MoSeekError );
-		return FALSE;
+		return 0;
 	}
 
 	m_Pos = pos;
-	return TRUE;
+	return 1;
 }
 
 
@@ -92,5 +92,5 @@ void CMemoryIO::Clear()
 {
 	m_Data.Term();
 	m_Pos=0;
-	m_bRanOutOfMemory = FALSE;
+	m_bRanOutOfMemory = 0;
 }

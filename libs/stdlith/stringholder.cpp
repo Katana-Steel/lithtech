@@ -70,14 +70,14 @@ char *CStringHolder::AddString( const char *pString, LTBOOL bFindFirst, uint32 l
 	}
 
 	// See if it'll fit in any of the arrays.
-	bFoundOne = FALSE;
+	bFoundOne = 0;
 	for( i=0; i < m_Strings; i++ )
 	{
 		pBank = &m_Strings[i];
 
 		if((len+pBank->m_StringSize+1) < pBank->m_AllocSize)
 		{
-			bFoundOne = TRUE;
+			bFoundOne = 1;
 			break;
 		}
 	}

@@ -336,7 +336,7 @@ MPOS CMultiLinkList<T>::FindIndex(uint32 index) const
 
     } while (pCur != m_pHead);
 
-    ASSERT(FALSE);    // Shouldn't ever get here.
+    ASSERT(0);    // Shouldn't ever get here.
     return NULL;
 }
 

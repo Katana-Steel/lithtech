@@ -134,7 +134,7 @@ public:
     virtual LTBOOL      GenAppend(T &toAppend)
     {
         Append(toAppend);
-        return TRUE;
+        return 1;
     }
 
     virtual void        GenRemoveAt(GenListPos pos)
@@ -167,7 +167,7 @@ public:
             Append(other.GenGetNext(pos));
         }
 
-        return TRUE;
+        return 1;
     }
 
     virtual LTBOOL      GenFindElement(const T &toFind, GenListPos &thePos) const
@@ -420,7 +420,7 @@ GPOS CGLinkedList<T>::FindIndex(uint32 index) const
 
     } while (pCur != (T)m_pHead);
 
-    ASSERT(FALSE);    // Shouldn't ever get here.
+    ASSERT(0);    // Shouldn't ever get here.
     return NULL;
 }
 

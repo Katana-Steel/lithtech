@@ -93,14 +93,14 @@ LTBOOL LAllocSimpleBlock::Init(LAlloc *pDelegate, uint32 blockSize)
 	{
 		m_pBlock = (uint8*)pDelegate->Alloc(blockSize);
 		if(!m_pBlock)
-			return FALSE;
+			return 0;
 	}
 
 	m_pDelegate = pDelegate;
 	m_BlockSize = blockSize;
 	m_CurBlockPos = 0;
 
-	return TRUE;
+	return 1;
 }
 
 

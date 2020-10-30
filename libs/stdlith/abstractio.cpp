@@ -16,7 +16,7 @@
 
 CAbstractIO::CAbstractIO()
 {
-	m_bExceptionsEnabled = TRUE;
+	m_bExceptionsEnabled = 1;
 }
 
 
@@ -42,7 +42,7 @@ LTBOOL CAbstractIO::WriteString(const char *pStr )
 	uint16	len = (uint16)strlen(pStr);
 	
 	if( !Write(&len, sizeof(len)) )
-		return FALSE;
+		return 0;
 
 	return Write( pStr, len );
 }
@@ -53,16 +53,16 @@ LTBOOL CAbstractIO::ReadString( char *pStr, uint32 maxLen )
 	uint16		len;
 
 	if( !Read(&len, sizeof(len)) )
-		return FALSE;
+		return 0;
 
 	if( (uint16)(len+1) > maxLen )
-		return FALSE;
+		return 0;
 
 	if( !Read(pStr, len) )
-		return FALSE;
+		return 0;
 	
 	pStr[len] = 0;
-	return TRUE;
+	return 1;
 }
 
 LTBOOL CAbstractIO::ReadTextString(char *pStr, uint32 maxLen)
@@ -83,14 +83,14 @@ LTBOOL CAbstractIO::ReadTextString(char *pStr, uint32 maxLen)
 			{
 				pStr[i - 1] = 0;
 				
-				return TRUE;
+				return 1;
 			}
 		}
 			
 		i ++;
 	}
 
-	return TRUE;
+	return 1;
 }
 
 

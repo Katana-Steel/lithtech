@@ -31,7 +31,7 @@ public:
 
     // Member functions
     LTBOOL Open(const char *pFilename, const char *pAccess) {
-        return TRUE;
+        return 1;
     }
 
     void Close() { }

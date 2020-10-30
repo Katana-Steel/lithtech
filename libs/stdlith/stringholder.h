@@ -52,9 +52,9 @@ public:
     void SetAllocSize(unsigned short size);
     
     // Adds the string in, and grows the internal array if necessary.
-    // If bFindFirst=TRUE, it'll search the current array and 
+    // If bFindFirst=1, it'll search the current array and
     // if the string's already there, return a pointer to it.
-    char *AddString(const char *pString, LTBOOL bFindFirst=TRUE);
+    char *AddString(const char *pString, LTBOOL bFindFirst=1);
 
     // Same as above, but here it'll use len and ignore the
     // contents of the string.

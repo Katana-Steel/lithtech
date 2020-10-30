@@ -39,7 +39,7 @@ inline LTBOOL CMoRect::Init(int x1, int y1, int x2, int y2) {
     bottom = y2;
 
     NormalizeRect();
-    return TRUE;
+    return 1;
 }
 
 
