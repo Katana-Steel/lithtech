@@ -83,7 +83,7 @@ void DirtyRectSwap()
 
 	RGNDATA	RegionData;
 	RegionData.rdh.dwSize			= sizeof(RegionData.rdh);
-	RegionData.rdh.iType			= RDH_RECTANGLES;
+	RegionData.rdh.iType			= 1; //RDH_RECTANGLES
 	RegionData.rdh.nCount			= g_invalidRectCount;
 	RegionData.rdh.nRgnSize			= g_invalidRectCount * sizeof(RECT);
 	RegionData.rdh.rcBound.top		= 0;								RegionData.rdh.rcBound.left		= 0;
