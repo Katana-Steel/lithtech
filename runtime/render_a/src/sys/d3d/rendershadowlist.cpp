@@ -8,7 +8,7 @@
 #include "d3dmeshrendobj_vertanim.h"
 #include "modelshadowshader.h"
 #include "rendererframestats.h"
-#include "..\shadows\d3dshadowtexture.h"
+#include "../shadows/d3dshadowtexture.h"
 #include "ltpixelshadermgr.h"
 #include <algorithm>
 
@@ -479,17 +479,17 @@ static void RenderModelShadow( ModelInstance* pInstance, const LTVector& vModelP
 	float fDistLightToModel = (vLightPos - vModelPos).Mag();
 
 	// Set the view matrix from the point of view of the light source...
-	D3DXMATRIX  MyViewMatrix;
+	D3DMATRIX  MyViewMatrix;
 
-	D3DXVECTOR3 vEye(vLightPos.x, vLightPos.y, vLightPos.z);
-	D3DXVECTOR3 vLookAt(vLightPos.x + vLightDir.x, vLightPos.y + vLightDir.y, vLightPos.z + vLightDir.z);
-	D3DXVECTOR3 vUp(vLightUp.x, vLightUp.y, vLightUp.z);
+	D3DVECTOR vEye = { vLightPos.x, vLightPos.y, vLightPos.z };
+	D3DVECTOR vLookAt = { vLightPos.x + vLightDir.x, vLightPos.y + vLightDir.y, vLightPos.z + vLightDir.z };
+	D3DVECTOR vUp = { vLightUp.x, vLightUp.y, vLightUp.z };
 
-	D3DXMatrixLookAtLH(&MyViewMatrix,&vEye,&vLookAt,&vUp);
+	D3DMatrixLookAtLH(&MyViewMatrix, &vEye, &vLookAt, &vUp);
 	g_RenderStateMgr.SetTransform(D3DTS_VIEW,&MyViewMatrix);
 
 	//calculate the projection matrix for rendering this model
-	D3DXMATRIX  MyProjMatrix;
+	D3DMATRIX  MyProjMatrix;
 	float fNearZ			= 1.0f;
 	float fFarZ				= 20000.0f;
 
@@ -499,11 +499,11 @@ static void RenderModelShadow( ModelInstance* pInstance, const LTVector& vModelP
 		float wAtNearZ			= fNearZ * (fProjSizeX / fDistFrmProjPlane);
 		float hAtNearZ			= fNearZ * (fProjSizeY / fDistFrmProjPlane);
 
-		D3DXMatrixPerspectiveLH(&MyProjMatrix,wAtNearZ,hAtNearZ,fNearZ,fFarZ);
+		D3DMatrixPerspectiveLH(&MyProjMatrix,wAtNearZ,hAtNearZ,fNearZ,fFarZ);
 	}
 	else
 	{
-		D3DXMatrixOrthoLH(&MyProjMatrix,fProjSizeX,fProjSizeY,fNearZ,fFarZ);
+		D3DMatrixOrthoLH(&MyProjMatrix,fProjSizeX,fProjSizeY,fNearZ,fFarZ);
 	}
 	//install the matrix
 	g_RenderStateMgr.SetTransform(D3DTS_PROJECTION,&MyProjMatrix);

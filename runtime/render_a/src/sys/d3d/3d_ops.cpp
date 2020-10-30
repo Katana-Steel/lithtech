@@ -202,6 +202,25 @@ void D3DVec3Transform(LTVector* pOut, LTVector* pV, D3DMATRIX* pM)
 	pOut->z = pV->x * pM->_13 + pV->y * pM->_23 + pV->z * pM->_33 + pM->_43;
 }
 
+D3DMATRIX* D3DMatrixPerspectiveLH(D3DMATRIX* pOut, float w, float h, float zn, float zf)
+{
+	pOut->_11 = 2.0f * (zn / w); pOut->_12 = 0.0f; pOut->_13 = 0.0f; pOut->_14 = 0.0f;
+	pOut->_21 = 0.0f; pOut->_22 = 2.0f * (zn / h); pOut->_23 = 0.0f; pOut->_24 = 0.0f;
+	pOut->_31 = 0.0f; pOut->_32 = 0.0f; pOut->_33 = zf / (zf - zn); pOut->_34 = 1.0f;
+	pOut->_41 = 0.0f; pOut->_42 = 0.0f; pOut->_43 = zn * zf / (zn - zf); pOut->_44 = 0.0f;
+	return pOut;
+}
+
+D3DMATRIX* D3DMatrixOrthoLH(D3DMATRIX* pOut, float w, float h, float zn, float zf)
+{
+	pOut->_11 = 2.0f / w; pOut->_12 = 0.0f; pOut->_13 = 0.0f; pOut->_14 = 0.0f;
+	pOut->_21 = 0.0f; pOut->_22 = 2.0f / h; pOut->_23 = 0.0f; pOut->_24 = 0.0f;
+	pOut->_31 = 0.0f; pOut->_32 = 0.0f; pOut->_33 = 1.0f / (zf - zn); pOut->_34 = 0.0f;
+	pOut->_41 = 0.0f; pOut->_42 = 0.0f; pOut->_43 = zn / (zn - zf); pOut->_44 = 1.0f;
+	return pOut;
+
+}
+
 void D3DMatrixIdentity(D3DMATRIX* out)
 {
 	out->_11 = 1.0f; out->_12 = 0.0f; out->_13 = 0.0f; out->_14 = 0.0f;
@@ -243,4 +262,27 @@ D3DMATRIX* D3DMatrixTranspose(D3DMATRIX* out, D3DMATRIX* in)
 	mat.Transpose();
 	*in = D3DMatrixFromLTMatrix(mat);
 	return in;
+}
+
+D3DMATRIX* D3DMatrixLookAtLH(D3DMATRIX* pOut, D3DVECTOR* pEye, D3DVECTOR* pAt, D3DVECTOR* pUp)
+{
+	LTVector eye, at, up, xaxis, yaxis, zaxis;
+	eye.Init(pEye->x, pEye->y, pEye->z);
+	at.Init(pAt->x, pAt->y, pAt->z);
+	up.Init(pUp->x, pUp->y, pUp->z);
+
+	zaxis = at - eye;
+	zaxis.Norm();
+
+	xaxis = up.Cross(zaxis);
+	xaxis.Norm();
+
+	yaxis = zaxis.Cross(xaxis);
+
+	pOut->_11 = -xaxis.x; pOut->_12 = yaxis.x; pOut->_13 = zaxis.x; pOut->_14 = 0.0f;
+	pOut->_21 = -xaxis.y; pOut->_22 = yaxis.y; pOut->_23 = zaxis.y; pOut->_24 = 0.0f;
+	pOut->_31 = -xaxis.z; pOut->_32 = yaxis.z; pOut->_33 = zaxis.z; pOut->_34 = 0.0f;
+	pOut->_41 = xaxis.Dot(eye); pOut->_42 = 0.0f  -yaxis.Dot(eye); pOut->_43 = 0.0f -zaxis.Dot(eye); pOut->_44 = 1.0f;
+
+	return pOut;
 }

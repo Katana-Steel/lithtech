@@ -127,6 +127,12 @@ D3DMATRIX* D3DMatrixPerspectiveFovLH(D3DMATRIX* out, float fovy, float aspect, f
 
 void D3DVec3Transform(LTVector* pOut, LTVector* pV, D3DMATRIX* pM);
 
+//replacement for D3DXMatrixPerspectiveLH
+D3DMATRIX* D3DMatrixPerspectiveLH(D3DMATRIX* pOut, float w, float h, float zn, float zf);
+
+//replacement for D3DXMatrixOrthoLH
+D3DMATRIX* D3DMatrixOrthoLH(D3DMATRIX* pOut, float w, float h, float zn, float zf);
+
 //replacement for D3DXMatrixIdentity
 void D3DMatrixIdentity(D3DMATRIX* out);
 
@@ -138,6 +144,9 @@ D3DMATRIX* D3DMatrixMultiply(D3DMATRIX* in, D3DMATRIX* m1, D3DMATRIX* m2);
 
 //replacement for D3DXMatrixTranspose
 D3DMATRIX* D3DMatrixTranspose(D3DMATRIX* out, D3DMATRIX* in);
+
+//replacement for D3DXMatrixLookAtLH
+D3DMATRIX* D3DMatrixLookAtLH(D3DMATRIX* pOut, D3DVECTOR* pEye, D3DVECTOR* pAt, D3DVECTOR* pUp);
 
 inline void d3d_SetupTransformation(const LTVector *pPos, float *pRotation, LTVector *pScale, LTMatrix *pMat)
 {
