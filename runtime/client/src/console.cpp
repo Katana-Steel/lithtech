@@ -57,13 +57,13 @@ void con_CycleCommandsForward()
 
 void con_Draw()
 {
-	if (dsi_IsConsoleEnabled () == TRUE)
+	if (dsi_IsConsoleEnabled () == 1)
 		GETCONSOLE()->Draw();
 }
 
 void con_DrawSmall(int nLines)
 {
-	if (dsi_IsConsoleEnabled () == TRUE)
+	if (dsi_IsConsoleEnabled () == 1)
 		GETCONSOLE()->DrawSmall( nLines );
 }
 
@@ -90,6 +90,6 @@ void con_WhitePrintf(const char *pMsg, ...)
 
 void con_OnKeyPress(uint32 key)
 {
-	if (dsi_IsConsoleEnabled () == TRUE)
+	if (dsi_IsConsoleEnabled () == 1)
 		GETCONSOLE()->OnKeyPress( key );
 }

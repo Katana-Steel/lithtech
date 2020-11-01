@@ -408,12 +408,12 @@ LTBOOL CString::ExpandBuffer(uint32 minLength)
 {
 	// Make sure it's not already big enough
 	if (GetBufferSize() >= minLength)
-		return TRUE;
+		return 1;
 
 	// Allocate the new buffer
 	CStringData *pNewBuffer = (CStringData *)(new char[sizeof(CStringData) + minLength]);
 	if (!pNewBuffer)
-		return FALSE;
+		return 0;
 
 	// Save the old information
 	char *pOldBuffer = GetBuffer();
@@ -437,13 +437,13 @@ LTBOOL CString::ExpandBuffer(uint32 minLength)
 	// Make sure the string is terminated
 	GetBuffer()[oldLength] = 0;
 
-	return TRUE;
+	return 1;
 }
 
 LTBOOL CString::ShrinkBuffer(uint32 maxLength)
 {
 	if (maxLength >= GetBufferSize())
-		return TRUE;
+		return 1;
 
 	// Get the old values
 	char *pOldBuffer = GetBuffer();
@@ -454,7 +454,7 @@ LTBOOL CString::ShrinkBuffer(uint32 maxLength)
 	{
 		CStringData *pNewBuffer = (CStringData *)(new char[sizeof(CStringData) + maxLength]);
 		if (!pNewBuffer)
-			return FALSE;
+			return 0;
 
 		// Set up the new data structure
 		pNewBuffer->m_BufferSize = maxLength;
@@ -478,7 +478,7 @@ LTBOOL CString::ShrinkBuffer(uint32 maxLength)
 		delete [] pOldBuffer;
 	}
 
-	return TRUE;
+	return 1;
 }
 
 char *CString::GetBuffer(uint32 minLength)

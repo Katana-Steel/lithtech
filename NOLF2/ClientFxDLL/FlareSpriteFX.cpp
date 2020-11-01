@@ -142,7 +142,7 @@ bool CFlareSpriteProps::ParseProperties(FX_PROP* pProps, uint32 nNumProps)
 		m_fBlindMaxScale = m_fMaxScale;
 
 	//force rotation on this sprite
-	m_bRotate = TRUE;
+	m_bRotate = 1;
 
 	//the parent sprite should NEVER be doing a ray cast though since we already
 	//will be, so make sure that is false

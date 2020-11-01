@@ -406,10 +406,10 @@ public:
 
 private:
 	
-	LTRESULT	Get3DProviderLists( CProvider *&p3DProviderList, bool bVerifyOpens = TRUE, uint32 uiMax3DVoices = 0 )
+	LTRESULT	Get3DProviderLists( CProvider *&p3DProviderList, bool bVerifyOpens = 1, uint32 uiMax3DVoices = 0 )
 	;
 
-	CProvider *	EnumerateAllProviders( bool bVefifyOpens = TRUE )
+	CProvider *	EnumerateAllProviders( bool bVefifyOpens = 1 )
 	;
 
 	void		ReleaseProviderList( CProvider *pProviderList )

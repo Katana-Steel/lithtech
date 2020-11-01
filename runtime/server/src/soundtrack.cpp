@@ -38,7 +38,7 @@ LTBOOL CSoundTrack::Init(PlaySoundInfo *pPlaySoundInfo, float fStartTime,
     m_nClientRefs = 0;
     m_pFile = pFile;
 
- 	if (pSoundData == NULL) m_bTrackTime = FALSE;
+	if (pSoundData == NULL) m_bTrackTime = 0;
  	else m_bTrackTime = bTrackTime;
 
     // Copy the playinfo information...

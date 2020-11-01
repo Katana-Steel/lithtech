@@ -33,7 +33,7 @@ class CSoundTrack
 {
 	public:
 
-		LTBOOL			Init( PlaySoundInfo *pPlaySoundInfo, float fStartTime, UsedFile *pFile, CSoundData *pSoundData = LTNULL, bool bTrackTime = TRUE );
+		LTBOOL			Init( PlaySoundInfo *pPlaySoundInfo, float fStartTime, UsedFile *pFile, CSoundData *pSoundData = LTNULL, bool bTrackTime = 1 );
 		void			Term( );
 
 		void			Update( float fDeltaTime );

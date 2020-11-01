@@ -54,7 +54,7 @@ public:
 			else
 			{
 				memset(pData, 0, size);
-				m_bError = TRUE;
+				m_bError = 1;
 				return LT_ERROR;
 			}
 		}
@@ -80,7 +80,7 @@ public:
 			}
 			else
 			{
-				m_bError = TRUE;
+				m_bError = 1;
 				return LT_ERROR;
 			}
 		}
@@ -164,7 +164,7 @@ public:
 		if((m_Pos+dataLen) > m_Buffer.GetSize())
 		{
 			m_Pos = m_Buffer.GetSize();
-			m_bError = TRUE;
+			m_bError = 1;
 			memset(pData, 0, dataLen);
 			return LT_ERROR;
 		}

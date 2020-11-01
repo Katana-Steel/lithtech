@@ -367,7 +367,7 @@ void dsi_SetConsoleUp(LTBOOL bUp)
 
 LTBOOL dsi_IsClientActive()
 {
-	return TRUE;
+	return 1;
 }
 
 void dsi_OnClientShutdown(const char *pMsg )

@@ -55,7 +55,7 @@ void trk_Update(LTAnimTracker *pTracker, uint32 msDelta)
 {
 	if(pTracker->m_Flags & AT_PLAYING)
 	{
-        trk_ScanToKeyFrame(pTracker, (uint32)(msDelta * pTracker->m_RateModifier), TRUE);
+        trk_ScanToKeyFrame(pTracker, (uint32)(msDelta * pTracker->m_RateModifier), 1);
 	}
 }
 
@@ -110,7 +110,7 @@ void trk_SetCurTime(LTAnimTracker *pTracker, uint32 msTime, bool bTransition)
 	pTracker->m_TimeRef.m_Cur.m_iFrame = 0;
 	pTracker->m_CurKey = 0;
 
-	trk_ScanToKeyFrame(pTracker, msTime, FALSE);
+	trk_ScanToKeyFrame(pTracker, msTime, 0);
 }
 
 
@@ -119,7 +119,7 @@ bool trk_SetCurAnim(LTAnimTracker *pTracker, uint32 iAnim, bool bTransition)
 	if(!pTracker->AllowInvalid())
 	{
 		if(iAnim >= pTracker->GetModel()->NumAnims())
-			return FALSE;
+			return 0;
 	}
 
 	pTracker->m_TimeRef.m_Prev = pTracker->m_TimeRef.m_Cur;
@@ -141,7 +141,7 @@ bool trk_SetCurAnim(LTAnimTracker *pTracker, uint32 iAnim, bool bTransition)
 		pTracker->m_TimeRef.m_Prev = pTracker->m_TimeRef.m_Cur;
 	}
 	
-	return TRUE;
+	return 1;
 }
 
 

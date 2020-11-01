@@ -66,18 +66,18 @@ bool CompressLMData(uint8 *pData,
     
 	//first off, make sure that we have valid buffers
 	if ((pData == NULL) || (pOutBuffer == NULL)) {
-		assert(FALSE); return FALSE; }				//invalid buffers
+		assert(0); return 0; }				//invalid buffers
 
 	//make sure that the buffer will accomodate the lightmap page based
 	//upon the assumptions made above in the function spec
 	if ((width > LIGHTMAP_MAX_PIXELS_I) || (height > LIGHTMAP_MAX_PIXELS_I)) {
-		assert(FALSE); return FALSE; }				//invalid lightmap size
+		assert(0); return 0; }				//invalid lightmap size
 
 	//number of bytes in the input buffer
 	uint32 nBufferLen = width * height * 3;
 
 	//flag indicating if we are in a run
-	bool bInRun = FALSE;
+	bool bInRun = 0;
 
 	//the span, whether it be run, or raw data
 	uint32 nSpanLen = 0;
@@ -164,8 +164,8 @@ bool DecompressLMData(uint8 *pCompressed, uint32 dataLen, uint8 *pOut)
 	//sanity checks
 	if((pCompressed == NULL) || (pOut == NULL))
 	{
-		ASSERT(FALSE);
-		return FALSE;
+		ASSERT(0);
+		return 0;
 	}
 	
 	//the index into the input buffer
@@ -225,7 +225,7 @@ bool GetLMDataTexel(uint8 *pCompressed, uint32 nDataLen, uint32 nWidth, uint32 n
 	// Sanity checks
 	if((pCompressed == NULL) || (pOut == NULL))
 	{
-		ASSERT(FALSE);
+		ASSERT(0);
 		return false;
 	}
 
@@ -277,7 +277,7 @@ bool GetLMDataTexel(uint8 *pCompressed, uint32 nDataLen, uint32 nWidth, uint32 n
 	// If we didn't find the data offset we were looking for, it's past the end of the data
 	if (nOutputPos < nDataOfs)
 	{
-		ASSERT(FALSE);
+		ASSERT(0);
 		return false;
 	}
 

@@ -159,7 +159,7 @@ public:
     // This will terminate the thread.  bWait is currently ignored.
     // Note: this does NOT clear the incoming/outgoing queues, so it's a good idea
     // to read the contents of the outgoing queue after calling Terminate().
-    LTRESULT    Terminate(bool bWait=TRUE);
+    LTRESULT    Terminate(bool bWait=1);
 
     // Post a message to the thread.
     LTRESULT    PostMessage(LThreadMessage &msg) {return m_Incoming.PostMessage(msg);}

@@ -61,14 +61,14 @@ LTBOOL CRect::IntersectRect(const RECT *lpRect1, const RECT *lpRect2)
 		(lpRect2->top > lpRect1->bottom) ||
 		(lpRect1->left > lpRect2->right) ||
 		(lpRect2->left > lpRect1->right))
-		return FALSE;
+		return 0;
 
 	top = max(lpRect1->top, lpRect2->top);
 	left = max(lpRect1->left, lpRect2->left);
 	bottom = min(lpRect1->bottom, lpRect2->bottom);
 	right = min(lpRect1->right, lpRect2->right);
 
-	return TRUE;
+	return 1;
 }
 
 CPoint& CRect::TopLeft()

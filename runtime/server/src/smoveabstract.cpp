@@ -71,7 +71,7 @@ void SMoveAbstract::PutObjectInContainer(LTObject *pObj, LTObject *pContainer)
 
 void SMoveAbstract::BreakContainerLinks(LTObject *pObj)
 {
-    BreakInterLinks(pObj, LINKTYPE_CONTAINER, FALSE);
+    BreakInterLinks(pObj, LINKTYPE_CONTAINER, 0);
 }
 
 

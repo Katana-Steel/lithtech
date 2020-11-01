@@ -40,15 +40,15 @@ LTBOOL CHelpers::UpperStrcmp( const char *pInputString1, const char *pInputStrin
 	while(1)
 	{
 		if( g_UpperTable[pStr1[curPos]] != g_UpperTable[pStr2[curPos]] )
-			return FALSE;
+			return 0;
 
 		if( pStr1[curPos] == 0 )
-			return TRUE;
+			return 1;
 
 		++curPos;
 	}
 
-	return FALSE;
+	return 0;
 }
 
 
@@ -60,7 +60,7 @@ LTBOOL CHelpers::UpperStrcmp( const char *pInputString1, const char *pInputStrin
 		if( ::GetFullPathName(pInPath, outPathLen, pOutPath, &pFilePart) == 0 )
 			strcpy( pOutPath, pInPath );
 
-		return TRUE;
+		return 1;
 	}
 #endif
 
@@ -101,7 +101,7 @@ LTBOOL CHelpers::ExtractPathAndFileName( const char *pInputPath, char *pPathName
 		pFileName[len-lastDelimiter] = 0;
 	}
 
-	return TRUE;
+	return 1;
 }
 
 
@@ -127,7 +127,7 @@ LTBOOL CHelpers::ExtractFileNameAndExtension( const char *pInputFilename, char *
 	memcpy( pExtension, &pInputFilename[lastDot+1], len-lastDot );
 	pExtension[len-lastDot] = 0;
 
-	return TRUE;
+	return 1;
 }
 
 
@@ -151,7 +151,7 @@ LTBOOL CHelpers::ExtractNames( const char *pFullPath, char *pPathname, char *pFi
 	if( pExt )
 		strcpy( pExt, ext );
 	
-	return TRUE;
+	return 1;
 }
 
 
@@ -185,11 +185,11 @@ LTBOOL CHelpers::IsFileAbsolute(const char* pFilename)
 		//this means that it is absolute
 		if(pFilename[nCurrChar] == ':')
 		{
-			return TRUE;
+			return 1;
 		}
 	}
 
-	return FALSE;
+	return 0;
 }
 
 //takes a filename, and removes the extension from it (including the .)

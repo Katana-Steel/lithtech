@@ -121,11 +121,11 @@ LTRESULT CLTSoundMgrServer::PlaySound(PlaySoundInfo *pPlaySoundInfo, HLTSOUND &h
             if (!pSoundData) {
                 return LT_ERROR;
             }
- 			bTrackTime = TRUE;
+			bTrackTime = 1;
         }
         else
         {
-        	bTrackTime = FALSE;
+			bTrackTime = 0;
         }
 
         // Create the instance of the sound on the server...
