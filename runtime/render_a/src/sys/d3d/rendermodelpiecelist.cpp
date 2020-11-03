@@ -373,8 +373,8 @@ void CRenderModelPieceList::RenderPieceList(float fAlpha)
 	stable_sort(m_cPieceList.begin(), m_cPieceList.end());
 
 	//make sure some stuff is setup
-	StateSet ssLightEnable(D3DRS_LIGHTING, TRUE);
-	PD3DDEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, FALSE);
+	StateSet ssLightEnable(D3DRS_LIGHTING, 1);
+	PD3DDEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, 0);
 
 	//now that the list is sorted, we can run through and render
 
@@ -503,7 +503,7 @@ void CRenderModelPieceList::RenderPieceList(float fAlpha)
 				bool bPieceScaled = Piece.m_pInstance->IsScaled();
 				if(bPieceScaled != bPrevPieceScaled)
 				{
-					PD3DDEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, bPieceScaled ? TRUE : FALSE); 
+					PD3DDEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, bPieceScaled ? 1 : 0);
 					bPrevPieceScaled = bPieceScaled;
 
 					IncFrameStat(eFS_ModelRender_ScaleSets, 1);
@@ -654,7 +654,7 @@ void CRenderModelPieceList::RenderPieceList(float fAlpha)
 					bool bPieceScaled = Piece.m_pInstance->IsScaled();
 					if(bPieceScaled != bPrevPieceScaled)
 					{
-						PD3DDEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, bPieceScaled ? TRUE : FALSE); 
+						PD3DDEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, bPieceScaled ? 1 : 0);
 						bPrevPieceScaled = bPieceScaled;
 
 						IncFrameStat(eFS_ModelRender_ScaleSets, 1);

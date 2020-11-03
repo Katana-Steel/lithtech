@@ -270,7 +270,7 @@ void CD3DRigidMesh::BeginRender(D3DMATRIX& pD3DTransforms, CD3DRenderStyle* pRen
 	// We need software processing 
 	if (m_bSWVertProcessing)
 	{
-		PD3DDEVICE->SetSoftwareVertexProcessing(TRUE);
+		PD3DDEVICE->SetSoftwareVertexProcessing(1);
 	}
 
 
@@ -328,7 +328,7 @@ void CD3DRigidMesh::BeginRenderWithEffect(D3DMATRIX& pD3DTransforms, CD3DRenderS
 	// We need software processing 
 	if (m_bSWVertProcessing)
 	{
-		PD3DDEVICE->SetSoftwareVertexProcessing(TRUE);
+		PD3DDEVICE->SetSoftwareVertexProcessing(1);
 	}
 }
 
@@ -340,7 +340,7 @@ void CD3DRigidMesh::EndRender()
 		if ( (g_Device.GetDeviceCaps()->DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) )
 		{
 		
-			PD3DDEVICE->SetSoftwareVertexProcessing(FALSE);
+			PD3DDEVICE->SetSoftwareVertexProcessing(0);
 		}
 	}
 

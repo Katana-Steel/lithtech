@@ -392,11 +392,11 @@ void CRenderShader_Lightmap::DebugTri(
 	PD3DDEVICE->SetVertexShader(NULL);
 	PD3DDEVICE->SetFVF(D3DFVF_XYZRHW);
 
-	StateSet stateAlpha(D3DRS_ALPHABLENDENABLE, TRUE);
+	StateSet stateAlpha(D3DRS_ALPHABLENDENABLE, 1);
 	StateSet stateSrcBlend(D3DRS_SRCBLEND, D3DBLEND_INVDESTCOLOR);
 	StateSet stateDestBlend(D3DRS_DESTBLEND, D3DBLEND_ZERO);
 
-	StateSet stateLighting(D3DRS_LIGHTING, FALSE);
+	StateSet stateLighting(D3DRS_LIGHTING, 0);
 
 	d3d_DisableTexture(0);
 
@@ -447,7 +447,7 @@ bool CRenderShader_Lightmap_Texture::ValidateShader(const CRBSection &cSection)
 		return s_bValidateResult;
 
 	// Try out the states
-	StateSet alpha0(D3DRS_ALPHABLENDENABLE, TRUE);
+	StateSet alpha0(D3DRS_ALPHABLENDENABLE, 0);
 	StateSet alpha1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	StateSet alpha2(D3DRS_DESTBLEND, g_CV_Saturate ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
@@ -513,7 +513,7 @@ void CRenderShader_Lightmap_Texture::PreFlush()
 
 	// Set up our call
 	PD3DDEVICE->GetRenderState(D3DRS_ALPHABLENDENABLE, (DWORD*)&m_nFlushStateAlpha0);
-	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, 1);
 	PD3DDEVICE->GetRenderState(D3DRS_SRCBLEND, (DWORD*)&m_nFlushStateAlpha1);
 	PD3DDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	PD3DDEVICE->GetRenderState(D3DRS_DESTBLEND, (DWORD*)&m_nFlushStateAlpha2);
@@ -659,11 +659,11 @@ void CRenderShader_Lightmap_Texture::DebugTri(
 	PD3DDEVICE->SetVertexShader(NULL);
 	PD3DDEVICE->SetFVF(D3DFVF_XYZRHW);
 
-	StateSet stateAlpha(D3DRS_ALPHABLENDENABLE, TRUE);
+	StateSet stateAlpha(D3DRS_ALPHABLENDENABLE, 1);
 	StateSet stateSrcBlend(D3DRS_SRCBLEND, D3DBLEND_INVDESTCOLOR);
 	StateSet stateDestBlend(D3DRS_DESTBLEND, D3DBLEND_ZERO);
 
-	StateSet stateLighting(D3DRS_LIGHTING, FALSE);
+	StateSet stateLighting(D3DRS_LIGHTING, 0);
 
 	d3d_DisableTexture(0);
 
@@ -717,7 +717,7 @@ bool CRenderShader_Lightmap_Texture_Detail::ValidateShader(const CRBSection &cSe
 		return s_bValidateResult;
 
 	// Try out the states
-	StateSet alpha0(D3DRS_ALPHABLENDENABLE, TRUE);
+	StateSet alpha0(D3DRS_ALPHABLENDENABLE, 1);
 	StateSet alpha1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	StateSet alpha2(D3DRS_DESTBLEND, g_CV_Saturate ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
@@ -824,7 +824,7 @@ void CRenderShader_Lightmap_Texture_Detail::PreFlush()
 //	PD3DDEVICE->SetRenderState(D3DRS_DEPTHBIAS, F2DW(-1.0f));
 
 	PD3DDEVICE->GetRenderState(D3DRS_ALPHABLENDENABLE, (DWORD*)&m_nFlushStateAlpha0);
-	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, 1);
 	PD3DDEVICE->GetRenderState(D3DRS_SRCBLEND, (DWORD*)&m_nFlushStateAlpha1);
 	PD3DDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	PD3DDEVICE->GetRenderState(D3DRS_DESTBLEND, (DWORD*)&m_nFlushStateAlpha2);
@@ -952,7 +952,7 @@ bool CRenderShader_Lightmap_Texture_EnvMap::ValidateShader(const CRBSection &cSe
 		return s_bValidateResult;
 
 	// Try out the states
-	StateSet alpha0(D3DRS_ALPHABLENDENABLE, TRUE);
+	StateSet alpha0(D3DRS_ALPHABLENDENABLE, 1);
 	StateSet alpha1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	StateSet alpha2(D3DRS_DESTBLEND, g_CV_Saturate ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
@@ -1028,7 +1028,7 @@ void CRenderShader_Lightmap_Texture_EnvMap::PreFlush()
 //	PD3DDEVICE->SetRenderState(D3DRS_DEPTHBIAS, F2DW(-1.0f));
 
 	PD3DDEVICE->GetRenderState(D3DRS_ALPHABLENDENABLE, (DWORD*)&m_nFlushStateAlpha0);
-	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, 1);
 	PD3DDEVICE->GetRenderState(D3DRS_SRCBLEND, (DWORD*)&m_nFlushStateAlpha1);
 	PD3DDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	PD3DDEVICE->GetRenderState(D3DRS_DESTBLEND, (DWORD*)&m_nFlushStateAlpha2);
@@ -1184,7 +1184,7 @@ bool CRenderShader_Lightmap_Texture_EnvBumpMap::ValidateShader(const CRBSection 
 	DWORD nEnvBlendOp = g_CV_EnvMapAdd.m_Val ? D3DTOP_ADDSIGNED : D3DTOP_MODULATE;
 
 	// Try out the states
-	StateSet alpha0(D3DRS_ALPHABLENDENABLE, TRUE);
+	StateSet alpha0(D3DRS_ALPHABLENDENABLE, 1);
 	StateSet alpha1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	StateSet alpha2(D3DRS_DESTBLEND, g_CV_Saturate ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
@@ -1311,7 +1311,7 @@ void CRenderShader_Lightmap_Texture_EnvBumpMap::PreFlush()
 //	PD3DDEVICE->SetRenderState(D3DRS_DEPTHBIAS, F2DW(-1.0f));
 
 	PD3DDEVICE->GetRenderState(D3DRS_ALPHABLENDENABLE, (DWORD*)&m_nFlushStateAlpha0);
-	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, 1);
 	PD3DDEVICE->GetRenderState(D3DRS_SRCBLEND, (DWORD*)&m_nFlushStateAlpha1);
 	PD3DDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	PD3DDEVICE->GetRenderState(D3DRS_DESTBLEND, (DWORD*)&m_nFlushStateAlpha2);
@@ -1481,7 +1481,7 @@ bool CRenderShader_Lightmap_Texture_DualTexture::ValidateShader(const CRBSection
 		return s_bValidateResult;
 
 	// Try out the states
-	StateSet alpha0(D3DRS_ALPHABLENDENABLE, TRUE);
+	StateSet alpha0(D3DRS_ALPHABLENDENABLE, 1);
 	StateSet alpha1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	StateSet alpha2(D3DRS_DESTBLEND, g_CV_Saturate ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
@@ -1563,7 +1563,7 @@ void CRenderShader_Lightmap_Texture_DualTexture::PreFlush()
 //	PD3DDEVICE->SetRenderState(D3DRS_DEPTHBIAS, F2DW(-1.0f));
 
 	PD3DDEVICE->GetRenderState(D3DRS_ALPHABLENDENABLE, (DWORD*)&m_nFlushStateAlpha0);
-	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, 1);
 	PD3DDEVICE->GetRenderState(D3DRS_SRCBLEND, (DWORD*)&m_nFlushStateAlpha1);
 	PD3DDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	PD3DDEVICE->GetRenderState(D3DRS_DESTBLEND, (DWORD*)&m_nFlushStateAlpha2);
@@ -1696,7 +1696,7 @@ bool CRenderShader_Lightmap_Texture_DOT3BumpMap::ValidateShader(const CRBSection
 	d3d_SetTexture(cSection.m_pTexture[0]->GetLinkedTexture(eLinkedTex_BumpMap), knBumpStage, eFS_WorldBumpMapTexMemory);
 
 	// Try out the states
-	StateSet alpha0(D3DRS_ALPHABLENDENABLE, TRUE);
+	StateSet alpha0(D3DRS_ALPHABLENDENABLE, 1);
 	StateSet alpha1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	StateSet alpha2(D3DRS_DESTBLEND, g_CV_Saturate ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
@@ -1787,7 +1787,7 @@ void CRenderShader_Lightmap_Texture_DOT3BumpMap::PreFlush()
 
 	// Set up our call
 	PD3DDEVICE->GetRenderState(D3DRS_ALPHABLENDENABLE, (DWORD*)&m_nFlushStateAlpha0);
-	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, 1);
 	PD3DDEVICE->GetRenderState(D3DRS_SRCBLEND, (DWORD*)&m_nFlushStateAlpha1);
 	PD3DDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	PD3DDEVICE->GetRenderState(D3DRS_DESTBLEND, (DWORD*)&m_nFlushStateAlpha2);
@@ -1979,7 +1979,7 @@ bool CRenderShader_Lightmap_Texture_DOT3EnvBumpMap::ValidateShader(const CRBSect
 	DWORD nEnvBlendOp = g_CV_EnvMapAdd.m_Val ? D3DTOP_ADDSIGNED : D3DTOP_MODULATE;
 
 	// Try out the states
-	StateSet alpha0(D3DRS_ALPHABLENDENABLE, TRUE);
+	StateSet alpha0(D3DRS_ALPHABLENDENABLE, 1);
 	StateSet alpha1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	StateSet alpha2(D3DRS_DESTBLEND, g_CV_Saturate ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
@@ -2119,7 +2119,7 @@ void CRenderShader_Lightmap_Texture_DOT3EnvBumpMap::PreFlush()
 
 
 	PD3DDEVICE->GetRenderState(D3DRS_ALPHABLENDENABLE, (DWORD*)&m_nFlushStateAlpha0);
-	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, 1);
 	PD3DDEVICE->GetRenderState(D3DRS_SRCBLEND, (DWORD*)&m_nFlushStateAlpha1);
 	PD3DDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	PD3DDEVICE->GetRenderState(D3DRS_DESTBLEND, (DWORD*)&m_nFlushStateAlpha2);

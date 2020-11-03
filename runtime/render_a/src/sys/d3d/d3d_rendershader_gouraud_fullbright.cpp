@@ -89,17 +89,17 @@ void CRenderShader_Gouraud_Texture_Fullbright::DrawNormal(const DrawState &cStat
 		PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, &nFogEnabled);
 
 		{
-			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, FALSE);
+			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, 0);
 
 			DrawLights(cState, nRenderBlock);
 
 			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, nFogEnabled);
 			StateSet ssFogColor(D3DRS_FOGCOLOR, 0);
 
-			StateSet ssZWrite(D3DRS_ZWRITEENABLE, FALSE);
+			StateSet ssZWrite(D3DRS_ZWRITEENABLE, 0);
 			StateSet ssZFUNC(D3DRS_ZFUNC, D3DCMP_EQUAL);
 
-			StateSet blend0(D3DRS_ALPHABLENDENABLE, TRUE);
+			StateSet blend0(D3DRS_ALPHABLENDENABLE, 1);
 			StateSet blend1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 			StateSet blend2(D3DRS_DESTBLEND, (g_CV_Saturate) ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
@@ -334,14 +334,14 @@ void CRenderShader_Gouraud_Detail_Fullbright::DrawNormal(const DrawState &cState
 		PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, &nFogEnabled);
 
 		{
-			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, FALSE);
+			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, 0);
 
 			DrawLights(cState, nRenderBlock);
 
 			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, nFogEnabled);
 			StateSet ssFogColor(D3DRS_FOGCOLOR, 0);
 
-			StateSet blend0(D3DRS_ALPHABLENDENABLE, TRUE);
+			StateSet blend0(D3DRS_ALPHABLENDENABLE, 1);
 			StateSet blend1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 			StateSet blend2(D3DRS_DESTBLEND, (g_CV_Saturate) ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
@@ -608,18 +608,18 @@ void CRenderShader_Gouraud_EnvMap_Fullbright::DrawNormal(const DrawState &cState
 		PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, &nFogEnabled);
 
 		{
-			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, FALSE);
+			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, 0);
 
 			DrawLights(cState, nRenderBlock);
 
 			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, nFogEnabled);
 			StateSet ssFogColor(D3DRS_FOGCOLOR, 0);
 
-			StateSet blend0(D3DRS_ALPHABLENDENABLE, TRUE);
+			StateSet blend0(D3DRS_ALPHABLENDENABLE, 1);
 			StateSet blend1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 			StateSet blend2(D3DRS_DESTBLEND, (g_CV_Saturate) ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
-			StateSet ssZWrite(D3DRS_ZWRITEENABLE, FALSE);
+			StateSet ssZWrite(D3DRS_ZWRITEENABLE, 0);
 			StateSet ssZFUNC(D3DRS_ZFUNC, D3DCMP_EQUAL);
 
 			PD3DDEVICE->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);

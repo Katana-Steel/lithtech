@@ -249,17 +249,17 @@ void CRenderShader_Gouraud_Texture::DrawNormal(const DrawState &cState, uint32 n
 		PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, &nFogEnabled);
 
 		{
-			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, FALSE);
+			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, 0);
 
 			DrawLights(cState, nRenderBlock);
 
 			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, nFogEnabled);
 			StateSet ssFogColor(D3DRS_FOGCOLOR, 0);
 
-			StateSet ssZWrite(D3DRS_ZWRITEENABLE, FALSE);
+			StateSet ssZWrite(D3DRS_ZWRITEENABLE, 0);
 			StateSet ssZFUNC(D3DRS_ZFUNC, D3DCMP_EQUAL);
 
-			StateSet blend0(D3DRS_ALPHABLENDENABLE, TRUE);
+			StateSet blend0(D3DRS_ALPHABLENDENABLE, 1);
 			StateSet blend1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 			StateSet blend2(D3DRS_DESTBLEND, (g_CV_Saturate) ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
@@ -362,7 +362,7 @@ void CRenderShader_Gouraud_Texture::PostFlushBlock(CInternalSection &cSection,
 	// Fullbright it
 	if (cSection.m_bFullbright)
 	{
-		StateSet ssAlpha(D3DRS_ALPHABLENDENABLE, TRUE);
+		StateSet ssAlpha(D3DRS_ALPHABLENDENABLE, 1);
 		StateSet ssSrcBlend(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
  		StateSet ssDestBlend(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
@@ -585,17 +585,17 @@ void CRenderShader_Gouraud_Detail::DrawNormal(const DrawState &cState, uint32 nR
 		PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, &nFogEnabled);
 
 		{
-			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, FALSE);
+			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, 0);
 
 			DrawLights(cState, nRenderBlock);
 
 			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, nFogEnabled);
 			StateSet ssFogColor(D3DRS_FOGCOLOR, 0);
 
-			StateSet ssZWrite(D3DRS_ZWRITEENABLE, FALSE);
+			StateSet ssZWrite(D3DRS_ZWRITEENABLE, 0);
 			StateSet ssZFUNC(D3DRS_ZFUNC, D3DCMP_EQUAL);
 
-			StateSet blend0(D3DRS_ALPHABLENDENABLE, TRUE);
+			StateSet blend0(D3DRS_ALPHABLENDENABLE, 1);
 			StateSet blend1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 			StateSet blend2(D3DRS_DESTBLEND, (g_CV_Saturate) ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
@@ -719,7 +719,7 @@ void CRenderShader_Gouraud_Detail::PostFlushBlock(CInternalSection &cSection,
 	// Fullbright it
 	if (cSection.m_bFullbright)
 	{
-		StateSet ssAlpha(D3DRS_ALPHABLENDENABLE, TRUE);
+		StateSet ssAlpha(D3DRS_ALPHABLENDENABLE, 1);
 		StateSet ssSrcBlend(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		StateSet ssDestBlend(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
@@ -966,18 +966,18 @@ void CRenderShader_Gouraud_EnvMap::DrawNormal(const DrawState &cState, uint32 nR
 		PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, &nFogEnabled);
 
 		{
-			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, FALSE);
+			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, 0);
 
 			DrawLights(cState, nRenderBlock);
 
 			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, nFogEnabled);
 			StateSet ssFogColor(D3DRS_FOGCOLOR, 0);
 
-			StateSet blend0(D3DRS_ALPHABLENDENABLE, TRUE);
+			StateSet blend0(D3DRS_ALPHABLENDENABLE, 1);
 			StateSet blend1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 			StateSet blend2(D3DRS_DESTBLEND, (g_CV_Saturate) ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
-			StateSet ssZWrite(D3DRS_ZWRITEENABLE, FALSE);
+			StateSet ssZWrite(D3DRS_ZWRITEENABLE, 0);
 			StateSet ssZFUNC(D3DRS_ZFUNC, D3DCMP_EQUAL);
 
 			PD3DDEVICE->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
@@ -1126,7 +1126,7 @@ void CRenderShader_Gouraud_EnvMap::PostFlushBlock(CInternalSection &cSection,
 	// Fullbright it
 	if (cSection.m_bFullbright)
 	{
-		StateSet ssAlpha(D3DRS_ALPHABLENDENABLE, TRUE);
+		StateSet ssAlpha(D3DRS_ALPHABLENDENABLE, 1);
 		StateSet ssSrcBlend(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
  		StateSet ssDestBlend(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
@@ -1361,18 +1361,18 @@ void CRenderShader_Gouraud_EnvBumpMap::DrawNormal(const DrawState &cState, uint3
 		PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, &nFogEnabled);
 
 		{
-			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, FALSE);
+			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, 0);
 
 			DrawLights(cState, nRenderBlock);
 
 			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, nFogEnabled);
 			StateSet ssFogColor(D3DRS_FOGCOLOR, 0);
 
-			StateSet blend0(D3DRS_ALPHABLENDENABLE, TRUE);
+			StateSet blend0(D3DRS_ALPHABLENDENABLE, 1);
 			StateSet blend1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 			StateSet blend2(D3DRS_DESTBLEND, (g_CV_Saturate) ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
-			StateSet ssZWrite(D3DRS_ZWRITEENABLE, FALSE);
+			StateSet ssZWrite(D3DRS_ZWRITEENABLE, 0);
 			StateSet ssZFUNC(D3DRS_ZFUNC, D3DCMP_EQUAL);
 
 			// Stage 0: the bump map
@@ -1557,7 +1557,7 @@ void CRenderShader_Gouraud_EnvBumpMap::PostFlushBlock(CInternalSection &cSection
 	// Fullbright it
 	if (cSection.m_bFullbright)
 	{
-		StateSet ssAlpha(D3DRS_ALPHABLENDENABLE, TRUE);
+		StateSet ssAlpha(D3DRS_ALPHABLENDENABLE, 1);
 		StateSet ssSrcBlend(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
  		StateSet ssDestBlend(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
@@ -1767,17 +1767,17 @@ void CRenderShader_Gouraud_DualTexture::DrawNormal(const DrawState &cState, uint
 		m_nCurAlphaTest = m_nOldAlphaTest;
 
 		{
-			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, FALSE);
+			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, 0);
 
 			DrawLights(cState, nRenderBlock);
 
 			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, nFogEnabled);
 			StateSet ssFogColor(D3DRS_FOGCOLOR, 0);
 
-			StateSet ssZWrite(D3DRS_ZWRITEENABLE, FALSE);
+			StateSet ssZWrite(D3DRS_ZWRITEENABLE, 0);
 			StateSet ssZFUNC(D3DRS_ZFUNC, D3DCMP_EQUAL);
 
-			StateSet blend0(D3DRS_ALPHABLENDENABLE, TRUE);
+			StateSet blend0(D3DRS_ALPHABLENDENABLE, 1);
 			StateSet blend1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 			StateSet blend2(D3DRS_DESTBLEND, (g_CV_Saturate) ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
@@ -2097,18 +2097,18 @@ void CRenderShader_Gouraud_DOT3BumpMap::DrawNormal(const DrawState &cState, uint
 		DWORD nFogEnabled;
 		PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, &nFogEnabled);
 		{
-			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, FALSE);
+			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, 0);
 
 			DrawLights(cState, nRenderBlock);
 
 			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, nFogEnabled);
 			StateSet ssFogColor(D3DRS_FOGCOLOR, 0);
 
-			StateSet blend0(D3DRS_ALPHABLENDENABLE, TRUE);
+			StateSet blend0(D3DRS_ALPHABLENDENABLE, 1);
 			StateSet blend1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 			StateSet blend2(D3DRS_DESTBLEND, (g_CV_Saturate) ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
-			StateSet ssZWrite(D3DRS_ZWRITEENABLE, FALSE);
+			StateSet ssZWrite(D3DRS_ZWRITEENABLE, 0);
 			StateSet ssZFUNC(D3DRS_ZFUNC, D3DCMP_EQUAL);
 
 			// save the tfactor before setting it
@@ -2284,7 +2284,7 @@ void CRenderShader_Gouraud_DOT3BumpMap::PostFlushBlock(CInternalSection &cSectio
 	// Fullbright it
 	if (cSection.m_bFullbright)
 	{
-		StateSet ssAlpha(D3DRS_ALPHABLENDENABLE, TRUE);
+		StateSet ssAlpha(D3DRS_ALPHABLENDENABLE, 1);
 		StateSet ssSrcBlend(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
  		StateSet ssDestBlend(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
@@ -2542,18 +2542,18 @@ void CRenderShader_Gouraud_DOT3EnvBumpMap::DrawNormal(const DrawState &cState, u
 		PD3DDEVICE->GetRenderState(D3DRS_FOGENABLE, &nFogEnabled);
 
 		{
-			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, FALSE);
+			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, 0);
 
 			DrawLights(cState, nRenderBlock);
 
 			PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, nFogEnabled);
 			StateSet ssFogColor(D3DRS_FOGCOLOR, 0);
 
-			StateSet blend0(D3DRS_ALPHABLENDENABLE, TRUE);
+			StateSet blend0(D3DRS_ALPHABLENDENABLE, 1);
 			StateSet blend1(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 			StateSet blend2(D3DRS_DESTBLEND, (g_CV_Saturate) ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
-			StateSet ssZWrite(D3DRS_ZWRITEENABLE, FALSE);
+			StateSet ssZWrite(D3DRS_ZWRITEENABLE, 0);
 			StateSet ssZFUNC(D3DRS_ZFUNC, D3DCMP_EQUAL);
 
 
@@ -2773,7 +2773,7 @@ void CRenderShader_Gouraud_DOT3EnvBumpMap::PostFlushBlock(CInternalSection &cSec
 	// Fullbright it
 	if (cSection.m_bFullbright)
 	{
-		StateSet ssAlpha(D3DRS_ALPHABLENDENABLE, TRUE);
+		StateSet ssAlpha(D3DRS_ALPHABLENDENABLE, 1);
 		StateSet ssSrcBlend(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
  		StateSet ssDestBlend(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
@@ -3141,7 +3141,7 @@ void CRenderShader_Gouraud_Effect::PostFlushBlock(CInternalSection &cSection,
 	// Fullbright it
 	if (cSection.m_bFullbright)
 	{
-		StateSet ssAlpha(D3DRS_ALPHABLENDENABLE, TRUE);
+		StateSet ssAlpha(D3DRS_ALPHABLENDENABLE, 1);
 		StateSet ssSrcBlend(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		StateSet ssDestBlend(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 

@@ -518,7 +518,7 @@ void d3d_DrawParticleSystem(const ViewParams& Params, LTParticleSystem *pParticl
 	//setup the lighting if applicable
 	if(pParticleSystem->m_psFlags & PS_LIGHT)
 	{
-		PD3DDEVICE->SetRenderState(D3DRS_LIGHTING, TRUE);
+		PD3DDEVICE->SetRenderState(D3DRS_LIGHTING, 1);
 		d3d_SetupTouchingLights(pParticleSystem->m_SystemCenter, pParticleSystem->m_SystemRadius);
 	}
 
@@ -550,7 +550,7 @@ void d3d_DrawParticleSystem(const ViewParams& Params, LTParticleSystem *pParticl
 
 	if(pParticleSystem->m_psFlags & PS_LIGHT)
 	{
-		PD3DDEVICE->SetRenderState(D3DRS_LIGHTING, FALSE);
+		PD3DDEVICE->SetRenderState(D3DRS_LIGHTING, 0);
 	}
 
 	//restore the world to view matrix

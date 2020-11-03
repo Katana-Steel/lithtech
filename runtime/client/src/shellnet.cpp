@@ -1196,7 +1196,7 @@ static LTRESULT OnUpdatePacket(CClientShell *pShell, CPacket_Read &cPacket)
         }
 		if (cPacket.Tell() != nUpdateStart + nUpdateSize)
 		{
-			ASSERT(FALSE);
+			ASSERT(0);
 			return LT_INVALIDSERVERPACKET;
 		}
     }

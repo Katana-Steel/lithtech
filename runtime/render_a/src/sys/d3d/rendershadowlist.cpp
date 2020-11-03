@@ -390,10 +390,10 @@ static void RenderModelPieces( ModelInstance* pInstance )
 		//and also make sure that we don't write to Z. Yes we need both. One fixes a bug
 		//on NVidia, another on ATI
 		StateSet ssZRead(D3DRS_ZENABLE, D3DZB_FALSE);
-		StateSet ssZWrite(D3DRS_ZWRITEENABLE, FALSE);
+		StateSet ssZWrite(D3DRS_ZWRITEENABLE, 0);
 
 		// Disable fog for shadows.
-		StateSet ssFogEnable(D3DRS_FOGENABLE, FALSE);
+		StateSet ssFogEnable(D3DRS_FOGENABLE, 0);
 
 		for (uint32 nCurrPiece = 0; nCurrPiece < nNumPieces; nCurrPiece++)
 		{
@@ -1217,7 +1217,7 @@ bool CRenderShadowList::BlurShadowTexture(uint32 nSrcTex, uint32 nDestTex)
 			//and also make sure that we don't write to Z. Yes we need both. One fixes a bug
 			//on NVidia, another on ATI
 			StateSet ssZRead(D3DRS_ZENABLE, D3DZB_FALSE);
-			StateSet ssZWrite(D3DRS_ZWRITEENABLE, FALSE);
+			StateSet ssZWrite(D3DRS_ZWRITEENABLE, 0);
 
 			//alright, now we setup the vertices to give info to the blend
 			if(bUsePixelShader)
@@ -1284,7 +1284,7 @@ bool CRenderShadowList::BlurShadowTexture(uint32 nSrcTex, uint32 nDestTex)
 					Verts[3].Init(0.0f, 1.0f, fWidth, fHeight, fSign);
 
 					//handle setting up the blending
-					StateSet ssAlphaBlend(D3DRS_ALPHABLENDENABLE, (nPass > 0) ? TRUE : FALSE);
+					StateSet ssAlphaBlend(D3DRS_ALPHABLENDENABLE, (nPass > 0) ? 1 : 0);
 
 					//now make it so that it will offset on the opposite diagonal
 					fSign = -fSign;

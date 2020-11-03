@@ -1089,7 +1089,7 @@ bool CLTClient::AddVertexShader(const char *pFileName, int VertexShaderID,
 	if (OpenFile(pFileName, &pStream) == LT_OK)
 	{
 		bSuccess = LTVertexShaderMgr::GetSingleton().AddVertexShader(pStream, pFileName, VertexShaderID,
-#if defined(__LINUX)
+#if defined(__LINUX) && !defined(USE_DXVK)
 																	 (VertexElement*)pVertexElements,
 #else
 																	 (D3DVERTEXELEMENT9*)pVertexElements,
@@ -3238,9 +3238,9 @@ bool ci_IntersectSweptSphere(const LTVector& vStart, const LTVector& vEnd, float
 LTRESULT ci_SetConsoleEnable(bool bEnable)
 {
 	g_ClientGlob.m_bConsoleEnabled = bEnable;
-	if (bEnable == FALSE)
+	if (bEnable == 0)
 	{
-		g_ClientGlob.m_bIsConsoleUp = FALSE;
+		g_ClientGlob.m_bIsConsoleUp = 0;
 	}
 
 	return	LT_OK;

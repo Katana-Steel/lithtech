@@ -346,7 +346,7 @@ bool CScreenGlowMgr::UpdateGlowTexture(uint32 nWidth, uint32 nHeight)
 
 		//now for the Z buffer
 		D3DFORMAT iDepthFormat = g_Device.GetDefaultDepthStencilFormat(g_CV_ZBitDepth,g_CV_StencilBitDepth);
-		if(FAILED(PD3DDEVICE->CreateDepthStencilSurface(nWidth, nHeight, iDepthFormat, D3DMULTISAMPLE_NONE, 0, TRUE, &m_pDepthBuffer, NULL)))
+		if(FAILED(PD3DDEVICE->CreateDepthStencilSurface(nWidth, nHeight, iDepthFormat, D3DMULTISAMPLE_NONE, 0, 1, &m_pDepthBuffer, NULL)))
 		{
 			dsi_ConsolePrint("ScreenGlow: Error creating %dx%d depth buffer", nWidth, nHeight);
 			FreeTextures();
@@ -416,7 +416,7 @@ bool CScreenGlowMgr::RenderSceneToTexture(const SceneDesc& Scene)
 
 
 	//setup the fog for the screen glow, always assuming a black fog
-	StateSet ssFogEnable(D3DRS_FOGENABLE, g_CV_ScreenGlowFogEnable ? TRUE : FALSE);
+	StateSet ssFogEnable(D3DRS_FOGENABLE, g_CV_ScreenGlowFogEnable ? 1 : 0);
 	StateSet ssFogNearZ(D3DRS_FOGSTART, *((uint32*)&g_CV_ScreenGlowFogNearZ.m_Val));
 	StateSet ssFogFarZ(D3DRS_FOGEND, *((uint32*)&g_CV_ScreenGlowFogFarZ.m_Val));
 	StateSet ssFogColor(D3DRS_FOGCOLOR, D3DRGB_255(0, 0, 0));
@@ -488,7 +488,7 @@ bool CScreenGlowMgr::RenderSceneToTexture(const SceneDesc& Scene)
 bool CScreenGlowMgr::RenderBlendedTextureDirectionPS(float fUVScale, float fUWeight, float fVWeight)
 {
 	//we don't want blending on the first pass, this saves us a clear
-	StateSet ss0(D3DRS_ALPHABLENDENABLE, FALSE);
+	StateSet ss0(D3DRS_ALPHABLENDENABLE, 0);
 	bool bShouldEnableAlpha = true;
 
 	// Note : This has to be static so that broken drivers can DMA the vertices after the DrawPrimitive call
@@ -561,7 +561,7 @@ bool CScreenGlowMgr::RenderBlendedTextureDirectionPS(float fUVScale, float fUWei
 		//see if this was the first pass and we now need to enable alpha
 		if(bShouldEnableAlpha)
 		{
-			PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, 1);
 			bShouldEnableAlpha = false;
 		}
 	}
@@ -590,7 +590,7 @@ float CalcWeightValues(float fWeight1, float fWeight2, uint32& nOutWeight1, uint
 bool CScreenGlowMgr::RenderBlendedTextureDirection2Texture(float fUVScale, float fUWeight, float fVWeight)
 {
 	//we don't want blending on the first pass, this saves us a clear
-	StateSet ss0(D3DRS_ALPHABLENDENABLE, FALSE);
+	StateSet ss0(D3DRS_ALPHABLENDENABLE, 0);
 	bool bShouldEnableAlpha = true;
 
 	// Note : This has to be static so that broken drivers can DMA the vertices after the DrawPrimitive call
@@ -659,7 +659,7 @@ bool CScreenGlowMgr::RenderBlendedTextureDirection2Texture(float fUVScale, float
 		//see if this was the first pass and we now need to enable alpha
 		if(bShouldEnableAlpha)
 		{
-			PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, 1);
 			bShouldEnableAlpha = false;
 		}
 	}
@@ -680,10 +680,10 @@ bool CScreenGlowMgr::RenderBlendedTexture(bool bUsePixelShader)
 	StateSet ss2(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
 	//we can also turn off Z operations
-	StateSet ss3(D3DRS_ZENABLE, FALSE);
-	StateSet ss4(D3DRS_ZWRITEENABLE, FALSE);
+	StateSet ss3(D3DRS_ZENABLE, 0);
+	StateSet ss4(D3DRS_ZWRITEENABLE, 0);
 	StateSet ss5(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-	StateSet ss6(D3DRS_ALPHATESTENABLE, FALSE);
+	StateSet ss6(D3DRS_ALPHATESTENABLE, 0);
 
 	//setup texture clamping
 	SamplerStateSet ssWrapU0(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
@@ -817,13 +817,13 @@ bool CScreenGlowMgr::DisplayBlendedTexture()
 	d3d_SetTextureDirect(m_pGlowTexture, 0);
 
 	// Set all the states the way we want. (No Z, no fog, alpha blend, blend dest+src)
-	StateSet ssFogEnable(D3DRS_FOGENABLE, FALSE);
-	StateSet ssZEnable(D3DRS_ZENABLE, FALSE);
-	StateSet ssZWriteEnable(D3DRS_ZWRITEENABLE, FALSE);
+	StateSet ssFogEnable(D3DRS_FOGENABLE, 0);
+	StateSet ssZEnable(D3DRS_ZENABLE, 0);
+	StateSet ssZWriteEnable(D3DRS_ZWRITEENABLE, 0);
 	StateSet ssZCmp(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-	StateSet ssAlphaTestEnable(D3DRS_ALPHATESTENABLE, FALSE);
+	StateSet ssAlphaTestEnable(D3DRS_ALPHATESTENABLE, 0);
 
-	StateSet ssAlphaBlendEnable(D3DRS_ALPHABLENDENABLE, TRUE);
+	StateSet ssAlphaBlendEnable(D3DRS_ALPHABLENDENABLE, 1);
 	StateSet ssSrcBlend(D3DRS_SRCBLEND, D3DBLEND_ONE);
 	StateSet ssDestBlend(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
@@ -860,11 +860,11 @@ bool CScreenGlowMgr::DrawDebugTexture()
 	d3d_SetTextureDirect(m_pGlowTexture, 0);
 
 	// Set all the states the way we want. (No Z, no fog, no blend)
-	StateSet ssFogEnable(D3DRS_FOGENABLE, FALSE);
-	StateSet ssZEnable(D3DRS_ZENABLE, FALSE);
-	StateSet ssZWriteEnable(D3DRS_ZWRITEENABLE, FALSE);
-	StateSet ssAlphaTestEnable(D3DRS_ALPHATESTENABLE, FALSE);
-	StateSet ssAlphaBlendEnable(D3DRS_ALPHABLENDENABLE, FALSE);
+	StateSet ssFogEnable(D3DRS_FOGENABLE, 0);
+	StateSet ssZEnable(D3DRS_ZENABLE, 0);
+	StateSet ssZWriteEnable(D3DRS_ZWRITEENABLE, 0);
+	StateSet ssAlphaTestEnable(D3DRS_ALPHATESTENABLE, 0);
+	StateSet ssAlphaBlendEnable(D3DRS_ALPHABLENDENABLE, 0);
 
 	StageStateSet tss00(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 	StageStateSet tss01(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
@@ -995,11 +995,11 @@ bool CScreenGlowMgr::DrawDebugFilter()
 	d3d_DisableTexture(0);
 
 	// Set all the states the way we want. (No Z, no fog, no blend)
-	StateSet ssFogEnable(D3DRS_FOGENABLE, FALSE);
-	StateSet ssZEnable(D3DRS_ZENABLE, FALSE);
-	StateSet ssZWriteEnable(D3DRS_ZWRITEENABLE, FALSE);
-	StateSet ssAlphaTestEnable(D3DRS_ALPHATESTENABLE, FALSE);
-	StateSet ssAlphaBlendEnable(D3DRS_ALPHABLENDENABLE, FALSE);
+	StateSet ssFogEnable(D3DRS_FOGENABLE, 0);
+	StateSet ssZEnable(D3DRS_ZENABLE, 0);
+	StateSet ssZWriteEnable(D3DRS_ZWRITEENABLE, 0);
+	StateSet ssAlphaTestEnable(D3DRS_ALPHATESTENABLE, 0);
+	StateSet ssAlphaBlendEnable(D3DRS_ALPHABLENDENABLE, 0);
 
 	StageStateSet tss00(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
 	StageStateSet tss01(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);

@@ -91,8 +91,8 @@ void VerifyModulateAlpha()
 
 void VerifyTranslucentObjectStates()
 {
-	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	PD3DDEVICE->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, 1);
+	PD3DDEVICE->SetRenderState(D3DRS_ZWRITEENABLE, 0);
 	PD3DDEVICE->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	PD3DDEVICE->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	PD3DDEVICE->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
@@ -110,8 +110,8 @@ void d3d_SetTranslucentObjectStates(bool bAdditive)
 	PD3DDEVICE->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
 	PD3DDEVICE->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-	D3D_CALL(PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE));
-	D3D_CALL(PD3DDEVICE->SetRenderState(D3DRS_ZWRITEENABLE, FALSE));
+	D3D_CALL(PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, 1));
+	D3D_CALL(PD3DDEVICE->SetRenderState(D3DRS_ZWRITEENABLE, 0));
 	
 	if(bAdditive) 
 	{
@@ -127,10 +127,10 @@ void d3d_SetTranslucentObjectStates(bool bAdditive)
 
 void d3d_UnsetTranslucentObjectStates(bool bChangeZ)
 {
-	D3D_CALL(PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE));
+	D3D_CALL(PD3DDEVICE->SetRenderState(D3DRS_ALPHABLENDENABLE, 0));
 	if (bChangeZ) 
 	{
-		D3D_CALL(PD3DDEVICE->SetRenderState(D3DRS_ZWRITEENABLE, TRUE)); 
+		D3D_CALL(PD3DDEVICE->SetRenderState(D3DRS_ZWRITEENABLE, 1));
 	}
 }
 
@@ -196,10 +196,10 @@ static void d3d_DrawLightAddPoly(const LTVector& vAdd, const LTRect& Rect)
 	d3d_DisableTexture(0);
 
 	// Set all the states the way we want.
-	StateSet ssFogEnable(D3DRS_FOGENABLE, FALSE);
-	StateSet ssZEnable(D3DRS_ZENABLE, FALSE);
-	StateSet ssZWriteEnable(D3DRS_ZWRITEENABLE, FALSE);
-	StateSet ssAlphaBlendEnable(D3DRS_ALPHABLENDENABLE, TRUE);
+	StateSet ssFogEnable(D3DRS_FOGENABLE, 0);
+	StateSet ssZEnable(D3DRS_ZENABLE, 0);
+	StateSet ssZWriteEnable(D3DRS_ZWRITEENABLE, 0);
+	StateSet ssAlphaBlendEnable(D3DRS_ALPHABLENDENABLE, 1);
 	StateSet ssSrcBlend(D3DRS_SRCBLEND, D3DBLEND_ONE);
 	StateSet ssDestBlend(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
@@ -250,10 +250,10 @@ static void d3d_DrawLightScalePoly(const LTVector& vScale, const LTRect& Rect)
 	d3d_DisableTexture(0);
 
 	// Set all the states the way we want. (No Z, no fog, alpha blend, blend dest*src*2)
-	StateSet ssFogEnable(D3DRS_FOGENABLE, FALSE);
-	StateSet ssZEnable(D3DRS_ZENABLE, FALSE);
-	StateSet ssZWriteEnable(D3DRS_ZWRITEENABLE, FALSE);
-	StateSet ssAlphaBlendEnable(D3DRS_ALPHABLENDENABLE, TRUE);
+	StateSet ssFogEnable(D3DRS_FOGENABLE, 0);
+	StateSet ssZEnable(D3DRS_ZENABLE, 0);
+	StateSet ssZWriteEnable(D3DRS_ZWRITEENABLE, 0);
+	StateSet ssAlphaBlendEnable(D3DRS_ALPHABLENDENABLE, 1);
 	StateSet ssSrcBlend(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 	StateSet ssDestBlend(D3DRS_DESTBLEND, D3DBLEND_SRCCOLOR);
 
@@ -474,7 +474,7 @@ void d3d_DrawWorldTree_R(const WorldTreeNode *pNode, bool bDrawEmptyNodes)
 // Renders the WorldTree nodes to the specified depth.
 void d3d_DrawWorldTree(bool bDrawEmptyNodes)
 {
-	StateSet sZEnable(D3DRS_ZENABLE, TRUE);
+	StateSet sZEnable(D3DRS_ZENABLE, 1);
 
 	d3d_DisableTexture(0);
 	d3d_DrawWorldTree_R(world_bsp_client->ClientTree()->GetRootNode(), bDrawEmptyNodes);

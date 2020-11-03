@@ -100,7 +100,7 @@ LTRESULT CRenderTarget::Recreate()
 			iDepthFormat, 
 			D3DMULTISAMPLE_NONE, 
 			0, 
-			TRUE, 
+			1,
 			&m_pDepthStencilBuffer, 
 			NULL)))
 		{
@@ -116,7 +116,7 @@ LTRESULT CRenderTarget::Recreate()
 			eDSFormat, 
 			D3DMULTISAMPLE_NONE, 
 			0, 
-			TRUE, 
+			1,
 			&m_pDepthStencilBuffer, 
 			NULL)))
 		{

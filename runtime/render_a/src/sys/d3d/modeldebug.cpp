@@ -24,8 +24,8 @@ void NModelDebug::DrawModelBox(ModelInstance* pInstance)
 	const LTVector& Dims = pInstance->GetDims();
 
 	//make sure that D3D is in a desired state
-	StateSet ssZWrite(D3DRS_ZWRITEENABLE, FALSE);
-	StateSet ssZRead(D3DRS_ZENABLE, FALSE);
+	StateSet ssZWrite(D3DRS_ZWRITEENABLE, 0);
+	StateSet ssZRead(D3DRS_ZENABLE, 0);
 	d3d_DisableTexture(0);
 
 	//now render the actual box

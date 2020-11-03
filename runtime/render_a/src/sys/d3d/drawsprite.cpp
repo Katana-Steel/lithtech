@@ -612,7 +612,7 @@ void d3d_DrawNoZSprites(const ViewParams& Params)
 	if (pSet->m_nObjects > 0) 
 	{
 
-		StateSet ssZEnable(D3DRS_ZENABLE, FALSE);
+		StateSet ssZEnable(D3DRS_ZENABLE, 0);
 	
 		pSet->Draw(Params, d3d_DrawSprite);
 	}

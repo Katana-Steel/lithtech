@@ -158,7 +158,7 @@ bool LTShaderDeviceStateImp::GetLight(unsigned LightIndex, LTLightDesc *pLightDe
 	}
 
 	// See if this light is active.
-  	BOOL bEnable = FALSE;
+	BOOL bEnable = 0;
 	hr = PD3DDEVICE->GetLightEnable(LightIndex, &bEnable);
 	if (FAILED(hr))
 	{
@@ -183,7 +183,7 @@ bool LTShaderDeviceStateImp::GetLight(unsigned LightIndex, LTLightDesc *pLightDe
 	}
 
 	// active
-	pLightDesc->m_Active 		= (bEnable == TRUE);
+	pLightDesc->m_Active 		= (bEnable == 1);
 
 	// diffuse
 	pLightDesc->m_Diffuse.r 	= static_cast<uint8>(d3dLight.Diffuse.r * 255.0f);

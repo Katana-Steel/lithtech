@@ -40,7 +40,7 @@ void d3d_DrawSkyObjects(const ViewParams& SkyParams)
 	PD3DDEVICE->SetViewport(&cViewPort);*/
 	
 	//disable reading/writing to the Z buffer
-	StateSet ssZWrite(D3DRS_ZWRITEENABLE, FALSE);
+	StateSet ssZWrite(D3DRS_ZWRITEENABLE, 0);
 	StateSet ssZRead(D3DRS_ZENABLE, D3DZB_FALSE);
 
 	// Set the fog distances..
@@ -63,7 +63,7 @@ void d3d_DrawSkyObjects(const ViewParams& SkyParams)
 			{
 				if ((pSkyObject->m_Flags & FLAG_FOGDISABLE) && oldFogEnable) 
 				{
-					D3D_CALL(PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, FALSE)); 
+					D3D_CALL(PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, 0));
 				}
 				
 				// Setup translucency states for it.
@@ -73,7 +73,7 @@ void d3d_DrawSkyObjects(const ViewParams& SkyParams)
 				}
 				else 
 				{
-					d3d_UnsetTranslucentObjectStates(FALSE); 
+					d3d_UnsetTranslucentObjectStates(0);
 				}
 
 				if (g_Device.m_pRenderWorld)
@@ -97,7 +97,7 @@ void d3d_DrawSkyObjects(const ViewParams& SkyParams)
 				}
 				else 
 				{
-					d3d_UnsetTranslucentObjectStates(FALSE); 
+					d3d_UnsetTranslucentObjectStates(0);
 				}
 
 				d3d_DrawPolyGrid(SkyParams, pSkyObject); 
@@ -111,7 +111,7 @@ void d3d_DrawSkyObjects(const ViewParams& SkyParams)
 	}
 
 	// Unset translucent stuff.
-	d3d_UnsetTranslucentObjectStates(FALSE);
+	d3d_UnsetTranslucentObjectStates(0);
 
 //	PD3DDEVICE->SetViewport(&cOldViewport);
 }

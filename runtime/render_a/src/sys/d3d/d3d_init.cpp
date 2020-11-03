@@ -52,7 +52,7 @@ void d3d_ReadExtraConsoleVariables()
 	PD3DDEVICE->SetRenderState(D3DRS_FOGCOLOR, D3DRGB_255(g_CV_FogColorR, g_CV_FogColorG, g_CV_FogColorB));
 	PD3DDEVICE->SetRenderState(D3DRS_FOGSTART, *((uint32*)&g_CV_FogNearZ.m_Val));
 	PD3DDEVICE->SetRenderState(D3DRS_FOGEND, *((uint32*)&g_CV_FogFarZ.m_Val));
-	PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, g_CV_FogEnable.m_Val ? TRUE : FALSE);
+	PD3DDEVICE->SetRenderState(D3DRS_FOGENABLE, g_CV_FogEnable.m_Val ? 1 : 0);
 
 	//setup dither on the device
 	PD3DDEVICE->SetRenderState(D3DRS_DITHERENABLE, (uint32)g_CV_Dither);

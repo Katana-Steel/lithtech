@@ -977,7 +977,7 @@ bool CClientConIterator::Begin()
 	m_iCommandIndex = 0;
 
 	// This isn't guaranteed to be true, but I'm pretty sure it will be...
-	return TRUE;
+	return 1;
 }
 
 bool CClientConIterator::NextItem()
@@ -1027,7 +1027,7 @@ bool CClientConIterator::NextItem()
 			if (m_iCommandIndex >= GetNumEngineVars())
 			{
 				// Nothing to overflow to, so we're at the end
-				bEnd = TRUE;
+				bEnd = 1;
 			}
 			else
 			{

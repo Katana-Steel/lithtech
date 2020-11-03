@@ -691,7 +691,7 @@ void CD3DSkelMesh::BeginRender(D3DMATRIX* pD3DTransforms, CD3DRenderStyle* pRend
 	// We need software processing 
 	if(m_bSWVertProcessing)
 	{
-		PD3DDEVICE->SetSoftwareVertexProcessing(TRUE);
+		PD3DDEVICE->SetSoftwareVertexProcessing(1);
 	}
 
 
@@ -699,7 +699,7 @@ void CD3DSkelMesh::BeginRender(D3DMATRIX* pD3DTransforms, CD3DRenderStyle* pRend
 
 	if(m_eRenderMethod == eD3DRenderMatrixPalettes)
 	{
-		PD3DDEVICE->SetRenderState(D3DRS_INDEXEDVERTEXBLENDENABLE, TRUE);
+		PD3DDEVICE->SetRenderState(D3DRS_INDEXEDVERTEXBLENDENABLE, 1);
 	}
 }
 
@@ -707,7 +707,7 @@ void CD3DSkelMesh::EndRender()
 {
 	if(m_eRenderMethod == eD3DRenderMatrixPalettes)
 	{
-		PD3DDEVICE->SetRenderState(D3DRS_INDEXEDVERTEXBLENDENABLE, FALSE);
+		PD3DDEVICE->SetRenderState(D3DRS_INDEXEDVERTEXBLENDENABLE, 0);
 	}
 
 	if ( m_bSWVertProcessing )
@@ -716,7 +716,7 @@ void CD3DSkelMesh::EndRender()
 		if ( (g_Device.GetDeviceCaps()->DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) )
 		{
 		
-			PD3DDEVICE->SetSoftwareVertexProcessing(FALSE);
+			PD3DDEVICE->SetSoftwareVertexProcessing(0);
 		}
 	}
 

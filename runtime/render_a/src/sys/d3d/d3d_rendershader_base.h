@@ -522,11 +522,11 @@ protected:
 		StateSet ssTFactor(D3DRS_TEXTUREFACTOR, 0xFF000000);
 
 		// Set up an alpha blend
-		StateSet blend0(D3DRS_ALPHABLENDENABLE, TRUE);
+		StateSet blend0(D3DRS_ALPHABLENDENABLE, 1);
 		StateSet blend1(D3DRS_SRCBLEND, D3DBLEND_ONE);
 		StateSet blend2(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
-		StateSet ssZWrite(D3DRS_ZWRITEENABLE, FALSE);
+		StateSet ssZWrite(D3DRS_ZWRITEENABLE, 0);
 		StateSet ssZFUNC(D3DRS_ZFUNC, D3DCMP_EQUAL);
 
 		// TSS w/ just TFactor color

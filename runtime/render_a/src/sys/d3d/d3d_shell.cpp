@@ -149,9 +149,9 @@ bool CD3D_Shell::BuildDeviceList()
             m_pD3D->GetDeviceCaps(iAdapter, DeviceTypes[iDevice], &Device.d3dCaps);
             Device.strDesc			 = strDeviceDescs[iDevice];
             Device.iCurrentMode		 = 0;
-            Device.bCanDoWindowed	 = FALSE;
-            Device.bWindowed		 = FALSE;
-            Device.bStereo			 = FALSE;
+            Device.bCanDoWindowed	 = 0;
+            Device.bWindowed		 = 0;
+            Device.bStereo			 = 0;
             Device.MultiSampleType	 = D3DMULTISAMPLE_NONE;
 
             // Go through the formats, check if we can render and do HW T&L...
@@ -164,7 +164,7 @@ bool CD3D_Shell::BuildDeviceList()
 				bool bHWTnL = false;
 
                 // Is it compat with rendering...
-                if (FAILED(m_pD3D->CheckDeviceType(iAdapter,Device.DeviceType,formats[f],formats[f],FALSE))) 
+                if (FAILED(m_pD3D->CheckDeviceType(iAdapter,Device.DeviceType,formats[f],formats[f],0)))
 				{
 					bConfirmed = false; 
 				}
@@ -235,10 +235,10 @@ bool CD3D_Shell::BuildDeviceList()
             // (which was added initially as formats[0]), second test is DX9 way
 			// of testing for windowed mode?
             if (bConfirmedFormats[0] && (m_pD3D->CheckDeviceType(iAdapter, Device.DeviceType, 
-				DesktopMode.Format, DesktopMode.Format, TRUE) == D3D_OK))
+				DesktopMode.Format, DesktopMode.Format, 1) == D3D_OK))
 			{
-                Device.bCanDoWindowed = TRUE;
-                Device.bWindowed      = TRUE; 
+                Device.bCanDoWindowed = 1;
+                Device.bWindowed      = 1;
 			}
 
             // If valid modes were found, keep this device...

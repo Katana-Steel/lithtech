@@ -303,7 +303,7 @@ void CD3DVAMesh::Render(ModelInstance *pInstance, D3DMATRIX& WorldTransform, CD3
 	// We need software processing 
 	if(m_bSWVertProcessing)
 	{
-		PD3DDEVICE->SetSoftwareVertexProcessing(TRUE);
+		PD3DDEVICE->SetSoftwareVertexProcessing(1);
 	}
 
 
@@ -363,7 +363,7 @@ void CD3DVAMesh::Render(ModelInstance *pInstance, D3DMATRIX& WorldTransform, CD3
 		if ( (g_Device.GetDeviceCaps()->DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) )
 		{
 		
-			PD3DDEVICE->SetSoftwareVertexProcessing(FALSE);
+			PD3DDEVICE->SetSoftwareVertexProcessing(0);
 		}
 	}
 
