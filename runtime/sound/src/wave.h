@@ -4,24 +4,15 @@
 
 #ifdef __LINUX
 
-#ifndef WORD
-typedef unsigned short int WORD;
-#endif
-
-#ifndef DWORD
-typedef unsigned long int DWORD;
-#endif
-
-
 #ifndef WAVE_FORMAT_PCM
 
 /* general waveform format structure (information common to all formats) */
 typedef struct waveformat_tag {
-    WORD    wFormatTag;        /* format type */
-    WORD    nChannels;         /* number of channels (i.e. mono, stereo...) */
-    DWORD   nSamplesPerSec;    /* sample rate */
-    DWORD   nAvgBytesPerSec;   /* for buffer estimation */
-    WORD    nBlockAlign;       /* block size of data */
+    unsigned short int    wFormatTag;        /* format type */
+    unsigned short int    nChannels;         /* number of channels (i.e. mono, stereo...) */
+    unsigned long int   nSamplesPerSec;    /* sample rate */
+    unsigned long int   nAvgBytesPerSec;   /* for buffer estimation */
+    unsigned short int    nBlockAlign;       /* block size of data */
 } WAVEFORMAT;
 
 typedef WAVEFORMAT       *PWAVEFORMAT;
@@ -32,7 +23,7 @@ typedef WAVEFORMAT       *PWAVEFORMAT;
 /* specific waveform format structure for PCM data */
 typedef struct pcmwaveformat_tag {
     WAVEFORMAT  wf;
-    WORD        wBitsPerSample;
+    unsigned short int        wBitsPerSample;
 } PCMWAVEFORMAT;
 
 typedef PCMWAVEFORMAT       *PPCMWAVEFORMAT;
@@ -47,13 +38,13 @@ typedef PCMWAVEFORMAT       *PPCMWAVEFORMAT;
 #define _WAVEFORMATEX_
 typedef struct tWAVEFORMATEX
 {
-    WORD    wFormatTag;        /* format type */
-    WORD    nChannels;         /* number of channels (i.e. mono, stereo...) */
-    DWORD   nSamplesPerSec;    /* sample rate */
-    DWORD   nAvgBytesPerSec;   /* for buffer estimation */
-    WORD    nBlockAlign;       /* block size of data */
-    WORD    wBitsPerSample;    /* Number of bits per sample of mono data */
-    WORD    cbSize;            /* The count in bytes of the size of
+    unsigned short int    wFormatTag;        /* format type */
+    unsigned short int    nChannels;         /* number of channels (i.e. mono, stereo...) */
+    unsigned long int   nSamplesPerSec;    /* sample rate */
+    unsigned long int   nAvgBytesPerSec;   /* for buffer estimation */
+    unsigned short int    nBlockAlign;       /* block size of data */
+    unsigned short int    wBitsPerSample;    /* Number of bits per sample of mono data */
+    unsigned short int    cbSize;            /* The count in bytes of the size of
                                     extra information (after cbSize) */
 
 } WAVEFORMATEX;

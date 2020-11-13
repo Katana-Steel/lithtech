@@ -13,12 +13,13 @@ void vkReadConsoleVariables()
   vkrdr.ReadConsoleVariables();
 }
 #endif
+#ifndef USE_DXVK
 OGlRenderStruct oglrdr;
 void oglReadConsoleVariables()
 {
   oglrdr.ReadConsoleVariables();
 }
-
+#endif
 void r_InitRenderStruct(bool bFullClear)
 {
     RenderStructInit rsi{0,bFullClear, '\0'};
