@@ -253,9 +253,7 @@ DWORD CWinUtil::WinGetPrivateProfileString (const char* lpAppName, const char* l
 #ifndef __LINUX
 	return GetPrivateProfileString (lpAppName, lpKeyName, lpDefault, lpReturnedString, nSize, lpFileName);
 #else
-	std::string lookup{lpAppName};
-	lookup += ".";
-	lookup += lpKeyName;
+	std::string lookup{lpKeyName};
 	std::string line;
 	std::ifstream conf{lpFileName};
 	while(!conf.eof()) {
