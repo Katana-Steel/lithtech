@@ -118,7 +118,7 @@ LTRESULT _GetOrCopyFile(char *pTempPath, char *pFilename, char *pOutName, int ou
 
 LTRESULT dsi_LoadServerObjects(CClassMgr *pInfo)
 {
-	const char* pGameServerObjectName = "libobject.so";
+	const char* pGameServerObjectName = "./libObject.lto";
 
     //load the GameServer shared object
     int version;
