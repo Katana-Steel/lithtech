@@ -193,6 +193,20 @@ void CSaveLoadMgr::WriteContinueINI( char const* pszSaveKey, char const* pszSave
 	return;
 }
 
+#ifdef __LINUX
+static void CleanPathForLinux(char** path)
+{
+	char* mod = *path;
+	while (*mod)
+	{
+		if (*mod == '\\')
+		{
+			*mod = '/';
+		}
+		mod++;
+	}
+}
+#endif
 // ----------------------------------------------------------------------- //
 //
 //  ROUTINE:	CSaveLoadMgr::ReadContinueINI
@@ -214,6 +228,10 @@ bool CSaveLoadMgr::ReadContinueINI( char* pszSaveKey, uint32 nSaveKeySize, char*
 	char* pszKey = strtok( szIniString, "|" );
 	char* pszDir = strtok( NULL, "|" );
 	char* pszFile = strtok( NULL, "|" );
+#ifdef __LINUX
+	CleanPathForLinux(&pszDir);
+	CleanPathForLinux(&pszFile);
+#endif
 
 	// Give them the key if they want it.
 	if( pszSaveKey && nSaveKeySize > 0 && pszKey )
@@ -332,7 +350,7 @@ bool CSaveLoadMgr::CopyWorkingDir( const char *pDestDir )
 	if( !stricmp( GetSaveWorkingDir( ), pDestDir )) return false;
 
 	char szDest[MAX_PATH] = {0};
-	sprintf( szDest, "%s\\%s", pDestDir, WORKING_DIR );
+	sprintf( szDest, "%s%s%s", pDestDir, PSEP, WORKING_DIR );
 
 	// We don't want to keep old saved levels around...
 	CWinUtil::EmptyDir( szDest );
@@ -358,7 +376,7 @@ bool CSaveLoadMgr::CopyToWorkingDir( const char *pSrcDir )
 	if( !stricmp( GetSaveWorkingDir( ), pSrcDir )) return false;
 
 	char szSrc[MAX_PATH] = {0};
-	sprintf( szSrc, "%s\\%s", pSrcDir, WORKING_DIR );
+	sprintf( szSrc, "%s%s%s", pSrcDir, PSEP, WORKING_DIR );
 
 	// Clear out the working dir save files...
 

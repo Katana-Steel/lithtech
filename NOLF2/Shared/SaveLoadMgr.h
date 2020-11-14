@@ -38,7 +38,11 @@
 #define SLOTSAVE_INIKEY			"SaveGame"
 #define SLOTSAVE_BASE			"Slot"
 
-
+#ifdef WIN32
+#define PSEP "\\"
+#else
+#define PSEP "/"
+#endif
 
 class CSaveLoadMgr
 {
@@ -89,7 +93,7 @@ class CSaveLoadMgr
 		{
 			static char szSavePath[MAX_PATH];
 			char const* pszProfileName = pProfile ? pProfile : GetProfileName( );
-			sprintf( szSavePath, "%s\\%s", SAVE_DIR, pszProfileName );
+			sprintf( szSavePath, "%s%s%s", SAVE_DIR, PSEP, pszProfileName );
 
 			return szSavePath;
 		}
@@ -98,7 +102,7 @@ class CSaveLoadMgr
 		{
 			static char szSavePath[MAX_PATH];
 			char const* pszGameType = m_bUseMultiplayerFolders ? MULTIPLAYER_FOLDER : SINGLEPLAYER_FOLDER;
-			sprintf( szSavePath, "%s\\%s", GetProfileSaveDir( ), pszGameType );
+			sprintf( szSavePath, "%s%s%s", GetProfileSaveDir( ), PSEP, pszGameType );
 
 			return szSavePath;
 		}
@@ -106,7 +110,7 @@ class CSaveLoadMgr
 		char const* const GetSaveINIFile( const char *pProfile = NULL ) const
 		{
 			static char szSaveINIPath[MAX_PATH];
-			sprintf( szSaveINIPath, "%s\\%s", GetRootSaveDir( pProfile ), SAVEGAMEINI_FILENAME );
+			sprintf( szSaveINIPath, "%s%s%s", GetRootSaveDir( pProfile ), PSEP, SAVEGAMEINI_FILENAME );
 
 			return szSaveINIPath;
 		}
@@ -114,7 +118,7 @@ class CSaveLoadMgr
 		char const* const GetSaveWorkingDir( const char *pProfile = NULL ) const
 		{
 			static char szWorkingPath[MAX_PATH];
-			sprintf( szWorkingPath, "%s\\%s", GetRootSaveDir( pProfile ), WORKING_DIR );
+			sprintf( szWorkingPath, "%s%s%s", GetRootSaveDir( pProfile ), PSEP, WORKING_DIR );
 
 			return szWorkingPath;
 		}
@@ -122,7 +126,7 @@ class CSaveLoadMgr
 		char const* const GetQuickSaveDir( const char *pProfile = NULL ) const
 		{
 			static char szQSavePath[MAX_PATH];
-			sprintf( szQSavePath, "%s\\%s", GetRootSaveDir( pProfile ), QUICKSAVE_DIR );
+			sprintf( szQSavePath, "%s%s%s", GetRootSaveDir( pProfile ), PSEP, QUICKSAVE_DIR );
 
 			return szQSavePath;
 		}
@@ -130,7 +134,7 @@ class CSaveLoadMgr
 		char const* const GetQuickSaveFile( const char *pProfile = NULL ) const
 		{
 			static char szQSaveFile[MAX_PATH];
-			sprintf( szQSaveFile, "%s\\%s", GetRootSaveDir( pProfile ), QUICKSAVE_FILENAME );
+			sprintf( szQSaveFile, "%s%s%s", GetRootSaveDir( pProfile ), PSEP, QUICKSAVE_FILENAME );
 
 			return szQSaveFile;
 		}
@@ -138,7 +142,7 @@ class CSaveLoadMgr
 		char const* const GetSlotSaveDir( uint32 nSlot, const char *pProfile = NULL ) const
 		{
 			static char szSlotSavePath[MAX_PATH];
-			sprintf( szSlotSavePath, "%s\\%s%02d", GetRootSaveDir( pProfile ), SLOTSAVE_BASE, nSlot );
+			sprintf( szSlotSavePath, "%s%s%s%02d", GetRootSaveDir( pProfile ), PSEP, SLOTSAVE_BASE, nSlot );
 
 			return szSlotSavePath;
 		}
@@ -146,7 +150,7 @@ class CSaveLoadMgr
 		char const* const GetSlotSaveFile( uint32 nSlot, const char *pProfile = NULL ) const
 		{
 			static char szSlotSaveFile[MAX_PATH];
-			sprintf( szSlotSaveFile, "%s\\%s%02d.sav", GetSlotSaveDir( nSlot, pProfile ), SLOTSAVE_BASE, nSlot );
+			sprintf( szSlotSaveFile, "%s%s%s%02d.sav", GetSlotSaveDir( nSlot, pProfile ), PSEP, SLOTSAVE_BASE, nSlot );
 
 			return szSlotSaveFile;
 		}
@@ -154,7 +158,7 @@ class CSaveLoadMgr
 		char const* const GetReloadLevelDir( const char *pProfile = NULL ) const
 		{
 			static char szReloadSavePath[MAX_PATH];
-			sprintf( szReloadSavePath, "%s\\%s", GetRootSaveDir( pProfile ), RELOADLEVEL_DIR );
+			sprintf( szReloadSavePath, "%s%s%s", GetRootSaveDir( pProfile ), PSEP, RELOADLEVEL_DIR );
 
 			return szReloadSavePath;
 		}
@@ -162,7 +166,7 @@ class CSaveLoadMgr
 		char const* const GetReloadLevelFile( const char *pProfile = NULL ) const
 		{
 			static char szReloadSaveFile[MAX_PATH];
-			sprintf( szReloadSaveFile, "%s\\%s", GetRootSaveDir( pProfile ), RELOADLEVEL_FILENAME );
+			sprintf( szReloadSaveFile, "%s%s%s", GetRootSaveDir( pProfile ), PSEP, RELOADLEVEL_FILENAME );
 
 			return szReloadSaveFile;
 		}
@@ -170,7 +174,7 @@ class CSaveLoadMgr
 		char const* const GetKeepAliveFile( const char *pProfile = NULL ) const
 		{
 			static char szSaveFile[MAX_PATH];
-			sprintf( szSaveFile, "%s\\%s", GetRootSaveDir( pProfile ), KEEPALIVE_FILENAME );
+			sprintf( szSaveFile, "%s%s%s", GetRootSaveDir( pProfile ), PSEP, KEEPALIVE_FILENAME );
 
 			return szSaveFile;
 		}
@@ -178,7 +182,7 @@ class CSaveLoadMgr
 		char const* const GetTransitionFile( const char *pProfile = NULL ) const
 		{
 			static char szSaveFile[MAX_PATH];
-			sprintf( szSaveFile, "%s\\%s", GetRootSaveDir( pProfile ), TRANSITION_FILENAME );
+			sprintf( szSaveFile, "%s%s%s", GetRootSaveDir( pProfile ), PSEP, TRANSITION_FILENAME );
 
 			return szSaveFile;
 		}
@@ -196,7 +200,7 @@ class CSaveLoadMgr
 			const char *fname = split(std::string{pszWorld}, '/').back().c_str();
 #endif
 			// Create a save file name based on the world title.
-			sprintf( szSavePath, "%s\\%s", GetSaveWorkingDir(), fname );
+			sprintf( szSavePath, "%s%s%s", GetSaveWorkingDir(), PSEP, fname );
 
 			return szSavePath;
 		}
