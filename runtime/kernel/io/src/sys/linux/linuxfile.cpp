@@ -300,6 +300,7 @@ int df_OpenTree(const char *pName, HLTFileTree *&pTreePointer)
 			dfree(pTree);
 			return -2;
 		}
+		pTree->m_pRezMgr->SetDirSeparators("\\/");
 	}
 
 	strcpy(pTree->m_BaseName, pName);
