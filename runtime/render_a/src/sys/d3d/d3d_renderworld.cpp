@@ -212,10 +212,10 @@ void CD3D_RenderWorld::DrawOccluder(const COccludee::COutline &cOutline)
 {
 	StateSet NoWireframe(D3DRS_FILLMODE, D3DFILL_SOLID);
 
-	StateSet Alpha(D3DRS_ALPHABLENDENABLE, TRUE);
+	StateSet Alpha(D3DRS_ALPHABLENDENABLE, 1);
 	StateSet SrcBlend(D3DRS_SRCBLEND, D3DBLEND_ONE);
 	StateSet DestBlend(D3DRS_DESTBLEND, D3DBLEND_ONE);
-	StateSet ZWrite(D3DRS_ZWRITEENABLE, FALSE);
+	StateSet ZWrite(D3DRS_ZWRITEENABLE, 0);
 	StateSet ZFunc(D3DRS_ZFUNC, D3DCMP_ALWAYS);
 	StateSet CullMode(D3DRS_CULLMODE, D3DCULL_NONE);
 

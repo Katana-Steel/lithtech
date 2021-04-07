@@ -219,8 +219,8 @@ bool LThreadQueue::PopMessage(LThreadMessage *pMsg)
 LThread::LThread()
 {
 	m_ThreadID = 0;
-	m_bRunning = FALSE;
-	m_bTerminate = FALSE;
+	m_bRunning = 0;
+	m_bTerminate = 0;
 }
 
 
