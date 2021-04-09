@@ -238,7 +238,7 @@ ACTIVATETYPE::ACTIVATETYPE()
 
 ACTIVATETYPE::~ACTIVATETYPE()
 {
-	debug_delete( szName );
+	debug_deletea( szName );
 }
 
 // ----------------------------------------------------------------------- //

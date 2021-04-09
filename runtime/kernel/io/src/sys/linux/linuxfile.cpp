@@ -316,6 +316,12 @@ void df_CloseTree(HLTFileTree* hTree)
 	pTree = (FileTree*)hTree;
 	if(!pTree)
 		return;
+
+	if (pTree->m_pRezMgr != LTNULL)
+	{
+		delete pTree->m_pRezMgr;
+		pTree->m_pRezMgr = LTNULL;
+	}
 	dfree(pTree);
 }
 

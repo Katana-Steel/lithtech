@@ -149,7 +149,7 @@ void CStringHolder::ClearStrings()
 
 	for( i=0; i < m_Strings; i++ )
 	{
-		delete m_Strings[i].m_pString;
+		delete [] m_Strings[i].m_pString;
 	}
 
 	m_Strings.SetSize(0);

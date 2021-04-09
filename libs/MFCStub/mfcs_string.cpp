@@ -431,7 +431,7 @@ LTBOOL CString::ExpandBuffer(uint32 minLength)
 			memcpy(GetBuffer(), pOldBuffer, oldLength);
 		// Delete the old buffer
 		pOldBuffer -= sizeof(CStringData);
-		delete pOldBuffer;
+		delete [] pOldBuffer;
 	}
 
 	// Make sure the string is terminated
@@ -475,7 +475,7 @@ LTBOOL CString::ShrinkBuffer(uint32 maxLength)
 	if (pOldBuffer)
 	{
 		pOldBuffer -= sizeof(CStringData);
-		delete pOldBuffer;
+		delete [] pOldBuffer;
 	}
 
 	return TRUE;

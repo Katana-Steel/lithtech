@@ -235,8 +235,8 @@ TRIGGERTYPE::TRIGGERTYPE( )
 
 TRIGGERTYPE::~TRIGGERTYPE( )
 {
-	debug_delete( szName );
-	debug_delete( szIcon );
+	debug_deletea( szName );
+	debug_deletea( szIcon );
 }
 
 // ----------------------------------------------------------------------- //
