@@ -158,22 +158,10 @@ bool CClientFXDB::Init(ILTClient* pLTClient)
 	while( pEntry )
 	{
 		// Ignore directorys... only look at files
-		if( pEntry->m_Type == TYPE_FILE )
+		if( pEntry->m_Type == TYPE_FILE && strlen(pEntry->m_pFullFilename) > 4 )
 		{
-#ifndef _WIN32
-			const char *ext = split(std::string{pEntry->m_pFullFilename}, '.').back().c_str();
-			if( !stricmp("fxf", ext) )
-#else
-			char drive[_MAX_DRIVE];
-			char dir[_MAX_DIR];
-			char fname[_MAX_FNAME];
-			char ext[_MAX_EXT];
-
-			_splitpath( pEntry->m_pFullFilename, drive, dir, fname, ext );
-
-			// Is this a ClientFx file?
-			if( !stricmp( ".fxf", ext ) )
-#endif
+			const char* ext = pEntry->m_pFullFilename + strlen(pEntry->m_pFullFilename) - 4;
+			if (!stricmp(".fxf", ext))
 			{
 				// Try and load it
 				if( !LoadFxGroups( pLTClient, pEntry->m_pFullFilename ) )
