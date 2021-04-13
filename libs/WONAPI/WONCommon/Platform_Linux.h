@@ -44,7 +44,6 @@ typedef char* LPSTR;
 #include <netinet/tcp.h>
 #include <ostream>
 #include <sys/time.h>
-#include <sys/timeb.h>
 #include <sys/time.h>
 #include <sstream>
 #include <endian.h>
@@ -63,6 +62,7 @@ typedef char* LPSTR;
 #include <utime.h>
 #include <termios.h>
 #include <signal.h>
+#include <chrono>
 
 #define _timezone timezone
 #define _ASSERT assert
@@ -95,16 +95,14 @@ namespace std
 
 inline unsigned long timeGetTime()
 {
-	timeb tp;
-	ftime(&tp);
-	return ((tp.time * 1000) + tp.millitm);
+	auto tp = std::chrono::system_clock::now() - std::chrono::system_clock::from_time_t(0);
+	return std::chrono::duration_cast<std::chrono::milliseconds>(tp).count();
 }
 
 inline unsigned long GetTickCount()
 {
-	timeb tp;
-	ftime(&tp);
-	return ((tp.time * 1000) + tp.millitm);
+	auto tp = std::chrono::system_clock::now() - std::chrono::system_clock::from_time_t(0);
+	return std::chrono::duration_cast<std::chrono::milliseconds>(tp).count();
 }
 
 inline void timeBeginPeriod(int)	{}

@@ -50,7 +50,7 @@
 #include "ClientSaveLoadMgr.h"
 #include "FXButeMgr.h"
 #include "ClientFXDB.h"
-#include <sys/timeb.h>
+#include <chrono>
 #include "PerformanceTest.h"
 #include "ScmdConsole.h"
 #include "ScmdConsoleDriver_CShell.h"
@@ -116,11 +116,7 @@ extern VarTrack		g_vtFOVYNormal;
 extern int g_nSampleRate;
 
 // Speed hack prevention variables
-#ifdef __LINUX
-static timeb g_StartTimeB;
-#else
-static _timeb g_StartTimeB;
-#endif
+std::chrono::time_point<std::chrono::steady_clock> g_StartTimeC;
 static uint32 g_nStartClientTime = 0;
 static uint32 g_nStartTicks = 0;
 
@@ -1690,13 +1686,6 @@ void CGameClientShell::UpdatePlaying()
 		{
 			uint32 nEndClientTime = SDL_GetTicks( );
 			uint32 nEndTicks = SDL_GetTicks();
-#ifdef __LINUX
-			timeb nEndTimeB;
-			ftime(&nEndTimeB);
-#else
-			_timeb nEndTimeB;
-			_ftime(&nEndTimeB);
-#endif
 			// Get the client time since the last check.  Account for wrap.
 			uint32 nDeltaClientTime = ( nEndClientTime > g_nStartClientTime ) ? ( nEndClientTime - g_nStartClientTime ) : 
 				( nEndClientTime + ~g_nStartClientTime );
@@ -1709,19 +1698,19 @@ void CGameClientShell::UpdatePlaying()
 				if( g_nStartTicks > 0 )
 				{
 					// Get the time between _ftime's.
-					uint32 nDeltaTimeB = (nEndTimeB.time - g_StartTimeB.time)*1000 + (nEndTimeB.millitm - g_StartTimeB.millitm);
+					auto nDeltaTimeC = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - g_StartTimeC).count();
 
 					// Get the time between GetTickCount's.  Account for wrapping.
 					uint32 nDeltaTicks = ( nEndTicks > g_nStartTicks ) ? ( nEndTicks - g_nStartTicks ) : 
 						( nEndTicks + ~g_nStartTicks );
 
 					// Make sure all the counters match up.
-					if( (( uint32 ) abs( (int)(nDeltaTimeB - nDeltaClientTime) ) > g_nTolerance ) || 
+					if( (( uint32 ) abs( (int)(nDeltaTimeC - nDeltaClientTime) ) > g_nTolerance ) || 
 						(( uint32 ) abs( (int)(nDeltaTicks - nDeltaClientTime) ) > g_nTolerance ) ||
-						(( uint32 ) abs( (int)(nDeltaTimeB - nDeltaTicks) ) > g_nTolerance ) )
+						(( uint32 ) abs( (int)(nDeltaTimeC - nDeltaTicks) ) > g_nTolerance ) )
 					{
 						g_pLTClient->CPrint( "Speedhack kick" );
-						g_pLTClient->CPrint( "nDeltaTimeB %d", nDeltaTimeB );
+						g_pLTClient->CPrint( "nDeltaTimeC %d", nDeltaTimeC );
 						g_pLTClient->CPrint( "nDeltaTicks %d", nDeltaTicks );
 						g_pLTClient->CPrint( "nDeltaClientTime %d", nDeltaClientTime );
 					
@@ -1737,11 +1726,7 @@ void CGameClientShell::UpdatePlaying()
 
 				// Reset the timers, the initial _ftime call must be before
 				// the performance counter call!
-#ifdef __LINUX
-				ftime( &g_StartTimeB );
-#else
-				_ftime( &g_StartTimeB );
-#endif
+				g_StartTimeC = std::chrono::steady_clock::now();
 				g_nStartTicks = SDL_GetTicks();
 				g_nStartClientTime = SDL_GetTicks( );
 			}
