@@ -256,6 +256,10 @@ DWORD CWinUtil::WinGetPrivateProfileString (const char* lpAppName, const char* l
 	std::string lookup{lpKeyName};
 	std::string line;
 	std::ifstream conf{lpFileName};
+	if (!conf)
+	{
+		return 2;
+	}
 	while(!conf.eof()) {
 		conf >> line;
 		if(line.substr(0, lookup.size()) ==  lookup) {
