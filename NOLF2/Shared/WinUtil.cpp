@@ -284,6 +284,10 @@ DWORD CWinUtil::WinWritePrivateProfileString (const char* lpAppName, const char*
 	return WritePrivateProfileString (lpAppName, lpKeyName, lpString, lpFileName);
 #else
     // format app.key=str
+	if (lpAppName == NULL || lpKeyName == NULL || lpString == NULL)
+	{
+		return 1;
+	}
 	std::string lookup{lpAppName};
 	lookup += ".";
 	lookup += lpKeyName;
