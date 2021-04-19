@@ -20,7 +20,7 @@ def parseRC(rcFile):
                 ret_incl.append(n[1].replace(u'\\', u'/'))
             if u'stringtable' in l.lower():
                 cur_lst = str_table
-            if u'end' in l.lower():
+            if u'end' == l.lower():
                 cur_lst = None
             if l.startswith(u' ') and cur_lst is not None:
                 n = l.strip(u'\n').split(u'"')
