@@ -134,6 +134,7 @@ public:
 	//handle initialization/freeing of resources
 	bool							Init(ILTClient* pLTClient);
 	void							Term();
+	bool							IsLoadedFx() const;
 
 	//used for finding specific effects for creation
 	FX_GROUP*						FindGroupFX(const char *sName);

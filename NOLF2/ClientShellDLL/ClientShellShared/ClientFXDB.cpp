@@ -213,6 +213,11 @@ void CClientFXDB::Term()
 	UnloadFxDll();
 }
 
+bool CClientFXDB::IsLoadedFx() const
+{
+	return (m_hDLLInst != nullptr);
+}
+
 //-----------------------------------------------------------------
 // CClientFXDB DLL management
 //-----------------------------------------------------------------
@@ -376,7 +381,6 @@ void CClientFXDB::UnloadFxDll()
 	m_pfnSetCreateFunction  = nullptr;
 	m_pfnCreatePropList     = nullptr;
 	m_pfnFreePropList       = nullptr;
-
 }
 
 //-----------------------------------------------------------------

@@ -225,10 +225,13 @@ void CLIENTFX_INSTANCE::DeleteFX(CLinkListNode<FX_LINK> *pDelNode)
 {
 	if( !pDelNode ) 
 		return;
+	
+	auto fxdb = CClientFXDB::GetSingleton();
 
 	CBaseFX* pDelFX = pDelNode->m_Data.m_pFX;
-
-	if(pDelFX)
+	
+	// if the link has an FX, and the DLL is still loaded
+	if(pDelFX && fxdb.IsLoadedFx())
 	{
 		// Make sure no other active FX in this instance have this pDelFX has their parent...
 		CLinkListNode<FX_LINK>	*pActiveNode = m_collActiveFX.GetHead();
@@ -247,7 +250,7 @@ void CLIENTFX_INSTANCE::DeleteFX(CLinkListNode<FX_LINK> *pDelNode)
 
 		// Give the FX a chance to clean itself up
 		pDelFX->Term();
-		CClientFXDB::GetSingleton().DeleteEffect(pDelFX);
+		fxdb.DeleteEffect(pDelFX);
 	}
 
 	//now remove this node from our list
