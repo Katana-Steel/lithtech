@@ -26,7 +26,7 @@ def parseRC(rcFile):
                 n = l.strip(u'\n').split(u'"')
                 if str_id is None:
                     str_id = n[0].strip()
-                if len(n) is 1:
+                if len(n) == 1:
                     continue
                 txt = u'"'.join(n[1:-1])
                 cur_lst.append((str_id, txt))
@@ -38,8 +38,8 @@ def parseRC(rcFile):
 def parseH(hFile):
     try:
         with open(hFile, u'r') as h:
-            for l in h.readlines():
-                defs.append(l.strip(u'\n'))
+            for line in h.readlines():
+                defs.append(line.strip(u'\n'))
     except Exception:
         pass
 
