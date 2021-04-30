@@ -698,7 +698,7 @@ void CBodyFX::OnModelKey(HLOCALOBJ hObj, ArgList *pArgs)
 		}
 	}
 }
-
+#include <memory>
 // ----------------------------------------------------------------------- //
 //
 //	FUNCTION:	CBodyFX::HandleDeathFXKey()
@@ -739,15 +739,22 @@ bool CBodyFX::HandleDeathFXKey( HLOCALOBJ hObj, ArgList* pArgList )
 	strcpy(szModelName,&szFullModelPath[nStart]);
 
 	// Get the FX name
-	char szFX[512];
-	snprintf(szFX, sizeof(szFX),"DEATHFX_%s_%s",szModelName,pArgList->argv[1]);
+	auto szFX = std::make_unique<char[]>(strlen(szModelName)+strlen(pArgList->argv[1])+12);
+	char *cptr = szFX.get();
+	strcpy(cptr, "DEATHFX_");
+	cptr += 8;
+	strcpy(cptr, szModelName);
+	cptr += strlen(szModelName);
+	*cptr = '_';
+	++cptr;
+	strcpy(cptr, pArgList->argv[1]);
 
 	// create the effect
 	bool bResult;
-	CLIENTFX_CREATESTRUCT  fxCS( szFX,
+	CLIENTFX_CREATESTRUCT  fxCS( szFX.get(),
 		                         0,
 		                         m_hServerObject );
-	
+
 	// Set the parent info & starting pos
 	g_pLTClient->GetObjectPos(m_hServerObject,&fxCS.m_vPos);
 

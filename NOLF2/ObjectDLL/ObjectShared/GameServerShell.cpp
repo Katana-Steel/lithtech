@@ -1818,6 +1818,7 @@ void CGameServerShell::HandleHandshake (HCLIENT hSender, ILTMessage_Read *pMsg)
 //				which routes it to the rest of the player
 //
 // ----------------------------------------------------------------------- //
+#include <memory>
 
 void CGameServerShell::HandlePlayerMessage (HCLIENT hSender, ILTMessage_Read *pMsg)
 {
@@ -1839,11 +1840,16 @@ void CGameServerShell::HandlePlayerMessage (HCLIENT hSender, ILTMessage_Read *pM
 
 		if( !pPlayer )
 			return;
-        
-		char szMsg[256] = {0};
-		sprintf( szMsg, "%s: %s", pPlayer->GetNetUniqueName(), szString );
-    
-		g_pLTServer->CPrint( szMsg );
+		const char *unique_name = pPlayer->GetNetUniqueName();
+		auto name_len = strlen(unique_name);
+		auto szMsg = std::make_unique<char[]>(name_len + strlen(szString) + 4);
+		strcpy(szMsg.get(), unique_name);
+		char *cptr = szMsg.get() + name_len;
+		strcpy(cptr, ": ");
+		cptr += 2;
+		strcpy(cptr, szString);
+
+		g_pLTServer->CPrint( szMsg.get() );
 	}
 	uint32 clientID = g_pLTServer->GetClientID(hSender);
 

@@ -1159,7 +1159,7 @@ void CCheatMgr::BuildGuid()
 	for( int i = 0; i < 8; i++ )
 		buildGuid.guid.d[i] = pGuidEncoded->guid.d[i] - GAMEGUID.guid.d[i];
 
-	char szGuid[256] = "";
+	char szGuid[256]{};
 	snprintf( szGuid, sizeof(szGuid), "{ 0x%X, 0x%X, 0x%X, { 0x%X, 0x%X, 0x%X, 0x%X, 0x%X, 0x%X, 0x%X, 0x%X }}",
 		buildGuid.guid.a, buildGuid.guid.b, buildGuid.guid.c, buildGuid.guid.d[0], 
 		buildGuid.guid.d[1], buildGuid.guid.d[2], buildGuid.guid.d[3], buildGuid.guid.d[4], 
