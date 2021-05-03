@@ -366,91 +366,101 @@ LTRESULT SendEmptyServerMsg(uint32 nMsgID, uint32 nFlags)
 
 #ifndef _WIN32
 
+#include <string_view>
+#include <charconv>
+#include <algorithm>
+#include <vector>
+
 #define FORMAT_MESSAGE_FROM_STRING 0
 static void FormatMessage(int flags, char* source, int message_id, int language_id, char* dest, int len, va_list* args)
 {
-	char* vals, *ptr, *dst_ptr;
-	int vali, bytes_left, add_len;
-	size_t i, source_len;
-	source_len = strlen(source);
-	dst_ptr = dest;
-	bytes_left = len - 1;
-
 	if (flags != FORMAT_MESSAGE_FROM_STRING)
 	{
 		assert(!"ERROR: only FORMAT_MESSAGE_FROM_STRING is handled");
 		return;
 	}
 
-	for (i = 0; i < source_len; i++)
+	char r=' ';
+	auto find_format = [r](char x) mutable {
+			bool b=false;
+			if (r=='%') {
+				if(x==r) {   // if %% don't count
+					r = ' '; // and reset the look back
+					return false;
+				} else       // else we found one
+					b=true;
+			}
+			r=x; // save the current char for the
+			return b;};
+
+	std::string_view src{source};
+	auto num_args = std::count_if(src.begin(), src.end(), find_format);
+
+	if(num_args > 9)
 	{
-		if (source[i] == '%')
-		{
-			ptr = source + i + 2; //no string exceeds 9 arguments, so assume 1 digit
-			if (!strncmp(ptr, "!d!", 3))
-			{
-				vali = va_arg(*args, int);
-				add_len = snprintf(NULL, 0, "%i", vali);
+		assert(!"ERROR: only up to 9 arguments is supported");
+		return;
+	}
 
-				if (bytes_left - add_len < 0)
-				{
-					snprintf(dst_ptr, bytes_left, "%i", vali);
-					dst_ptr = dst_ptr + bytes_left;
-					bytes_left = 0;
-					break;
-				}
-				else
-				{
-					sprintf(dst_ptr, "%i", vali);
-					dst_ptr = dst_ptr + add_len;
-					bytes_left -= add_len;
-				}
+	if (num_args == 0) // don't need to do any formating
+	{
+		if(src.size() <= len)
+			strcpy(dest, src.data());
+		return;
+	}
 
-				i += 4;
-			}
-			else if (!strncmp(ptr, "!s!", 3))
-			{
-				vals = va_arg(*args, char*);
-				add_len = strlen(vals);
-
-				if (bytes_left - add_len < 0)
-				{
-					strncpy(dst_ptr, vals, bytes_left);
-					dst_ptr = dst_ptr + bytes_left;
-					bytes_left = 0;
-					break;
-				}
-				else
-				{
-					strcpy(dst_ptr, vals);
-					dst_ptr = dst_ptr + add_len;
-				}
-
-				bytes_left -= add_len;
-				i += 4;
-			}
-			else
-			{
-				*dst_ptr = source[i];
-				dst_ptr++;
-				bytes_left--;
-				i++;
-				if (bytes_left < 0)
-				{
-					break;
-				}
-			}
+	std::vector<std::string> s_args{};
+	auto digit = std::string_view{"!d!"};
+	auto str_tok = std::string_view{"!s!"};
+	s_args.reserve(9);
+	const char *opts[] ={
+		"%1!", "%2!", "%3!", "%4!", "%5!", "%6!", "%7!", "%8!", "%9!"
+	};
+	for (auto opt: opts)
+	{
+		auto found = src.find(opt);
+		if(found == src.npos)
+			break;
+		auto ptr = found + (strlen(opt) - 1);
+		auto type = src.substr(ptr, 3);
+		if (type == digit) {
+			s_args.push_back(std::to_string(va_arg(*args, int)));
+		} else if (type == str_tok) {
+			s_args.emplace_back(va_arg(*args, const char*));
+		} else {
+			assert(!"Format Agrument Type not supported");
 		}
-		else
+	}
+
+	// now start copying the message to the destination buffer
+	int bytes_left = len - 1;
+	char *dst_ptr = dest;
+	for (int i = 0; i < src.size(); i++)
+	{
+		if (src.at(i) == '%' && src.at(i+1) != '%')
 		{
-			*dst_ptr = source[i];
-			dst_ptr++;
-			bytes_left--;
-			if (bytes_left < 0)
-			{
-				break;
+			auto a = src.substr(i+1, 1);    //no string exceeds 9 arguments, so assume 1 digit
+			int arg_num{};
+			std::from_chars(a.data(), a.data()+a.size(), arg_num);
+			a = s_args.at(--arg_num); //zero based vector
+			if (bytes_left >= a.length()) {
+				strcpy(dst_ptr, a.data());
+				bytes_left -= a.length();
+				dst_ptr += a.length();
 			}
+			i += 1 + digit.length();
+		} else if ( src.at(i) == '%' && src.at(i+1) == '%' && bytes_left > 0) {
+			*dst_ptr = '%';
+			--bytes_left;
+			++dst_ptr;
+			i += 2;
+		} else {
+			*dst_ptr = src.at(i);
+			--bytes_left;
+			++dst_ptr;
 		}
+		if (bytes_left == 0)
+			break;
 	}
 	*dst_ptr = '\0';
 	dest[len - 1] = '\0';
