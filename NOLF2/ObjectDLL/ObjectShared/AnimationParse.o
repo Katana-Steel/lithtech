@@ -537,11 +537,11 @@ __yy_memcpy (from, to, count)
 
 {
 
-  register char *f = from;
+  char *f = from;
 
-  register char *t = to;
+  char *t = to;
 
-  register int i = count;
+  int i = count;
 
 
 
@@ -567,11 +567,11 @@ __yy_memcpy (char *from, char *to, int count)
 
 {
 
-  register char *f = from;
+  char *f = from;
 
-  register char *t = to;
+  char *t = to;
 
-  register int i = count;
+  int i = count;
 
 
 
@@ -627,13 +627,13 @@ yyparse(YYPARSE_PARAM)
 
 {
 
-  register int yystate;
+  int yystate;
 
-  register int yyn;
+  int yyn;
 
-  register short *yyssp;
+  short *yyssp;
 
-  register YYSTYPE *yyvsp;
+  YYSTYPE *yyvsp;
 
   int yyerrstatus;	/*  number of tokens to shift before error messages enabled */
 
