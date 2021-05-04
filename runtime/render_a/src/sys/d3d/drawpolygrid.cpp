@@ -195,8 +195,14 @@ void CFresnelTable::GenerateTable(float fVolumeIOR, float fBaseReflection)
 		float fVal = (Sqr(fG - fCos) / (2.0f * Sqr(fG + fCos))) * (1.0f + Sqr(fCos * (fG + fCos) - 1.0f) / Sqr(fCos * (fG - fCos) + 1.0f));
 
 		//this should always be (0..1)
-		assert(fVal >= 0.0f);
-		assert(fVal <= 1.0f);
+		if (fVal < 0.0f)
+		{
+			assert(0);
+		}
+		if (fVal > 1.0f)
+		{
+			assert(0);
+		}
 
 		//add our base reflection onto it
 		fVal += fBaseReflection;
