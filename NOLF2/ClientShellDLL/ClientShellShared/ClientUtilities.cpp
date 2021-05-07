@@ -428,7 +428,7 @@ static void FormatMessage(int flags, char* source, int message_id, int language_
 		} else if (type == str_tok) {
 			s_args.emplace_back(va_arg(*args, const char*));
 		} else {
-			assert(!"Format Agrument Type not supported");
+			assert(!"Format Argument Type not supported");
 		}
 	}
 
