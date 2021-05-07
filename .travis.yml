@@ -6,6 +6,11 @@ branch:
 
 install: true
 
+dist: bionic
+compiler:
+  - gcc
+  - clang
+
 script:
   - cd Build
   - cmake -DJSON_BuildTests=off ../
@@ -20,14 +25,10 @@ script:
   - OUT/testDynRes NOLF2/ClientRes/TO2/libCRes.so
 matrix:
   allow_failures:
-    - clang: 4.0
-    - clang: 7.0
-    - gcc: "6 32bit"
-    - gcc: 9
+    - gcc: "9 32bit"
   include:
     - os: linux
-      dist: bionic
-      gcc: 8
+      gcc: 9
       addons:
         apt:
           sources:
@@ -42,46 +43,14 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-9; CXX=g++-9"
     - os: linux
-      dist: trusty
-      gcc: 6
+      dist: bionic
+      gcc: "9 32bit"
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-6
-            - cmake-data
-            - cmake
-            - libsdl2-dev
-            - libsdl2-image-dev
-            - libsdl2-mixer-dev
-      env:
-        - MATRIX_EVAL="CC=gcc-6; CXX=g++-6"
-    - os: linux
-      dist: trusty
-      gcc: 7
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-7
-            - cmake-data
-            - cmake
-            - libsdl2-dev
-            - libsdl2-image-dev
-            - libsdl2-mixer-dev
-      env:
-        - MATRIX_EVAL="CC=gcc-7; CXX=g++-7"
-    - os: linux
-      dist: trusty
-      gcc: "6 32bit"
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-6
+            - g++-9
             - gcc-multilib
             - libstdc++-6-dev:i386
             - cmake-data
@@ -98,41 +67,24 @@ matrix:
             - libgles2-mesa-dev
             - libwayland-egl1-mesa-lts-xenial
       env:
-        - MATRIX_EVAL="CC=gcc-6; CXX=g++-6; CFLAGS=-m32; CXXFLAGS=-m32; LDFLAGS=-m32"
+        - MATRIX_EVAL="CC=gcc-9; CXX=g++-9; CFLAGS=-m32; CXXFLAGS=-m32; LDFLAGS=-m32"
     - os: linux
-      dist: trusty
-      clang: 4.0
+      dist: bionic
+      clang: 12.0
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-4.0
+            - llvm-toolchain-bionic-12.0
           packages:
-            - clang-4.0
+            - clang-12.0
             - cmake-data
             - cmake
             - libsdl2-dev
             - libsdl2-image-dev
             - libsdl2-mixer-dev
       env:
-        - MATRIX_EVAL="CC=clang-4.0; CXX=clang++-4.0"
-    - os: linux
-      clang: 7.0
-      dist: trusty
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-7.0
-          packages:
-            - clang-7.0
-            - cmake-data
-            - cmake
-            - libsdl2-dev
-            - libsdl2-image-dev
-            - libsdl2-mixer-dev
-      env:
-        - MATRIX_EVAL="CC=clang-7.0; CXX=clang++-7.0"
+        - MATRIX_EVAL="CC=clang-12.0; CXX=clang++-12.0"
 
 
 before_install:
