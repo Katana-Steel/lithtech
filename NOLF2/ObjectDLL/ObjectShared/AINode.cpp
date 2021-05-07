@@ -2436,9 +2436,11 @@ const AINodeChangeWeapons::ChangeWeaponSet* const AINodeChangeWeapons::GetWeapon
 		const ChangeWeaponSet& WeaponSet = m_WeaponSets.at(x);
 
 		uint8 iNewAmmo, iNewWeapon;
+		iNewWeapon = g_pWeaponMgr->GetNumWeapons();
 		g_pWeaponMgr->ReadWeapon(const_cast<char*>(WeaponSet.m_szChangeToWeapon.c_str()), iNewWeapon, iNewAmmo );
 
 		uint8 iRequiredAmmo, iRequiredWeapon;
+		iRequiredWeapon = g_pWeaponMgr->GetNumWeapons();
 		g_pWeaponMgr->ReadWeapon(const_cast<char*>(WeaponSet.m_szChangeToWeaponRequirement.c_str()), iRequiredWeapon, iRequiredAmmo );
 
 		const WEAPON* const pRequiredWeapon = g_pWeaponMgr->GetWeapon(iRequiredWeapon);
