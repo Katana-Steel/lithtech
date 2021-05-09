@@ -184,7 +184,7 @@ void CAIStimulusRecord::Load(ILTMessage_Read *pMsg)
 	LOAD_DWORD_CAST(m_eTargetMatchID, EnumAITargetMatchID);
 	LOAD_VECTOR(m_vStimulusPos);
 	LOAD_VECTOR(m_vStimulusDir);
-	LOAD_COBJECT(m_pInformationVolume, AIVolume);
+	LOAD_COBJECT(m_pInformationVolume, AIInformationVolume);
 	LOAD_DWORD(m_nStimulusAlarmLevel);
 	LOAD_FLOAT(m_fDistance);
 	LOAD_TIME(m_fTimeStamp);
@@ -540,7 +540,7 @@ EnumAIStimulusID CAIStimulusMgr::_RegisterStimulus(CAIStimulusRecord* pAIStimulu
 		CCharacter* pCharacter = dynamic_cast<CCharacter*>(g_pLTServer->HandleToObject( pAIStimulusRecord->m_hStimulusSource ));
 		if( pCharacter && pCharacter->HasCurrentInformationVolume() )
 		{
-			pAIStimulusRecord->m_pInformationVolume = (AIVolume*)pCharacter->GetCurrentInformationVolume();
+			pAIStimulusRecord->m_pInformationVolume = pCharacter->GetCurrentInformationVolume();
 		}
 	}
 
@@ -1153,7 +1153,7 @@ void CAIStimulusMgr::Update()
 					CCharacter* pCharacter = dynamic_cast<CCharacter*>(g_pLTServer->HandleToObject( pRecord->m_hStimulusSource ));
 					if( pCharacter && pCharacter->HasCurrentInformationVolume() )
 					{
-						pRecord->m_pInformationVolume = (AIVolume*)pCharacter->GetCurrentInformationVolume();
+						pRecord->m_pInformationVolume = pCharacter->GetCurrentInformationVolume();
 					}
 					else
 					{
@@ -1459,7 +1459,7 @@ bool CAIStimulusMgr::CanSense( IAISensing* pSensing, CAIStimulusRecord* pRecord 
 			CAI* pAI = (CAI*)pSensing;
 			if( !pAI->IsSuspicious() )
 			{
-				AIInformationVolume* pInfoVolume = dynamic_cast<AIInformationVolume*>(pRecord->m_pInformationVolume );
+				AIInformationVolume* pInfoVolume = pRecord->m_pInformationVolume;
 				if( pInfoVolume	&& pInfoVolume->IsOn() )
 				{
 					flagsSenseMask = pInfoVolume->GetSenseMask();

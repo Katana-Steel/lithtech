@@ -25,7 +25,7 @@
 // Forward declarations.
 class CAIStimulusMgr;
 class CAI;
-class AIVolume;
+class AIInformationVolume;
 class RelationSet;
 class RelationData;
 class IAISensing;
@@ -97,7 +97,7 @@ class CAIStimulusRecord : public CAIClassAbstract
 		LTObjRefNotifier	m_hStimulusSource;		// Handle to source of stimulus.
 		LTObjRefNotifier	m_hStimulusTarget;		// Handle to target of stimulus (optional).
 		EnumAITargetMatchID	m_eTargetMatchID;		// ID used to match stimuli affecting the same object.
-		AIVolume*			m_pInformationVolume;	// Volume where stimulus occured, for sense masks.
+		AIInformationVolume* m_pInformationVolume;	// Volume where stimulus occured, for sense masks.
 		RelationData		m_RelationData;			// Data describing who the emitter was
 		
 		typedef std::vector<CharacterAlignment> _listAlignments;
