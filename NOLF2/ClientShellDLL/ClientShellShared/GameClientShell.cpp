@@ -3854,17 +3854,17 @@ void CGameClientShell::ToggleDebugCheat(CheatCode eCheat)
 
 void CGameClientShell::DebugWriteCameraPosition()
 {
-	static char		s_szDebugCamName[64] = "";
+	static char		s_szDebugCamName[64]{};
 	static uint32	s_nDebugCamCount = 0;
 
-	char szTmp[128] = "";
+	char szTmp[128]{};
 	GetConsoleString("DebugCameraName",szTmp,"CameraPoint");
 	if (stricmp(s_szDebugCamName,szTmp) != 0)
 	{
 		SAFE_STRCPY(s_szDebugCamName,szTmp);
 		s_nDebugCamCount = 0;
 	}
-	char szFileName[64];
+	char szFileName[128]{};
 	sprintf(szFileName,"Game\\%s%02d.txt", s_szDebugCamName, s_nDebugCamCount);
 
 	FILE* pFile = fopen (szFileName, "wt");
