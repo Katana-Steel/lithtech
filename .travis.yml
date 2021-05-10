@@ -46,7 +46,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - gcc-multilib
-            - libstdc++-6-dev:i386
+            - libstdc++-*-dev:i386
             - cmake-data
             - cmake
             - libsdl2-dev
@@ -59,7 +59,6 @@ matrix:
             - libsdl2-2.0-0:i386
             - libegl1-mesa-dev
             - libgles2-mesa-dev
-            - libwayland-egl1-mesa-lts-*
       env:
         - MATRIX_EVAL="CC=gcc-9; CXX=g++-9; CFLAGS=-m32; CXXFLAGS=-m32; LDFLAGS=-m32"
     - os: linux
@@ -70,6 +69,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - clang-10
+            - libclang-common-10-dev
             - cmake-data
             - cmake
             - libsdl2-dev
