@@ -70,7 +70,7 @@ matrix:
           packages:
             - clang-10
             - libclang-common-10-dev
-            - libc6
+            - libc6=2.31-0ubuntu9.2
             - libc6-i386
             - lib32stdc++6
             - lib32gcc-s1
