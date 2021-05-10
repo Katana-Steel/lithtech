@@ -28,6 +28,7 @@ matrix:
       gcc: 9
       addons:
         apt:
+          update: true
           sources:
             - ubuntu-toolchain-r-test
           packages:
@@ -42,6 +43,7 @@ matrix:
       gcc: "9 32bit"
       addons:
         apt:
+          update: true
           sources:
             - ubuntu-toolchain-r-test
           packages:
@@ -65,15 +67,32 @@ matrix:
       clang: 10.0
       addons:
         apt:
+          update: true
           sources:
             - ubuntu-toolchain-r-test
+            - llvm-toolchain-focal
           packages:
-            - clang-10
-            - libclang-common-10-dev
-            - libc6=2.31-0ubuntu9.2
-            - libc6-i386
-            - lib32stdc++6
-            - lib32gcc-s1
+            - clang-format
+            - clang-tidy
+            - clang-tools
+            - clang
+            - clangd
+            - libc++-dev
+            - libc++1
+            - libc++abi-dev
+            - libc++abi1
+            - libclang-dev
+            - libclang1
+            - liblldb-dev
+            - libllvm-ocaml-dev
+            - libomp-dev
+            - libomp5
+            - lld
+            - lldb
+            - llvm-dev
+            - llvm-runtime
+            - llvm
+            - python-clang
             - cmake-data
             - cmake
             - libsdl2-dev
