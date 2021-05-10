@@ -6,7 +6,7 @@ branch:
 
 install: true
 
-dist: bionic
+dist: focal
 
 script:
   - cd Build
@@ -31,7 +31,6 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-9
             - cmake-data
             - cmake
             - libsdl2-dev
@@ -40,14 +39,12 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-9; CXX=g++-9"
     - os: linux
-      dist: bionic
       gcc: "9 32bit"
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-9
             - gcc-multilib
             - libstdc++-6-dev:i386
             - cmake-data
@@ -62,26 +59,24 @@ matrix:
             - libsdl2-2.0-0:i386
             - libegl1-mesa-dev
             - libgles2-mesa-dev
-            - libwayland-egl1-mesa-lts-xenial
+            - libwayland-egl1-mesa-lts-*
       env:
         - MATRIX_EVAL="CC=gcc-9; CXX=g++-9; CFLAGS=-m32; CXXFLAGS=-m32; LDFLAGS=-m32"
     - os: linux
-      dist: bionic
-      clang: 11.0
+      clang: 10.0
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-bionic-11.0
           packages:
-            - clang-11.0
+            - clang-10
             - cmake-data
             - cmake
             - libsdl2-dev
             - libsdl2-image-dev
             - libsdl2-mixer-dev
       env:
-        - MATRIX_EVAL="CC=clang-11.0; CXX=clang++-11.0"
+        - MATRIX_EVAL="CC=clang; CXX=clang++"
 
 
 before_install:
