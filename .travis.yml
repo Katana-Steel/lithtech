@@ -70,6 +70,9 @@ matrix:
           packages:
             - clang-10
             - libclang-common-10-dev
+            - libc6-i386
+            - lib32stdc++6
+            - lib32gcc-s1
             - cmake-data
             - cmake
             - libsdl2-dev
