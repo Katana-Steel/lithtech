@@ -15,6 +15,7 @@
 #ifndef __LINUX
 #include <windows.h>
 #endif
+#include <memory>
 #include "GameClientShell.h"
 #include "VarTrack.h"
 
@@ -192,14 +193,37 @@ void CGameSettings::ImplementMouseSensitivity()
 		{
 			// run the console string
 
-			char strConsole[64];
+			auto devLen = strlen(strDevice);
+			auto xLen = strlen(strXAxis);
+			auto yLen = strlen(strYAxis);
+
 			float fBaseScale = g_vtMouseScaleBase.GetFloat();
 			float fScaleIncrement = g_vtMouseScaleInc.GetFloat();
+			auto szSensitivity = std::to_string(fBaseScale + (nMouseSensitivity * fScaleIncrement));
 
-			sprintf (strConsole, "scale \"%s\" \"%s\" %f", strDevice, strXAxis, fBaseScale + ((float)nMouseSensitivity * fScaleIncrement));
-			m_pClientDE->RunConsoleString (strConsole);
-			sprintf (strConsole, "scale \"%s\" \"%s\" %f", strDevice, strYAxis, fBaseScale + ((float)nMouseSensitivity * fScaleIncrement));
-			m_pClientDE->RunConsoleString (strConsole);
+			auto strConsole = std::make_unique<char[]>(devLen+std::max(xLen,yLen)+szSensitivity.length() + 14);
+			char *root=nullptr, *ptr = strConsole.get();
+			strcpy(ptr, "scale \"");
+			ptr += 7;
+			strcpy(ptr, strDevice);
+			ptr += devLen;
+			strcpy(ptr, "\" \"");
+			ptr += 3;
+			root = ptr;
+			strcpy(ptr, strXAxis);
+			ptr += xLen;
+			strcpy(ptr, "\" ");
+			ptr += 2;
+			strcpy(ptr, szSensitivity.c_str());
+			m_pClientDE->RunConsoleString (strConsole.get());
+
+			ptr = root;
+			strcpy(ptr, strYAxis);
+			ptr += yLen;
+			strcpy(ptr, "\" ");
+			ptr += 2;
+			strcpy(ptr, szSensitivity.c_str());
+			m_pClientDE->RunConsoleString (strConsole.get());
 		}
 	}
 }
