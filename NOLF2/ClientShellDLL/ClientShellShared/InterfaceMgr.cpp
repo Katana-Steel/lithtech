@@ -1997,7 +1997,7 @@ LTBOOL CInterfaceMgr::OnMessage(uint8 messageID, ILTMessage_Read *pMsg)
 				else
 				{
 
-					char szTemp[256];
+					char szTemp[512]{};
 					sprintf(szTemp,"%s : %s", m_ClientInfo.GetPlayerName(clientID), szMessage);
 
 					if( IsTeamGameType() && nTeam != INVALID_TEAM )
@@ -2060,7 +2060,7 @@ LTBOOL CInterfaceMgr::OnMessage(uint8 messageID, ILTMessage_Read *pMsg)
 
 			if (nSound)
 			{
-				char szStr[128] = "";
+				char szStr[128]{};
 				g_pClientSoundMgr->GetSoundFilenameFromId("Dialogue", nSound, szStr, sizeof(szStr));
 
 				g_pClientSoundMgr->PlaySoundLocal(szStr,SOUNDPRIORITY_PLAYER_HIGH);
@@ -2159,9 +2159,9 @@ LTBOOL CInterfaceMgr::OnMessage(uint8 messageID, ILTMessage_Read *pMsg)
 
 					// Build the string to display...
 
-					char szTransmission[256] = {0};
-					char szTeam[32] = {0};
-					char szPiece[32] = {0};
+					char szTransmission[256]{};
+					char szTeam[32]{};
+					char szPiece[32]{};
 
 					LoadString( dwTeamID[nTeam], szTeam, ARRAY_LEN(szTeam) );
 
@@ -2185,12 +2185,12 @@ LTBOOL CInterfaceMgr::OnMessage(uint8 messageID, ILTMessage_Read *pMsg)
 					if( nTeam >= MAX_TEAMS )
 						return LTFALSE;
 
-					char szTeam[32] = {0};
+					char szTeam[32]{};
 					static uint32 dwTeamID[] = { IDS_TEAM_1, IDS_TEAM_2, };
 					LoadString( dwTeamID[nTeam], szTeam, ARRAY_LEN(szTeam) );
 
 					// Build the string to display...
-					char szTransmission[256] = {0};
+					char szTransmission[256]{};
                     FormatString( IDS_DOOMSDAY_DEVICE_COMPLETED, szTransmission, ARRAY_LEN( szTransmission ), szTeam );
 
 					g_pTransmission->Show( szTransmission );
@@ -2210,12 +2210,12 @@ LTBOOL CInterfaceMgr::OnMessage(uint8 messageID, ILTMessage_Read *pMsg)
 					if( Piece >= kDoomsDay_MAXTYPES )
 						return LTFALSE;
 
-					char szPiece[32] = {0};
+					char szPiece[32]{};
 					LoadString( dwPieceID[Piece], szPiece, ARRAY_LEN(szPiece) );
 
 					// Build the string to display...
 					
-					char szTransmission[256] = {0};
+					char szTransmission[256]{};
                     FormatString( IDS_DOOMSDAY_RESPAWNED, szTransmission, ARRAY_LEN( szTransmission ), szPiece );
 
 					g_pChatMsgs->AddMessage( szTransmission );

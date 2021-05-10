@@ -15,7 +15,6 @@
 #ifndef __LINUX
 #include <windows.h>
 #endif
-#include <memory>
 #include "GameClientShell.h"
 #include "VarTrack.h"
 

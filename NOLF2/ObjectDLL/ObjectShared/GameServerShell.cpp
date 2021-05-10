@@ -1818,8 +1818,6 @@ void CGameServerShell::HandleHandshake (HCLIENT hSender, ILTMessage_Read *pMsg)
 //				which routes it to the rest of the player
 //
 // ----------------------------------------------------------------------- //
-#include <memory>
-
 void CGameServerShell::HandlePlayerMessage (HCLIENT hSender, ILTMessage_Read *pMsg)
 {
 	// retrieve the string they sent

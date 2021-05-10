@@ -698,7 +698,7 @@ void CBodyFX::OnModelKey(HLOCALOBJ hObj, ArgList *pArgs)
 		}
 	}
 }
-#include <memory>
+
 // ----------------------------------------------------------------------- //
 //
 //	FUNCTION:	CBodyFX::HandleDeathFXKey()

@@ -43,6 +43,7 @@ extern std::vector<std::basic_string<B>> split(const std::basic_string<B> &str, 
 
 #include <stdio.h>
 #include <limits.h>
+#include <memory>
 
 #include "mfcstub.h"
 
