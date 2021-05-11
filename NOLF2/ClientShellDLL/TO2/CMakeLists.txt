@@ -1,8 +1,10 @@
 project(NOLF2_ClientShellDLL)
 cmake_minimum_required(VERSION 3.1)
 
+if(LINUX)
 include(FindPkgConfig)
 find_package(SDL2 REQUIRED)
+endif(LINUX)
 
 add_library(${PROJECT_NAME} SHARED
     ../ClientShellShared/ActivateObjectFX.cpp
@@ -322,6 +324,8 @@ target_link_libraries(${PROJECT_NAME}
     LIB_RegMgr
     LIB_LTGUIMgr
     ${SDL2_LIBRARIES}
-    ServerDir
-    LIB_DynRes
-    pthread)
+    ServerDir)
+
+if(LINUX)
+	target_link_libraries(${PROJECT_NAME} LIB_DynRes pthread)
+endif(LINUX)

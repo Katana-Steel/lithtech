@@ -1,7 +1,9 @@
 project(LIB_LTMem)
 
+if(LINUX)
 find_package(PkgConfig REQUIRED)
 find_package(SDL2 REQUIRED)
+endif(LINUX)
 
 add_library(${PROJECT_NAME} STATIC
 	ltmem.cpp

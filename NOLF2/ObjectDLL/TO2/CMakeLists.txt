@@ -1,8 +1,10 @@
 project(NOLF2_ObjectDLL)
 cmake_minimum_required(VERSION 3.1)
 
+if(LINUX)
 include(FindPkgConfig)
 find_package(SDL2 REQUIRED)
+endif(LINUX)
 
 add_library(${PROJECT_NAME} SHARED
     ../../Shared/ActivateTypeMgr.cpp

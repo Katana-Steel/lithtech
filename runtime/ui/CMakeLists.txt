@@ -46,7 +46,10 @@ if(ENABLE_D3D)
 		src/sys/d3d/cuidebug.cpp)
 	include_directories(sys/d3d)
 endif(ENABLE_D3D)
+
+if(LINUX)
 find_package(SDL2 REQUIRED)
+endif(LINUX)
 
 include_directories(src
 	../../sdk/inc

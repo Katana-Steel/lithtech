@@ -18,7 +18,7 @@ include_directories(src
 	../../sdk/inc
 	../kernel/src
 	../shared/src
-	/usr/include/SDL2)
+	${SDL2_INCLUDE_DIRS})
 
 set_target_properties(${PROJECT_NAME}
 	PROPERTIES OUTPUT_NAME libltinfo)
