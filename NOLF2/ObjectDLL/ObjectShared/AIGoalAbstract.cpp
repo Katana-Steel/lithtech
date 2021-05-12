@@ -645,8 +645,6 @@ bool CAIGoalAbstract::HandleCommand(const CParsedMsg &cMsg)
 void CAIGoalAbstract::AddInvalidNode( HOBJECT hNode )
 {
 	using std::find_if;
-	using std::bind2nd;
-	using std::equal_to;
 
 	std::vector<INVALID_NODE*>* pList = m_pAI->GetInvalidNodeList();
 
@@ -657,7 +655,7 @@ void CAIGoalAbstract::AddInvalidNode( HOBJECT hNode )
 	it = find_if(
 		pList->begin(),
 		pList->end(),
-		bind2nd( equal_to<INVALID_NODE*>(), pNull ));
+		[](auto a) { return a == nullptr;});
 
 	if ( it !=  pList->end() )
 	{

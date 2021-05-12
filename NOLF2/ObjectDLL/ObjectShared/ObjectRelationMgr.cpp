@@ -390,10 +390,6 @@ void CObjectRelationMgr::AddRelation(const RelationDescription& RD)
 //----------------------------------------------------------------------------
 void CObjectRelationMgr::AddRelationCallback(const RelationDescription& RD)
 {
-	using std::for_each;
-	using std::bind2nd;
-	using std::bind1st;
-	using std::mem_fun;
 
 	AITRACE(AIShowRelations, ( m_hOwner, " adding relation: %s %s %s", CRelationTools::GetInstance()->ConvertTraitEnumToString(RD.eTrait), CRelationTools::GetInstance()->ConvertAlignmentEnumToString(RD.eAlignment), RD.szValue ) );
 
@@ -426,9 +422,6 @@ void CObjectRelationMgr::AddRelationCallback(const RelationDescription& RD)
 //----------------------------------------------------------------------------
 void CObjectRelationMgr::RemoveRelationCallback(const RelationDescription& RD)
 {
-	using std::for_each;
-	using std::bind2nd;
-	using std::mem_fun;
 
 	AITRACE(AIShowRelations, ( m_hOwner, " removing relation: %s %s %s", CRelationTools::GetInstance()->ConvertTraitEnumToString(RD.eTrait), CRelationTools::GetInstance()->ConvertAlignmentEnumToString(RD.eAlignment), RD.szValue ) );
 
@@ -443,11 +436,8 @@ void CObjectRelationMgr::RemoveRelationCallback(const RelationDescription& RD)
 			if ( hChanged )
 			{
 				// Set up the listener.
-				std::list<RelationChangeNotifier*>::iterator it;
-				for ( it = listChangeReceivers.begin(); it != listChangeReceivers.end(); it++ )
-				{
-					(*it)->DoNotification( hChanged );
-				}
+				for (auto cr: listChangeReceivers)
+					cr->DoNotification(hChanged);
 			}
 		}
 	}

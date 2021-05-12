@@ -73,8 +73,8 @@ struct DeleteMomentoWithoutCallback
 	}
 };
 
-struct Momento_RelationData_Equality :
-std::binary_function<RelationMomento*, const RelationDescription* const, bool>
+struct Momento_RelationData_Equality // :
+// std::binary_function<RelationMomento*, const RelationDescription* const, bool>
 {
 	bool operator() (RelationMomento* pMomento,
 		const RelationDescription* const pRD) const
@@ -85,8 +85,8 @@ std::binary_function<RelationMomento*, const RelationDescription* const, bool>
 	}
 };
 
-struct ORMMatchesDescription :
-public std::binary_function< RelationMomento*, CObjectRelationMgr*, bool>
+struct ORMMatchesDescription // :
+// public std::binary_function< RelationMomento*, CObjectRelationMgr*, bool>
 {
 	bool operator()( RelationMomento* pMomento, const CObjectRelationMgr* const pORM ) const
 	{
@@ -870,11 +870,7 @@ int CRelationUser::Save(ILTMessage_Write *pMsg)
 	// Save each of the Active Relationships
 	std::for_each( m_Momentos.begin(),
 		m_Momentos.end(),
-#if _MSC_VER >= 1900 || defined(__LINUX)
-		std::bind2nd( std::mem_fun(&RelationMomento::Save), pMsg ));
-#else
-		std::bind2nd( std::mem_fun1(&RelationMomento::Save), pMsg ));
-#endif
+		[pMsg] (auto a) { a->Save(pMsg);});
 
 	SAVE_TIME( m_flTimeRelationsLast );
 
@@ -988,13 +984,11 @@ void CRelationUser::AddRelation(const RelationDescription& RD, bool bPermanent )
 //----------------------------------------------------------------------------
 bool CRelationUser::HasMatchingRelationMomento(const RelationDescription& RD) const
 {
-	RelationDescription InstRD = RD;
-
 	_listMomentos::const_iterator itFound = std::find_if(
 		m_Momentos.begin(),
 		m_Momentos.end(),
-		std::bind2nd( Momento_RelationData_Equality(), &InstRD )
-		);
+		[RD] (auto a) {return Momento_RelationData_Equality{}(a, &RD);});
+		
 
 	// If we are not at the end, then we did find a matching momento, so return
 	// true;
@@ -1011,8 +1005,7 @@ bool CRelationUser::HasMatchingRelationMomento(const RelationDescription& RD) co
 //----------------------------------------------------------------------------
 void CRelationUser::RemoveRelation(const RelationDescription& RD)
 {
-	RelationDescription InstRD = RD;
-	_listMomentos::iterator itFound = std::find_if( m_Momentos.begin(), m_Momentos.end(), std::bind2nd( Momento_RelationData_Equality(), &InstRD ) );
+	_listMomentos::iterator itFound = std::find_if( m_Momentos.begin(), m_Momentos.end(), [RD] (auto a) { return Momento_RelationData_Equality{}(a, &RD);} );
 	AIASSERT( itFound != m_Momentos.end(), NULL, "Attempted to remove relation momento which does not exist in list" );
 
 	// Delete the momento, then remove it from the list.
@@ -1056,10 +1049,11 @@ void CRelationUser::InitRelations(const char* const szKey)
 //----------------------------------------------------------------------------
 void CRelationUser::ResetRelationTime(CObjectRelationMgr* pORM)
 {
+	ORMMatchesDescription fn{};
 	_listMomentos::const_iterator it = std::find_if(
 		m_Momentos.begin(),
 		m_Momentos.end(),
-		std::bind2nd( ORMMatchesDescription(), pORM)  );
+		[&fn, pORM] (auto a) { return fn(a, pORM);});
 
 	if ( it != m_Momentos.end() )
 	{
@@ -1100,20 +1094,6 @@ void CRelationUser::Update(bool bCanRemoveExpiredRelations)
 }
 
 
-struct SyncObjectRelationMgr :
-public std::binary_function<RelationMomento*, CObjectRelationMgr*, bool>
-{
-	bool operator()(RelationMomento* pMomento, CObjectRelationMgr* pObjectRelationMgr) const
-	{
-		if (!pObjectRelationMgr->GetRelationUser()->HasMatchingRelationMomento( pMomento->GetDescription() ))
-		{
-			// Add the new collective relationship which the collective will manage
-			pObjectRelationMgr->AddRelation(pMomento->GetDescription());
-		}
-		return true;
-	}
-};
-
 //----------------------------------------------------------------------------
 //
 //	ROUTINE:	CRelationUser::Sync()
@@ -1123,9 +1103,12 @@ public std::binary_function<RelationMomento*, CObjectRelationMgr*, bool>
 //----------------------------------------------------------------------------
 void CRelationUser::Sync(const CObjectRelationMgr* pObjectRelationMgr)
 {
-	CObjectRelationMgr *pTakeIt = const_cast<CObjectRelationMgr*>(pObjectRelationMgr);
-	std::for_each(m_Momentos.begin(), m_Momentos.end(),
-		std::bind2nd( SyncObjectRelationMgr(), pTakeIt));
+	auto SyncObjectRelationMgr = [pRelationMgr = const_cast<CObjectRelationMgr*>(pObjectRelationMgr)] (auto memento) {
+		if(pRelationMgr->GetRelationUser()->HasMatchingRelationMomento(memento->GetDescription()))
+			pRelationMgr->AddRelation(memento->GetDescription());
+		return true;
+	};
+	std::for_each(m_Momentos.begin(), m_Momentos.end(), SyncObjectRelationMgr);
 
 	m_Momentos.remove_if( MomentoIsNull() );
 }

@@ -468,8 +468,8 @@ static CBankedList<INVALID_NODE> s_bankINVALID_NODE;
 //
 // Deletes a node if it has expired.
 //
-struct DeleteExpiredNodes :
-std::binary_function<INVALID_NODE*, float, INVALID_NODE*>
+struct DeleteExpiredNodes  // :
+// std::binary_function<INVALID_NODE*, float, INVALID_NODE*>
 {
 	INVALID_NODE* operator()( INVALID_NODE* pNode, float flTime ) const
 	{
@@ -3673,22 +3673,19 @@ void CAI::UpdateInvalidNodeList( )
 	}
 
 	using std::transform;
-	using std::bind2nd;
 	using std::remove_if;
-	using std::equal_to;
 
 	transform(
 		m_InvalidNodeList.begin(),
 		m_InvalidNodeList.end(),
 		m_InvalidNodeList.begin(),
-		bind2nd( DeleteExpiredNodes(), g_pLTServer->GetTime() ));
+		[] (auto a) {return DeleteExpiredNodes{}(a, g_pLTServer->GetTime());});
 
 	std::vector<INVALID_NODE*>::iterator pos;
-	INVALID_NODE *pNull = NULL;
 	pos = remove_if(
 		m_InvalidNodeList.begin(),
 		m_InvalidNodeList.end(),
-		bind2nd( equal_to<INVALID_NODE*>(), pNull ));
+		[] (auto a) {return a == nullptr;});
 
 	m_InvalidNodeList.erase(pos, m_InvalidNodeList.end());
 }
