@@ -288,7 +288,7 @@ void CMusicMgr::DoEvent(Event eEvent)
 
     if ( m_acEvents[eEvent] != 0 && (m_afEventChances[eEvent] > GetRandom(0.0, 1.0f)) )
     {
-        char szMusic[256];
+        char szMusic[512];
         uint32 iEvent = GetRandom(0, m_acEvents[eEvent]-1);
         sprintf(szMusic, "MUSIC PM %s %s Beat", m_szTheme, m_aaszEvents[eEvent][iEvent]);
 

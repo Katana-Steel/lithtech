@@ -44,8 +44,8 @@ namespace
 
     LTBOOL   bEatMouseButtonUp = LTFALSE;
 
-	char szWheelUp[32] = "";
-	char szWheelDown[32] = "";
+	char szWheelUp[1024] = "";
+	char szWheelDown[1024] = "";
 
 
 }

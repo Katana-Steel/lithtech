@@ -60,8 +60,8 @@ void CInterfaceTimer::Draw()
 	int nSeconds = fCountDownTime > 60.0 ? int(fCountDownTime) % 60 : int(fCountDownTime);
 
 	char aBuffer[8];
-	char aMinutes[8];
-	char aSeconds[8];
+	char aMinutes[3];
+	char aSeconds[3];
 	BuildTimeString(aMinutes, nMinutes);
 	BuildTimeString(aSeconds, nSeconds);
 	uint8 nFont = 0;

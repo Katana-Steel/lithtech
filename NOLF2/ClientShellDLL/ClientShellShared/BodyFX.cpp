@@ -738,30 +738,28 @@ bool CBodyFX::HandleDeathFXKey( HLOCALOBJ hObj, ArgList* pArgList )
 	// Now we've got the start and end of just the model filename
 	strcpy(szModelName,&szFullModelPath[nStart]);
 
-	// Get the FX name
-	auto szFX = std::make_unique<char[]>(strlen(szModelName)+strlen(pArgList->argv[1])+12);
-	char *cptr = szFX.get();
-	strcpy(cptr, "DEATHFX_");
-	cptr += 8;
-	strcpy(cptr, szModelName);
-	cptr += strlen(szModelName);
-	*cptr = '_';
-	++cptr;
-	strcpy(cptr, pArgList->argv[1]);
-
-	// create the effect
 	bool bResult;
-	CLIENTFX_CREATESTRUCT  fxCS( szFX.get(),
-		                         0,
-		                         m_hServerObject );
+	{
+		// Get the FX name
+		auto szFX = std::make_unique<char[]>(strlen(szModelName)+strlen(pArgList->argv[1])+12);
+		char *cptr = szFX.get();
+		strcat(cptr, "DEATHFX_");
+		strcat(cptr, szModelName);
+		strcat(cptr, "_");
+		strcat(cptr, pArgList->argv[1]);
 
-	// Set the parent info & starting pos
-	g_pLTClient->GetObjectPos(m_hServerObject,&fxCS.m_vPos);
+		// create the effect
+		CLIENTFX_CREATESTRUCT  fxCS( szFX.get(),
+									0,
+									m_hServerObject );
 
-	bResult = g_pClientFXMgr->CreateClientFX( &m_fxDeath,
-		                                      fxCS,
-		                                      LTTRUE );
+		// Set the parent info & starting pos
+		g_pLTClient->GetObjectPos(m_hServerObject,&fxCS.m_vPos);
 
+		bResult = g_pClientFXMgr->CreateClientFX( &m_fxDeath,
+												fxCS,
+												LTTRUE );
+	}
 	// [kml] We set this because they set it in ClientFXMgr::OnSpecialEffectNotify
 	// Seems superfluous
 	if(!m_fxDeath.IsValid())
