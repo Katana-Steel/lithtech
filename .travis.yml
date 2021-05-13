@@ -23,6 +23,7 @@ script:
 matrix:
   allow_failures:
     - gcc: "9 32bit"
+    - clang: 10.0
   include:
     - os: linux
       gcc: 9
@@ -82,6 +83,7 @@ matrix:
             - libc++abi-dev
             - libc++abi1
             - libclang-10-dev
+            - libclang-common-10-dev
             - libclang1
             - liblldb-dev
             - libllvm-ocaml-dev
