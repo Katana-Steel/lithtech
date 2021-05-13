@@ -31,7 +31,7 @@ matrix:
         apt:
           update: true
           sources:
-            - ubuntu-toolchain-r-test
+            - sourceline 'ppa:ubuntu-toolchain-r/test'
           packages:
             - cmake-data
             - cmake
@@ -46,7 +46,7 @@ matrix:
         apt:
           update: true
           sources:
-            - ubuntu-toolchain-r-test
+            - sourceline 'ppa:ubuntu-toolchain-r/test'
           packages:
             - gcc-multilib
             - libstdc++-*-dev:i386
@@ -70,8 +70,9 @@ matrix:
         apt:
           update: true
           sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-focal
+            - sourceline 'ppa:ubuntu-toolchain-r/test'
+            - sourceline 'ppa:llvm-toolchain-focal'
+            - 
           packages:
             - clang-format
             - clang-tidy-10
