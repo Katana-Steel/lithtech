@@ -73,15 +73,15 @@ matrix:
             - llvm-toolchain-focal
           packages:
             - clang-format
-            - clang-tidy
-            - clang-tools
-            - clang
-            - clangd
+            - clang-tidy-10
+            - clang-tools-10
+            - clang-10
+            - clangd-10
             - libc++-dev
             - libc++1
             - libc++abi-dev
             - libc++abi1
-            - libclang-dev
+            - libclang-10-dev
             - libclang1
             - liblldb-dev
             - libllvm-ocaml-dev
@@ -92,7 +92,7 @@ matrix:
             - llvm-dev
             - llvm-runtime
             - llvm
-            - python-clang
+            - python3-clang
             - cmake-data
             - cmake
             - libsdl2-dev
