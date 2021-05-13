@@ -1090,7 +1090,7 @@ bool ScmdConsoleCommandHandler_ListMissions::Receive( ScmdCommandStatus eScmdCom
 			uint8 nNumMissions = msg.Readuint8( );
 
 			char szMission[128] = "";
-			char szOutput[128] = "";
+			char szOutput[256] = "";
 
 			ScmdConsole::Instance( ).GetScmdConsoleDriver( ).WriteStringResId( IDS_SCMD_LISTMISSIONSHEADER );
 

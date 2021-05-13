@@ -39,6 +39,7 @@ struct LINK_STATUS
 //-----------------------------------------------------------------
 // Helpers to read from a text .fxf file...
 //-----------------------------------------------------------------
+// ReadTextFile  TODO  could use a refactor
 
 template< typename T>
 inline void	ReadTextFile( ILTStream *pStream, const char *szFormat, T *t1, T *t2 = LTNULL, T *t3 = LTNULL, T *t4 = LTNULL,  T *t5 = LTNULL  )
