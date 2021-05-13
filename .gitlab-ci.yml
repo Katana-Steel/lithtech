@@ -6,23 +6,41 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
 stages:
+  - build
   - test
 
 gcc 7:
   image: "registry.gitlab.com/katana-steel/lithtech/gcc"
-  stage: test
+  stage: build
   script:
     - g++ --version
     - mkdir build
     - cd build
     - cmake -G Ninja -DJSON_BuildTests=off ..
     - cmake --build .
+  artifacts:
+    paths:
+      - build
+    expire_in: 2 days
 clang 5:
   image: "registry.gitlab.com/katana-steel/lithtech/clang"
-  stage: test
+  stage: build
   script:
     - clang --version
     - mkdir build
     - cd build
     - cmake -G Ninja -DJSON_BuildTests=off ..
     - cmake --build .
+  artifacts:
+    paths:
+      - build
+    expire_in: 2 days
+
+testing:
+  stage: test
+  script:
+    - cd build
+    - OUT/testRegMgr
+    - OUT/testDynRes tests/DynResDLL/libtestCRes.so
+    - OUT/testDynRes NOLF2/ClientRes/TO2/libCRes.so
+ 
