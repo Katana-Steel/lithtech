@@ -475,7 +475,7 @@ bool CClientFXDB::ReadFXKey( bool bText, ILTStream* pFxFile, float fTotalTime, F
 	// Read in the key ID
 	if( bText )
 	{
-		ReadTextFile( pFxFile, "%s %lu", &pKey->m_dwID );
+		ReadTextFile( pFxFile, "%s %u", &pKey->m_dwID );
 	}
 	else
 	{
@@ -487,7 +487,7 @@ bool CClientFXDB::ReadFXKey( bool bText, ILTStream* pFxFile, float fTotalTime, F
 	if( bText )
 	{
 		ReadTextFile( pFxFile, "%s %i", &ls.m_bLinked );
-		ReadTextFile( pFxFile, "%s %lu", &ls.m_dwLinkedID );
+		ReadTextFile( pFxFile, "%s %u", &ls.m_dwLinkedID );
 
 		//read in the linked node name but make sure that it is cleared out first
 		ls.m_sLinkedNodeName[0] = '\0';
@@ -532,7 +532,7 @@ bool CClientFXDB::ReadFXKey( bool bText, ILTStream* pFxFile, float fTotalTime, F
 	uint32 nKeyRepeats = 0;
 	if( bText )
 	{
-		ReadTextFile( pFxFile, "%s %lu", &nKeyRepeats );
+		ReadTextFile( pFxFile, "%s %u", &nKeyRepeats );
 	}
 	else
 	{
@@ -545,7 +545,7 @@ bool CClientFXDB::ReadFXKey( bool bText, ILTStream* pFxFile, float fTotalTime, F
 	LTFLOAT	fDummy;
 	if( bText )
 	{
-		ReadTextFile( pFxFile, "%s %lu", &dwDummy );
+		ReadTextFile( pFxFile, "%s %u", &dwDummy );
 		ReadTextFile( pFxFile, "%s %f", &fDummy );
 		ReadTextFile( pFxFile, "%s %f", &fDummy );
 	}
@@ -560,7 +560,7 @@ bool CClientFXDB::ReadFXKey( bool bText, ILTStream* pFxFile, float fTotalTime, F
 	uint32 dwNumProps;
 	if( bText )
 	{
-		ReadTextFile( pFxFile, "%s %lu", &dwNumProps );
+		ReadTextFile( pFxFile, "%s %u", &dwNumProps );
 	}
 	else
 	{
@@ -632,10 +632,10 @@ bool CClientFXDB::ReadFXGroup( bool bText, ILTStream* pFxFile, FX_GROUP* pFxGrou
 		// Read in the name of this FX group
 		ReadTextFile( pFxFile, "%s %s", pFxGroup->m_sName );
 		
-		ReadTextFile( pFxFile, "%s %lu", &dwNumFx );
+		ReadTextFile( pFxFile, "%s %u", &dwNumFx );
 		
 		// Read in the phase length
-		ReadTextFile( pFxFile, "%s %lu", &dwPhaseLen );
+		ReadTextFile( pFxFile, "%s %u", &dwPhaseLen );
 	}
 	else
 	{
@@ -726,7 +726,7 @@ bool CClientFXDB::ReadFXGroups( bool bText, ILTStream* pFxFile, CLinkList<FX_GRO
 
 	if( bText )
 	{
-		ReadTextFile( pFxFile, "%s %lu", &dwNumGroups );
+		ReadTextFile( pFxFile, "%s %u", &dwNumGroups );
 	}
 	else
 	{

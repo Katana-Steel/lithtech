@@ -9,6 +9,11 @@ namespace {
     inline float intToFloatRange(uint8 c) {
         return float(c)/255.0f;
     }
+
+    inline void RenderObject(LTObject *obj)
+    {
+        return;
+    }
 }
 
 OGlRenderStruct::OGlRenderStruct()
@@ -53,12 +58,9 @@ int OGlRenderStruct::RenderScene(SceneDesc *pScene) {
     std::vector<LTObject*> objs;
     objs.resize(pScene->m_ObjectListSize);
     memcpy(objs.data(), pScene->m_pObjectList, sizeof(LTObject*)*pScene->m_ObjectListSize);
-    glBegin(GL_TRIANGLES);
     for(LTObject *obj : objs) {
-        glColor4ubv(&obj->m_ColorR);
-        glVertex3fv(&obj->m_Pos.x);
+        RenderObject(obj);
     }
-    glEnd();
     glPopMatrix();
     this->SwapBuffers(0);
     return 0;

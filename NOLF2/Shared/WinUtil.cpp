@@ -111,7 +111,7 @@ BOOL CWinUtil::CreateDir (char const* strPath)
 		if (!DirExist (strPartialPath) && strPartialPath[strlen(strPartialPath) - 1] != ':')
 		{
 #ifdef __LINUX
-			if (!mkdir(strPartialPath, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)) return FALSE;
+			if (mkdir(strPartialPath, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0) return FALSE;
 #else
 			if (!CreateDirectory(strPartialPath, NULL)) return FALSE;
 #endif
@@ -296,14 +296,16 @@ DWORD CWinUtil::WinWritePrivateProfileString (const char* lpAppName, const char*
 		return 1;
 	}
 	std::fstream conf{lpFileName, std::ios_base::app|std::ios_base::in|std::ios_base::out};
-	// we've asked to append to the file, so if our write position and read
-	// then it was newly created and we write our app/key
-	if (conf.tellp() == conf.tellg()){
+	auto beg = conf.tellg();
+	conf.seekg(0, std::ios_base::end);
+	// if the end and the beginning is the same, it's a new file
+	if (beg == conf.tellg()){
 		conf << '[' << lpAppName << "]\n";
 		conf << lpKeyName << '=' << lpString << '\n';
+		conf.close();
 		return 0;
 	}
-
+	conf.seekg(0, std::ios_base::beg);
 	std::string line;
 	std::string app_name{lpAppName};
 	std::string key_name{lpKeyName};
