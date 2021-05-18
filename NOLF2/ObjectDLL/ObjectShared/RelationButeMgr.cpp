@@ -1104,7 +1104,7 @@ void CRelationUser::Update(bool bCanRemoveExpiredRelations)
 void CRelationUser::Sync(const CObjectRelationMgr* pObjectRelationMgr)
 {
 	auto SyncObjectRelationMgr = [pRelationMgr = const_cast<CObjectRelationMgr*>(pObjectRelationMgr)] (auto memento) {
-		if(pRelationMgr->GetRelationUser()->HasMatchingRelationMomento(memento->GetDescription()))
+		if(!pRelationMgr->GetRelationUser()->HasMatchingRelationMomento(memento->GetDescription()))
 			pRelationMgr->AddRelation(memento->GetDescription());
 		return true;
 	};
