@@ -787,6 +787,7 @@ CUI_RESULTTYPE	CUIPolyString_Impl::GetExtents(CUIRECT* pRect)
 
 	if (!pRect)		return CUIR_INVALID_POINTER;
 	if (!m_Valid)	return CUIR_INVALID_POLYSTRING;
+	if (m_Length == 0) return CUIR_ERROR;
 
 	float minx = 0;
 	float maxx = 0;

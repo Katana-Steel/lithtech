@@ -333,6 +333,12 @@ CPlayerMgr::~CPlayerMgr()
 		m_pPVAttachmentMgr = LTNULL;
 	}
 
+	if ( m_pTargetMgr )
+	{
+		debug_delete( m_pTargetMgr );
+		m_pTargetMgr = LTNULL;
+	}
+
 	g_pPlayerMgr = NULL;
 }
 

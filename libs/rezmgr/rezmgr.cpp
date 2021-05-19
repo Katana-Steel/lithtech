@@ -2192,6 +2192,10 @@ CRezItm* CRezDir::GetRezFromUnixPath(const char* sPath)
 	char	sDir[1024];
 	char	sRez[1024];
 
+	if (sPath[0] == '\0')
+	{
+		return NULL;
+	}
 
 	// Strip off leading slash...
 

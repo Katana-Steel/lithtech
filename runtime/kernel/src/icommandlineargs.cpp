@@ -77,7 +77,7 @@ ICommandLineArgsCommonImp::ICommandLineArgsCommonImp() {
 
 ICommandLineArgsCommonImp::~ICommandLineArgsCommonImp() {
     //delete our buffers and arrays
-    delc(all_arguments);
+    delca(all_arguments);
     delca(argv);
 
     //we have no arguments.
@@ -86,7 +86,7 @@ ICommandLineArgsCommonImp::~ICommandLineArgsCommonImp() {
 
 void ICommandLineArgsCommonImp::Init(int32 argc, char **argv) {
     //delete old data
-    if (all_arguments) delc(all_arguments);
+    if (all_arguments) delca(all_arguments);
     if (this->argv)    delca(this->argv);
     this->argc = 0;
 

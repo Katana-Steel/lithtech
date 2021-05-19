@@ -29,6 +29,7 @@ CHUDChatInput::CHUDChatInput()
 	m_pStr = LTNULL;
 	m_eLevel = kHUDRenderText;
 	m_bTeamMessage = false;
+	m_szChatStr[0] = '\0';
 }
 
 

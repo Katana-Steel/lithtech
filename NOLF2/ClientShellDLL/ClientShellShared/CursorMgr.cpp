@@ -40,6 +40,7 @@ CCursorMgr::CCursorMgr()
 	m_pCursorSprite				= LTNULL;
 	m_pCursorGlowSprite			= LTNULL;
 	m_pCursorBackgroundSprite	= LTNULL;
+	m_hSurfCursor				= LTNULL;
 }
 
 CCursorMgr::~CCursorMgr()
@@ -118,6 +119,9 @@ void CCursorMgr::Term()
 		g_pLTClient->DeleteSurface(m_hSurfCursor);
 		m_hSurfCursor = LTNULL;
 	}
+
+	g_pLTClient->Cursor()->FreeCursor(m_hCursor);
+
 	// don't need to clean this up, just erase the list.  SpriteMgr will clean up.
 	m_SpriteArray.clear();
 

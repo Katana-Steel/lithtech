@@ -1312,6 +1312,7 @@ void CGameClientShell::OnEngineTerm()
 	if( m_pMissionMgr )
 	{
 		m_pMissionMgr->Term();
+		debug_delete( m_pMissionMgr );
 		m_pMissionMgr = NULL;
 	}
 

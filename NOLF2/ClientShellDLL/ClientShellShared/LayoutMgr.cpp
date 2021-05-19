@@ -547,6 +547,14 @@ void CLayoutMgr::Term()
 		fxIter++;
 	}
 	m_FXArray.clear();
+
+	ChainFXArray::iterator chainFxIter = m_ChainFXArray.begin();
+	while (chainFxIter != m_ChainFXArray.end())
+	{
+		debug_delete(*chainFxIter);
+		chainFxIter++;
+	}
+	m_ChainFXArray.clear();
 }
 
 
