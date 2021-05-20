@@ -134,7 +134,7 @@ LTBOOL CScreenMain::Build()
 	uint16 nUnScaledWidth = pCtrl->GetBaseWidth();
 	if( pos.x + nUnScaledWidth >= 640 )
 	{
-		pos.x = 640 + (g_pInterfaceResMgr->Get640x480Offset() * 2) - nUnScaledWidth;
+		pos.x = 640 - nUnScaledWidth;
 	}
 	int nUnScaledHeight = pCtrl->GetBaseHeight();
 	if( pos.y + nUnScaledHeight > 480 )

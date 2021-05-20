@@ -220,7 +220,6 @@ void CHUDDecision::UpdateLayout()
 
 	const char *pTag = "DecisionWindow";
 	m_BasePos = g_pLayoutMgr->GetPoint(pTag,"Pos");
-	m_BasePos.x += g_pInterfaceResMgr->Get640x480Offset();
 
 	uint8 nFont = (uint8)g_pLayoutMgr->GetInt(pTag,"Font");
 	m_pFont = g_pInterfaceResMgr->GetFont(nFont);
@@ -277,7 +276,7 @@ void CHUDDecision::UpdateLayout()
 
 	m_Dlg.SetSize(m_nWidth,(offset.y+m_Offset.y));
 
-	m_Dlg.SetScale(g_pInterfaceResMgr->GetYRatio());
+	m_Dlg.ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 }
 
 

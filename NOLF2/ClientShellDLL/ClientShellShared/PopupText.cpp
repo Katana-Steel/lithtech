@@ -92,14 +92,13 @@ void CPopupText::DisplayPopup(uint8 nPopupId, char *pText, uint32 nTextId)
 	// We need to expand the width of our 640x480 to whatever aspect ratio we're using.
 	int offset = g_pInterfaceResMgr->Get640x480Offset();
 
-	// Reference: 640 / 2 = 320
-	pos.x = (320 + offset) - (width / 2);
+	pos.x = (640 - width) / 2;
 	pos.y = (480 - height) / 2;
 
 	m_Frame.SetFrame(g_pInterfaceResMgr->GetTexture(pPopup->szFrame));
 	m_Frame.SetSize(width, height);
 	m_Frame.SetBasePos(pos);
-	m_Frame.SetScale(g_pInterfaceResMgr->GetYRatio());
+	m_Frame.ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 
 
 	pos.x += pPopup->sTextOffset.x;
@@ -134,7 +133,7 @@ void CPopupText::DisplayPopup(uint8 nPopupId, char *pText, uint32 nTextId)
 	m_Text.SetColors(pPopup->argbTextColor,pPopup->argbTextColor,pPopup->argbTextColor);
 	m_Text.SetFixedWidth(pPopup->nTextWidth);
 	m_Text.SetBasePos(pos);
-	m_Text.SetScale(g_pInterfaceResMgr->GetYRatio());
+	m_Text.ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 
 	m_bVisible = LTTRUE;
 
