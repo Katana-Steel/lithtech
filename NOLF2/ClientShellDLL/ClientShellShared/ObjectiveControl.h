@@ -26,7 +26,7 @@ public:
     LTBOOL			Create (const char *pText, 	CUIFont *pFont, uint8 nFontSize, uint16 nTextOffset, HTEXTURE hTex);
 
     virtual void    SetBasePos ( LTIntPt pos );
-	virtual void	SetScale(float fScale);
+	virtual void	ApplyPosition(float fScale, int nOffset);
 	virtual void	SetString(const char *pText);
 	virtual void	SetTexture(HTEXTURE hTex);
 

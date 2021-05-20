@@ -31,9 +31,9 @@ void CObjectiveCtrl::SetBasePos ( LTIntPt pos )
 	ScalePoly();
 }
 
-void CObjectiveCtrl::SetScale(float fScale)
+void CObjectiveCtrl::ApplyPosition(float fScale, int nOffset)
 {
-	CLTGUITextCtrl::SetScale(fScale);
+	CLTGUITextCtrl::ApplyPosition(fScale, nOffset);
 	ScalePoly();
 }
 
@@ -98,7 +98,7 @@ void CObjectiveCtrl::ScalePoly()
 //	float fh = (float)h * m_fScale;
 	float fh = (float)m_nFontSize;
 
-	float x = (float)(m_basePos.x) * m_fScale;
+	float x = (float)m_pos.x;//(m_basePos.x) * m_fScale;
 	float y = (float)(m_basePos.y) * m_fScale + (strH-fh)/2.0f;
 
 
