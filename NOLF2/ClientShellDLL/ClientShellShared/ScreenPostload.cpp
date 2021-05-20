@@ -534,7 +534,12 @@ void CScreenPostload::OnFocus(LTBOOL bFocus)
 
 		m_pContinueStr->SetColor(m_nContinueColor);
 		m_pContinueStr->SetCharScreenHeight(nFontSize);
-		x = ((float)ContinuePos.x * g_pInterfaceResMgr->GetYRatio()) + g_pInterfaceResMgr->Get4x3Offset();
+		// We need to expand the width of our 640x480 to whatever aspect ratio we're using.
+		int offset = g_pInterfaceResMgr->Get4x3Offset();
+
+		// Scale up ContinuePos.x, then add in half our scaled 4x3 offset.
+		// Seems to work okay.
+		x = (ContinuePos.x * g_pInterfaceResMgr->GetYRatio()) + (offset / 2);
 		y = (float)ContinuePos.y * g_pInterfaceResMgr->GetYRatio();
 		m_pContinueStr->SetPosition(x,y);
 
