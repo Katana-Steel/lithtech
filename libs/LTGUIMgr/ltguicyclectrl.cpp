@@ -368,9 +368,9 @@ void CLTGUICycleCtrl::SetBasePos ( LTIntPt pos )
 	}
 }
 
-void CLTGUICycleCtrl::SetScale(float fScale)
+void CLTGUICycleCtrl::ApplyPosition(float fScale, int nOffset)
 {
-	CLTGUICtrl::SetScale(fScale);
+	CLTGUICtrl::ApplyPosition(fScale, nOffset);
 	m_nFontSize = (uint8)(m_fScale * (float)m_nBaseFontSize);
 
 	if (m_pHeaderText)

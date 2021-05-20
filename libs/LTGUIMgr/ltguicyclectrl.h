@@ -73,7 +73,7 @@ public:
     virtual LTBOOL   OnRButtonUp(int x, int y) {return OnLeft();}
 
     virtual void    SetBasePos ( LTIntPt pos );
-	virtual void	SetScale(float fScale);
+	virtual void	ApplyPosition(float fScale, int nOffset);
 
 	// Set the font, pass in a NULL pointer to change only the font size
 	//   pass in a font size of 0 to retain the current size.
