@@ -242,7 +242,7 @@ LTBOOL CHUDSubtitles::Show(int nStringId, LTVector vSpeakerPos, LTFLOAT fRadius,
 		width = m_nCinematicWidth;
 	}
 
-	m_DisplayRect.x = (float)pos.x * m_fScale;
+	m_DisplayRect.x = ((float)pos.x * m_fScale) + g_pInterfaceResMgr->Get4x3Offset();
 	m_DisplayRect.y = (float)pos.y * m_fScale;
 	m_DisplayRect.width = (float)width * m_fScale;
 	m_DisplayRect.height = 2.0f + (float)m_nMaxLines * (float)m_nFontSize;
