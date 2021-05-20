@@ -129,9 +129,9 @@ void CLTGUIFrame::SetBasePos ( LTIntPt pos )
 	ScalePolies();
 }
 
-void CLTGUIFrame::SetScale(float fScale)
+void CLTGUIFrame::ApplyPosition(float fScale, int nOffset)
 {
-	CLTGUICtrl::SetScale(fScale);
+	CLTGUICtrl::ApplyPosition(fScale, nOffset);
 	m_nWidth = (uint16)((float)m_nBaseWidth * m_fScale);
 	m_nHeight = (uint16)((float)m_nBaseHeight * m_fScale);
 	ScalePolies();
