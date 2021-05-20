@@ -59,6 +59,7 @@ public:
     void    OnFocus(LTBOOL bFocus);
 
 	void	ConfirmHardwareCursor(LTBOOL bReturn);
+	virtual void UpdateHelpText();
 
 protected:
     uint32  OnCommand(uint32 dwCommand, uint32 dwParam1, uint32 dwParam2);

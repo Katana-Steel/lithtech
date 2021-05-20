@@ -98,6 +98,18 @@ public:
 		return RAD2DEG(fov);
 	}
 
+	const LTFLOAT Get4x3HorizontalFOV(LTFLOAT vFOV)
+	{
+		LTFLOAT vRadFov = DEG2RAD(vFOV);
+		LTFLOAT fov = 2 * (
+			std::atan(
+				std::tan(vRadFov / 2) * 4 / 3
+			)
+		);
+
+		return RAD2DEG(fov);
+	}
+
 	const LTFLOAT GetVerticalFOV(LTFLOAT fFOV)
 	{
 		LTFLOAT fRadFov = DEG2RAD(fFOV);

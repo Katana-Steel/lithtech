@@ -203,7 +203,7 @@ LTBOOL CScreenDisplay::Build()
 	AddControl(pBar);
 
 
-	m_pFOV = AddSlider("Field of View", IDS_HELP_GAMMA, kGap, kWidth, -1, &m_nFOV);
+	m_pFOV = AddSlider("Field of View", 0, kGap, kWidth, -1, &m_nFOV);
 	m_pFOV->SetSliderRange(70, 150);
 	m_pFOV->SetSliderIncrement(1);
 	m_pFOV->SetNumericDisplay(LTTRUE);
@@ -584,6 +584,10 @@ LTBOOL CScreenDisplay::OnLButtonUp(int x, int y)
 			WriteConsoleFloat("GammaB",fGamma);
 			return LTTRUE;
 		}
+		if (pCtrl == m_pFOV)
+		{
+			UpdateHelpText();
+		}
 	}
 	return CBaseScreen::OnLButtonUp(x, y);
 }
@@ -642,6 +646,10 @@ LTBOOL CScreenDisplay::OnLeft()
 		WriteConsoleFloat("GammaG",fGamma);
 		WriteConsoleFloat("GammaB",fGamma);
 	}
+	if (pCtrl == m_pFOV)
+	{
+		UpdateHelpText();
+	}
 
 	return LTTRUE;
 }
@@ -674,6 +682,10 @@ LTBOOL CScreenDisplay::OnRight()
 		WriteConsoleFloat("GammaG",fGamma);
 		WriteConsoleFloat("GammaB",fGamma);
 	}
+	if (pCtrl == m_pFOV)
+	{
+		UpdateHelpText();
+	}
 	return LTTRUE;
 }
 LTBOOL CScreenDisplay::OnEnter()
@@ -691,4 +703,30 @@ void CScreenDisplay::ConfirmHardwareCursor(LTBOOL bReturn)
 	UpdateData(LTFALSE);
 }
 
+void CScreenDisplay::UpdateHelpText()
+{
+	CLTGUICtrl* pCtrl = GetSelectedControl();
+	uint32 dwID = 0;
 
+	if (pCtrl) {
+		dwID = pCtrl->GetHelpID();
+	}
+
+	if (!dwID && pCtrl)
+	{
+		// Bit annoying, but we need to translate our current selected fov to vertical, then back to horizontal but through the 4x3 function.
+		pCtrl->UpdateData();
+		LTFLOAT verticalFOV = g_pInterfaceResMgr->GetVerticalFOV(m_nFOV);
+		LTFLOAT squareFOV = g_pInterfaceResMgr->Get4x3HorizontalFOV(verticalFOV);
+
+		// TODO: Better explain that this is basically the fov you'd set in a source engine game.
+		std::string helpText = "Horizontal Field of View (Equivalent to " + std::to_string( (int)std::floor(squareFOV) ) + " when corrected for aspect ratio.)";
+
+		s_pHelpStr->SetText(helpText.c_str());
+		m_dwCurrHelpID = 0;
+		return;
+	}
+
+	CBaseScreen::UpdateHelpText();
+	return;
+}
