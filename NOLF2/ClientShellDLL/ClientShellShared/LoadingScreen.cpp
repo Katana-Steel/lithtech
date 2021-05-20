@@ -536,7 +536,7 @@ LTBOOL CLoadingScreen::Init()
 	x = ((float)BriefingPos.x * g_pInterfaceResMgr->GetYRatio()) + g_pInterfaceResMgr->Get4x3Offset();
 	y = (float)BriefingPos.y * g_pInterfaceResMgr->GetYRatio();
 	m_pBriefingStr->SetPosition(x,y);
-	m_pBriefingStr->SetWrapWidth((uint16)(g_pInterfaceResMgr->GetXRatio() * (float)BriefingWidth));
+	m_pBriefingStr->SetWrapWidth((uint16)(g_pInterfaceResMgr->GetYRatio() * (float)BriefingWidth));
 
 	//*******************************************************************************
 	// Build Mission Help String
