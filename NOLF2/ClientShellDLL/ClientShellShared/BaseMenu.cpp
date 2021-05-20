@@ -90,18 +90,27 @@ void CSubMenu::ApplyPosition(float fScale, int nOffset)
 	UpdateFrame();
 }
 
+//
+// Jake: This is modified to add the offset into the width
+// instead of offsetting it...
+// Sorry for anyone trying to use this for anything
+// except how it's currently used!
+//
 void CSubMenu::UpdateFrame()
 {
-	float fx = (float)m_pos.x;
+	// This was `= m_pos.x;`
+	float fx = (float)m_basePos.x * m_fScale;
 	float fy = (float)m_pos.y;
 
 	float fw = (float)m_nWidth * m_fScale * 0.75f;
 	float fh = (float)m_nHeight * m_fScale;
 
+	// Ok we want to add what we normally would offset the x position
+	// to the width. Because this menu appears to be extending past the left side of the screen.
+	fw += m_nOffset;
+
 	g_pDrawPrim->SetXYWH(&m_Poly[0],fx,fy,fw,fh);
 	g_pDrawPrim->SetXYWH(&m_Poly[1],fx+fw,fy,(fh/2.0f),fh);
-
-
 }
 
 
