@@ -148,10 +148,19 @@ void CHUDPopup::Show( uint8 nPopupID, const char *pText )
 	if (!pPopup) return;
 
 	CUIFont *pFont = g_pInterfaceResMgr->GetFont(pPopup->nFont);
-	LTIntPt pos( (640 - pPopup->sSize.x) / 2, (480 - pPopup->sSize.y) / 2 );
+	LTIntPt pos;
+
+	// We need to expand the width of our 640x480 to whatever aspect ratio we're using.
+	int offset = g_pInterfaceResMgr->Get640x480Offset();
+	int width = pPopup->sSize.x;
+	int height = pPopup->sSize.y;
+
+	// Reference: 640 / 2 = 320
+	pos.x = (320 + offset) - (width / 2);
+	pos.y = (480 - height) / 2;
 
 	m_Frame.SetFrame(g_pInterfaceResMgr->GetTexture(pPopup->szFrame));
-	m_Frame.SetSize(pPopup->sSize.x,pPopup->sSize.y);
+	m_Frame.SetSize(width, height);
 	m_Frame.SetBasePos(pos);
 	m_Frame.SetScale(g_pInterfaceResMgr->GetYRatio());
 
