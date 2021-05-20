@@ -220,6 +220,7 @@ void CHUDDecision::UpdateLayout()
 
 	const char *pTag = "DecisionWindow";
 	m_BasePos = g_pLayoutMgr->GetPoint(pTag,"Pos");
+	m_BasePos.x += g_pInterfaceResMgr->Get640x480Offset();
 
 	uint8 nFont = (uint8)g_pLayoutMgr->GetInt(pTag,"Font");
 	m_pFont = g_pInterfaceResMgr->GetFont(nFont);

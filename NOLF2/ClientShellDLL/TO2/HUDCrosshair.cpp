@@ -245,18 +245,18 @@ void CHUDCrosshair::Update()
 	}
 
 
-	if (m_fScale != g_pInterfaceResMgr->GetXRatio())
+	if (m_fScale != g_pInterfaceResMgr->GetYRatio())
 	{
-		m_fScale = g_pInterfaceResMgr->GetXRatio();
+		m_fScale = g_pInterfaceResMgr->GetYRatio();
 
 		ScalePolies();
 
-		m_x = (float)m_StrPos.x * m_fScale;
+		m_x = (float) (m_StrPos.x + g_pInterfaceResMgr->Get640x480Offset()) * m_fScale;
 		m_y = (float)m_StrPos.y * m_fScale;
 		uint8 nTextSize = (uint8)((float)m_nStrSz * m_fScale);
 		m_pStr->SetCharScreenHeight(nTextSize);
 
-		m_dbgx = (float)m_DbgPos.x * m_fScale;
+		m_dbgx = (float) (m_DbgPos.x + g_pInterfaceResMgr->Get640x480Offset()) * m_fScale;
 		m_dbgy = (float)m_DbgPos.y * m_fScale;
 		nTextSize = (uint8)((float)m_nDbgSz * m_fScale);
 		m_pDbgStr->SetCharScreenHeight(nTextSize);
