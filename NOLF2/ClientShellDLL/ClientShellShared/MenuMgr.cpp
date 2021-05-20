@@ -43,6 +43,9 @@ CMenuMgr::CMenuMgr()
 	m_fSlideInTime = 0.5f;
 	m_fSlideOutTime = 0.5f;
 
+	m_nBarSize = { 0,0 };
+	m_nBarSpacing = 0;
+	m_nFontSize = 0;
 }
 
 CMenuMgr::~CMenuMgr()
@@ -90,34 +93,38 @@ LTBOOL CMenuMgr::Init()
 
 
 
-	LTIntPt size = g_pLayoutMgr->GetPoint(pTag,"BarSize");
+	int nOffset = g_pInterfaceResMgr->Get4x3Offset();
+	auto size = g_pLayoutMgr->GetPoint(pTag,"BarSize");
 	uint8 fontFace = (uint8)g_pLayoutMgr->GetInt(pTag,"BarFont");
-	uint8 fontSize = (uint8)g_pLayoutMgr->GetInt(pTag,"BarFontSize");
+	m_nFontSize = (uint8)g_pLayoutMgr->GetInt(pTag,"BarFontSize");
 	m_nBarPos = g_pLayoutMgr->GetInt(pTag,"BarPosition");
-	int nBarSpacing = g_pLayoutMgr->GetInt(pTag,"BarSpacing");
+	m_nBarSpacing = g_pLayoutMgr->GetInt(pTag,"BarSpacing");
 	LTVector vCol = g_pLayoutMgr->GetVector(pTag,"BarSelectColor");
 	uint8 nR = (uint8)vCol.x;
 	uint8 nG = (uint8)vCol.y;
 	uint8 nB = (uint8)vCol.z;
 	g_nSelectColor = SET_ARGB(0xFF,nR,nG,nB);
 
+	m_nBarSize = size;
+
+	size.x += nOffset;
 
 	m_MenuBar.Init(hBar,hBarTip,size);
 	m_MenuBar.SetBasePos(LTIntPt(0,m_nBarPos));
 	
 	CUIFont* pFont = g_pInterfaceResMgr->GetFont(fontFace);
-	
-	LTIntPt offset(nBarSpacing,(size.y-fontSize)/2);
+
 	uint8 i = 0;
 	for (auto &pMenu : m_MenuArray )
 	{
 		CLTGUITextCtrl *pCtrl = debug_new(CLTGUITextCtrl);
-		pCtrl->Create(pMenu->GetTitle(),i++,0,pFont,fontSize,&m_MenuBar);
+		pCtrl->Create(pMenu->GetTitle(),i,0,pFont, m_nFontSize,&m_MenuBar);
 		pCtrl->SetColors(g_nSelectColor,argbBlack,argbWhite);
 		pCtrl->SetParam1(pMenu->GetMenuID());
-		m_MenuBar.AddControl(pCtrl,offset);
-		offset.x += nBarSpacing + pCtrl->GetWidth();
+		m_MenuBar.AddControl(pCtrl,0);
 	}
+
+	AdjustControls();
 
     return LTTRUE;
 }
@@ -513,7 +520,26 @@ void CMenuMgr::SlideOut()
 
 }
 
+void CMenuMgr::AdjustControls()
+{
+	// We're scaling the offset down a bit
+	int nOffset = g_pInterfaceResMgr->Get4x3Offset() * 0.80f;
+	float nScale = g_pInterfaceResMgr->GetYRatio();
+	LTIntPt offset(m_nBarSpacing + nOffset, (m_nBarSize.y - m_nFontSize) / 2);
 
+	for (uint8 i = 0; i < m_MenuBar.GetNumControls(); i++)
+	{
+		auto pCtrl = m_MenuBar.GetControl(i);
+		LTIntPt newPos = m_MenuBar.GetBasePos();
+		newPos.x += offset.x;
+		newPos.y += offset.y;
+		pCtrl->SetOffset(0);
+		pCtrl->SetBasePos(newPos);
+		pCtrl->ApplyPosition(nScale, 0);
+
+		offset.x += m_nBarSpacing + pCtrl->GetBaseWidth();
+	}
+}
 
 void CMenuMgr::ScreenDimsChanged()
 {
@@ -525,7 +551,18 @@ void CMenuMgr::ScreenDimsChanged()
 	{
 		m_pSubMenu->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	}
-	m_MenuBar.ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
+
+	// Redo the menu size
+	int nOffset = g_pInterfaceResMgr->Get4x3Offset();
+	float nScale = g_pInterfaceResMgr->GetYRatio();
+	auto size = m_nBarSize;
+	size.x += nOffset;
+
+	// We actually want menubar to extend all the way from the left.
+	m_MenuBar.SetSize(size.x, size.y);
+	m_MenuBar.ApplyPosition(nScale, 0);
+
+	AdjustControls();
 }
 
 void CMenuMgr::SwitchToMenu(CBaseMenu *pNewMenu)
@@ -554,7 +591,7 @@ void CMenuMgr::SwitchToMenu(CBaseMenu *pNewMenu)
 		pNewMenu->SetBasePos(tmp);
         pNewMenu->OnFocus(LTTRUE);
 
-		m_MenuBar.ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
+		m_MenuBar.ApplyPosition(g_pInterfaceResMgr->GetYRatio(), 0);
 		for (uint8 i =0; i < m_MenuArray.size(); i++)
 		{
 			CLTGUICtrl* pCtrl = m_MenuBar.GetControl(i);
