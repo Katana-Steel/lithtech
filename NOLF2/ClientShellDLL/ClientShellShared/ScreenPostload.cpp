@@ -509,7 +509,7 @@ void CScreenPostload::OnFocus(LTBOOL bFocus)
 		g_pInterfaceMgr->UseCursor(LTTRUE);
 
 
-		nFontSize = (uint8)((float)ContinueFontSize * g_pInterfaceResMgr->GetXRatio());
+		nFontSize = (uint8)((float)ContinueFontSize * g_pInterfaceResMgr->GetYRatio());
 		pFont = g_pInterfaceResMgr->GetFont(ContinueFont);
 
 		if (!m_pContinueStr)

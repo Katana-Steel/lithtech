@@ -233,11 +233,11 @@ LTBOOL CBaseScreen::Init(int nScreenID)
 	if (!s_pHelpStr)
 	{
 		
-		uint16 nWidth = (uint16)( (LTFLOAT)s_HelpWidth * g_pInterfaceResMgr->GetXRatio());
+		uint16 nWidth = (uint16)( (LTFLOAT)s_HelpWidth * g_pInterfaceResMgr->GetYRatio());
 		float helpX = (float)s_HelpRect.left * g_pInterfaceResMgr->GetXRatio();
 		float helpY = (float)s_HelpRect.top * g_pInterfaceResMgr->GetYRatio();
 		uint8 nFont = g_pLayoutMgr->GetHelpFont();
-		uint8 nSize = (uint8)((LTFLOAT)s_HelpSize * g_pInterfaceResMgr->GetXRatio());
+		uint8 nSize = (uint8)((LTFLOAT)s_HelpSize * g_pInterfaceResMgr->GetYRatio());
 
 		CUIFont* pFont = g_pInterfaceResMgr->GetFont(nFont);
 		{
@@ -467,7 +467,7 @@ LTBOOL CBaseScreen::CreateTitle(const char *lpszTitle)
 		if (!m_pTitleString)
 			return LTFALSE;
 
-		uint8 nFontSize = (uint8)((LTFLOAT)m_TitleSize * g_pInterfaceResMgr->GetXRatio());
+		uint8 nFontSize = (uint8)((LTFLOAT)m_TitleSize * g_pInterfaceResMgr->GetYRatio());
 		m_pTitleString->SetCharScreenHeight(nFontSize);
 		m_pTitleString->SetColor(m_TitleColor);
 
@@ -1557,7 +1557,7 @@ void CBaseScreen::OnFocus(LTBOOL bFocus)
 
 	if (bFocus)
 	{
-		if (m_fLastScale != g_pInterfaceResMgr->GetXRatio())
+		if (m_fLastScale != g_pInterfaceResMgr->GetYRatio())
 		{
 			ScreenDimsChanged();
 		}
@@ -2068,10 +2068,10 @@ void CBaseScreen::UpdateHelpText()
 			if (s_pHelpStr && strlen(szHelpText))
 			{
 				s_pHelpStr->SetText(szHelpText);
-				uint16 nWidth = (uint16)( (LTFLOAT)s_HelpWidth * g_pInterfaceResMgr->GetXRatio());
+				uint16 nWidth = (uint16)( (LTFLOAT)s_HelpWidth * g_pInterfaceResMgr->GetYRatio());
 				float helpX = (float)s_HelpRect.left * g_pInterfaceResMgr->GetXRatio();
 				float helpY = (float)s_HelpRect.top * g_pInterfaceResMgr->GetYRatio();
-				uint8 nSize = (uint8)((LTFLOAT)s_HelpSize * g_pInterfaceResMgr->GetXRatio());
+				uint8 nSize = (uint8)((LTFLOAT)s_HelpSize * g_pInterfaceResMgr->GetYRatio());
 
 				s_pHelpStr->SetPosition(helpX,helpY);
 				s_pHelpStr->SetCharScreenHeight(nSize);
@@ -2085,7 +2085,7 @@ void CBaseScreen::UpdateHelpText()
 
 void CBaseScreen::ScreenDimsChanged()
 {
-	m_fLastScale = g_pInterfaceResMgr->GetXRatio();
+	m_fLastScale = g_pInterfaceResMgr->GetYRatio();
 	unsigned int i;
 	for ( i = 0; i < m_controlArray.size(); i++ )
 	{
@@ -2097,16 +2097,16 @@ void CBaseScreen::ScreenDimsChanged()
 		LTIntPt pos = m_TitlePos;
 		g_pInterfaceResMgr->ConvertScreenPos(pos);
 		m_pTitleString->SetPosition((float)pos.x,(float)pos.y);
-		uint8 nFontSize = (uint8)((LTFLOAT)m_TitleSize * g_pInterfaceResMgr->GetXRatio());
+		uint8 nFontSize = (uint8)((LTFLOAT)m_TitleSize * g_pInterfaceResMgr->GetYRatio());
 		m_pTitleString->SetCharScreenHeight(nFontSize);
 	}
 
 	if (s_pHelpStr)
 	{
-		uint16 nWidth = (uint16)( (LTFLOAT)s_HelpWidth * g_pInterfaceResMgr->GetXRatio());
+		uint16 nWidth = (uint16)( (LTFLOAT)s_HelpWidth * g_pInterfaceResMgr->GetYRatio());
 		float helpX = (float)s_HelpRect.left * g_pInterfaceResMgr->GetXRatio();
 		float helpY = (float)s_HelpRect.top * g_pInterfaceResMgr->GetYRatio();
-		uint8 nSize = (uint8)((LTFLOAT)s_HelpSize * g_pInterfaceResMgr->GetXRatio());
+		uint8 nSize = (uint8)((LTFLOAT)s_HelpSize * g_pInterfaceResMgr->GetYRatio());
 
 		s_pHelpStr->SetPosition(helpX,helpY);
 		s_pHelpStr->SetCharScreenHeight(nSize);
@@ -2161,7 +2161,7 @@ void CBaseScreen::SetTitleSize(uint8 nFontSize)
 	if (m_pTitleString)
 	{
 		CUIFont* pFont = g_pInterfaceResMgr->GetFont(m_TitleFont);
-		uint8 nFontSize = (uint8)((LTFLOAT)m_TitleSize * g_pInterfaceResMgr->GetXRatio());
+		uint8 nFontSize = (uint8)((LTFLOAT)m_TitleSize * g_pInterfaceResMgr->GetYRatio());
 		m_pTitleString->SetCharScreenHeight(nFontSize);
 	}
 }
@@ -2206,10 +2206,10 @@ void CBaseScreen::ScalePoly(LTPoly_GT4* pPoly, LTIntPt pos, HTEXTURE hTex)
 		return;
 	uint32 w,h;
 	g_pTexInterface->GetTextureDims(hTex,w,h);
-	float x = (float)pos.x * g_pInterfaceResMgr->GetXRatio();
-	float y = (float)pos.y * g_pInterfaceResMgr->GetXRatio();
-	float fw = (float)w * g_pInterfaceResMgr->GetXRatio();
-	float fh = (float)h * g_pInterfaceResMgr->GetXRatio();
+	float x = (float)pos.x * g_pInterfaceResMgr->GetYRatio();
+	float y = (float)pos.y * g_pInterfaceResMgr->GetYRatio();
+	float fw = (float)w * g_pInterfaceResMgr->GetYRatio();
+	float fh = (float)h * g_pInterfaceResMgr->GetYRatio();
 
 	g_pDrawPrim->SetXYWH(pPoly,x,y,fw,fh);
 

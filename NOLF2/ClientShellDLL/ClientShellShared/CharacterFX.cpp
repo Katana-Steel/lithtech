@@ -571,7 +571,7 @@ LTBOOL CCharacterFX::Update()
 		if (pos.z > 0.0f && pos.z < 900.0f && pos.x > 0 && pos.y > 0)
 		{
 			
-			uint8 h = (uint8)(g_pInterfaceResMgr->GetXRatio() * 5000.0f / (100.0f + pos.z));
+			uint8 h = (uint8)(g_pInterfaceResMgr->GetYRatio() * 5000.0f / (100.0f + pos.z));
 
 			if (h != m_pStr->GetCharScreenHeight())
 			{

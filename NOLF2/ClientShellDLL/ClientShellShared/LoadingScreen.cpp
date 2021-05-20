@@ -1023,7 +1023,7 @@ void CLoadingScreen::UpdateMissionInfo()
 			SetupQuadUVs(m_photoPoly, m_hFrame, 0.0f, 0.0f, 1.0f, 0.75f);
 			g_pDrawPrim->SetRGBA(&m_photoPoly,argbWhite);
 
-			float fScale = g_pInterfaceResMgr->GetXRatio();
+			float fScale = g_pInterfaceResMgr->GetYRatio();
 			float fx = (float)m_DefaultPhotoRect.left * fScale;
 			float fy = (float)m_DefaultPhotoRect.top * fScale;
 

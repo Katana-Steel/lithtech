@@ -235,7 +235,7 @@ LTBOOL CDebugLineFX::Update()
 			
 //			LTVector vScrnPos = g_pInterfaceMgr->GetWorldFromScreenPos(pos,verts.z);
 
-			uint8 h = (uint8)(g_pInterfaceResMgr->GetXRatio() * 5000.0f / (100.0f + pos.z));
+			uint8 h = (uint8)(g_pInterfaceResMgr->GetYRatio() * 5000.0f / (100.0f + pos.z));
 
 			if (h != m_pStr->GetCharScreenHeight())
 			{

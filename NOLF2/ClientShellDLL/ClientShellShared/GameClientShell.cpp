@@ -3622,7 +3622,7 @@ void CGameClientShell::SetDebugString(const char* strMessage, DSSL eLoc, uint8 n
 
 	// Set the size each time since the screen resolution may have changed...
 
-	uint8 nSize = (uint8)((float)g_pLayoutMgr->GetHelpSize() * g_pInterfaceResMgr->GetXRatio());
+	uint8 nSize = (uint8)((float)g_pLayoutMgr->GetHelpSize() * g_pInterfaceResMgr->GetYRatio());
 	uint8 nFont = g_pLayoutMgr->GetHelpFont();
 	CUIFont* pFont = g_pInterfaceResMgr->GetFont(nFont);
 	

@@ -221,7 +221,7 @@ void CCredit::FormatStrings()
 	{
 		CUIFormattedPolyString* pStr = *iter;
 
-		uint8 nSize = (uint8)(16.0f * g_pInterfaceResMgr->GetXRatio());
+		uint8 nSize = (uint8)(16.0f * g_pInterfaceResMgr->GetYRatio());
 		if (m_bBig)
 			nSize = (uint8)(24.0f * g_pInterfaceResMgr->GetYRatio());
 

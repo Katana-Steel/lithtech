@@ -190,7 +190,7 @@ void CMessageBox::Show(const char *pString, MBCreate* pCreate, uint8 nFontSize, 
 
 
 
-	LTFLOAT fScale = g_pInterfaceResMgr->GetXRatio();
+	LTFLOAT fScale = g_pInterfaceResMgr->GetYRatio();
 	int nOffset = g_pInterfaceResMgr->Get4x3Offset();
 	// need to do this to get accurate sizes, since the width and height of the string 
 	// do not scale precicely
