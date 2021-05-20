@@ -38,7 +38,7 @@ public:
 
 	void	Pause(LTBOOL bPause);
 
-	void	SetScale(float fScale);
+	void	ApplyPosition(float fScale, int nOffset);
 
 	LTBOOL	IsVisible() {return m_bVisible;}
 
@@ -53,6 +53,7 @@ protected:
 	uint8		m_nBaseFontSize;		// The font size before scaling
 	uint32		m_nTextColor;
 	float		m_fScale;
+	int			m_nOffset;
 	LTBOOL		m_bVisible;
 	uint16		m_nWidth;
 

@@ -84,9 +84,9 @@ void CSubMenu::SetBasePos ( LTIntPt pos )
 }
 
 
-void CSubMenu::SetScale(float fScale)
+void CSubMenu::ApplyPosition(float fScale, int nOffset)
 {
-	CLTGUIWindow::SetScale(fScale);
+	CLTGUIWindow::ApplyPosition(fScale, nOffset);
 	UpdateFrame();
 }
 
@@ -204,7 +204,7 @@ LTBOOL CBaseMenu::Init()
 	m_Title.SetScale(1.0f);
 	pos.x = m_Indent.x;
 	pos.y += (m_Title.GetHeight() + 4);
-	m_Title.SetScale(g_pInterfaceResMgr->GetYRatio());
+	m_Title.ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 
 	m_List.Create(s_Size.y - pos.y);
 	uint16 nOffset = (s_Size.x-m_Indent.x*2)-16;
@@ -249,7 +249,7 @@ void CBaseMenu::OnFocus(LTBOOL bFocus)
 	{
 		if (m_fScale != g_pInterfaceResMgr->GetYRatio())
 		{
-			SetScale(g_pInterfaceResMgr->GetYRatio());
+			ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 		}
 
 		SetSize(s_Size.x,s_Size.y);
@@ -312,7 +312,7 @@ uint16 CBaseMenu::AddControl (const char *pString, uint32 commandID, LTBOOL bSta
 	}
 	else
 		pCtrl->SetColors(m_SelectedColor,m_NonSelectedColor,m_DisabledColor);
-	pCtrl->SetScale(g_pInterfaceResMgr->GetYRatio());
+	pCtrl->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 
 	return m_List.AddControl(pCtrl);
 
@@ -370,9 +370,9 @@ void CBaseMenu::SetBasePos ( LTIntPt pos )
 }
 
 
-void CBaseMenu::SetScale(float fScale)
+void CBaseMenu::ApplyPosition(float fScale, int nOffset)
 {
-	CLTGUIWindow::SetScale(fScale);
+	CLTGUIWindow::ApplyPosition(fScale, nOffset);
 	UpdateFrame();
 }
 

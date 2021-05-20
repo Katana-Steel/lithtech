@@ -125,21 +125,22 @@ void CHUDScores::Update()
 	uint32 playerTextCol = (m_bScreen ? m_nScreenPlayerTextColor : m_nPlayerTextColor);
 
 	float fScale = g_pInterfaceResMgr->GetYRatio();
+	int nOffset = g_pInterfaceResMgr->Get4x3Offset();
 	if (fScale != m_fScale)
 	{
 		m_fScale = fScale;
-		m_Server.SetScale(fScale);
-		m_SingleFrame.SetScale(fScale);
+		m_Server.ApplyPosition(fScale, nOffset);
+		m_SingleFrame.ApplyPosition(fScale, nOffset);
 		for (int team = 0; team < kNumTeams; team++)
 		{
-			m_Team[team].SetScale(fScale);
-			m_Rounds[team].SetScale(fScale);
-			m_Header[team].SetScale(fScale);
-			m_Frame[team].SetScale(fScale);
+			m_Team[team].ApplyPosition(fScale, nOffset);
+			m_Rounds[team].ApplyPosition(fScale, nOffset);
+			m_Header[team].ApplyPosition(fScale, nOffset);
+			m_Frame[team].ApplyPosition(fScale, nOffset);
 
 			for (int i = 0; i < kMaxPlayers; i++)
 			{
-				m_Columns[team][i].SetScale(fScale);
+				m_Columns[team][i].ApplyPosition(fScale, nOffset);
 			}
 		}
 

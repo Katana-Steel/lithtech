@@ -33,7 +33,7 @@ public:
 	LTBOOL	Show(int nStringId, LTVector vSpeakerPos, LTFLOAT fRadius=0.0f, LTFLOAT fDuration=-1.0f, bool bSubtitlePriority = false);
 	void	Clear();
 
-	void	SetScale(float fScale);
+	void	ApplyPosition(float fScale, int nOffset);
 
 	LTBOOL	IsVisible() {return m_bVisible;}
 
@@ -48,6 +48,7 @@ protected:
 	uint8		m_nFontSize;			// The scaled font size to use.
 	uint8		m_nBaseFontSize;		// The font size before scaling
 	uint32		m_nTextColor;
+	int			m_nOffset;
 	float		m_fScale;
 	float		m_fElapsedTime;			// The amount of time that has elapsed while this subtitle is displayed
 	LTBOOL		m_bVisible;

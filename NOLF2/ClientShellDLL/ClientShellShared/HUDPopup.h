@@ -37,7 +37,7 @@ public:
 	//close window and tell server
 	void	Hide();
 
-	void	SetScale(float fScale);
+	void	ApplyPosition(float fScale, int nOffset);
 	void	SetTextColor( uint8 nR, uint8 nG, uint8 nB, uint8 nA )
 	{
 		m_bColorOverride = LTTRUE;
@@ -48,7 +48,7 @@ public:
 
 protected:
 
-
+	int			m_nOffset;
 	float		m_fScale;
 	LTBOOL		m_bVisible;
 	LTBOOL		m_bColorOverride;

@@ -39,7 +39,7 @@ public:
 	//close window and tell server
 	void	Hide();
 
-	void	SetScale(float fScale);
+	void	ApplyPosition(float fScale, int nOffset);
 
 	LTBOOL	IsVisible() {return m_bVisible;}
 

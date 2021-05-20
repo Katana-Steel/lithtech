@@ -38,6 +38,7 @@ CHUDSubtitles::CHUDSubtitles()
 	m_eLevel = kHUDRenderText;
 	m_bVisible = LTFALSE;
 	m_fScale = 1.0f;
+	m_nOffset = 0;
 	m_fElapsedTime = 0.0f;
 
 	m_vSpeakerPos.Init();
@@ -132,9 +133,9 @@ void CHUDSubtitles::Update()
 		return;
 	}
 
-	if (m_fScale != g_pInterfaceResMgr->GetYRatio())
-		SetScale(g_pInterfaceResMgr->GetYRatio());
-
+	if (m_fScale != g_pInterfaceResMgr->GetYRatio()) {
+		ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
+	}
 
 	//scroll it
 	if (!m_bOverflow) 
@@ -232,7 +233,7 @@ LTBOOL CHUDSubtitles::Show(int nStringId, LTVector vSpeakerPos, LTFLOAT fRadius,
 		m_fDuration = 0.04f * (float)m_pText->GetLength();
 
 
-	SetScale(g_pInterfaceResMgr->GetYRatio());
+	ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 
 	LTIntPt pos = m_FullScreenPos;
 	uint16	width = m_nFullScreenWidth;
@@ -308,13 +309,14 @@ void CHUDSubtitles::Clear()
 
 
 
-void CHUDSubtitles::SetScale(float fScale)
+void CHUDSubtitles::ApplyPosition(float fScale, int nOffset)
 {
+	m_nOffset = nOffset;
 	m_fScale = fScale;
 	m_nFontSize = (uint8)(m_fScale * (float)m_nBaseFontSize);
 	if (m_pText)
 	{
-		float x = (float)m_BasePos.x * m_fScale;
+		float x = (float)(m_BasePos.x * m_fScale) + nOffset;
 		float y = (float)m_BasePos.y * m_fScale;
 		m_pText->SetCharScreenHeight(m_nFontSize);
 		m_pText->SetPosition(x,y);
@@ -328,7 +330,7 @@ void CHUDSubtitles::SetScale(float fScale)
 		}
 
 
-		m_DisplayRect.x = (float)pos.x * m_fScale;
+		m_DisplayRect.x = (float)(pos.x * m_fScale) + nOffset;
 		m_DisplayRect.y = (float)pos.y * m_fScale;
 		m_DisplayRect.width = (float)width * m_fScale;
 		m_DisplayRect.height = (float)m_nMaxLines * (float)m_nFontSize;

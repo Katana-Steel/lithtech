@@ -81,9 +81,9 @@ void CHUDPaused::UpdateLayout()
 
 void CHUDPaused::Update()
 {
-	if (m_fScale != g_pInterfaceResMgr->GetXRatio())
+	if (m_fScale != g_pInterfaceResMgr->GetYRatio())
 	{
-		m_fScale = g_pInterfaceResMgr->GetXRatio();
-		m_Msg.SetScale(m_fScale);
+		m_fScale = g_pInterfaceResMgr->GetYRatio();
+		m_Msg.ApplyPosition(m_fScale, g_pInterfaceResMgr->Get4x3Offset());
 	}
 }

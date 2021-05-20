@@ -33,7 +33,7 @@ public:
 	virtual void Render ();
 
 	virtual void SetBasePos ( LTIntPt pos );
-	virtual void SetScale(float fScale);
+	virtual void ApplyPosition(float fScale, int nOffset);
 
 protected:
 
@@ -81,7 +81,7 @@ public:
 	virtual void Render ();
 
 	virtual void SetBasePos ( LTIntPt pos );
-	virtual void SetScale(float fScale);
+	virtual void ApplyPosition(float fScale, int nOffset);
 
 	virtual const char *GetTitle() {return m_Title.GetString()->GetText();}
 

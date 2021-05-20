@@ -64,7 +64,7 @@ LTBOOL CHUDChatInput::Init()
 	m_EditCtrl.SetInputMode(CLTGUIEditCtrl::kInputSprintfFriendly);
 
 	m_EditCtrl.SetBasePos(m_BasePos);
-	m_EditCtrl.SetScale(g_pInterfaceResMgr->GetXRatio());
+	m_EditCtrl.ApplyPosition(g_pInterfaceResMgr->GetXRatio(), g_pInterfaceResMgr->Get4x3Offset());
 
 	UpdateLayout();
 
@@ -105,7 +105,7 @@ void CHUDChatInput::Update()
 	float y = (float)(m_BasePos.y) * g_pInterfaceResMgr->GetYRatio();
 	m_pStr->SetPosition(x,y);
 
-	m_EditCtrl.SetScale(g_pInterfaceResMgr->GetYRatio());
+	m_EditCtrl.ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 }
 
 void CHUDChatInput::OnExitWorld() 
