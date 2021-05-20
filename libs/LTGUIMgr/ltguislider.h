@@ -79,7 +79,7 @@ public:
 	virtual uint16	GetHeight ( )	{return (uint16)m_nHeight;}
 
 	virtual void SetBasePos ( LTIntPt pos );
-	virtual void SetScale(float fScale);
+	virtual void ApplyPosition(float fScale, int nOffset);
 	virtual void SetTextureScale(float fScale);
 
 	// Set the font, pass in a NULL pointer to change only the font size

@@ -372,9 +372,9 @@ void CLTGUISlider::SetBasePos ( LTIntPt pos )
 
 }
 
-void CLTGUISlider::SetScale(float fScale)
+void CLTGUISlider::ApplyPosition(float fScale, int nOffset)
 {
-	CLTGUICtrl::SetScale(fScale);
+	CLTGUICtrl::ApplyPosition(fScale, nOffset);
 	ScaleBar();
 	m_nFontSize = (uint8)(m_fScale * (float)m_nBaseFontSize);
 	if (m_pText)
