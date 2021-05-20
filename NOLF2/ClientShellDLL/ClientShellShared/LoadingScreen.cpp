@@ -453,7 +453,7 @@ LTBOOL CLoadingScreen::Init()
 
 	}
 
-	uint8 nFontSize = (uint8)((float)TitleFontSize * g_pInterfaceResMgr->GetXRatio());
+	uint8 nFontSize = (uint8)((float)TitleFontSize * g_pInterfaceResMgr->GetYRatio());
 	CUIFont *pFont = g_pInterfaceResMgr->GetFont(TitleFont);
 
 	if (!m_pMissionNameStr)
@@ -463,11 +463,11 @@ LTBOOL CLoadingScreen::Init()
 	m_pMissionNameStr->SetColor(TitleColor);
 	m_pMissionNameStr->SetText(m_missionname.c_str());
 	m_pMissionNameStr->SetCharScreenHeight(nFontSize);
-	float x = (float)TitlePos.x * g_pInterfaceResMgr->GetXRatio();
+	float x = ((float)TitlePos.x * g_pInterfaceResMgr->GetYRatio()) + g_pInterfaceResMgr->Get4x3Offset();
 	float y = (float)TitlePos.y * g_pInterfaceResMgr->GetYRatio();
 	m_pMissionNameStr->SetPosition(x,y);
 
-	nFontSize = (uint8)((float)LevelFontSize * g_pInterfaceResMgr->GetXRatio());
+	nFontSize = (uint8)((float)LevelFontSize * g_pInterfaceResMgr->GetYRatio());
 	pFont = g_pInterfaceResMgr->GetFont(LevelFont);
 
 	if (!m_pLevelNameStr)
@@ -477,7 +477,7 @@ LTBOOL CLoadingScreen::Init()
 	m_pLevelNameStr->SetColor(LevelColor);
 	m_pLevelNameStr->SetText(m_levelname.c_str());
 	m_pLevelNameStr->SetCharScreenHeight(nFontSize);
-	x = (float)LevelPos.x * g_pInterfaceResMgr->GetXRatio();
+	x = ((float)LevelPos.x * g_pInterfaceResMgr->GetYRatio()) + g_pInterfaceResMgr->Get4x3Offset();
 	y = (float)LevelPos.y * g_pInterfaceResMgr->GetYRatio();
 	m_pLevelNameStr->SetPosition(x,y);
 
@@ -514,7 +514,7 @@ LTBOOL CLoadingScreen::Init()
 
 	}
 
-	nFontSize = (uint8)((float)BriefingFontSize * g_pInterfaceResMgr->GetXRatio());
+	nFontSize = (uint8)((float)BriefingFontSize * g_pInterfaceResMgr->GetYRatio());
 	pFont = g_pInterfaceResMgr->GetFont(BriefingFont);
 	
 	if (!m_pBriefingStr)
@@ -533,7 +533,7 @@ LTBOOL CLoadingScreen::Init()
 	}
 	m_pBriefingStr->SetColor(BriefingColor);
 	m_pBriefingStr->SetCharScreenHeight(nFontSize);
-	x = (float)BriefingPos.x * g_pInterfaceResMgr->GetXRatio();
+	x = ((float)BriefingPos.x * g_pInterfaceResMgr->GetYRatio()) + g_pInterfaceResMgr->Get4x3Offset();
 	y = (float)BriefingPos.y * g_pInterfaceResMgr->GetYRatio();
 	m_pBriefingStr->SetPosition(x,y);
 	m_pBriefingStr->SetWrapWidth((uint16)(g_pInterfaceResMgr->GetXRatio() * (float)BriefingWidth));
@@ -570,7 +570,7 @@ LTBOOL CLoadingScreen::Init()
 
 	}
 
-	nFontSize = (uint8)((float)HelpFontSize * g_pInterfaceResMgr->GetXRatio());
+	nFontSize = (uint8)((float)HelpFontSize * g_pInterfaceResMgr->GetYRatio());
 	pFont = g_pInterfaceResMgr->GetFont(HelpFont);
 	
 	if (!m_pHelpStr)
@@ -584,10 +584,10 @@ LTBOOL CLoadingScreen::Init()
 		m_pHelpStr->SetText(m_help.c_str());
 		m_pHelpStr->SetColor(HelpColor);
 		m_pHelpStr->SetCharScreenHeight(nFontSize);
-		x = (float)HelpPos.x * g_pInterfaceResMgr->GetXRatio();
+		x = ((float)HelpPos.x * g_pInterfaceResMgr->GetYRatio()) + g_pInterfaceResMgr->Get4x3Offset();
 		y = (float)HelpPos.y * g_pInterfaceResMgr->GetYRatio();
 		m_pHelpStr->SetPosition(x,y);
-		m_pHelpStr->SetWrapWidth((uint16)(g_pInterfaceResMgr->GetXRatio() * (float)HelpWidth));
+		m_pHelpStr->SetWrapWidth((uint16)(g_pInterfaceResMgr->GetYRatio() * (float)HelpWidth));
 	}
 	else
 	{
@@ -603,8 +603,8 @@ LTBOOL CLoadingScreen::Init()
 			SetupQuadUVs(m_photoPoly, m_hFrame, 0.0f, 0.0f, 1.0f, 0.75f);
 			g_pDrawPrim->SetRGBA(&m_photoPoly,argbWhite);
 
-			float fScale = g_pInterfaceResMgr->GetXRatio();
-			float fx = (float)m_DefaultPhotoRect.left * fScale;
+			float fScale = g_pInterfaceResMgr->GetYRatio();
+			float fx = ((float)m_DefaultPhotoRect.left * fScale) + g_pInterfaceResMgr->Get4x3Offset();
 			float fy = (float)m_DefaultPhotoRect.top * fScale;
 
 			float fw = (float)(m_DefaultPhotoRect.right - m_DefaultPhotoRect.left) * fScale;

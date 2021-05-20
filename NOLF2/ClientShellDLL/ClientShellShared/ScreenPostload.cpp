@@ -327,7 +327,7 @@ void CScreenPostload::OnFocus(LTBOOL bFocus)
 			}
 		}
 
-		uint8 nFontSize = (uint8)((float)TitleFontSize * g_pInterfaceResMgr->GetXRatio());
+		uint8 nFontSize = (uint8)((float)TitleFontSize * g_pInterfaceResMgr->GetYRatio());
 		CUIFont *pFont = g_pInterfaceResMgr->GetFont(TitleFont);
 
 		if (!m_pMissionNameStr)
@@ -337,11 +337,11 @@ void CScreenPostload::OnFocus(LTBOOL bFocus)
 		m_pMissionNameStr->SetColor(TitleColor);
 		m_pMissionNameStr->SetText(m_missionname.c_str());
 		m_pMissionNameStr->SetCharScreenHeight(nFontSize);
-		float x = (float)TitlePos.x * g_pInterfaceResMgr->GetXRatio();
+		float x = ((float)TitlePos.x * g_pInterfaceResMgr->GetYRatio()) + g_pInterfaceResMgr->Get4x3Offset();
 		float y = (float)TitlePos.y * g_pInterfaceResMgr->GetYRatio();
 		m_pMissionNameStr->SetPosition(x,y);
 
-		nFontSize = (uint8)((float)LevelFontSize * g_pInterfaceResMgr->GetXRatio());
+		nFontSize = (uint8)((float)LevelFontSize * g_pInterfaceResMgr->GetYRatio());
 		pFont = g_pInterfaceResMgr->GetFont(LevelFont);
 
 		if (!m_pLevelNameStr)
@@ -351,7 +351,7 @@ void CScreenPostload::OnFocus(LTBOOL bFocus)
 		m_pLevelNameStr->SetColor(LevelColor);
 		m_pLevelNameStr->SetText(m_levelname.c_str());
 		m_pLevelNameStr->SetCharScreenHeight(nFontSize);
-		x = (float)LevelPos.x * g_pInterfaceResMgr->GetXRatio();
+		x = ((float)LevelPos.x * g_pInterfaceResMgr->GetYRatio()) + g_pInterfaceResMgr->Get4x3Offset();
 		y = (float)LevelPos.y * g_pInterfaceResMgr->GetYRatio();
 		m_pLevelNameStr->SetPosition(x,y);
 
@@ -391,7 +391,7 @@ void CScreenPostload::OnFocus(LTBOOL bFocus)
 
 		}
 
-		nFontSize = (uint8)((float)BriefingFontSize * g_pInterfaceResMgr->GetXRatio());
+		nFontSize = (uint8)((float)BriefingFontSize * g_pInterfaceResMgr->GetYRatio());
 		pFont = g_pInterfaceResMgr->GetFont(BriefingFont);
 
 		if (!m_pBriefingStr)
@@ -402,11 +402,10 @@ void CScreenPostload::OnFocus(LTBOOL bFocus)
 		m_pBriefingStr->SetText(m_briefing.c_str());
 		m_pBriefingStr->SetColor(BriefingColor);
 		m_pBriefingStr->SetCharScreenHeight(nFontSize);
-		x = (float)BriefingPos.x * g_pInterfaceResMgr->GetXRatio();
+		x = ((float)BriefingPos.x * g_pInterfaceResMgr->GetYRatio()) + g_pInterfaceResMgr->Get4x3Offset();
 		y = (float)BriefingPos.y * g_pInterfaceResMgr->GetYRatio();
 		m_pBriefingStr->SetPosition(x,y);
-		m_pBriefingStr->SetWrapWidth((uint16)(g_pInterfaceResMgr->GetXRatio() * (float)BriefingWidth));
-
+		m_pBriefingStr->SetWrapWidth((uint16)(g_pInterfaceResMgr->GetYRatio() * (float)BriefingWidth));
 
 		//Setup briefing string
 		LTIntPt HelpPos			= m_DefaultHelpPos;
@@ -444,7 +443,7 @@ void CScreenPostload::OnFocus(LTBOOL bFocus)
 
 		}
 
-		nFontSize = (uint8)((float)HelpFontSize * g_pInterfaceResMgr->GetXRatio());
+		nFontSize = (uint8)((float)HelpFontSize * g_pInterfaceResMgr->GetYRatio());
 		pFont = g_pInterfaceResMgr->GetFont(HelpFont);
 
 		if (!m_pHelpStr)
@@ -459,10 +458,10 @@ void CScreenPostload::OnFocus(LTBOOL bFocus)
 			m_pHelpStr->SetText(m_help.c_str());
 			m_pHelpStr->SetColor(HelpColor);
 			m_pHelpStr->SetCharScreenHeight(nFontSize);
-			x = (float)HelpPos.x * g_pInterfaceResMgr->GetXRatio();
+			x = ((float)HelpPos.x * g_pInterfaceResMgr->GetYRatio()) + g_pInterfaceResMgr->Get4x3Offset();
 			y = (float)HelpPos.y * g_pInterfaceResMgr->GetYRatio();
 			m_pHelpStr->SetPosition(x,y);
-			m_pHelpStr->SetWrapWidth((uint16)(g_pInterfaceResMgr->GetXRatio() * (float)HelpWidth));
+			m_pHelpStr->SetWrapWidth((uint16)(g_pInterfaceResMgr->GetYRatio() * (float)HelpWidth));
 		}
 		else
 		{
@@ -535,7 +534,7 @@ void CScreenPostload::OnFocus(LTBOOL bFocus)
 
 		m_pContinueStr->SetColor(m_nContinueColor);
 		m_pContinueStr->SetCharScreenHeight(nFontSize);
-		x = (float)ContinuePos.x * g_pInterfaceResMgr->GetXRatio();
+		x = ((float)ContinuePos.x * g_pInterfaceResMgr->GetYRatio()) + g_pInterfaceResMgr->Get4x3Offset();
 		y = (float)ContinuePos.y * g_pInterfaceResMgr->GetYRatio();
 		m_pContinueStr->SetPosition(x,y);
 
