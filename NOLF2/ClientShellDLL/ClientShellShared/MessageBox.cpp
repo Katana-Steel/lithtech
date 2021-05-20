@@ -191,9 +191,10 @@ void CMessageBox::Show(const char *pString, MBCreate* pCreate, uint8 nFontSize, 
 
 
 	LTFLOAT fScale = g_pInterfaceResMgr->GetXRatio();
+	int nOffset = g_pInterfaceResMgr->Get4x3Offset();
 	// need to do this to get accurate sizes, since the width and height of the string 
 	// do not scale precicely
-	m_pText->SetScale(fScale);
+	m_pText->ApplyPosition(fScale, nOffset);
 	float fw,fh;
 	m_pText->GetString()->GetDims(&fw,&fh);
 	int nWidth = (int)(fw/fScale);
@@ -215,7 +216,7 @@ void CMessageBox::Show(const char *pString, MBCreate* pCreate, uint8 nFontSize, 
 	{
 		// need to do this to get accurate sizes, since the width and height of the string 
 		// do not scale precicely
-		m_pEdit->SetScale(fScale);
+		m_pEdit->ApplyPosition(fScale, nOffset);
 		nDlgHeight += (kIndent + m_pEdit->GetHeight());
 		if (nDlgWidth < kBaseWidth)
 			nDlgWidth = kBaseWidth;
@@ -292,10 +293,10 @@ void CMessageBox::Show(const char *pString, MBCreate* pCreate, uint8 nFontSize, 
 	}
 
 	// Reference: 640 / 2 = 320
-	offset.x = (320 + g_pInterfaceResMgr->Get640x480Offset()) - (nDlgWidth / 2);
+	offset.x = (640 - nDlgWidth) / 2;
 	offset.y = (480 - nDlgHeight) / 2;
 	m_Dlg.SetBasePos(offset);
-	m_Dlg.SetScale(g_pInterfaceResMgr->GetYRatio());
+	m_Dlg.ApplyPosition(g_pInterfaceResMgr->GetYRatio(), nOffset);
 
 	m_Dlg.Show(LTTRUE);
     m_bVisible = LTTRUE;
