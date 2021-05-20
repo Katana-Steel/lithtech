@@ -1263,11 +1263,12 @@ void CInterfaceMgr::UpdateSplashScreenState()
     HSURFACE hScreen = g_pLTClient->GetScreenSurface();
     uint32 nWidth = 0;
     uint32 nHeight = 0;
+    int nXOffset = g_pInterfaceResMgr->Get4x3Offset();
 
     g_pLTClient->GetSurfaceDims(hScreen, &nWidth, &nHeight);
 
     LTRect rcDst;
-	rcDst.Init(0, 0, nWidth, nHeight);
+	rcDst.Init(nXOffset, 0, nWidth - nXOffset, nHeight);
 
     g_pLTClient->GetSurfaceDims(g_hSplash, &nWidth, &nHeight);
 
