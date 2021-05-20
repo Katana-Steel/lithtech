@@ -109,7 +109,7 @@ LTBOOL CHUDMessage::Create(MsgCreate &mc)
 
 	SetBasePos(LTIntPt(0,0));
 
-	ApplyPosition(g_pInterfaceResMgr->GetXRatio(), g_pInterfaceResMgr->Get4x3Offset());
+	ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 
 	m_bVisible = LTTRUE;
 
@@ -155,7 +155,7 @@ void CHUDMessage::Update()
 	if (!IsVisible()) return;
 
 	if (m_fScale != g_pInterfaceResMgr->GetYRatio()) {
-		ApplyPosition(g_pInterfaceResMgr->GetXRatio(), g_pInterfaceResMgr->Get4x3Offset());
+		ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	}
 
 	if (m_fInitTime < 0.0f)
