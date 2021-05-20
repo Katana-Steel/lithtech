@@ -116,9 +116,9 @@ void CHUDCarrying::Update()
 {
 	if (!g_pPlayerMgr->GetCarryingObject() && !g_pPlayerMgr->CanCarryObject()) return;
 
-	float fx = (float)(m_BasePos.x) * g_pInterfaceResMgr->GetXRatio();
-	float fy = (float)(m_BasePos.y) * g_pInterfaceResMgr->GetXRatio();
-	float fw = (float)(m_nSize) * g_pInterfaceResMgr->GetXRatio();
+	float fx = (float)(m_BasePos.x) * g_pInterfaceResMgr->GetYRatio();
+	float fy = (float)(m_BasePos.y) * g_pInterfaceResMgr->GetYRatio();
+	float fw = (float)(m_nSize) * g_pInterfaceResMgr->GetYRatio();
 
 	g_pDrawPrim->SetXYWH(&m_Poly,fx,fy,fw,fw);
 

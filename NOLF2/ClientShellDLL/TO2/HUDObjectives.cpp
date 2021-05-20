@@ -96,9 +96,9 @@ void CHUDObjectives::Update()
 {
 	if (!m_bShow) return;
 
-	float fx = (float)(m_BasePos.x) * g_pInterfaceResMgr->GetXRatio();
-	float fy = (float)(m_BasePos.y) * g_pInterfaceResMgr->GetXRatio();
-	float fw = (float)(m_BaseSize.x) * g_pInterfaceResMgr->GetXRatio();
+	float fx = (float)(m_BasePos.x) * g_pInterfaceResMgr->GetYRatio();
+	float fy = (float)(m_BasePos.y) * g_pInterfaceResMgr->GetYRatio();
+	float fw = (float)(m_BaseSize.x) * g_pInterfaceResMgr->GetYRatio();
 	float fh = (float)(m_BaseSize.y) * g_pInterfaceResMgr->GetYRatio();
 
 	g_pDrawPrim->SetXYWH(&m_Poly,fx,fy,fw,fh);
