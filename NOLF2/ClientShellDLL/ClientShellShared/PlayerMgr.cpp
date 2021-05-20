@@ -1933,6 +1933,10 @@ LTBOOL CPlayerMgr::UpdateAlternativeCamera()
 					float	fFovX = pCamFX->GetFovX();
 					float	fFovY = pCamFX->GetFovY();
 
+					// FovY cuts off part of the scene. Could be used in combo with removing black bars though.
+					//fFovY = g_pInterfaceResMgr->GetVerticalFOV(fFovX);
+					fFovX = g_pInterfaceResMgr->GetHorizontalFOV(fFovY);
+
 					TurnOnAlternativeCamera(s_nLastCamType, fFovX, fFovY);
 
                     return LTTRUE;
