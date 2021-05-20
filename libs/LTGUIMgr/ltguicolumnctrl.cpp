@@ -95,7 +95,7 @@ uint8 CLTGUIColumnCtrl::AddColumn(const char *pString, uint16 nWidth, LTBOOL bCl
 	pos.x += m_nBaseWidth;
     pCtrl->SetColors(m_argbSelected, m_argbNormal, m_argbDisabled);
 	pCtrl->SetBasePos(pos);
-	pCtrl->SetScale(m_fScale);
+	pCtrl->ApplyPosition(m_fScale, m_nOffset);
 
 
 	CalculateSize();
@@ -279,13 +279,13 @@ void CLTGUIColumnCtrl::SetBasePos ( LTIntPt pos )
 
 }
 
-void CLTGUIColumnCtrl::SetScale(float fScale)
+void CLTGUIColumnCtrl::ApplyPosition(float fScale, int nOffset)
 {
-	CLTGUICtrl::SetScale(fScale);
+	CLTGUICtrl::SetOffset(nOffset);
 	m_nFontSize = (uint8)(m_fScale * (float)m_nBaseFontSize);
 	for (int i=0; i < GetNumColumns(); i++)
 	{
-		m_columnArray[i]->SetScale(fScale);
+		m_columnArray[i]->ApplyPosition(fScale, nOffset);
 	}
 	CalculateSize();
 
