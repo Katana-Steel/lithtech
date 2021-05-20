@@ -158,8 +158,8 @@ void CMenuKeys::OnFocus(LTBOOL bFocus)
 
 		if (m_fScale != g_pInterfaceResMgr->GetYRatio())
 		{
-			SetScale(g_pInterfaceResMgr->GetYRatio());
-			m_Popup.SetScale(g_pInterfaceResMgr->GetYRatio());
+			ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
+			m_Popup.ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 		}
 
 		SetSelection(GetIndex(&m_List));

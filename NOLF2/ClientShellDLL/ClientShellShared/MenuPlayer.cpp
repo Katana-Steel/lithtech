@@ -331,7 +331,7 @@ CLTGUIColumnCtrl* CMenuPlayer::AddColumnCtrl(uint32 nCommand)
 		pCtrl->SetColors(m_NonSelectedColor,m_NonSelectedColor,m_NonSelectedColor);
 		pCtrl->Enable(LTFALSE);
 	}
-	pCtrl->SetScale(g_pInterfaceResMgr->GetYRatio());
+	pCtrl->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 
 	m_List.AddControl(pCtrl);
 
