@@ -4336,7 +4336,12 @@ void CInterfaceMgr::ScreenDimsChanged()
 
 }
 
-
+void CInterfaceMgr::FieldOfViewChanged(int nFov)
+{
+	// Recalculate FOV
+	g_vtFOVXNormal.SetFloat((LTFLOAT)nFov);
+	g_vtFOVYNormal.SetFloat(g_pInterfaceResMgr->GetVerticalFOV((LTFLOAT)nFov));
+}
 
 //mouse handling
 void CInterfaceMgr::OnLButtonUp(int x, int y)

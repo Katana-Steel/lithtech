@@ -71,6 +71,8 @@ public:
 	void				ConvertScreenPos(int &x, int &y);
     LTFLOAT             GetXRatio()                         {return m_fXRatio;}
     LTFLOAT             GetYRatio()                         {return m_fYRatio;}
+    const LTFLOAT		Get4x3Ratio()						{ return (LTFLOAT)(640 / 480); }
+    int					Get4x3Offset();
 
     uint32              GetScreenWidth();
     uint32              GetScreenHeight();
@@ -83,6 +85,30 @@ public:
 	//call Clean() before returning to the game
     LTBOOL               Setup();
 	void				Clean();
+
+	const LTFLOAT GetHorizontalFOV(LTFLOAT vFOV)
+	{
+		LTFLOAT vRadFov = DEG2RAD(vFOV);
+		LTFLOAT fov = 2 * (
+			std::atan(
+				std::tan(vRadFov / 2) * g_pInterfaceResMgr->GetScreenWidth() / g_pInterfaceResMgr->GetScreenHeight()
+			)
+		);
+
+		return RAD2DEG(fov);
+	}
+
+	const LTFLOAT GetVerticalFOV(LTFLOAT fFOV)
+	{
+		LTFLOAT fRadFov = DEG2RAD(fFOV);
+		LTFLOAT fov = 2 * (
+			std::atan(
+				std::tan(fRadFov / 2) * g_pInterfaceResMgr->GetScreenHeight() / g_pInterfaceResMgr->GetScreenWidth()
+			)
+			);
+
+		return RAD2DEG(fov);
+	}
 
 protected:
 	// More initialization
@@ -127,6 +153,11 @@ protected:
 };
 
 #define TERMSHAREDSURF(surf) if(surf) { g_pInterfaceResMgr->FreeSharedSurface(surf); surf = NULL; }
+
+inline int CInterfaceResMgr::Get4x3Offset()
+{
+	return (GetScreenWidth() - (GetScreenHeight() * Get4x3Ratio())) / 2;
+}
 
 inline uint32 CInterfaceResMgr::GetScreenWidth()
 {

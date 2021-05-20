@@ -88,11 +88,13 @@ private:
 	LTBOOL							m_bHardwareCursor;
 	LTBOOL							m_bVSync;
 	int								m_nGamma;
+	int								m_nFOV;
 
 	CLTGUICycleCtrl					*m_pResolutionCtrl;		// The resolution control
 
 	ScreenDisplayRenderer			m_rendererData;
 
+	CLTGUISlider					*m_pFOV;
 	CLTGUISlider					*m_pGamma;
 	CLTGUICycleCtrl					*m_pHardwareCursor;
 

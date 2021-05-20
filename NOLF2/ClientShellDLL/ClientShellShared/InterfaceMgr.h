@@ -292,6 +292,7 @@ class CInterfaceMgr
         virtual void UpdatePlayerStats(uint8 nThing, uint8 nType1, uint8 nType2, LTFLOAT fAmount);
 
 		void		ScreenDimsChanged();
+		void		FieldOfViewChanged(int nFOV);
 
         LTIntPt     GetCursorPos() {return m_CursorPos;}
 		void		UseCursor(LTBOOL bUseCursor, LTBOOL bLockCursorToCenter = LTFALSE) {m_CursorMgr.UseCursor(bUseCursor,bLockCursorToCenter);}

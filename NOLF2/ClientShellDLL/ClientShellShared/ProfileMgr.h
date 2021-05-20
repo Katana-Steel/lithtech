@@ -272,6 +272,7 @@ public:
 	uint32	m_nScreenHeight;
 	uint32	m_nScreenDepth;
 	float	m_fGamma;
+	uint32  m_nFOV;
 
 	//****************** display
 	sPerformCfg m_sPerformance;

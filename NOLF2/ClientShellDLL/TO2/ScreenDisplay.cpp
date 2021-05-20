@@ -203,8 +203,10 @@ LTBOOL CScreenDisplay::Build()
 	AddControl(pBar);
 
 
-
-
+	m_pFOV = AddSlider("Field of View", IDS_HELP_GAMMA, kGap, kWidth, -1, &m_nFOV);
+	m_pFOV->SetSliderRange(70, 150);
+	m_pFOV->SetSliderIncrement(1);
+	m_pFOV->SetNumericDisplay(LTTRUE);
 
  	// Make sure to call the base class
 	if (!CBaseScreen::Build()) return LTFALSE;
@@ -437,7 +439,7 @@ void CScreenDisplay::OnFocus(LTBOOL bFocus)
 
 		m_nGamma = ConvertToSlider(gamma);
 
-		
+		m_nFOV = pProfile->m_nFOV;
 
 		m_pHardwareCursor->Enable(GetConsoleInt("DisableHardwareCursor",0) == 0);
 
@@ -472,7 +474,7 @@ void CScreenDisplay::OnFocus(LTBOOL bFocus)
 
 		if (m_bEscape)
 		{
-
+			pProfile->m_nFOV = m_nFOV;
 			pProfile->m_bHardwareCursor = m_bHardwareCursor;
 			pProfile->m_bVSync = m_bVSync;
 			pProfile->m_fGamma = ConvertToGamma(m_nGamma);

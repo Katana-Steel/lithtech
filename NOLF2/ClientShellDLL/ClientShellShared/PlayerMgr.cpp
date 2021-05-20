@@ -467,6 +467,8 @@ LTBOOL CPlayerMgr::Init()
 
 	m_bSpyVision = false;
 
+	g_vtFOVXNormal.SetFloat(g_pInterfaceResMgr->GetHorizontalFOV(g_vtFOVYNormal.GetFloat()));
+
 	return LTTRUE;
 }
 
