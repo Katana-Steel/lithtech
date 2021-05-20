@@ -71,8 +71,10 @@ public:
 	void				ConvertScreenPos(int &x, int &y);
     LTFLOAT             GetXRatio()                         {return m_fXRatio;}
     LTFLOAT             GetYRatio()                         {return m_fYRatio;}
-    const LTFLOAT		Get4x3Ratio()						{ return 640.0f / 480.0f; }
-    int					Get4x3Offset();
+    const LTFLOAT				Get4x3Ratio()						{ return 640.0f / 480.0f; }
+    int					Get4x3Offset(int w, int h);
+    const LTFLOAT				GetAspectRatio()					{ return m_fAspectRatio; }
+    const LTFLOAT				GetInvAspectRatio()					{ return m_fInvAspectRatio;  }
 
     uint32              GetScreenWidth();
     uint32              GetScreenHeight();
@@ -91,7 +93,7 @@ public:
 		LTFLOAT vRadFov = DEG2RAD(vFOV);
 		LTFLOAT fov = 2 * (
 			std::atan(
-				std::tan(vRadFov / 2) * g_pInterfaceResMgr->GetScreenWidth() / g_pInterfaceResMgr->GetScreenHeight()
+				std::tan(vRadFov / 2) * GetAspectRatio()
 			)
 		);
 
@@ -103,7 +105,7 @@ public:
 		LTFLOAT vRadFov = DEG2RAD(vFOV);
 		LTFLOAT fov = 2 * (
 			std::atan(
-				std::tan(vRadFov / 2) * 4 / 3
+				std::tan(vRadFov / 2) * Get4x3Ratio()
 			)
 		);
 
@@ -115,7 +117,7 @@ public:
 		LTFLOAT fRadFov = DEG2RAD(fFOV);
 		LTFLOAT fov = 2 * (
 			std::atan(
-				std::tan(fRadFov / 2) * g_pInterfaceResMgr->GetScreenHeight() / g_pInterfaceResMgr->GetScreenWidth()
+				std::tan(fRadFov / 2) * GetInvAspectRatio()
 			)
 			);
 
@@ -144,6 +146,8 @@ protected:
 
     LTFLOAT              m_fXRatio;
     LTFLOAT              m_fYRatio;
+    LTFLOAT				 m_fAspectRatio;
+    LTFLOAT				 m_fInvAspectRatio;
     uint32              m_dwScreenWidth;
     uint32              m_dwScreenHeight;
 
@@ -166,13 +170,21 @@ protected:
 
 #define TERMSHAREDSURF(surf) if(surf) { g_pInterfaceResMgr->FreeSharedSurface(surf); surf = NULL; }
 
-inline int CInterfaceResMgr::Get4x3Offset()
+inline int CInterfaceResMgr::Get4x3Offset(int w = 0, int h = 0)
 {
-	uint32 width = GetScreenWidth();
-	uint32 height = GetScreenHeight();
+	LTFLOAT width = (LTFLOAT)GetScreenWidth();
+	LTFLOAT height = (LTFLOAT)GetScreenHeight();
 	LTFLOAT ratio = Get4x3Ratio();
 
-	return 0.5 * ( width - ( height * ratio ) );
+	if (w) {
+		width = (LTFLOAT)w;
+	}
+
+	if (h) {
+		height = (LTFLOAT)h;
+	}
+
+	return (int)(0.5f * ( width - ( height * ratio ) ));
 }
 
 inline uint32 CInterfaceResMgr::GetScreenWidth()
