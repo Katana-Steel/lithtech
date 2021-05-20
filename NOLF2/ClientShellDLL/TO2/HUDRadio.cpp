@@ -91,7 +91,7 @@ void CHUDRadio::Update()
 	if (!IsVisible()) return;
 
 	if (m_fScale != g_pInterfaceResMgr->GetYRatio())
-		SetScale(g_pInterfaceResMgr->GetYRatio());
+		ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 
 }
 
@@ -154,9 +154,9 @@ void CHUDRadio::Choose(uint8 nChoice)
 
 }
 
-void CHUDRadio::SetScale(float fScale)
+void CHUDRadio::ApplyPosition(float fScale, int nOffset)
 {
-	m_Dlg.SetScale(fScale);
+	m_Dlg.ApplyPosition(fScale, nOffset);
 	m_fScale = fScale;
 }
 

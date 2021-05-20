@@ -93,9 +93,9 @@ void CSkillCtrl::SetBasePos ( LTIntPt pos )
 	ScalePolies();
 }
 
-void CSkillCtrl::SetScale(float fScale)
+void CSkillCtrl::ApplyPosition(float fScale, int nOffset)
 {
-	CLTGUICtrl::SetScale(fScale);
+	CLTGUICtrl::ApplyPosition(fScale, nOffset);
 	m_nFontSize = (uint8)(m_fScale * (float)m_nBaseFontSize);
 	ScalePolies();
 

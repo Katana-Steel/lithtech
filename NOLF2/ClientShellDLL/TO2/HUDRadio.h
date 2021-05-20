@@ -35,7 +35,7 @@ public:
 	//hide or show
 	void	Show(bool bShow);
 
-	void	SetScale(float fScale);
+	void	ApplyPosition(float fScale, int nOffset);
 
 	bool	IsVisible() {return m_bVisible;}
 
