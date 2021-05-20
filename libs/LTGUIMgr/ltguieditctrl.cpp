@@ -278,9 +278,9 @@ void CLTGUIEditCtrl::SetBasePos ( LTIntPt pos )
 	}
 }
 
-void CLTGUIEditCtrl::SetScale(float fScale)
+ void CLTGUIEditCtrl::ApplyPosition(float fScale, int nOffset)
 {
-	CLTGUICtrl::SetScale(fScale);
+	CLTGUICtrl::ApplyPosition(fScale, nOffset);
 	m_nFontSize = (uint8)(m_fScale * (float)m_nBaseFontSize);
 	if (m_pText)
 	{

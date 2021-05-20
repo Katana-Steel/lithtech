@@ -57,7 +57,7 @@ public:
 	void	SetMaxLength(uint16 nMaxLength);
 
     virtual void    SetBasePos ( LTIntPt pos );
-	virtual void	SetScale(float fScale);
+	virtual void	ApplyPosition(float fScale, int nOffset);
 
 
 	// Width/Height calculations
