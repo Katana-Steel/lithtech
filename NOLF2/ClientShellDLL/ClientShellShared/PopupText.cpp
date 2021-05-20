@@ -90,8 +90,7 @@ void CPopupText::DisplayPopup(uint8 nPopupId, char *pText, uint32 nTextId)
 	int height = pPopup->sSize.y;
 
 	// We need to expand the width of our 640x480 to whatever aspect ratio we're using.
-	int adjustedScreenWidth = 480 * g_pInterfaceResMgr->GetAspectRatio();
-	int offset = g_pInterfaceResMgr->Get4x3Offset(adjustedScreenWidth, 480);
+	int offset = g_pInterfaceResMgr->Get640x480Offset();
 
 	// Reference: 640 / 2 = 320
 	pos.x = (320 + offset) - (width / 2);

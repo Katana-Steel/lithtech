@@ -249,7 +249,10 @@ float CHUDMessage::GetLifetime()
 
 
 void CHUDMessage::SetBasePos ( LTIntPt pos )
-{ 
+{
+	// Correct the positioning
+	pos.x += g_pInterfaceResMgr->Get640x480Offset();
+
 	CLTGUICtrl::SetBasePos(pos);
 	ScalePoly();
 	if (m_pText)
