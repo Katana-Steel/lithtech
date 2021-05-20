@@ -124,7 +124,7 @@ void CHUDScores::Update()
 	uint32 textCol = (m_bScreen ? m_nScreenTextColor : m_nTextColor);
 	uint32 playerTextCol = (m_bScreen ? m_nScreenPlayerTextColor : m_nPlayerTextColor);
 
-	float fScale = g_pInterfaceResMgr->GetXRatio();
+	float fScale = g_pInterfaceResMgr->GetYRatio();
 	if (fScale != m_fScale)
 	{
 		m_fScale = fScale;

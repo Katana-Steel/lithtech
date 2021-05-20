@@ -294,7 +294,7 @@ void CMessageBox::Show(const char *pString, MBCreate* pCreate, uint8 nFontSize, 
 	offset.x =  (640 - nDlgWidth) / 2;
 	offset.y = (480 - nDlgHeight) / 2;
 	m_Dlg.SetBasePos(offset);
-	m_Dlg.SetScale(g_pInterfaceResMgr->GetXRatio());
+	m_Dlg.SetScale(g_pInterfaceResMgr->GetYRatio());
 
 	m_Dlg.Show(LTTRUE);
     m_bVisible = LTTRUE;

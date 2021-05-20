@@ -199,7 +199,7 @@ LTBOOL CScreenDisplay::Build()
 	CLTGUIFrame *pBar = debug_new(CLTGUIFrame);
 	pBar->Create(0xBF000000,3,nHeight+1);
 	pBar->SetBasePos(pos);
-	pBar->SetScale(g_pInterfaceResMgr->GetXRatio());
+	pBar->SetScale(g_pInterfaceResMgr->GetYRatio());
 	AddControl(pBar);
 
 

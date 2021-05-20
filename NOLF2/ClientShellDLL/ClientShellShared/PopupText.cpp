@@ -89,7 +89,7 @@ void CPopupText::DisplayPopup(uint8 nPopupId, char *pText, uint32 nTextId)
 	m_Frame.SetFrame(g_pInterfaceResMgr->GetTexture(pPopup->szFrame));
 	m_Frame.SetSize(pPopup->sSize.x,pPopup->sSize.y);
 	m_Frame.SetBasePos(pos);
-	m_Frame.SetScale(g_pInterfaceResMgr->GetXRatio());
+	m_Frame.SetScale(g_pInterfaceResMgr->GetYRatio());
 
 
 	pos.x += pPopup->sTextOffset.x;
@@ -124,7 +124,7 @@ void CPopupText::DisplayPopup(uint8 nPopupId, char *pText, uint32 nTextId)
 	m_Text.SetColors(pPopup->argbTextColor,pPopup->argbTextColor,pPopup->argbTextColor);
 	m_Text.SetFixedWidth(pPopup->nTextWidth);
 	m_Text.SetBasePos(pos);
-	m_Text.SetScale(g_pInterfaceResMgr->GetXRatio());
+	m_Text.SetScale(g_pInterfaceResMgr->GetYRatio());
 
 	m_bVisible = LTTRUE;
 

@@ -101,11 +101,11 @@ void CHUDChatInput::Update()
 	uint8 h = (uint8)((float)m_nFontSize * g_pInterfaceResMgr->GetYRatio());
 	m_pStr->SetCharScreenHeight(h);
 
-	float x = ((float)(m_BasePos.x - 5)  * g_pInterfaceResMgr->GetXRatio()) - m_pStr->GetWidth();
+	float x = ((float)(m_BasePos.x - 5)  * g_pInterfaceResMgr->GetYRatio()) - m_pStr->GetWidth();
 	float y = (float)(m_BasePos.y) * g_pInterfaceResMgr->GetYRatio();
 	m_pStr->SetPosition(x,y);
 
-	m_EditCtrl.SetScale(g_pInterfaceResMgr->GetXRatio());
+	m_EditCtrl.SetScale(g_pInterfaceResMgr->GetYRatio());
 }
 
 void CHUDChatInput::OnExitWorld() 

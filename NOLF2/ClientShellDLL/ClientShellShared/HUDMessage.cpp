@@ -154,8 +154,8 @@ void CHUDMessage::Update()
 	// Sanity checks...
 	if (!IsVisible()) return;
 
-	if (m_fScale != g_pInterfaceResMgr->GetXRatio())
-		SetScale(g_pInterfaceResMgr->GetXRatio());
+	if (m_fScale != g_pInterfaceResMgr->GetYRatio())
+		SetScale(g_pInterfaceResMgr->GetYRatio());
 
 	if (m_fInitTime < 0.0f)
 		m_fInitTime = g_pLTClient->GetTime();

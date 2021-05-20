@@ -388,7 +388,7 @@ uint16 CMenuMission::AddObjectiveControl (int stringID, LTBOOL bCompleted, LTBOO
 		pCtrl->SetTexture(m_BulletTex);
 	}
 
-	pCtrl->SetScale(g_pInterfaceResMgr->GetXRatio());
+	pCtrl->SetScale(g_pInterfaceResMgr->GetYRatio());
 
 	//cache the control for re-use
 	m_Objectives.push_back(pCtrl);

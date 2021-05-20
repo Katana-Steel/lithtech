@@ -139,7 +139,7 @@ LTBOOL CScreenProfile::Build()
 	AddControl(m_pDlg);
 
 	m_pDlg->SetBasePos(dlgPos);
-	m_pDlg->SetScale(g_pInterfaceResMgr->GetXRatio());
+	m_pDlg->SetScale(g_pInterfaceResMgr->GetYRatio());
 	m_pDlg->Show(LTFALSE);
 
 	m_pDlg->SetSelection(1);

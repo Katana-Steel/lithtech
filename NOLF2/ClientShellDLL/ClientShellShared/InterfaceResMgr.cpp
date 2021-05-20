@@ -274,7 +274,7 @@ void CInterfaceResMgr::DrawMessage(const char *pString, uint8 nFontSize)
 	offset.x =  (640 - nDlgWidth) / 2;
 	offset.y = (480 - nDlgHeight) / 2;
 	m_MsgDlg.SetBasePos(offset);
-	m_MsgDlg.SetScale(GetXRatio());
+	m_MsgDlg.SetScale(GetYRatio());
 
 	m_MsgDlg.Show(LTTRUE);
 

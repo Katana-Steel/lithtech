@@ -153,7 +153,7 @@ void CHUDPopup::Show( uint8 nPopupID, const char *pText )
 	m_Frame.SetFrame(g_pInterfaceResMgr->GetTexture(pPopup->szFrame));
 	m_Frame.SetSize(pPopup->sSize.x,pPopup->sSize.y);
 	m_Frame.SetBasePos(pos);
-	m_Frame.SetScale(g_pInterfaceResMgr->GetXRatio());
+	m_Frame.SetScale(g_pInterfaceResMgr->GetYRatio());
 
 	pos.x += pPopup->sTextOffset.x;
 	pos.y += pPopup->sTextOffset.y;
@@ -171,7 +171,7 @@ void CHUDPopup::Show( uint8 nPopupID, const char *pText )
 	
 	m_Text.SetFixedWidth(pPopup->nTextWidth);
 	m_Text.SetBasePos(pos);
-	m_Text.SetScale(g_pInterfaceResMgr->GetXRatio());
+	m_Text.SetScale(g_pInterfaceResMgr->GetYRatio());
 
 	m_bVisible = LTTRUE;
 }

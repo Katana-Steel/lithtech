@@ -294,10 +294,10 @@ void CMenuInventory::OnFocus(LTBOOL bFocus)
 	
 
 
-		if (m_fScale != g_pInterfaceResMgr->GetXRatio())
+		if (m_fScale != g_pInterfaceResMgr->GetYRatio())
 		{
-			SetScale(g_pInterfaceResMgr->GetXRatio());
-			m_Popup.SetScale(g_pInterfaceResMgr->GetXRatio());
+			SetScale(g_pInterfaceResMgr->GetYRatio());
+			m_Popup.SetScale(g_pInterfaceResMgr->GetYRatio());
 		}
 
 		SetSelection(GetIndex(&m_List));
