@@ -293,6 +293,7 @@ class CInterfaceMgr
 
 		void		ScreenDimsChanged();
 		void		FieldOfViewChanged(int nFOV);
+		void		InterfaceFieldOfViewChanged();
 
         LTIntPt     GetCursorPos() {return m_CursorPos;}
 		void		UseCursor(LTBOOL bUseCursor, LTBOOL bLockCursorToCenter = LTFALSE) {m_CursorMgr.UseCursor(bUseCursor,bLockCursorToCenter);}

@@ -560,6 +560,8 @@ LTBOOL CInterfaceMgr::Init()
 	m_CursorPos.x = 0;
 	m_CursorPos.y = 0;
 
+	InterfaceFieldOfViewChanged();
+
 	g_fFovXTan = (float)tan(DEG2RAD(g_vtInterfaceFOVX.GetFloat())/2);
 	g_fFovYTan = (float)tan(DEG2RAD(g_vtInterfaceFOVY.GetFloat())/2);
 
@@ -4327,6 +4329,8 @@ void CInterfaceMgr::ScreenDimsChanged()
 
     g_pLTClient->GetSurfaceDims(g_pLTClient->GetScreenSurface(), &dwWidth, &dwHeight);
 
+    InterfaceFieldOfViewChanged();
+
 	// This may need to be changed to support in-game cinematics...
 
 	ResetMenuRestoreCamera(0, 0, dwWidth, dwHeight);
@@ -4341,6 +4345,13 @@ void CInterfaceMgr::FieldOfViewChanged(int nFov)
 	// Recalculate FOV
 	g_vtFOVXNormal.SetFloat((LTFLOAT)nFov);
 	g_vtFOVYNormal.SetFloat(g_pInterfaceResMgr->GetVerticalFOV((LTFLOAT)nFov));
+}
+
+void CInterfaceMgr::InterfaceFieldOfViewChanged()
+{
+	g_vtInterfaceFOVX.SetFloat(g_pInterfaceResMgr->GetHorizontalFOV(g_vtInterfaceFOVY.GetFloat()));
+	g_fFovXTan = (float)tan(DEG2RAD(g_vtInterfaceFOVX.GetFloat()) / 2);
+	g_pLTClient->SetCameraFOV(m_hInterfaceCamera, DEG2RAD(g_vtInterfaceFOVX.GetFloat()), DEG2RAD(g_vtInterfaceFOVY.GetFloat()));
 }
 
 //mouse handling
