@@ -1557,7 +1557,7 @@ void CBaseScreen::OnFocus(LTBOOL bFocus)
 
 	if (bFocus)
 	{
-		if (m_fLastScale != g_pInterfaceResMgr->GetYRatio())
+		if (m_fLastScale != g_pInterfaceResMgr->GetXRatio() + g_pInterfaceResMgr->GetYRatio())
 		{
 			ScreenDimsChanged();
 		}
@@ -2085,7 +2085,8 @@ void CBaseScreen::UpdateHelpText()
 
 void CBaseScreen::ScreenDimsChanged()
 {
-	m_fLastScale = g_pInterfaceResMgr->GetYRatio();
+	// Need both! It's actually not used for anything but cache busting.
+	m_fLastScale = g_pInterfaceResMgr->GetXRatio() + g_pInterfaceResMgr->GetYRatio();
 	unsigned int i;
 	for ( i = 0; i < m_controlArray.size(); i++ )
 	{
