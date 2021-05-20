@@ -112,7 +112,7 @@ public:
 
 	virtual void SetIndent(LTIntPt indent)	{ m_indent = indent; m_bNeedsRecalculation = LTTRUE;}
 	virtual void SetBasePos ( LTIntPt pos );
-	virtual void SetScale(float fScale);
+	virtual void ApplyPosition(float fScale, int nOffset);
 
 	void		SetScrollWrap(LTBOOL bWrap) {m_bScrollWrap = bWrap;}
 	void		SetScrollByPage(LTBOOL bByPage) {m_bScrollByPage = bByPage;}

@@ -848,22 +848,20 @@ void CLTGUIListCtrl::SetBasePos ( LTIntPt pos )
 }
 
 
-void CLTGUIListCtrl::SetScale(float fScale)
+void CLTGUIListCtrl::ApplyPosition(float fScale, int nOffset)
 {
-	m_pos.x = (int)(fScale * (float)m_basePos.x);
-	m_pos.y = (int)(fScale * (float)m_basePos.y);
-	m_fScale = fScale;
+	CLTGUICtrl::ApplyPosition(fScale, nOffset);
 	for (uint16 i = 0; i < m_controlArray.size(); i++ )
 	{
-		m_controlArray[i]->SetScale(m_fScale);
+		m_controlArray[i]->ApplyPosition(m_fScale, m_nOffset);
 	}
 	if (m_pUp)
 	{
-		m_pUp->SetScale(m_fScale);
+		m_pUp->ApplyPosition(m_fScale, m_nOffset);
 	}
 	if (m_pDown)
 	{
-		m_pDown->SetScale(m_fScale);
+		m_pDown->ApplyPosition(m_fScale, m_nOffset);
 	}
 	m_bNeedsRecalculation = LTTRUE;
 }
@@ -906,14 +904,14 @@ LTBOOL	CLTGUIListCtrl::UseArrows(uint16 xOffset, LTFLOAT fTextureScale, HTEXTURE
 	LTIntPt pos = m_basePos;
 	pos.x += m_nArrowOffset;
 	m_pUp->SetBasePos(pos);
-	m_pUp->SetScale(m_fScale);
+	m_pUp->ApplyPosition(m_fScale, m_nOffset);
 
 	m_pDown = debug_new(CLTGUIButton);
 	m_pDown->Create(LTNULL,LTNULL,hDownNormal,hDownSelected);
 	m_pDown->SetTextureScale(fTextureScale);
 	m_pDown->SetScale(m_fScale);
 	pos.y += (m_nHeight - m_pDown->GetBaseHeight() );
-	m_pDown->SetBasePos(pos);
+	m_pDown->ApplyPosition(m_fScale, m_nOffset);
 	
 	
 
