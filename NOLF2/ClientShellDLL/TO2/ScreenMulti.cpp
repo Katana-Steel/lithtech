@@ -141,11 +141,13 @@ LTBOOL CScreenMulti::Build()
 	m_pSysFrame = debug_new(CLTGUIFrame);
 	m_pSysFrame->Create(hFrame,size.x+16,size.y,LTTRUE);
 	m_pSysFrame->SetBasePos(pos);
+	m_pSysFrame->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	AddControl(m_pSysFrame);
 
 	m_pSysMOTD = debug_new(CLTGUILargeText);
 	m_pSysMOTD->Create("",pFont,nMOTDSize,size);
 	m_pSysMOTD->SetBasePos(pos);
+	m_pSysMOTD->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	m_pSysMOTD->SetColors(m_SelectedColor,m_NonSelectedColor,m_DisabledColor);
 	m_pSysMOTD->Enable(LTTRUE);
 	m_pSysMOTD->SetFrameWidth(1);
@@ -164,12 +166,14 @@ LTBOOL CScreenMulti::Build()
 	m_pGameFrame = debug_new(CLTGUIFrame);
 	m_pGameFrame->Create(hFrame,size.x+16,size.y,LTTRUE);
 	m_pGameFrame->SetBasePos(pos);
+	m_pGameFrame->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	AddControl(m_pGameFrame);
 
 	
 	m_pGameMOTD = debug_new(CLTGUILargeText);
 	m_pGameMOTD->Create("",pFont,nMOTDSize,size);
 	m_pGameMOTD->SetBasePos(pos);
+	m_pGameMOTD->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	m_pGameMOTD->SetColors(m_SelectedColor,m_NonSelectedColor,m_DisabledColor);
 	m_pGameMOTD->Enable(LTTRUE);
 	m_pGameMOTD->SetFrameWidth(1);
@@ -207,6 +211,7 @@ LTBOOL CScreenMulti::Build()
 	uint16 x = (640-w)/2;
 	uint16 y = (480-h)/2;
 	m_pWait->SetBasePos(LTIntPt(x,y));
+	m_pWait->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	AddControl(m_pWait);
 
 	

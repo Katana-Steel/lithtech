@@ -89,6 +89,7 @@ LTBOOL CScreenTeam::Build()
 	{
 		m_pLeft->Create(CMD_LEFT,LTNULL,hLeft,hLeftH);
 		m_pLeft->SetBasePos(arrowPos);
+		m_pLeft->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 		AddControl(m_pLeft);
 		m_pLeft->SetCommandHandler(this);
 	}
@@ -101,6 +102,7 @@ LTBOOL CScreenTeam::Build()
 	{
 		m_pRight->Create(CMD_RIGHT,LTNULL,hRight,hRightH);
 		m_pRight->SetBasePos(arrowPos);
+		m_pRight->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 		AddControl(m_pRight);
 		m_pRight->SetCommandHandler(this);
 	}

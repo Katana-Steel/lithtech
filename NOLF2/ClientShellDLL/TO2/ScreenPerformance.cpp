@@ -93,6 +93,7 @@ LTBOOL CScreenPerformance::Build()
 	CLTGUIFrame *pFrame = debug_new(CLTGUIFrame);
 	pFrame->Create(hFrame,nWidth,nHeight,LTTRUE);
 	pFrame->SetBasePos(pos);
+	pFrame->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	pFrame->SetBorder(2,m_SelectedColor);
 	AddControl(pFrame);
 
@@ -141,6 +142,7 @@ LTBOOL CScreenPerformance::Build()
 	m_pDisplayFrame = debug_new(CLTGUIFrame);
 	m_pDisplayFrame->Create(hFrame,nWidth,nHeight,LTTRUE);
 	m_pDisplayFrame->SetBasePos(pos);
+	m_pDisplayFrame->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	m_pDisplayFrame->Show(LTFALSE);
 	m_pDisplayFrame->SetBorder(2,m_SelectedColor);
 	AddControl(m_pDisplayFrame);
@@ -241,6 +243,7 @@ LTBOOL CScreenPerformance::Build()
 	m_pSFXFrame->Create(hFrame,nWidth,nHeight,LTTRUE);
 	m_pSFXFrame->SetBasePos(pos);
 	m_pSFXFrame->Show(LTFALSE);
+	m_pSFXFrame->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	m_pSFXFrame->SetBorder(2,m_SelectedColor);
 	AddControl(m_pSFXFrame);
 
@@ -311,6 +314,7 @@ LTBOOL CScreenPerformance::Build()
 	m_pDlg->Create(g_pInterfaceResMgr->GetTexture(szBack), kDlgWd, kDlgHt);
 	dlgPos.x += g_pInterfaceResMgr->Get640x480Offset();
 	m_pDlg->SetBasePos(dlgPos);
+	m_pDlg->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 
 	LTIntPt tmp(60,8);
 	pCtrl = CreateTextItem(IDS_PERFORMANCE_RESULTS, LTNULL, LTNULL, kDefaultPos, LTTRUE);

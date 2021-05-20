@@ -92,6 +92,7 @@ LTBOOL CScreenPlayerTeam::Build()
 		m_pFrame[nTeam] = debug_new(CLTGUIFrame);
 		m_pFrame[nTeam]->Create((uint32)0,nWidth,nHeight);
 		m_pFrame[nTeam]->SetBasePos(pos);
+		m_pFrame[nTeam]->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 		m_pFrame[nTeam]->SetBorder(2,argbBlack);
 		AddControl(m_pFrame[nTeam]);
 

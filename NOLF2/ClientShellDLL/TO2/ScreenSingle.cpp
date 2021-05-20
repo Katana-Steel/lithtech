@@ -81,6 +81,7 @@ LTBOOL CScreenSingle::Build()
 	m_pDiffFrame = debug_new(CLTGUIFrame);
 	m_pDiffFrame->Create(hFrame,nWidth,nHeight,LTTRUE);
 	m_pDiffFrame->SetBasePos(pos);
+	m_pDiffFrame->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	m_pDiffFrame->Show(LTFALSE);
 	AddControl(m_pDiffFrame);
 
@@ -116,6 +117,7 @@ LTBOOL CScreenSingle::Build()
 	m_pChapterFrame = debug_new(CLTGUIFrame);
 	m_pChapterFrame->Create(hFrame,nWidth,nHeight,LTTRUE);
 	m_pChapterFrame->SetBasePos(pos);
+	m_pChapterFrame->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	m_pChapterFrame->Show(LTFALSE);
 	AddControl(m_pChapterFrame);
 
@@ -142,6 +144,7 @@ LTBOOL CScreenSingle::Build()
 	m_pCustomFrame = debug_new(CLTGUIFrame);
 	m_pCustomFrame->Create(hFrame,nWidth,nHeight,LTTRUE);
 	m_pCustomFrame->SetBasePos(pos);
+	m_pCustomFrame->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	m_pCustomFrame->Show(LTFALSE);
 	AddControl(m_pCustomFrame);
 

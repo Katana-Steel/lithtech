@@ -163,6 +163,7 @@ LTBOOL CScreenConfigure::Build()
 	m_pFrame = debug_new(CLTGUIFrame);
 	m_pFrame->Create(hFrame,nWd,nHt+8,LTTRUE);
 	m_pFrame->SetBasePos(pos);
+	m_pFrame->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	AddControl(m_pFrame);
 
 

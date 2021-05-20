@@ -93,6 +93,7 @@ LTBOOL CScreenMain::Build()
 	m_pGameTypeFrame = debug_new(CLTGUIFrame);
 	m_pGameTypeFrame->Create(hFrame,nWidth,nHeight,LTTRUE);
 	m_pGameTypeFrame->SetBasePos(pos);
+	m_pGameTypeFrame->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	m_pGameTypeFrame->Show(LTFALSE);
 	AddControl(m_pGameTypeFrame);
 
@@ -141,7 +142,7 @@ LTBOOL CScreenMain::Build()
 		pos.y = 480 - nUnScaledHeight;
 	}
 	pCtrl->SetBasePos(pos);
-
+	pCtrl->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 
 	//Build multiplayer screen to force construction of DM mission file
 	CScreenMulti *pMulti = (CScreenMulti *)m_pScreenMgr->GetScreenFromID(SCREEN_ID_MULTI);

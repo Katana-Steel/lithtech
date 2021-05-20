@@ -301,6 +301,7 @@ LTBOOL CScreenJoin::Build()
 	uint16 x = (640-w)/2;
 	uint16 y = (480-h)/2;
 	m_pWait->SetBasePos(LTIntPt(x,y));
+	m_pWait->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	AddControl(m_pWait);
 	
 	m_pWait->AddControl(pText,LTIntPt(8,8));
@@ -320,6 +321,7 @@ LTBOOL CScreenJoin::Build()
 	g_pLayoutMgr->GetScreenCustomString(SCREEN_ID_JOIN,"DetailsFrame",szBack,sizeof(szBack));
 	m_pDetails->Create(g_pInterfaceResMgr->GetTexture(szBack),nDetailsWidth,nDetailsHeight);
 	m_pDetails->SetBasePos(pos);
+	m_pDetails->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	AddControl(m_pDetails);
 
 	pos.x = 8;

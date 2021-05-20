@@ -166,6 +166,7 @@ LTBOOL CScreenDisplay::Build()
 	CLTGUIFrame *pFrame = debug_new(CLTGUIFrame);
 	pFrame->Create(hFrame,nWd,nHt+8,LTTRUE);
 	pFrame->SetBasePos(pos);
+	pFrame->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	pFrame->SetBorder(2,m_SelectedColor);
 	AddControl(pFrame);
 
@@ -199,7 +200,7 @@ LTBOOL CScreenDisplay::Build()
 	CLTGUIFrame *pBar = debug_new(CLTGUIFrame);
 	pBar->Create(0xBF000000,3,nHeight+1);
 	pBar->SetBasePos(pos);
-	pBar->SetScale(g_pInterfaceResMgr->GetYRatio());
+	pBar->ApplyPosition(g_pInterfaceResMgr->GetYRatio(), g_pInterfaceResMgr->Get4x3Offset());
 	AddControl(pBar);
 
 
