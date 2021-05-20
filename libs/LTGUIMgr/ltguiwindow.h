@@ -91,7 +91,7 @@ public:
 	CLTGUICtrl	*GetControlUnderPoint(int xPos, int yPos, uint16 *pnIndex);
 
 	virtual void SetBasePos ( LTIntPt pos );
-	virtual void SetScale(float fScale);
+	virtual void ApplyPosition(float fScale, int nOffset);
 
 	// Enable/Disable the control
     virtual void    Enable ( LTBOOL bEnabled );

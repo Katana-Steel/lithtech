@@ -267,7 +267,7 @@ uint16 CLTGUIWindow::AddControl ( CLTGUICtrl *pControl, LTIntPt offset )
 	pos.x += offset.x;
 	pos.y += offset.y;
 	pControl->SetBasePos(pos);
-	pControl->SetScale(m_fScale);
+	pControl->ApplyPosition(m_fScale, m_nOffset);
 
 	m_controlArray.push_back(pControl);
 
@@ -495,13 +495,13 @@ void CLTGUIWindow::SetBasePos ( LTIntPt pos )
 }
 
 
-void CLTGUIWindow::SetScale(float fScale)
+void CLTGUIWindow::ApplyPosition(float fScale, int nOffset)
 {
-	CLTGUICtrl::SetScale(fScale);
-	m_Frame.SetScale(m_fScale);
+	CLTGUICtrl::ApplyPosition(fScale, nOffset);
+	m_Frame.ApplyPosition(m_fScale, m_nOffset);
 	for (uint16 i = 0; i < m_controlArray.size(); i++ )
 	{
-		m_controlArray[i]->SetScale(m_fScale);
+		m_controlArray[i]->ApplyPosition(m_fScale, m_nOffset);
 	}
 }
 
