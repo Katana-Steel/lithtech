@@ -30,6 +30,7 @@ CLTGUICtrl::CLTGUICtrl()
 	m_basePos.x		= 0;
 	m_basePos.y		= 0;
 	m_fScale		= 1.0f;
+	m_nOffset		= 0;
 
     m_argbSelected	= 0xFFFFFFFF;
     m_argbNormal	= 0xFF000000;
@@ -64,7 +65,21 @@ LTBOOL CLTGUICtrl::IsOnMe(int x, int y)
 
 void CLTGUICtrl::SetScale(float fScale)
 {
-	m_pos.x = (int)(fScale * (float)m_basePos.x);
-	m_pos.y = (int)(fScale * (float)m_basePos.y);
 	m_fScale = fScale;
+}
+
+
+void CLTGUICtrl::SetOffset(int nOffset)
+{
+	m_nOffset = nOffset;
+}
+
+void CLTGUICtrl::ApplyPosition(float fScale, int nOffset)
+{
+	// Save the values used
+	SetScale(fScale);
+	SetOffset(nOffset);
+
+	m_pos.x = (int)(fScale * (float)m_basePos.x) + nOffset;
+	m_pos.y = (int)(fScale * (float)m_basePos.y);
 }
