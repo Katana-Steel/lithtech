@@ -2814,7 +2814,7 @@ void CPlayerMgr::UpdateCameraZoom()
 
 	if (fOldFovX != fovX)
 	{
-		fovY = (fovX * DEG2RAD(g_vtFOVYNormal.GetFloat())) / DEG2RAD(g_vtFOVXNormal.GetFloat());
+		fovY = DEG2RAD(g_pInterfaceResMgr->GetVerticalFOV(RAD2DEG(fovX)));
 
 		SetCameraFOV(fovX, fovY);
 
