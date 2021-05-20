@@ -232,7 +232,7 @@ LTBOOL CHUDSubtitles::Show(int nStringId, LTVector vSpeakerPos, LTFLOAT fRadius,
 		m_fDuration = 0.04f * (float)m_pText->GetLength();
 
 
-	SetScale(g_pInterfaceResMgr->GetXRatio());
+	SetScale(g_pInterfaceResMgr->GetYRatio());
 
 	LTIntPt pos = m_FullScreenPos;
 	uint16	width = m_nFullScreenWidth;
