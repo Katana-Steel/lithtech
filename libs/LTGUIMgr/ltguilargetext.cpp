@@ -304,9 +304,9 @@ void CLTGUILargeText::SetBasePos ( LTIntPt pos )
 
 }
 
-void CLTGUILargeText::SetScale(float fScale)
+void CLTGUILargeText::ApplyPosition(float fScale, int nOffset)
 {
-	CLTGUICtrl::SetScale(fScale);
+	CLTGUICtrl::ApplyPosition(fScale, nOffset);
 	m_nFontSize = (uint8)(m_fScale * (float)m_nBaseFontSize);
 	uint16 nWidth = (uint16)(m_fScale * (float)(m_nFixedWidth-m_nIndent));
 	if (m_pString)
@@ -324,11 +324,11 @@ void CLTGUILargeText::SetScale(float fScale)
 	}
 	if (m_pUp)
 	{
-		m_pUp->SetScale(m_fScale);
+		m_pUp->ApplyPosition(m_fScale, nOffset);
 	}
 	if (m_pDown)
 	{
-		m_pDown->SetScale(m_fScale);
+		m_pDown->ApplyPosition(m_fScale, nOffset);
 	}
 
 	CalculateSize();
@@ -487,14 +487,14 @@ LTBOOL CLTGUILargeText::UseArrows(LTFLOAT fTextureScale, HTEXTURE hUpNormal,
 	LTIntPt pos = m_basePos;
 	pos.x += m_nFixedWidth;
 	m_pUp->SetBasePos(pos);
-	m_pUp->SetScale(m_fScale);
+	m_pUp->ApplyPosition(m_fScale, m_nOffset);
 
 	m_pDown = debug_new(CLTGUIButton);
 	m_pDown->Create(LTNULL,LTNULL,hDownNormal,hDownSelected);
 	m_pDown->SetTextureScale(fTextureScale);
 	pos.y += (m_nFixedHeight - m_pDown->GetHeight());
 	m_pDown->SetBasePos(pos);
-	m_pDown->SetScale(m_fScale);
+	m_pDown->ApplyPosition(m_fScale, m_nOffset);
 	
 	CalculateSize();
 
