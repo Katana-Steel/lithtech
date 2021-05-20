@@ -4636,6 +4636,24 @@ void CInterfaceMgr::UpdateOverlays()
 {
 	if (!m_nOverlayCount) return;
 
+	//
+	// Scale around the overlay so we're not stretched fullscreen on non 4:3 resolutions
+	//
+
+	// Need to bump this up a bit, due to bad mathing.
+	LTVector vDefault(0.024f, 0.02f, 1.0f);
+	g_vOverlaySpriteScale = vDefault;
+
+	float fMax = 600.0f / 800.0f;
+	float fCurrent = g_pInterfaceResMgr->GetInvAspectRatio();
+
+	float fScale = (fCurrent) / (fMax);
+
+	g_vOverlaySpriteScale.x *= fScale;
+
+	//
+	// End fun scaling stuff
+	//
 
     LTVector vPos(0, 0, 0), vU, vR, vF, vTemp;
     LTRotation rRot;

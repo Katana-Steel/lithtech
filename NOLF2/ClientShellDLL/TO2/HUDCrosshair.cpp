@@ -354,14 +354,15 @@ void CHUDCrosshair::RenderScope()
 
 	g_pDrawPrim->SetRGBA(&m_Poly[2],argbBlack);
 
-	float cx = 320.0f * g_pInterfaceResMgr->GetXRatio();
+	float cx = 320.0f * g_pInterfaceResMgr->GetYRatio();
 	float cy = 240.0f * g_pInterfaceResMgr->GetYRatio();
 
 	float hR = g_vtScopeLRRadius.GetFloat() * cx * 2.0f;
-	float hGap = g_vtScopeLRGap.GetFloat() * g_pInterfaceResMgr->GetXRatio();
+	float hGap = g_vtScopeLRGap.GetFloat() * g_pInterfaceResMgr->GetYRatio();
 	float vR = g_vtScopeUDRadius.GetFloat() * cx * 2.0f;
-	float vGap = g_vtScopeUDGap.GetFloat() * g_pInterfaceResMgr->GetXRatio();
+	float vGap = g_vtScopeUDGap.GetFloat() * g_pInterfaceResMgr->GetYRatio();
 
+	cx += g_pInterfaceResMgr->Get4x3Offset();
 
 	//left post
 	float x = cx - hR;
@@ -425,7 +426,23 @@ void CHUDCrosshair::RenderScope()
 	g_pDrawPrim->SetXYWH(&m_Poly[2],x,y,2.0f,(vR-vGap));
 	g_pDrawPrim->DrawPrim(&m_Poly[2],1);
 
+	// Black bars if we need it!
+	if (g_pInterfaceResMgr->Get4x3Offset()) {
 
+		int width = g_pInterfaceResMgr->Get4x3Offset();
+		int height = g_pInterfaceResMgr->GetScreenHeight();
+
+		int screenWidth = g_pInterfaceResMgr->GetScreenWidth();
+
+		g_pDrawPrim->SetRGBA(&m_Poly[2], argbBlack);
+
+		g_pDrawPrim->SetXYWH(&m_Poly[2], 0, 0, width, height);
+		g_pDrawPrim->DrawPrim(&m_Poly[2], 1);
+
+		g_pDrawPrim->SetXYWH(&m_Poly[2], screenWidth - width, 0, width, height);
+		g_pDrawPrim->DrawPrim(&m_Poly[2], 1);
+
+	}
 }
 
 
