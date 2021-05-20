@@ -307,6 +307,7 @@ void CScreenDisplay::GetRendererData()
 	{
 		if (pCurrentMode->m_Width >= 640 && pCurrentMode->m_Height >= 480 && pCurrentMode->m_BitDepth == 32)
 		{
+#if 0
 			// disallow non-standard aspect ratios
 			uint32 testWidth = (pCurrentMode->m_Height * 4 / 3);
 			if (pCurrentMode->m_Width != testWidth)
@@ -316,7 +317,7 @@ void CScreenDisplay::GetRendererData()
 				pCurrentMode=pCurrentMode->m_pNext;
 				continue;
 			}
-
+#endif
 			//disallow any that aren't hardware TnL
 			if(bHWTnL && !pCurrentMode->m_bHWTnL)
 			{
