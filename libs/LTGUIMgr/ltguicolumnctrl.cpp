@@ -281,7 +281,7 @@ void CLTGUIColumnCtrl::SetBasePos ( LTIntPt pos )
 
 void CLTGUIColumnCtrl::ApplyPosition(float fScale, int nOffset)
 {
-	CLTGUICtrl::SetOffset(nOffset);
+	CLTGUICtrl::ApplyPosition(fScale, nOffset);
 	m_nFontSize = (uint8)(m_fScale * (float)m_nBaseFontSize);
 	for (int i=0; i < GetNumColumns(); i++)
 	{
