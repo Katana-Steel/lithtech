@@ -291,7 +291,8 @@ void CMessageBox::Show(const char *pString, MBCreate* pCreate, uint8 nFontSize, 
 		m_Dlg.SetSelection(m_Dlg.GetIndex(m_pCancel));
 	}
 
-	offset.x =  (640 - nDlgWidth) / 2;
+	// Reference: 640 / 2 = 320
+	offset.x = (320 + g_pInterfaceResMgr->Get640x480Offset()) - (nDlgWidth / 2);
 	offset.y = (480 - nDlgHeight) / 2;
 	m_Dlg.SetBasePos(offset);
 	m_Dlg.SetScale(g_pInterfaceResMgr->GetYRatio());

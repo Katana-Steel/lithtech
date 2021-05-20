@@ -309,6 +309,7 @@ LTBOOL CScreenPerformance::Build()
 
 	m_pDlg = debug_new(CLTGUIWindow);
 	m_pDlg->Create(g_pInterfaceResMgr->GetTexture(szBack), kDlgWd, kDlgHt);
+	dlgPos.x += g_pInterfaceResMgr->Get640x480Offset();
 	m_pDlg->SetBasePos(dlgPos);
 
 	LTIntPt tmp(60,8);

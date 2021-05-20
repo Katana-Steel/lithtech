@@ -194,7 +194,7 @@ inline int CInterfaceResMgr::Get4x3Offset(int w = 0, int h = 0)
 //
 inline int CInterfaceResMgr::Get640x480Offset()
 {
-	int adjustedScreenWidth = 480 * g_pInterfaceResMgr->GetAspectRatio();
+	int adjustedScreenWidth = (int)(480.0f * g_pInterfaceResMgr->GetAspectRatio());
 	return g_pInterfaceResMgr->Get4x3Offset(adjustedScreenWidth, 480);
 }
 
