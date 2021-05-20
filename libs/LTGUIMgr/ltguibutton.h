@@ -37,7 +37,7 @@ public:
 	virtual void	Destroy();
 
     virtual void    SetBasePos ( LTIntPt pos );
-	virtual void	SetScale(float fScale);
+	virtual void	ApplyPosition(float fScale, int nOffset);
 	virtual void	SetTextureScale(float fScale);
 
 	// Render the control
