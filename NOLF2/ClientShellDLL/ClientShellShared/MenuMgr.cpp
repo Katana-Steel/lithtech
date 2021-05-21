@@ -118,7 +118,7 @@ LTBOOL CMenuMgr::Init()
 	for (auto &pMenu : m_MenuArray )
 	{
 		CLTGUITextCtrl *pCtrl = debug_new(CLTGUITextCtrl);
-		pCtrl->Create(pMenu->GetTitle(),i,0,pFont, m_nFontSize,&m_MenuBar);
+		pCtrl->Create(pMenu->GetTitle(),i++,0,pFont, m_nFontSize,&m_MenuBar);
 		pCtrl->SetColors(g_nSelectColor,argbBlack,argbWhite);
 		pCtrl->SetParam1(pMenu->GetMenuID());
 		m_MenuBar.AddControl(pCtrl,0);
