@@ -25,7 +25,7 @@ decreasing this value will save memory (less pre-allocated formatting data).  If
 a polystring whose lines exceed this value, you'll see an assertion failure--(in DEBUG mode) and your
 string will be capped.
 */
-#define		MAX_POLYSTRING_LINES	64
+#define		MAX_POLYSTRING_LINES	128
 
 /*!  MAX_POLYSTRING_WORDS determines how many words can be displayed by a CUIFormattedPolyString.
 decreasing this value will save memory (less pre-allocated formatting data).  If you try to create
