@@ -909,9 +909,9 @@ LTBOOL	CLTGUIListCtrl::UseArrows(uint16 xOffset, LTFLOAT fTextureScale, HTEXTURE
 	m_pDown = debug_new(CLTGUIButton);
 	m_pDown->Create(LTNULL,LTNULL,hDownNormal,hDownSelected);
 	m_pDown->SetTextureScale(fTextureScale);
-	m_pDown->SetScale(m_fScale);
-	pos.y += (m_nHeight - m_pDown->GetBaseHeight() );
 	m_pDown->ApplyPosition(m_fScale, m_nOffset);
+	pos.y += (m_nHeight - m_pDown->GetBaseHeight() );
+	m_pDown->SetBasePos(pos);
 	
 	
 
