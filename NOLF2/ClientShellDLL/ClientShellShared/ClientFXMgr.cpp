@@ -226,7 +226,7 @@ void CLIENTFX_INSTANCE::DeleteFX(CLinkListNode<FX_LINK> *pDelNode)
 	if( !pDelNode ) 
 		return;
 	
-	auto fxdb = CClientFXDB::GetSingleton();
+	auto &fxdb = CClientFXDB::GetSingleton();
 
 	CBaseFX* pDelFX = pDelNode->m_Data.m_pFX;
 	
