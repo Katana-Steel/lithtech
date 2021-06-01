@@ -1013,6 +1013,8 @@
 #define IDS_PROFILE_ALREADY_EXISTS      2201
 #define IDS_CONFIRM_DELETE_PROFILE      2202
 #define IDS_APP_UNABLE_TO_CREATE_HW_TNL_DEVICE 2203
+#define IDS_FOV                         2204
+#define IDS_HELP_FOV                    2205
 
 // Next default values for new objects
 // 

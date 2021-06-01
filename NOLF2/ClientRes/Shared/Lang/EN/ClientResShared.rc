@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "windows.h"
 #include "..\..\..\..\shared\resshared.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1297,6 +1297,8 @@ BEGIN
                             "Are you sure that you want to delete this profile along with the settings and saved games associated with it?"
     IDS_APP_UNABLE_TO_CREATE_HW_TNL_DEVICE 
                             "A hardware TnL device was unable to be created. This could be due to either not having DirectX 8.1 installed or not having a hardware TnL capable video card. Both of these are required to play %1!s! and although you can continue to play the game by pressing OK, please note that it is not officially supported and may result in crashes, lockups, and poor performance."
+    IDS_FOV                 "Field of View"
+    IDS_HELP_FOV            "Horizontal Field of View (Equivalent to %1!s! when corrected for aspect ratio.)"
 END
 
 STRINGTABLE DISCARDABLE 

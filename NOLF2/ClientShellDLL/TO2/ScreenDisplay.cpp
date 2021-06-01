@@ -204,7 +204,7 @@ LTBOOL CScreenDisplay::Build()
 	AddControl(pBar);
 
 
-	m_pFOV = AddSlider("Field of View", 0, kGap, kWidth, -1, &m_nFOV);
+	m_pFOV = AddSlider(IDS_FOV, 0, kGap, kWidth, -1, &m_nFOV);
 	m_pFOV->SetSliderRange(70, 150);
 	m_pFOV->SetSliderIncrement(1);
 	m_pFOV->SetNumericDisplay(LTTRUE);
@@ -720,10 +720,11 @@ void CScreenDisplay::UpdateHelpText()
 		LTFLOAT verticalFOV = g_pInterfaceResMgr->GetVerticalFOV(m_nFOV);
 		LTFLOAT squareFOV = g_pInterfaceResMgr->Get4x3HorizontalFOV(verticalFOV);
 
-		// TODO: Better explain that this is basically the fov you'd set in a source engine game.
-		std::string helpText = "Horizontal Field of View (Equivalent to " + std::to_string( (int)std::floor(squareFOV) ) + " when corrected for aspect ratio.)";
+		HSTRING hHelpTxt = g_pLTClient->FormatString(IDS_HELP_FOV, std::to_string((int)std::floor(squareFOV)).c_str());
+		std::string helpText = g_pLTClient->GetStringData(hHelpTxt);
 
 		s_pHelpStr->SetText(helpText.c_str());
+		g_pLTClient->FreeString(hHelpTxt);
 		m_dwCurrHelpID = 0;
 		return;
 	}
