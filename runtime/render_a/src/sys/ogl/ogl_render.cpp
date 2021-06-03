@@ -22,6 +22,12 @@ OGlRenderStruct::OGlRenderStruct()
 
 bool OGlRenderStruct::LoadWorldData(ILTStream *pStream)
 {
+    if( pStream == nullptr)
+        return false;
+    
+    std::array<char, 1024> szData{}; // I will pretend to load world data
+    pStream->Read(szData.data(), 1024);
+    pStream->SeekTo(0);
     return false; // STUB we currently want to fail loading data;
 }
 
