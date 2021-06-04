@@ -69,13 +69,13 @@ public:
 	void				ConvertScreenRect(LTRect &rect);
 	void				ConvertScreenPos(LTIntPt &pos) {ConvertScreenPos(pos.x,pos.y);}
 	void				ConvertScreenPos(int &x, int &y);
-    LTFLOAT             GetXRatio()                         {return m_fXRatio;}
-    LTFLOAT             GetYRatio()                         {return m_fYRatio;}
-    const LTFLOAT				Get4x3Ratio()						{ return 640.0f / 480.0f; }
+    LTFLOAT             GetXRatio() const                         {return m_fXRatio;}
+    LTFLOAT             GetYRatio() const                         {return m_fYRatio;}
+    LTFLOAT				Get4x3Ratio() const { return 640.0f / 480.0f; }
     int					Get4x3Offset(int w, int h);
     int					Get640x480Offset();
-    const LTFLOAT		GetAspectRatio()					{ return m_fAspectRatio; }
-    const LTFLOAT		GetInvAspectRatio()					{ return m_fInvAspectRatio;  }
+    LTFLOAT		GetAspectRatio() const { return m_fAspectRatio; }
+    LTFLOAT		GetInvAspectRatio()	const { return m_fInvAspectRatio;  }
 
     uint32              GetScreenWidth();
     uint32              GetScreenHeight();
@@ -89,7 +89,7 @@ public:
     LTBOOL               Setup();
 	void				Clean();
 
-	const LTFLOAT GetHorizontalFOV(LTFLOAT vFOV)
+	LTFLOAT GetHorizontalFOV (LTFLOAT vFOV) const
 	{
 		LTFLOAT vRadFov = DEG2RAD(vFOV);
 		LTFLOAT fov = 2 * (
@@ -101,7 +101,7 @@ public:
 		return RAD2DEG(fov);
 	}
 
-	const LTFLOAT Get4x3HorizontalFOV(LTFLOAT vFOV)
+	LTFLOAT Get4x3HorizontalFOV(LTFLOAT vFOV) const
 	{
 		LTFLOAT vRadFov = DEG2RAD(vFOV);
 		LTFLOAT fov = 2 * (
@@ -113,7 +113,7 @@ public:
 		return RAD2DEG(fov);
 	}
 
-	const LTFLOAT GetVerticalFOV(LTFLOAT fFOV)
+	LTFLOAT GetVerticalFOV(LTFLOAT fFOV) const
 	{
 		LTFLOAT fRadFov = DEG2RAD(fFOV);
 		LTFLOAT fov = 2 * (
