@@ -2,6 +2,7 @@
 #include <time.h>
 
 #include <algorithm>
+#include <random>
 using namespace std;
 using namespace WONAPI;
 
@@ -68,8 +69,10 @@ void ServerContext::CopyAddresses(AddrList &theCopy)
 			++aListItr;
 		}
 
-		srand(time(NULL));
-		random_shuffle(aVec.begin(), aVec.end());
+		std::random_device rng;
+		std::mt19937 urng(rng());
+		std::shuffle(aVec.begin(), aVec.end(), urng);
+
 		mAddrMap.clear();
 		mAddrList.clear();
 		

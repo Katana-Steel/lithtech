@@ -200,7 +200,7 @@ void CGameSettings::ImplementMouseSensitivity()
 			float fScaleIncrement = g_vtMouseScaleInc.GetFloat();
 			auto szSensitivity = std::to_string(fBaseScale + (nMouseSensitivity * fScaleIncrement));
 
-			auto strConsole = std::make_unique<char[]>(devLen+std::max(xLen,yLen)+szSensitivity.length() + 14);
+			auto strConsole = std::make_unique<char[]>(devLen+std::max<size_t>(xLen,yLen)+szSensitivity.length() + 14);
 			char *root=nullptr, *ptr = strConsole.get();
 			strcpy(ptr, "scale \"");
 			ptr += 7;

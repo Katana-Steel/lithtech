@@ -34,8 +34,8 @@ extern class CAIPathMgr* g_pAIPathMgr;
 //
 // Locks a node represented by an INVALID_NODE structure
 //
-struct BlockNode :
-std::unary_function<INVALID_NODE*, int>
+struct BlockNode //:
+//std::unary_function<INVALID_NODE*, int>
 {
 	BlockNode( HOBJECT hBlocker ) { m_hBlocker = hBlocker; }
 	HOBJECT m_hBlocker;
@@ -58,8 +58,8 @@ std::unary_function<INVALID_NODE*, int>
 //
 // Unlocks a locked node represented by an INVALID_NODE structure
 //
-struct UnblockNode :
-std::unary_function<INVALID_NODE*, int>
+struct UnblockNode //:
+//std::unary_function<INVALID_NODE*, int>
 {
 	UnblockNode( HOBJECT hBlocker ) { m_hBlocker = hBlocker; }
 	HOBJECT m_hBlocker;
