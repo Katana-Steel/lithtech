@@ -208,7 +208,7 @@ static bool HandleReallyCloseEnvMapPanning(ModelInstance* pInstance, CD3DRenderS
 				}
 				else if(bPrevWasSet)
 				{
-					g_RenderStateMgr.SetTransform(D3DTS_TEXTURE1, (D3DXMATRIX*)&RenderPass.TextureStages[1].UVTransform_Matrix);
+					g_RenderStateMgr.SetTransform(D3DTS_TEXTURE1, (D3DMATRIX*)&RenderPass.TextureStages[1].UVTransform_Matrix);
 				}
 			}
 		}
