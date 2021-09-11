@@ -289,7 +289,6 @@ void input_sdl2_ReadInput(InputMgr *pMgr, uint8 *pActionsOn, float axisOffsets[3
 {
 	ISBinding *pBinding;
 	float value;
-	POINT cursorPos;
 	int mx, my, i;
 	SDL_Keycode* downs = (SDL_Keycode*)keyDowns;
 	SDL_Scancode scancode;
