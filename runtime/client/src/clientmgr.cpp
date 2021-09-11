@@ -775,7 +775,7 @@ void cm_HandleMaxFPS(uint32 frameTicks)
     }
 }
 
-DWORD sdl2_keycode_to_vkey(SDL_Keycode key)
+uint32 sdl2_keycode_to_vkey(SDL_Keycode key)
 {
 	switch (key)
 	{
@@ -804,7 +804,7 @@ DWORD sdl2_keycode_to_vkey(SDL_Keycode key)
 
 void client_input(SDL_Event e)
 {
-	DWORD vkey;
+	uint32 vkey;
 	SDL_Scancode scancode;
 
 	if( e.type == SDL_KEYDOWN )

@@ -83,7 +83,7 @@ LTRESULT in_GetPerformanceInfo(LTPERFORMANCEINFO* pPerformanceInfo)
 	pPerformanceInfo->m_dwFlags = 0;
 	pPerformanceInfo->m_dwScreenWidth = g_ScreenWidth;
 	pPerformanceInfo->m_dwScreenHeight = g_ScreenHeight;
-	pPerformanceInfo->m_dwFps = (DWORD)(g_pClientMgr->m_FramerateTracker.GetRate() + 0.5f);	// round up
+	pPerformanceInfo->m_dwFps = (uint32)(g_pClientMgr->m_FramerateTracker.GetRate() + 0.5f);	// round up
 	pPerformanceInfo->m_dwNumWorldPolys = renderInfoStruct.m_dwWorldPolysDrawn;
 	pPerformanceInfo->m_dwNumWorldPolysProcessed = renderInfoStruct.m_dwWorldPolysProcessed;
 	pPerformanceInfo->m_dwNumModelPolys = renderInfoStruct.m_dwModelPolysDrawn;

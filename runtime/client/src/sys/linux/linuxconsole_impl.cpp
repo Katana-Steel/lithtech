@@ -30,6 +30,10 @@
 #include <iostream>
 #endif
 
+#ifndef USE_DXVK
+#define HWND void*
+#endif
+
 //------------------------------------------------------------------
 //------------------------------------------------------------------
 // Holders and their headers.
