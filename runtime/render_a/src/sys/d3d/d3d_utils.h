@@ -8,7 +8,7 @@
 #define __D3D9TYPES_H__
 #endif
 
-#ifndef _DXERR9_H_
+#if !defined(_DXERR9_H_) && defined(_WINDOWS)
 #include <DxErr.h>
 #endif
 

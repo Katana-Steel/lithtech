@@ -11,6 +11,7 @@
 #ifndef __LTVERTEXSHADERMGR_H__
 #define __LTVERTEXSHADERMGR_H__
 
+#include <d3d9.h>
 
 #include "ltbasedefs.h"
 #include "ltidtoobjecttable.h"
