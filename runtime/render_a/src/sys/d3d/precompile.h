@@ -24,11 +24,10 @@
 #define __D3D9TYPES_H__
 #endif
 
-#ifndef __D3DX9_H__
+#if !defined(__D3DX9_H__) && defined(_WINDOWS)
 #include <d3dx9.h>
 #define __D3DX9_H__
 #endif
-
 
 #ifndef __D3D9CAPS_H__
 #include <d3d9caps.h>
