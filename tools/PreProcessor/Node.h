@@ -2,8 +2,6 @@
 #ifndef __NODE_H__
 #define __NODE_H__
 
-typedef bool BOOL;
-
 	#include "PrePlane.h"
 	class CPrePoly;
 
@@ -46,7 +44,7 @@ typedef bool BOOL;
 	typedef CGLinkedList<CNode*>	CNodeList;
 	typedef CNode*					NODEREF;
 
-	inline BOOL IsValidNode(NODEREF node) {return !!node && node!=NODE_IN && node!=NODE_OUT;}
+	inline bool IsValidNode(NODEREF node) {return !!node && node!=NODE_IN && node!=NODE_OUT;}
 
 
 #endif  // __NODE_H__
