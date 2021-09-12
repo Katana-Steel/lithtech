@@ -5,7 +5,9 @@
 #include "console.h"
 #include "winclientde_impl.h"
 #include "interface_helpers.h"
+#ifndef USE_DXVK
 #include "text_mgr.h"
+#endif
 #include "load_pcx.h"
 #include "bindmgr.h"
 #include "client_ticks.h"
@@ -40,8 +42,11 @@ extern int32 g_CV_ForceClear;
 extern int32 g_nConsoleLines;
 
 // The screen surface.. treated specially.
+#ifndef USE_DXVK
 CisSurface g_ScreenSurface;
-
+#else
+HSURFACE g_ScreenSurface;
+#endif
 // The render struct we're using..
 RenderStruct *g_pCisRenderStruct = LTNULL;
 
@@ -132,7 +137,7 @@ static LTRESULT cis_OpaqueDraw(bool bSameSurface,
 	return LT_OK;
 }
 
-
+#ifndef USE_DXVK
 template<class P>
 inline void cis_SolidColorDrawLine(uint8 *pSrcLine, uint8 *pDestLine, uint32 width, P *pixelType)
 {
@@ -233,7 +238,6 @@ static LTRESULT cis_TransparentDraw(bool bSameSurface,
 	return LT_OK;
 }
 
-
 inline void cis_MaskedDrawLine16(uint8 *pSrcLine, uint8 *pDestLine, uint32 width,
 	uint8 *pMaskLine, uint32 maskMaskX, uint32 maskX)
 {
@@ -297,7 +301,7 @@ inline void cis_MaskedDrawLine32(uint8 *pSrcLine, uint8 *pDestLine, uint32 width
 		++dest;
 	}
 }
-
+#endif
 template<class P>
 inline void cis_MaskedDrawLine(uint8 *pSrcLine, uint8 *pDestLine, uint32 width,
 							   uint8 *pMaskLine, uint32 maskMaskX, uint32 maskX, P *pixelType)
@@ -327,6 +331,7 @@ inline void cis_MaskedDrawLine(uint8 *pSrcLine, uint8 *pDestLine, uint32 width,
 // If the surface's contents are dirty, reoptimize the surface.
 static void cis_OptimizeDirty(CisSurface *pSurface)
 {
+#ifndef USE_DXVK
 	if(!pSurface)
 		return;
 	
@@ -335,9 +340,10 @@ static void cis_OptimizeDirty(CisSurface *pSurface)
 		g_pCisRenderStruct->OptimizeSurface(pSurface->m_hBuffer, pSurface->m_OptimizedTransparentColor);
 		pSurface->m_Flags &= ~SURFFLAG_OPTIMIZEDIRTY;
 	}
+#endif
 }
 
-
+#ifndef USE_DXVK
 static LTRESULT cis_MaskedDraw(bool bSameSurface,
 	uint8 *pSrcLine, uint8 *pDestLine,
 	long srcPitch, long destPitch, LTRect *pSrcRect, LTRect *pDestRect)
@@ -391,7 +397,6 @@ static LTRESULT cis_MaskedDraw(bool bSameSurface,
 	cis_UnlockSurface(g_pMask);
 	return LT_OK;
 }
-
 
 
 static LTRESULT cis_DoDrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc, 
@@ -498,7 +503,6 @@ static LTRESULT cis_DoDrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	}
 }
 
-
 static void cis_InternalBitmapToSurface(CisSurface *pDest, LoadedBitmap *pSrc,
 	const LTRect *pSrcRect, int destX, int destY)
 {
@@ -542,7 +546,6 @@ static void cis_InternalBitmapToSurface(CisSurface *pDest, LoadedBitmap *pSrc,
 	cis_UnlockSurface(pDest);
 }
 
-
 static LTRESULT cis_InternalWarpSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc, 
 	LTWarpPt *pCoords, int nCoords, DrawWarpFn fn)
 {
@@ -584,7 +587,6 @@ static LTRESULT cis_InternalWarpSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	// Draw it.
 	return fn(pDest, pSrc, leftCoords, rightCoords, minY, maxY);
 }
-
 
 static LTRESULT cis_InternalTransformSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	LTFloatPt *pRotOrigin, int destX, int destY, float angle, float scaleX, float scaleY,
@@ -707,7 +709,7 @@ static LTRESULT cis_InternalTransformSurfaceToSurface(HSURFACE hDest, HSURFACE h
 	else
 		return cis_WarpSurfaceToSurface(hDest, hSrc, warpPoints, 4);
 }
-
+#endif
 
 // tType 0 = transparent
 // tType 1 = solid
@@ -715,6 +717,7 @@ static LTRESULT cis_InternalTransformSurfaceToSurface(HSURFACE hDest, HSURFACE h
 
 static LTRESULT cis_InternalScaleSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc, LTRect *pDestRect, LTRect *pSrcRect, int tType, HLTCOLOR tColor, HLTCOLOR fillColor)
 {
+#ifndef USE_DXVK
 	LTRect destRect, srcRect;
 	CisSurface *pSrc, *pDest;
 	LTWarpPt warpPoints[4];
@@ -809,9 +812,13 @@ static LTRESULT cis_InternalScaleSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 		return cis_WarpSurfaceToSurface(hDest, hSrc, warpPoints, 4);
 	else// if(tType == 2)
 		return cis_WarpSurfaceToSurfaceSolidColor(hDest, hSrc, warpPoints, 4, tColor, fillColor);
+#else
+	//STUB
+	return LT_OK;
+#endif
 }
 
-
+#ifndef USE_DXVK
 static void cis_DeleteSurfaceBuffer(CisSurface *pSurface)
 {
 	if(pSurface->m_hBuffer)
@@ -823,7 +830,6 @@ static void cis_DeleteSurfaceBuffer(CisSurface *pSurface)
 	}
 }
 
-
 static void cis_DeleteSurfaceBackupBuffer(CisSurface *pSurface)
 {
 	if(pSurface->m_pBackupBuffer)
@@ -832,10 +838,11 @@ static void cis_DeleteSurfaceBackupBuffer(CisSurface *pSurface)
 		pSurface->m_pBackupBuffer = LTNULL;
 	}
 }
-
+#endif
 
 static bool cis_BackupSurface(CisSurface *pSurface)
 {
+#ifndef USE_DXVK
 	// Don't back it up if it's already been deleted
 	if (!pSurface->m_hBuffer)
 		return true;
@@ -866,13 +873,16 @@ static bool cis_BackupSurface(CisSurface *pSurface)
 
 	// Get rid of the buffer.
 	cis_DeleteSurfaceBuffer(pSurface);
-	
+#else
+	//STUB
+#endif
 	return true;
 }
 
 
 static bool cis_RestoreSurface(CisSurface *pSurface)
 {
+#ifndef USE_DXVK
 	uint32 surfWidth, surfHeight;
 	FMConvertRequest request;
 	LTRESULT dResult;
@@ -920,7 +930,9 @@ static bool cis_RestoreSurface(CisSurface *pSurface)
 	{
 		g_pCisRenderStruct->OptimizeSurface(pSurface->m_hBuffer, pSurface->m_OptimizedTransparentColor);
 	}
-
+#else
+	//STUB
+#endif
 	return true;
 }
 
@@ -961,6 +973,7 @@ static bool cis_RestoreSurfaces()
 
 static void cis_DeleteSurfaces()
 {
+#ifndef USE_DXVK
 	GPOS pos;
 	CisSurface *pSurface;
 
@@ -975,8 +988,10 @@ static void cis_DeleteSurfaces()
 	}
 
 	g_Surfaces.RemoveAll();
+#endif
 }
 
+#ifndef USE_DXVK
 CisSurface* cis_InternalCreateSurface(uint32 width, uint32 height)
 {
 	CisSurface *pSurface;
@@ -1009,6 +1024,7 @@ CisSurface* cis_InternalCreateSurface(uint32 width, uint32 height)
 	g_Surfaces.AddHead(pSurface);	
 	return pSurface;
 }
+#endif
 
 // ----------------------------------------------------------------- //
 // Interface implementation functions.
@@ -1096,7 +1112,7 @@ static bool IsHorzSpanSolidColor(uint8 *pBuf, GenericColor color, uint32 width)
 	return true;
 }
 
-
+#ifndef USE_DXVK
 static LTRESULT cis_GetBorderSize(HSURFACE hSurface, HLTCOLOR hColor, LTRect *pRect)
 {
 	CisSurface *pSurface;
@@ -1132,10 +1148,11 @@ static LTRESULT cis_GetBorderSize(HSURFACE hSurface, HLTCOLOR hColor, LTRect *pR
 	g_pCisRenderStruct->UnlockSurface(pSurface->m_hBuffer);	
 	return LT_OK;
 }
-
+#endif
 
 static LTRESULT cis_OptimizeSurface(HSURFACE hSurface, HLTCOLOR hTransparentColor)
 {
+#ifndef USE_DXVK
 	CisSurface *pSurface;
 
 	if(!hSurface)
@@ -1170,9 +1187,12 @@ static LTRESULT cis_OptimizeSurface(HSURFACE hSurface, HLTCOLOR hTransparentColo
 		// Just return out.. we'll optimize it when we recreate the surface.
 		return LT_OK;
 	}
+#else
+	return LT_OK; //STUB
+#endif
 }
 
-
+#ifndef USE_DXVK
 static LTRESULT cis_UnoptimizeSurface(HSURFACE hSurface)
 {
 	CisSurface *pSurface;
@@ -1195,7 +1215,7 @@ static LTRESULT cis_UnoptimizeSurface(HSURFACE hSurface)
 		return LT_OK;
 	}
 }
-
+#endif
 
 static HSURFACE cis_GetScreenSurface()
 {
@@ -1224,9 +1244,18 @@ static bool cis_LoadPcx(const char *pBitmapName, LoadedBitmap *pBitmap)
 	return bRet;
 }
 
+static HSURFACE cis_CreateSurface(uint32 width, uint32 height)
+{
+#ifndef USE_DXVK
+	return (HSURFACE)cis_InternalCreateSurface(width, height);
+#else
+	return (HSURFACE)SDL_CreateRGBSurface(0, width, height,32,0,0,0,0);
+#endif
+}
 
 HSURFACE cis_CreateSurfaceFromPcx(LoadedBitmap *pLoadedBitmap)
 {
+#ifndef USE_DXVK
 	CisSurface *pSurface;
 
 	// Create a surface for it.
@@ -1238,6 +1267,9 @@ HSURFACE cis_CreateSurfaceFromPcx(LoadedBitmap *pLoadedBitmap)
 
 	cis_InternalBitmapToSurface(pSurface, pLoadedBitmap, LTNULL, 0, 0);
 	return (HSURFACE)pSurface;
+#else
+	return cis_CreateSurface(32, 32); //STUB
+#endif
 }
 
 
@@ -1317,14 +1349,9 @@ static HSURFACE cis_CreateSurfaceFromBitmap(const char *pBitmapName)
 }
 
 
-static HSURFACE cis_CreateSurface(uint32 width, uint32 height)
-{
-	return (HSURFACE)cis_InternalCreateSurface(width, height);
-}
-
-
 LTRESULT cis_DeleteSurface(HSURFACE hSurface)
 {
+#ifndef USE_DXVK
 	CisSurface *pSurface = (CisSurface*)hSurface;
 
 	if(!pSurface)
@@ -1347,11 +1374,14 @@ LTRESULT cis_DeleteSurface(HSURFACE hSurface)
 		cis_DeleteSurfaceBuffer(pSurface);
 		sb_Free(&g_SurfaceBank, pSurface);
 	}
-
+#else
+	SDL_Surface *s = (SDL_Surface*)hSurface;
+	SDL_FreeSurface(s);
+#endif
 	return LT_OK;
 }
 
-
+#ifndef USE_DXVK
 static void* cis_GetSurfaceUserData(HSURFACE hSurf)
 {
 	if(hSurf)
@@ -1364,7 +1394,6 @@ static void* cis_GetSurfaceUserData(HSURFACE hSurf)
 	}
 }
 
-
 static void cis_SetSurfaceUserData(HSURFACE hSurf, void *pUserData)
 {
 	if(hSurf)
@@ -1372,7 +1401,6 @@ static void cis_SetSurfaceUserData(HSURFACE hSurf, void *pUserData)
 		((CisSurface*)hSurf)->m_pUserData = pUserData;
 	}
 }
-
 
 LTRESULT cis_GetPixel(HSURFACE hSurface, uint32 x, uint32 y, HLTCOLOR *color)
 {
@@ -1395,7 +1423,6 @@ LTRESULT cis_GetPixel(HSURFACE hSurface, uint32 x, uint32 y, HLTCOLOR *color)
 	return LT_OK;
 }
 
-
 LTRESULT cis_SetPixel(HSURFACE hSurface, uint32 x, uint32 y, HLTCOLOR color)
 {
 	CisSurface *pSurface;
@@ -1417,10 +1444,11 @@ LTRESULT cis_SetPixel(HSURFACE hSurface, uint32 x, uint32 y, HLTCOLOR color)
 	cis_SetDirty(pSurface);
 	return LT_OK;
 }
-
+#endif
 
 static void cis_GetSurfaceDims(HSURFACE hSurf, uint32 *pWidth, uint32 *pHeight)
 {
+#ifndef USE_DXVK
 	CisSurface *pSurface = (CisSurface*)hSurf;
 
 	if(pSurface)
@@ -1435,8 +1463,19 @@ static void cis_GetSurfaceDims(HSURFACE hSurf, uint32 *pWidth, uint32 *pHeight)
 	{
 		*pWidth = *pHeight = 0;
 	}
+#else
+	if(!hSurf)
+	{
+		return;
+	}
+
+	SDL_Surface *s = (SDL_Surface*)hSurf;
+	*pWidth = s->w;
+	*pHeight = s->h;
+#endif
 }
 
+#ifndef USE_DXVK
 static bool cis_DrawBitmapToSurface(HSURFACE hDest, const char *pSourceBitmapName, 
 	const LTRect *pSrcRect, int destX, int destY)
 {
@@ -1486,7 +1525,6 @@ LTRESULT cis_DrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	return cis_DoDrawSurfaceToSurface(hDest, hSrc, pSrcRect, destX, destY, cis_OpaqueDraw);
 }
 
-
 static LTRESULT cis_DrawSurfaceToSurfaceTransparent(HSURFACE hDest, HSURFACE hSrc, 
 	LTRect *pSrcRect, int destX, int destY, HLTCOLOR hColor)
 {
@@ -1496,7 +1534,7 @@ static LTRESULT cis_DrawSurfaceToSurfaceTransparent(HSURFACE hDest, HSURFACE hSr
 	cis_SetTransparentColor(hColor);
 	return cis_DoDrawSurfaceToSurface(hDest, hSrc, pSrcRect, destX, destY, cis_TransparentDraw);
 }
-
+#endif
 
 static LTRESULT cis_ScaleSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	LTRect *pDestRect, LTRect *pSrcRect)
@@ -1528,7 +1566,7 @@ static LTRESULT cis_ScaleSurfaceToSurfaceSolidColor(HSURFACE hDest, HSURFACE hSr
 	return cis_InternalScaleSurfaceToSurface(hDest, hSrc, pDestRect, pSrcRect, 2, hTransColor, hFillColor);
 }
 
-
+#ifndef USE_DXVK
 static LTRESULT cis_WarpSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc, 
 	LTWarpPt *pCoords, int nCoords)
 {
@@ -1561,7 +1599,6 @@ static LTRESULT cis_WarpSurfaceToSurfaceSolidColor(HSURFACE hDest, HSURFACE hSrc
 	return cis_InternalWarpSurfaceToSurface(hDest, hSrc, pCoords, nCoords, cis_DrawWarpSolidColor);
 }
 
-
 static LTRESULT cis_TransformSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	LTFloatPt *pRotOrigin, int destX, int destY, float angle, float scaleX, float scaleY)
 {
@@ -1571,7 +1608,6 @@ static LTRESULT cis_TransformSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	return cis_InternalTransformSurfaceToSurface(hDest, hSrc, pRotOrigin, destX, destY,
 		angle, scaleX, scaleY, false, 0);
 }
-
 
 static LTRESULT cis_TransformSurfaceToSurfaceTransparent(HSURFACE hDest, HSURFACE hSrc,
 	LTFloatPt *pRotOrigin, int destX, int destY, float angle, float scaleX, float scaleY,
@@ -1584,10 +1620,11 @@ static LTRESULT cis_TransformSurfaceToSurfaceTransparent(HSURFACE hDest, HSURFAC
 	return cis_InternalTransformSurfaceToSurface(hDest, hSrc, pRotOrigin, destX, destY,
 		angle, scaleX, scaleY, true, hColor);
 }
-
+#endif
 
 static LTRESULT cis_FillRect(HSURFACE hDest, LTRect *pRect, HLTCOLOR hColor)
 {
+#ifndef USE_DXVK
 	LTRect theRect, tempRect;
 	LTBOOL bIsVisible;
 	CisSurface *pDest;
@@ -1633,11 +1670,19 @@ static LTRESULT cis_FillRect(HSURFACE hDest, LTRect *pRect, HLTCOLOR hColor)
 	{
 		RETURN_ERROR(1, FillRect, LT_ERROR);
 	}
+#else
+	if(!hDest)
+		return LT_ERROR;
+	SDL_Surface *s = (SDL_Surface *)hDest;
+	pRect->Init(0, 0, s->w, s->h);
+	return LT_OK;
+#endif
 }
 
 
 static LTRESULT cis_GetSurfaceAlpha(HSURFACE hSurface, float &alpha)
 {
+#ifndef USE_DXVK
 	FN_NAME(cis_GetSurfaceAlpha);
 	CisSurface *pSurface;
 
@@ -1646,11 +1691,17 @@ static LTRESULT cis_GetSurfaceAlpha(HSURFACE hSurface, float &alpha)
 	pSurface = (CisSurface*)hSurface;
 	alpha = pSurface->m_Alpha;
 	return LT_OK;
+#else
+	SDL_Surface *s = (SDL_Surface*)hSurface;
+	alpha = 0.5f; //STUB
+	return LT_OK;
+#endif
 }
 
 
 static LTRESULT cis_SetSurfaceAlpha(HSURFACE hSurface, float alpha)
 {
+#ifndef USE_DXVK
 	FN_NAME(cis_SetSurfaceAlpha);
 	CisSurface *pSurface;
 
@@ -1659,6 +1710,10 @@ static LTRESULT cis_SetSurfaceAlpha(HSURFACE hSurface, float alpha)
 	pSurface = (CisSurface*)hSurface;
 	pSurface->m_Alpha = LTCLAMP(alpha, 0.0f, 1.0f);
 	return LT_OK;
+#else
+	SDL_SetSurfaceAlphaMod((SDL_Surface*)hSurface, (0xff && (255.0f * alpha)));
+    return LT_OK;
+#endif
 }
 
 
@@ -1666,7 +1721,11 @@ static LTRESULT cis_GetEngineHook(const char *pName, void **pData)
 {
 	if(stricmp(pName, "hwnd") == 0)
 	{
+#ifndef USE_DXVK
 		*pData = g_ClientGlob.m_hMainWnd;
+#else
+		*pData = g_ClientGlob.m_window;
+#endif
 		return LT_OK;
 	}
 	else if(stricmp(pName, "cres_hinstance")==0)
@@ -2023,12 +2082,26 @@ void cis_Init()
 	ilt_client->DeleteColor = cis_DeleteColor;
 	ilt_client->SetupColor1 = cis_SetupColor1;
 	ilt_client->SetupColor2 = cis_SetupColor2;
-	
+#ifndef USE_DXVK
 	ilt_client->GetBorderSize = cis_GetBorderSize;
-
-	ilt_client->OptimizeSurface = cis_OptimizeSurface;
 	ilt_client->UnoptimizeSurface = cis_UnoptimizeSurface;
-	
+	ilt_client->GetSurfaceUserData = cis_GetSurfaceUserData;
+	ilt_client->SetSurfaceUserData = cis_SetSurfaceUserData;
+	ilt_client->GetPixel = cis_GetPixel;
+	ilt_client->SetPixel = cis_SetPixel;
+	ilt_client->DrawBitmapToSurface = cis_DrawBitmapToSurface;
+	ilt_client->DrawSurfaceSolidColor = cis_DrawSurfaceSolidColor;
+	ilt_client->DrawSurfaceMasked = cis_DrawSurfaceMasked;
+	ilt_client->DrawSurfaceToSurface = cis_DrawSurfaceToSurface;
+	ilt_client->DrawSurfaceToSurfaceTransparent = cis_DrawSurfaceToSurfaceTransparent;
+	ilt_client->TransformSurfaceToSurface = cis_TransformSurfaceToSurface;
+	ilt_client->TransformSurfaceToSurfaceTransparent = cis_TransformSurfaceToSurfaceTransparent;
+	ilt_client->WarpSurfaceToSurface = cis_WarpSurfaceToSurface;
+	ilt_client->WarpSurfaceToSurfaceTransparent = cis_WarpSurfaceToSurfaceTransparent;
+	ilt_client->WarpSurfaceToSurfaceSolidColor = cis_WarpSurfaceToSurfaceSolidColor;
+#endif
+	ilt_client->OptimizeSurface = cis_OptimizeSurface;
+	ilt_client->GetSurfaceDims = cis_GetSurfaceDims;
 	ilt_client->GetScreenSurface = cis_GetScreenSurface;
 	
 	ilt_client->CreateHeightmapFromBitmap = cis_CreateHeightmapFromBitmap;
@@ -2037,39 +2110,20 @@ void cis_Init()
 	ilt_client->CreateSurface = cis_CreateSurface;
 	ilt_client->DeleteSurface = cis_DeleteSurface;
 
-	ilt_client->GetSurfaceUserData = cis_GetSurfaceUserData;
-	ilt_client->SetSurfaceUserData = cis_SetSurfaceUserData;
-
-	ilt_client->GetPixel = cis_GetPixel;
-	ilt_client->SetPixel = cis_SetPixel;
-	
-	ilt_client->GetSurfaceDims = cis_GetSurfaceDims;
-	ilt_client->DrawBitmapToSurface = cis_DrawBitmapToSurface;
-	ilt_client->DrawSurfaceSolidColor = cis_DrawSurfaceSolidColor;
-	ilt_client->DrawSurfaceMasked = cis_DrawSurfaceMasked;
-	ilt_client->DrawSurfaceToSurface = cis_DrawSurfaceToSurface;
-	ilt_client->DrawSurfaceToSurfaceTransparent = cis_DrawSurfaceToSurfaceTransparent;
-	
 	ilt_client->ScaleSurfaceToSurface = cis_ScaleSurfaceToSurface;
 	ilt_client->ScaleSurfaceToSurfaceTransparent = cis_ScaleSurfaceToSurfaceTransparent;
 	ilt_client->ScaleSurfaceToSurfaceSolidColor = cis_ScaleSurfaceToSurfaceSolidColor;
 
-	ilt_client->WarpSurfaceToSurface = cis_WarpSurfaceToSurface;
-	ilt_client->WarpSurfaceToSurfaceTransparent = cis_WarpSurfaceToSurfaceTransparent;
-	ilt_client->WarpSurfaceToSurfaceSolidColor = cis_WarpSurfaceToSurfaceSolidColor;
-
-	ilt_client->TransformSurfaceToSurface = cis_TransformSurfaceToSurface;
-	ilt_client->TransformSurfaceToSurfaceTransparent = cis_TransformSurfaceToSurfaceTransparent;
-	
 	ilt_client->FillRect = cis_FillRect;
 	ilt_client->GetEngineHook = cis_GetEngineHook;
 	ilt_client->QueryGraphicDevice = cis_QueryGraphicDevice;
 
 	ilt_client->GetSurfaceAlpha = cis_GetSurfaceAlpha;
 	ilt_client->SetSurfaceAlpha = cis_SetSurfaceAlpha;
-
+#ifndef USE_DXVK
 	// Init the screen surface.
 	g_ScreenSurface.m_Flags = SURFFLAG_SCREEN;
+#endif
 
 	// Init the allocators..
 	sb_Init(&g_SurfaceBank, sizeof(CisSurface), 10);
@@ -2079,12 +2133,15 @@ void cis_Init()
 	for(i=0; i < 8; i++)
 		g_MaskLookup[1 << i] = (1 << i) - 1;
 
+#ifndef USE_DXVK
 	// Init the text manager..
 	tmgr_Init();
+#endif
 }
 
 void cis_Term()
 {
+#ifndef USE_DXVK
 	cis_DeleteSurfaces();
 	
 	// Shutdown the allocators.
@@ -2093,18 +2150,23 @@ void cis_Term()
 	tmgr_Term();
 	
 	g_pCisRenderStruct = LTNULL;
+#endif
 }
-
 
 bool cis_RendererIsHere(RenderStruct *pStruct)
 {
 	g_pCisRenderStruct = pStruct;
-	
+#ifndef USE_DXVK
 	g_ScreenSurface.m_Width = pStruct->m_Width;
 	g_ScreenSurface.m_Height = pStruct->m_Height;
+#else
+	int x, y;
+	SDL_GetWindowSize(g_ClientGlob.m_window, &x, &y);
+	g_ScreenSurface = cis_CreateSurface(x, y);
+#endif
 	pStruct->GetScreenFormat(&g_ScreenFormat);
 	g_nScreenPixelBytes = g_ScreenFormat.GetBytesPerPixel();
-	
+
 	return cis_RestoreSurfaces();
 }
 
@@ -2112,17 +2174,18 @@ bool cis_RendererIsHere(RenderStruct *pStruct)
 bool cis_RendererGoingAway()
 {
 	bool bRet;
-
+#ifndef USE_DXVK
 	g_PrevScreenFormat = g_ScreenFormat;
 	g_nPrevScreenPixelBytes = g_nScreenPixelBytes;
-
+#else
+	cis_DeleteSurface(g_ScreenSurface);
+#endif
 	bRet = cis_BackupSurfaces();
 	g_pCisRenderStruct = LTNULL;
-
 	return bRet;
 }
 
-
+#ifndef USE_DXVK
 // For memorywatch.cpp.
 unsigned long GetInterfaceSurfaceMemory()
 {
@@ -2144,9 +2207,7 @@ unsigned long GetInterfaceSurfaceMemory()
 
 	return total;
 }
-
-
-
+#endif
 
 
 
