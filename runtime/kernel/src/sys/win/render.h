@@ -78,7 +78,7 @@ void r_UnloadSystemTexture(TextureData *pTexture);
 
 //this will bind the texture to the device. Note that the texture data is not guaranteed to be valid
 //after this call since the renderer can free it to save memory
-void r_BindTexture(SharedTexture *pSharedTexture, LTBOOL bTextureChanged);
+void r_BindTexture(SharedTexture *pSharedTexture, bool bTextureChanged);
 
 //unbinds the texture from the device
 void r_UnbindTexture(SharedTexture *pSharedTexture, bool bUnLoad_EngineData);

@@ -44,17 +44,28 @@ LTRESULT r_InitRender(RMode *pMode, const char* window_name);
 //    1 = backup surfaces
 //    2 = delete surfaces
 LTRESULT r_TermRender(int surfaceHandling, bool bUnLoadDLL);
-//this should be called to access texture data of a texture. If it has no image and the shared texture
-//is properly setup, it will load the image data and bind it to the shared texture
-//this should be called to access information on a texture. It will ensure that it is filled out.
-//The values are invalid if it returns false
+
 //this will run through and release any textures that have a valid file pointer so that they can
 //be recreated later on demand
 void r_TerminateAllRecreatableTextureData();
+
+#ifdef USE_DXVK
+//this should be called to access texture data of a texture. If it has no image and the shared texture
+//is properly setup, it will load the image data and bind it to the shared texture
+TextureData*	r_GetTextureData(SharedTexture *pTexture);
+
+//this should be called to access information on a texture. It will ensure that it is filled out.
+//The values are invalid if it returns false
+bool			r_GetTextureInfo(SharedTexture *pTexture, uint32& nWidth, uint32& nHeight, PFormat& Format);
+
 //this will load the texture and bind it to the device. The texture data of the shared texture
 //will be valid until it is bound to the device, at which point it is possible that it will
 //be freed
+LTRESULT r_LoadSystemTexture(SharedTexture *pSharedTexture);
+
 //frees the associated texture data and cleans up references to it
+void r_UnloadSystemTexture(TextureData *pTexture);
+#endif
 
 //this will bind the texture to the device. Note that the texture data is not guaranteed to be valid
 //after this call since the renderer can free it to save memory

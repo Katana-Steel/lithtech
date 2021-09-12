@@ -157,7 +157,7 @@ class ClientGlob {
     char            *m_WndClassName;
     const char      *m_WndCaption;
 
-    bool            m_bInitializingRenderer;
+    int             m_bInitializingRenderer;
     bool            m_bBreakOnError; // Break in dsi_OnReturnError?
     bool            m_bClientActive;
     bool            m_bLostFocus;

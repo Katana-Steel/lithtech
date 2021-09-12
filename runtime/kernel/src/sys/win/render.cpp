@@ -601,6 +601,7 @@ void r_InitRenderStruct(bool bFullClear)
 bool g_bFirstTimeInit = true;
 LTRESULT r_InitRender(RMode *pMode, const char* window_name)
 {
+	int flags = 0;
 	RenderStructInit init;
 	int initStatus;
 	HWND hWnd;
@@ -611,15 +612,23 @@ LTRESULT r_InitRender(RMode *pMode, const char* window_name)
 		return LT_OK;
 
 
-	VarSetter<BOOL> setter(&g_ClientGlob.m_bInitializingRenderer, LTTRUE, LTFALSE);
+	VarSetter<BOOL> setter(&g_ClientGlob.m_bInitializingRenderer, 1, 0);
 
 	r_TermRender(0, false);
-
+#ifdef USE_DXVK
+	window = g_ClientGlob.m_window;
+	flags = SDL_WINDOW_VULKAN;
+#else
 	window = (SDL_Window*)dsi_GetSDL2Window();
+#endif
 	SDL_DestroyWindow(window);
 	window = SDL_CreateWindow(window_name, SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED, pMode->m_Width, pMode->m_Height, 0);
+		SDL_WINDOWPOS_UNDEFINED, pMode->m_Width, pMode->m_Height, flags);
+#ifdef USE_DXVK
+	g_ClientGlob.m_window = window;
+#else
 	dsi_SetSDL2Window(window);
+#endif
 	hWnd = (HWND)dsi_GetMainWindow();
 	//ShowWindow(hWnd, SW_RESTORE);
 
@@ -744,13 +753,13 @@ LTRESULT r_TermRender(int surfaceHandling, bool bUnLoadDLL)
 		g_pClientMgr->UnbindClientShellWorlds();
 
 		g_Render.Term(bUnLoadDLL);
-		
+#ifdef _WINDOWS
 		// Un-clip the cursor.
 		if (g_CV_CursorCenter) 
 		{
 			ClipCursor(LTNULL); 
 		}
-
+#endif
 		if (bUnLoadDLL) 
 		{
 			// Get rid of all the loaded textures.
@@ -774,7 +783,7 @@ LTRESULT r_TermRender(int surfaceHandling, bool bUnLoadDLL)
 }
 
 
-void r_BindTexture(SharedTexture *pSharedTexture, LTBOOL bTextureChanged)
+void r_BindTexture(SharedTexture *pSharedTexture, bool bTextureChanged)
 {
 	if (g_Render.m_bInitted) 
 	{
