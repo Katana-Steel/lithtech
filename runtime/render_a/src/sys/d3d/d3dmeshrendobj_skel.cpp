@@ -343,7 +343,7 @@ void CD3DSkelMesh::FreeDeviceObjects()
 	m_VBController.FreeAll();										// Free our VB...
 }
 
-inline int32 CD3DSkelMesh::SetTransformsToBoneSet(BoneSetListItem* pBoneSet,D3DMATRIX* pTransforms, int32 nNumMatrices)
+inline int32 CD3DSkelMesh::SetTransformsToBoneSet(BoneSetListItem* pBoneSet,DDMatrix* pTransforms, int32 nNumMatrices)
 {
 	int32 iCurrBone;
 	for (iCurrBone=0; iCurrBone < 4; ++iCurrBone) 
@@ -415,7 +415,7 @@ inline int32 CD3DSkelMesh::SetTransformsToBoneSet(BoneSetListItem* pBoneSet,D3DM
 	return (iCurrBone-1);
 }
 
-inline uint32 CD3DSkelMesh::SetMatrixPalette(uint32 MinBone,uint32 MaxBone,D3DMATRIX* pTransforms)
+inline uint32 CD3DSkelMesh::SetMatrixPalette(uint32 MinBone,uint32 MaxBone,DDMatrix* pTransforms)
 {
 	for (uint32 i=MinBone;i<=MaxBone;++i)
 	{
@@ -458,7 +458,7 @@ inline uint32 CD3DSkelMesh::SetMatrixPalette(uint32 MinBone,uint32 MaxBone,D3DMA
 // THIS Function should be removed when we go to the full render object implementation - it's
 //	temporary on the path to full render objects. The D3D pipe render model path call this guy to do
 //	the transform and lighting stuff.
-void CD3DSkelMesh::Render(ModelInstance *pInstance, D3DMATRIX* pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass)
+void CD3DSkelMesh::Render(ModelInstance *pInstance, DDMatrix* pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass)
 {
 	switch (m_eRenderMethod)
 	{
@@ -586,7 +586,7 @@ void CD3DSkelMesh::Render(ModelInstance *pInstance, D3DMATRIX* pD3DTransforms, C
 	}
 }
 
-void CD3DSkelMesh::BeginRender(D3DMATRIX* pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass)
+void CD3DSkelMesh::BeginRender(DDMatrix* pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass)
 {
 
 // [dlj] remove this because DX9 doesn't have this bug

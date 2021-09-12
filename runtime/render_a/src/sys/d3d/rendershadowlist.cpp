@@ -371,7 +371,7 @@ static void RenderModelPieces( ModelInstance* pInstance )
 	}
 
 	//now get our rendering transforms
-	D3DMATRIX *pD3DTransforms = pInstance->GetRenderingTransforms();
+	DDMatrix *pD3DTransforms = pInstance->GetRenderingTransforms();
 
 	//get the render style that we will be using on all of the models
 	CD3DRenderStyle* pRenderStyle	= g_RenderStateMgr.GetBackupRenderStyle();

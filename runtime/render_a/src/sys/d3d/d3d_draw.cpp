@@ -371,7 +371,7 @@ void d3d_Clear(LTRect *pRect, uint32 flags, LTRGBColor& ClearColor)
 
 void d3d_SetD3DMat(D3DTRANSFORMSTATETYPE iTransform, const LTMatrix *pSrc)
 {
-	D3DMATRIX Out;
+	DDMatrix Out;
 
 	Out._11=pSrc->m[0][0]; Out._12=pSrc->m[1][0]; Out._13=pSrc->m[2][0]; Out._14=pSrc->m[3][0];
 	Out._21=pSrc->m[0][1]; Out._22=pSrc->m[1][1]; Out._23=pSrc->m[2][1]; Out._24=pSrc->m[3][1];

@@ -239,7 +239,7 @@ void CD3DVAMesh::UpdateVA(Model* pModel, AnimTimeRef* pAnimTimeRef)
 	}
 }
 
-void CD3DVAMesh::Render(ModelInstance *pInstance, D3DMATRIX& WorldTransform, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass)
+void CD3DVAMesh::Render(ModelInstance *pInstance, DDMatrix& WorldTransform, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass)
 {
 	RSD3DOptions rsD3DOptions;
 	pRenderStyle->GetDirect3D_Options(&rsD3DOptions);

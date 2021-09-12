@@ -2,6 +2,11 @@ project(LIB_D3DRender)
 
 find_package(SDL2 REQUIRED)
 
+if (ENABLE_DXVK)
+	include_directories(${DXVK_INCLUDE_DIRS})
+	add_definitions(-DUSE_DXVK)
+endif()
+
 add_library(${PROJECT_NAME} STATIC
 	../shadows/d3dshadowtexture.cpp
 	3d_ops.cpp
@@ -92,13 +97,22 @@ include_directories(.
 	../../../../shared/src/sys/win
 	../../../../kernel/src
 	../../../../kernel/mem/src
-	../../../../kernel/src/sys/win
 	../../../../kernel/io/src
 	../../../../client/src
 	../../../../world/src
 	../../../../model/src
 	../../../../lithtemplate
 	${SDL2_INCLUDE_DIRS})
+
+if(WIN32)
+	include_directories(../../../../kernel/src/sys/win)
+else()
+	include_directories(../../../../kernel/src/sys/linux)
+	include_directories(../../../../../libs/LTGUIMgr/)
+	include_directories(../../../../../tools/PreProcessor/)
+	set(CMAKE_CXX_FLAGS "-fpermissive")
+	add_definitions(-D_LINUX -D__LINUX)
+endif()
 
 set_property(TARGET ${PROJECT_NAME}
 	PROPERTY COMPILE_DEFINITIONS_DEBUG D3D_DEBUG_INFO)

@@ -31,10 +31,10 @@ public:
 	void					Reset();				// Resets back to initial conditions (doesn't try to free anything)...
 	void					FreeAll();				// Frees all the member vars and resets afterwards...
 
-	void					BeginRender(D3DMATRIX& pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass);
-	void					Render(ModelInstance *pInstance, D3DMATRIX& WorldTransform, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass);
-	void					BeginRenderWithEffect(D3DMATRIX& pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass);
-	void					RenderWithEffect(ModelInstance *pInstance, D3DMATRIX& WorldTransform, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass);
+	void					BeginRender(DDMatrix& pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass);
+	void					Render(ModelInstance *pInstance, DDMatrix& WorldTransform, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass);
+	void					BeginRenderWithEffect(DDMatrix& pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass);
+	void					RenderWithEffect(ModelInstance *pInstance, DDMatrix& WorldTransform, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass);
 	void					EndRender();
 
 	bool					Load(ILTStream& File, LTB_Header& LTBHeader);

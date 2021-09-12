@@ -30,7 +30,7 @@ public:
 	void					FreeAll();				// Frees all the member vars and resets afterwards...
 
 	void					UpdateVA(Model* pModel, AnimTimeRef* pAnimTimeRef);
-	void					Render(ModelInstance *pInstance, D3DMATRIX& WorldTransform, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass);
+	void					Render(ModelInstance *pInstance, DDMatrix& WorldTransform, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass);
 
 	bool					Load(ILTStream& pFile, LTB_Header& LTBHeader);
 	void					ReCreateObject();		// Create the VBs and stuff from our sys mem copies...

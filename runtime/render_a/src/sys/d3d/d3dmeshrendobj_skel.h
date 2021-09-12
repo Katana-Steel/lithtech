@@ -50,8 +50,8 @@ public:
 	void					Reset();				// Resets back to initial conditions (doesn't try to free anything)...
 	void					FreeAll();				// Frees all the member vars and resets afterwards...
 
-	void					BeginRender(D3DMATRIX* pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass);
-	void					Render(ModelInstance *pInstance, D3DMATRIX* pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass);
+	void					BeginRender(DDMatrix* pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass);
+	void					Render(ModelInstance *pInstance, DDMatrix* pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass);
 	void					EndRender();
 
 	bool					Load(ILTStream& pFile, LTB_Header& LTBHeader);
@@ -81,8 +81,8 @@ public:
 
 private:
 
-	inline int32		SetTransformsToBoneSet(BoneSetListItem* pBoneSet,D3DMATRIX* pTransforms, int32 nNumMatrices);
-	inline uint32		SetMatrixPalette(uint32 MinBone,uint32 MaxBone,D3DMATRIX* pTransforms);
+	inline int32		SetTransformsToBoneSet(BoneSetListItem* pBoneSet,DDMatrix* pTransforms, int32 nNumMatrices);
+	inline uint32		SetMatrixPalette(uint32 MinBone,uint32 MaxBone,DDMatrix* pTransforms);
 
 // [dlj] remove this because DX9 doesn't have this bug
 	//cached render states

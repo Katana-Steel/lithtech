@@ -25,6 +25,9 @@
 #	include "d3d_texture.h"
 #endif
 
+#ifdef _WINDOWS
+#include "d3dddstructs.h"
+#endif
 
 // DEFINES
 #define	MAX_D3DLIGHTS			8
@@ -47,7 +50,11 @@ public:
 	// SET/GET STATE FUCTIONS...
 
 	// Transforms...
-	inline void			SetTransform(D3DTRANSFORMSTATETYPE Type, const D3DMATRIX* pMatrix)
+#ifndef _WINDOWS
+	inline void			SetTransform(D3DTRANSFORMSTATETYPE Type, const void* pMatrix)
+#else
+	inline void			SetTransform(D3DTRANSFORMSTATETYPE Type, const DDMatrix* pMatrix)
+#endif
 	{
 		// Currently saving is turned off since we aren't using vertex shaders
 		/*

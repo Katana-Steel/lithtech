@@ -169,7 +169,7 @@ void CD3DRigidMesh::FreeDeviceObjects()
 }
 
 // NOTE: The texture list needs to change to be device independent...
-void CD3DRigidMesh::Render(ModelInstance *pInstance, D3DMATRIX& WorldTransform,CD3DRenderStyle* pRenderStyle, uint32 iRenderPass)
+void CD3DRigidMesh::Render(ModelInstance *pInstance, DDMatrix& WorldTransform,CD3DRenderStyle* pRenderStyle, uint32 iRenderPass)
 {
 	//setup our transform for this model
 	g_RenderStateMgr.SetTransform(D3DTS_WORLDMATRIX(0), &WorldTransform);
@@ -206,7 +206,7 @@ void CD3DRigidMesh::Render(ModelInstance *pInstance, D3DMATRIX& WorldTransform,C
 	m_VBController.Render(0, 0, m_iVertCount, m_iPolyCount);
 }
 
-void CD3DRigidMesh::BeginRender(D3DMATRIX& pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass)
+void CD3DRigidMesh::BeginRender(DDMatrix& pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass)
 {
 	// If this pass has a vertex shader, use it.
 	RSD3DRenderPass *pPass = pRenderStyle->GetRenderPass_D3DOptions(iRenderPass);
@@ -278,7 +278,7 @@ void CD3DRigidMesh::BeginRender(D3DMATRIX& pD3DTransforms, CD3DRenderStyle* pRen
 }
 
 // NOTE: The texture list needs to change to be device independent...
-void CD3DRigidMesh::RenderWithEffect(ModelInstance *pInstance, D3DMATRIX& WorldTransform,CD3DRenderStyle* pRenderStyle, uint32 iRenderPass)
+void CD3DRigidMesh::RenderWithEffect(ModelInstance *pInstance, DDMatrix& WorldTransform,CD3DRenderStyle* pRenderStyle, uint32 iRenderPass)
 {
 	/*
 	//setup our transform for this model
@@ -300,7 +300,7 @@ void CD3DRigidMesh::RenderWithEffect(ModelInstance *pInstance, D3DMATRIX& WorldT
 
 
 
-void CD3DRigidMesh::BeginRenderWithEffect(D3DMATRIX& pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass)
+void CD3DRigidMesh::BeginRenderWithEffect(DDMatrix& pD3DTransforms, CD3DRenderStyle* pRenderStyle, uint32 iRenderPass)
 {
 
 	//setup our transform for this model
