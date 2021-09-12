@@ -14,16 +14,22 @@ option(ENABLE_D3D "Enable Direct3D" ON)
 option(ENABLE_DIRECTX "Enable DirectX" ON)
 option(ENABLE_DIRECTSHOW "Enable DirectShow" ON)
 else(WIN32)
-option(ENABLE_OPENGL "Enable OpenGL 3.3" ON)
-option(ENABLE_VULKAN "Enable Vulkan" ON)
+option(ENABLE_OPENGL "Enable OpenGL 3.3" OFF)
+option(ENABLE_VULKAN "Enable Vulkan" OFF)
+option(ENABLE_DXVK "Enable DXVK" ON)
 endif(WIN32)
 option(USE_INTERNAL_ZLIB "Use bundled zlib" ON)			# eventually want default to be OFF
 option(USE_INTERNAL_FREETYPE "Use bundled freetype" ON)	# eventually want default to be OFF
 
-
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/OUT")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED 17)
+
+if (ENABLE_DXVK)
+	option(ENABLE_D3D "Enable Direct3D" ON)
+	add_definitions(-DUSE_DXVK)
+	set(DXVK_INCLUDE_DIRS /usr/local/include/dxvk/native/windows/ /usr/local/include/dxvk/native/directx/)
+endif()
 
 if(ENABLE_D3D)
     add_definitions(-D__D3D -D__D3DREND)
@@ -81,11 +87,10 @@ if(BUILD_ENGINE)
     add_subdirectory(runtime/server)					# DLL_Server
     add_subdirectory(runtime/client)					# EXE_Lithtech
 
-    if(WIN32)
-        if(ENABLE_D3D)
-            add_subdirectory(runtime/render_a/src/sys/d3d)	# LIB_D3DRender
-        endif(ENABLE_D3D)
-
+	if(ENABLE_D3D)
+		add_subdirectory(runtime/render_a/src/sys/d3d)	# LIB_D3DRender
+	endif(ENABLE_D3D)
+	 if(WIN32)
         if(ENABLE_DIRECTX)
             add_subdirectory(runtime/sound/src/sys/s_dx8)	# DLL_SndDrvDX8
         endif(ENABLE_DIRECTX)

@@ -2,6 +2,10 @@ project(LIB_UI)
 
 find_package(SDL2 REQUIRED)
 
+if (ENABLE_DXVK)
+	include_directories(${DXVK_INCLUDE_DIRS})
+endif()
+
 set(libsources
 	src/cuibase.cpp
 	src/cuibase_impl.cpp

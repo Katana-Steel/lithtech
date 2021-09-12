@@ -2,6 +2,10 @@ project(DLL_Server)
 
 add_definitions(-DDE_SERVER_COMPILE -DDIRECTENGINE_COMPILE -DSTDLITH_ALLOC_OVERRIDE -DLT15_COMPAT -DNO_PRAGMA_LIBS)
 
+if (ENABLE_DXVK)
+	include_directories(${DXVK_INCLUDE_DIRS})
+endif()
+
 set(libsources
 	src/server_iltcommon.cpp
 	../shared/src/shared_iltcommon.cpp

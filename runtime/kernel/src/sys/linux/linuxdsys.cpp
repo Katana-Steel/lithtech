@@ -222,7 +222,31 @@ LTRESULT dsi_GetRenderMode(RMode *pMode)
 
 LTRESULT dsi_SetRenderMode(RMode *pMode, const char *pName)
 {
-return LT_OK;      // DAN - temporary
+    RMode currentMode;
+    char message[256];
+
+    if (r_TermRender(1, false) != LT_OK) {
+        dsi_SetupMessage(message, sizeof(message)-1, LT_UNABLETORESTOREVIDEO, LTNULL);
+        dsi_OnClientShutdown(message);
+        RETURN_ERROR(0, SetRenderMode, LT_UNABLETORESTOREVIDEO);
+    }
+
+    memcpy(&currentMode, &g_RMode, sizeof(RMode));
+
+    // Try to set the new mode.
+    if (r_InitRender(pMode, pName) != LT_OK) {
+        // Ok, try to restore the old mode.
+        if (r_InitRender(&currentMode, pName) != LT_OK) {
+            //dsi_SetupMessage(message, sizeof(message)-1, LT_UNABLETORESTOREVIDEO, LTNULL);
+            //dsi_OnClientShutdown(message);
+            RETURN_ERROR(0, SetRenderMode, LT_UNABLETORESTOREVIDEO);
+        }
+
+        RETURN_ERROR(1, SetRenderMode, LT_KEPTSAMEMODE);
+    }
+
+    g_ClientGlob.m_bRendererShutdown = LTFALSE;
+    return LT_OK;
 }
 
 LTRESULT dsi_ShutdownRender(uint32 flags)

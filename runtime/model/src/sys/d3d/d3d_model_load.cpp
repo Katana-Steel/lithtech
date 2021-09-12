@@ -10,7 +10,7 @@
 #include "conparse.h"
 #include "ltb.h"
 
-#ifndef __LINUX
+#if defined(_WINDOWS) || defined(USE_DXVK)
 #include "render.h"
 #endif
 

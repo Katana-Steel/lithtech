@@ -10,6 +10,10 @@ if(WIN32)
 	endif(CMAKE_CL_64)
 endif(WIN32)
 
+if (ENABLE_DXVK)
+	include_directories(${DXVK_INCLUDE_DIRS})
+endif()
+
 set(exec_src
 	../controlfilemgr/controlfilemgr.cpp
 	src/client_filemgr.cpp
@@ -152,9 +156,6 @@ set(render_src )
 set(libs )
 if(WIN32)
 	set(exec_src WIN32
-	../model/src/sys/d3d/d3d_model_load.cpp
-	../render_b/src/sys/d3d/d3ddrawprim.cpp
-	../render_b/src/sys/d3d/d3dtexinterface.cpp
 	../kernel/io/src/sys/win/de_file.cpp
 	#../model/src/sys/null/nullmodel_load.cpp
 	../kernel/src/sys/win/lt_cursor_impl.cpp
@@ -180,7 +181,6 @@ if(WIN32)
 	../kernel/src/sys/win/ltrendermgr_impl.cpp
 	../kernel/src/sys/win/ltthread.cpp
 	../kernel/src/sys/win/musicdriver.cpp
-	../kernel/src/sys/win/render.cpp
 	../kernel/src/sys/win/streamsim.cpp
 	../kernel/src/sys/win/stringmgr.cpp
 	../kernel/src/sys/win/systeminfo.cpp
@@ -190,14 +190,11 @@ if(WIN32)
 	../kernel/net/src/sys/win/udpdriver.cpp
 	../kernel/src/sys/win/version_resource.cpp
 	../kernel/src/sys/win/videomgr.cpp
-	src/sys/win/winclientde_impl.cpp
 	src/sys/win/winconsole_impl.cpp
 	${exec_src})
 else(WIN32)
 	set(exec_src
 	../kernel/mem/src/sys/linux/de_memory.cpp
-	../render_b/src/sys/sdl/sdltexinterface.cpp
-	../render_b/src/sys/sdl/sdldrawprim.cpp
 	src/sys/linux/customfontfilemgr.cpp
 	src/sys/linux/texturestringimage.cpp
 	../kernel/io/src/sys/linux/linuxfile.cpp
@@ -207,8 +204,6 @@ else(WIN32)
 	../kernel/src/sys/linux/dutil.cpp
 	../kernel/src/sys/linux/bindmgr.cpp
 	../kernel/src/sys/linux/timemgr.cpp
-	../shared/src/sys/linux/renderstruct.cpp
-	../kernel/src/sys/linux/render.cpp
 	../kernel/src/sys/linux/client.cpp
 	../kernel/src/sys/linux/videomgr.cpp
 	../kernel/src/sys/linux/linuxdsys.cpp
@@ -218,16 +213,33 @@ else(WIN32)
 	../kernel/src/sys/linux/ltthread.cpp
 	../kernel/src/sys/linux/lthread.cpp
 	src/sys/linux/linuxconsole_impl.cpp
-	src/sys/linux/linuxclientde_impl.cpp
 	../kernel/src/sys/linux/stringhelper.cpp
 	../kernel/src/sys/linux/stringmgr.cpp
 	../kernel/src/sys/linux/streamsim.cpp
 	../kernel/src/sys/linux/musicdriver.cpp
 	../kernel/src/sys/linux/input.cpp
-	../model/src/sys/linux/linuxmodel_load.cpp
 	../sound/src/sys/linux/sdl.cpp
     ${exec_src})
 endif(WIN32)
+
+if (WIN32 OR ENABLE_DXVK)
+	set(exec_src ${exec_src}
+	../model/src/sys/d3d/d3d_model_load.cpp
+	../render_b/src/sys/d3d/d3ddrawprim.cpp
+	../render_b/src/sys/d3d/d3dtexinterface.cpp
+	../kernel/src/sys/win/render.cpp
+	src/sys/win/winclientde_impl.cpp
+    )
+
+else()
+	set(exec_src  ${exec_src}
+	../shared/src/sys/linux/renderstruct.cpp
+	../model/src/sys/linux/linuxmodel_load.cpp
+	../render_b/src/sys/sdl/sdldrawprim.cpp
+	../kernel/src/sys/linux/render.cpp
+	src/sys/linux/linuxclientde_impl.cpp
+    )
+endif()
 
 find_package(SDL2 REQUIRED)
 
@@ -262,7 +274,6 @@ if(WIN32)
 		../shared/src/sys/win)
 	set(libs ${libs}
 		LIB_DShow
-		LIB_D3DRender
 		winmm)
 else(WIN32)
 	include_directories(../kernel/src/sys/linux
@@ -329,6 +340,10 @@ endif(ENABLE_VULKAN)
 
 if(ENABLE_D3D)
 	include_directories(../render_a/src/sys/d3d)
+	set(libs ${libs} LIB_D3DRender)
+	if (ENABLE_DXVK)
+		set(libs ${libs} dxvk_d3d9)
+	endif()
 endif(ENABLE_D3D)
 
 add_executable(${PROJECT_NAME} ${exec_src})
