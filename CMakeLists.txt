@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.1)
 project(Lithtech)
 
+if(NOT WIN32)
+find_package(PkgConfig)
+endif()
+
 option(BUILD_ENGINE "Build engine" ON)
 option(BUILD_NOLF2 "Build No One Lives Forever 2 game code" ON)
 option(BUILD_TRON "Build Tron 2.0 game code" OFF)
@@ -27,8 +31,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED 17)
 
 if (ENABLE_DXVK)
 	option(ENABLE_D3D "Enable Direct3D" ON)
+	pkg_check_modules(DXVK dxvk-native)
 	add_definitions(-DUSE_DXVK)
-	set(DXVK_INCLUDE_DIRS /usr/local/include/dxvk/native/windows/ /usr/local/include/dxvk/native/directx/)
+	set(DXVK_INCLUDE_DIRS ${DXVK_INCLUDEDIR}/native/windows ${DXVK_INCLUDEDIR}/native/directx)
+	set(DXVK_LIB_DIRS ${DXVK_LIBDIR})
 endif()
 
 if(ENABLE_D3D)

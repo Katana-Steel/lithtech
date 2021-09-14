@@ -12,6 +12,7 @@ endif(WIN32)
 
 if (ENABLE_DXVK)
 	include_directories(${DXVK_INCLUDE_DIRS})
+	link_directories(${DXVK_LIB_DIRS})
 endif()
 
 set(exec_src
