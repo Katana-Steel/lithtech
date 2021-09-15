@@ -122,7 +122,7 @@ public:
     // GetMessage gets the next message and pops it off the list.
     // Both return LT_NOTFOUND if there are no messages.
     // If bWait is TRUE, it won't return until it gets a message.
-    LTRESULT    GetMessage(LThreadMessage &msg, bool bWait=LTFALSE);
+    LTRESULT    GetMessage(LThreadMessage &msg, bool bWait=false);
     LTRESULT    PeekMessage(LThreadMessage &msg);
     // Pops the top message off, and copies it into pMsg if it's non-NULL
     // Returns TRUE if a message was available
@@ -159,7 +159,7 @@ public:
     // This will terminate the thread.  bWait is currently ignored.
     // Note: this does NOT clear the incoming/outgoing queues, so it's a good idea
     // to read the contents of the outgoing queue after calling Terminate().
-    LTRESULT    Terminate(bool bWait=1);
+    LTRESULT    Terminate(bool bWait=true);
 
     // Post a message to the thread.
     LTRESULT    PostMessage(LThreadMessage &msg) {return m_Incoming.PostMessage(msg);}

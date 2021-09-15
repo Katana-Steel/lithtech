@@ -245,7 +245,7 @@ LTRESULT dsi_SetRenderMode(RMode *pMode, const char *pName)
         RETURN_ERROR(1, SetRenderMode, LT_KEPTSAMEMODE);
     }
 
-    g_ClientGlob.m_bRendererShutdown = LTFALSE;
+    g_ClientGlob.m_bRendererShutdown = false;
     return LT_OK;
 }
 
@@ -415,7 +415,7 @@ extern CServerMgr *g_pServerMgr;
 
 bool dsi_IsConsoleEnabled()
 {
-    return LTFALSE; // RKJ STUB temporary
+    return g_ClientGlob.m_bConsoleEnabled; // RKJ STUB temporary
 }
 
 void dsi_PrintToConsole(const char *pMsg, ...) {

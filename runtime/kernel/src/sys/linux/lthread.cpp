@@ -21,7 +21,7 @@ static LCriticalSection g_MessageBankCS; // Controls access to it.
 
 bool LCriticalSection::IsValid()
 {
-	return LTTRUE;
+	return true;
 }
 
 void LCriticalSection::Enter()
@@ -205,10 +205,10 @@ bool LThreadQueue::PopMessage(LThreadMessage *pMsg)
 			g_LThreadMessageBank.Free(pMessage);
 		g_MessageBankCS.Leave();
 
-		return LTTRUE;
+		return true;
 	}
 
-	return LTFALSE;
+	return false;
 }
 
 
@@ -219,8 +219,8 @@ bool LThreadQueue::PopMessage(LThreadMessage *pMsg)
 LThread::LThread()
 {
 	m_ThreadID = 0;
-	m_bRunning = 0;
-	m_bTerminate = 0;
+	m_bRunning = false;
+	m_bTerminate = false;
 }
 
 

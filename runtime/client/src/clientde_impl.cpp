@@ -3238,9 +3238,9 @@ bool ci_IntersectSweptSphere(const LTVector& vStart, const LTVector& vEnd, float
 LTRESULT ci_SetConsoleEnable(bool bEnable)
 {
 	g_ClientGlob.m_bConsoleEnabled = bEnable;
-	if (bEnable == 0)
+	if (!bEnable)
 	{
-		g_ClientGlob.m_bIsConsoleUp = 0;
+		g_ClientGlob.m_bIsConsoleUp = false;
 	}
 
 	return	LT_OK;
