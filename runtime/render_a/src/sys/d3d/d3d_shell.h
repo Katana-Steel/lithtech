@@ -8,7 +8,7 @@
 #include <vector>
 
 #ifndef __CODEWARRIOR
-using namespace std;
+using std::vector;
 #endif
 
 // Forward declarations...
