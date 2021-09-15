@@ -1525,16 +1525,22 @@ LTRESULT cis_DrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	return cis_DoDrawSurfaceToSurface(hDest, hSrc, pSrcRect, destX, destY, cis_OpaqueDraw);
 }
 
+#endif
+
 static LTRESULT cis_DrawSurfaceToSurfaceTransparent(HSURFACE hDest, HSURFACE hSrc, 
 	LTRect *pSrcRect, int destX, int destY, HLTCOLOR hColor)
 {
+#ifndef USE_DXVK
 	if(!g_pCisRenderStruct)
 		RETURN_ERROR(1, DrawSurfaceToSurfaceTransparent, LT_NOTINITIALIZED);
 
 	cis_SetTransparentColor(hColor);
 	return cis_DoDrawSurfaceToSurface(hDest, hSrc, pSrcRect, destX, destY, cis_TransparentDraw);
-}
+#else
+	return LT_OK;
 #endif
+}
+
 
 static LTRESULT cis_ScaleSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	LTRect *pDestRect, LTRect *pSrcRect)
@@ -2093,7 +2099,7 @@ void cis_Init()
 	ilt_client->DrawSurfaceSolidColor = cis_DrawSurfaceSolidColor;
 	ilt_client->DrawSurfaceMasked = cis_DrawSurfaceMasked;
 	ilt_client->DrawSurfaceToSurface = cis_DrawSurfaceToSurface;
-	ilt_client->DrawSurfaceToSurfaceTransparent = cis_DrawSurfaceToSurfaceTransparent;
+
 	ilt_client->TransformSurfaceToSurface = cis_TransformSurfaceToSurface;
 	ilt_client->TransformSurfaceToSurfaceTransparent = cis_TransformSurfaceToSurfaceTransparent;
 	ilt_client->WarpSurfaceToSurface = cis_WarpSurfaceToSurface;
@@ -2103,6 +2109,7 @@ void cis_Init()
 	ilt_client->OptimizeSurface = cis_OptimizeSurface;
 	ilt_client->GetSurfaceDims = cis_GetSurfaceDims;
 	ilt_client->GetScreenSurface = cis_GetScreenSurface;
+	ilt_client->DrawSurfaceToSurfaceTransparent = cis_DrawSurfaceToSurfaceTransparent;
 	
 	ilt_client->CreateHeightmapFromBitmap = cis_CreateHeightmapFromBitmap;
 	ilt_client->FreeHeightmap = cis_FreeHeightmap;
