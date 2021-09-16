@@ -1755,19 +1755,20 @@ void CD3D_RenderBlock::GetIntersectInfo(const SIntersection &sIntersect,
 				TextureMipData &cTopMip = pTextureData->m_Mips[0];
 				if (cTopMip.m_Data)
 				{
-					PFormat cTextureFormat; 
+					PFormat cTextureFormat;
 					pTextureData->SetupPFormat(&cTextureFormat);
-					
+
 					// Point at the texel we hit
 					// Note : There should probably be some shader interaction on this one so panning will work
 					uint32 nTextureX = (uint32)(fTextureU * (float)cTopMip.m_Width);
 					uint32 nTextureY = (uint32)(fTextureV * (float)cTopMip.m_Height);
 					uint32 nTexelIndex = cTopMip.m_Pitch * nTextureY + cTextureFormat.GetBytesPerPixel() * nTextureX;
-					GenericColor *pTexel = (GenericColor *)cTopMip.m_Data[nTexelIndex];
+					GenericColor Texel;
+					memcpy(&Texel, &cTopMip.m_Data[nTexelIndex], cTextureFormat.GetBytesPerPixel());
 
 					// Convert it from the texture format
 					PValue nFinalColor;
-					g_FormatMgr.PValueFromFormatColor(&cTextureFormat, *pTexel, nFinalColor);
+					g_FormatMgr.PValueFromFormatColor(&cTextureFormat, Texel, nFinalColor);
 					pResult_TextureColor->r = PValue_GetR(nFinalColor);
 					pResult_TextureColor->g = PValue_GetG(nFinalColor);
 					pResult_TextureColor->b = PValue_GetB(nFinalColor);
