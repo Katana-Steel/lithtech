@@ -50,12 +50,12 @@ public:
 	// SET/GET STATE FUCTIONS...
 
 	// Transforms...
-#ifndef _WINDOWS
-	inline void			SetTransform(D3DTRANSFORMSTATETYPE Type, const void* pMatrix)
-#else
-	inline void			SetTransform(D3DTRANSFORMSTATETYPE Type, const DDMatrix* pMatrix)
-#endif
+	template <typename Matrix>
+	inline void			SetTransform(D3DTRANSFORMSTATETYPE Type, const Matrix* pMatrix)
 	{
+		ASSERT(sizeof(D3DMATRIX)==sizeof(Matrix));
+		D3DMATRIX local_cp;
+		memcpy(&local_cp, pMatrix, sizeof(Matrix));
 		// Currently saving is turned off since we aren't using vertex shaders
 		/*
 		switch (Type)
@@ -72,7 +72,7 @@ public:
 			if (Type-D3DTS_WORLD >= 0 && Type-D3DTS_WORLD < MAX_WORLDMATRIX)
 				m_World[Type-D3DTS_WORLD] = *pMatrix;
 		}*/
-		PD3DDEVICE->SetTransform(Type,pMatrix);
+		PD3DDEVICE->SetTransform(Type, &local_cp);
 	}
 
 	inline HRESULT		SetVertexShader(HD3DVERTEXSHADER hVertShader)
