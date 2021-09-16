@@ -97,10 +97,10 @@ struct SysCache
 
 extern SysCache g_SysCache;
 
-HLTPARAM r_GetParameter(char *pName);
+HLTPARAM r_GetParameter(const char *pName);
 float r_GetParameterValueFloat(HLTPARAM hParam);
 const char* r_GetParameterValueString(HLTPARAM hParam);
-void r_RunConsoleString(char *pStr);
+void r_RunConsoleString(const char *pStr);
 
 #endif  // __RENDER_H__
 

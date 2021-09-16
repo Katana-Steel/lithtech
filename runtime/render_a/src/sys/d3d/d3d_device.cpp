@@ -452,7 +452,7 @@ void CD3D_Device::CheckSpecialCards()
 
 
 	// First check if they want to force it.
-	char* pForceMode = "ForceMode";
+	const char* pForceMode = "ForceMode";
 
 	//here we can check the different vendor ID's as well as the ForceMode console variable
 	//to determine if we have any special cards that we need to do custom configurations on

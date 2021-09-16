@@ -2054,7 +2054,7 @@ static LTRESULT cis_End3D(uint flags)
 			con_Draw(); }
 		else if(g_nConsoleLines > 0) {
 			con_DrawSmall( g_nConsoleLines ); }	} // Show the last 4 or so lines.
-#endif _FINAL
+#endif // _FINAL
 
 	r_GetRenderStruct()->End3D();
 	return LT_OK;

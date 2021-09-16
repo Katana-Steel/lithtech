@@ -173,14 +173,14 @@ struct RenderStruct
         // Runs a string in the console.  The render drivers usually use this
         // so they can get HLTPARAMs right away and not have to check for
         // them all the time.
-        void            (*RunConsoleString)(char *pString);
+        void            (*RunConsoleString)(const char *pString);
 
         // Print a string in the console.           
-        void            (*ConsolePrint)(char *pMsg, ...);
+        void            (*ConsolePrint)(const char *pMsg, ...);
 
         // Gets a parameter from the game (something that can be set from the console).
         // Returns NULL if the parameter doesn't exist.
-        HLTPARAM        (*GetParameter)(char *pName);
+        HLTPARAM        (*GetParameter)(const char *pName);
         
         // Gets the value of a parameter .. returns 0/NULL if you pass in NULL.
         float           (*GetParameterValueFloat)(HLTPARAM hParam);
