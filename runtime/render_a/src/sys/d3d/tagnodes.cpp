@@ -33,7 +33,7 @@ VisibleSet g_VisibleSet;
 
 static inline bool d3d_ShouldProcessObject(LTObject *pObject)
 {
-	return 	
+	return
 			//this is a different frame
 			(pObject->m_WTFrameCode != g_CurObjectFrameCode) &&
 			//make sure that this is a renderable object
@@ -81,15 +81,15 @@ static void d3d_ReallyProcessObject(LTObject *pObject)
 
 	// Is this object visible?
 	if (g_ObjectHandlers[pObject->m_ObjectType].m_bCheckWorldVisibility &&
-		g_have_world && 
-		g_Device.m_pRenderWorld && 
+		g_have_world &&
+		g_Device.m_pRenderWorld &&
 		((pObject->m_Flags & FLAG_REALLYCLOSE) == 0))
 	{
 		IncFrameStat(eFS_ObjectsCullTested, 1);
 
 		LTVector vDims = g_ObjectHandlers[pObject->m_ObjectType].m_GetDims(pObject);
-		if (!g_Device.m_pRenderWorld->IsAABBVisible(g_ViewParams,	pObject->m_Pos - vDims, 
-																	pObject->m_Pos + vDims, 
+		if (!g_Device.m_pRenderWorld->IsAABBVisible(g_ViewParams,	pObject->m_Pos - vDims,
+																	pObject->m_Pos + vDims,
 																	CObjectGroupMgr::ShouldOccludeObjectGroup(pObject->m_nRenderGroup)))
 		{
 			IncFrameStat(eFS_ObjectsCulled, 1);
@@ -133,7 +133,7 @@ bool BaseObjectSet::Init(VisibleSet *pVisibleSet, const char *pSetName)
 	return true;
 }
 
-		
+
 void BaseObjectSet::Draw(const ViewParams& Params, DrawObjectFn fn)
 {
 	uint32 i;
@@ -178,7 +178,7 @@ AllocSet::~AllocSet()
 }
 
 
-bool AllocSet::Init(VisibleSet *pVisibleSet, char *pSetName, uint32 defaultMax)
+bool AllocSet::Init(VisibleSet *pVisibleSet, const char *pSetName, uint32 defaultMax)
 {
 	HLTPARAM hParam;
 	uint32 maxNum;
@@ -246,16 +246,16 @@ bool VisibleSet::Init()
 
   	bErr |= !m_SolidWorldModels.Init(this, "VS_WORLDMODELS", MAX_VISIBLE_WORLDMODELS);
   	bErr |= !m_TranslucentWorldModels.Init(this, "VS_WORLDMODELS_TRANSLUCENT", MAX_VISIBLE_WORLDMODELS);
-  
+
 	bErr |= !m_Lights.Init(this, "VS_LIGHTS", MAX_VISIBLE_LIGHTS);
-	
+
 	bErr |= !m_SolidPolyGrids.Init(this, "VS_POLYGRIDS", MAX_VISIBLE_POLYGRIDS);
 	bErr |= !m_EarlyTranslucentPolyGrids.Init(this, "VS_POLYGRIDS_EARLYTRANSLUCENT", MAX_VISIBLE_POLYGRIDS);
 	bErr |= !m_TranslucentPolyGrids.Init(this, "VS_POLYGRIDS_TRANSLUCENT", MAX_VISIBLE_POLYGRIDS);
-	
+
 	bErr |= !m_LineSystems.Init(this, "VS_LINESYSTEMS", MAX_VISIBLE_LINESYSTEMS);
 	bErr |= !m_ParticleSystems.Init(this, "VS_PARTICLESYSTEMS", MAX_VISIBLE_PARTICLESYSTEMS);
-	
+
 	bErr |= !m_SolidCanvases.Init(this, "VS_CANVASES", MAX_VISIBLE_CANVASES);
 	bErr |= !m_TranslucentCanvases.Init(this, "VS_CANVASES_TRANSLUCENT", MAX_VISIBLE_CANVASES);
 
@@ -266,7 +266,7 @@ bool VisibleSet::Init()
 	{
 		Term();
 	}
-	
+
 	return !bErr;
 }
 
@@ -306,9 +306,9 @@ static inline bool d3d_IsWorldNodeVisible(const ViewParams& Params, const LTVect
 
 	// Check the AABB, but we can ignore Y since the node is a quad tree node along
 	// the XZ plane
-	if ((vBoxMin.x > vViewMax.x) || 
-		(vBoxMin.z > vViewMax.z) || 
-		(vBoxMax.x < vViewMin.x) || 
+	if ((vBoxMin.x > vViewMax.x) ||
+		(vBoxMin.z > vViewMax.z) ||
+		(vBoxMax.x < vViewMin.x) ||
 		(vBoxMax.z < vViewMin.z))
 	{
 		return false;

@@ -25,7 +25,7 @@ static bool ShouldFreeSystemTexture(const SharedTexture* pTexture)
 		return false;
 
 	//make sure that we could recreate this texture if needed
-	if(pTexture->m_pFile == NULL)
+	if(pTexture->m_pFile == nullptr)
 		return false;
 
 	//it is free to be discared
@@ -35,7 +35,7 @@ static bool ShouldFreeSystemTexture(const SharedTexture* pTexture)
 
 void d3d_PrintFormatInfo(const char* pStart, D3DFORMAT Format)
 {
-	char spec[256]; 
+	char spec[256];
 	d3d_D3DFormatToString(Format, spec, sizeof(spec));
 	g_pStruct->ConsolePrint("%s%s", pStart, spec);
 }
@@ -44,34 +44,34 @@ void d3d_PrintFormatInfo(const char* pStart, D3DFORMAT Format)
 bool d3d_TransferTexture(RTexture* pTexture, TextureData* pTextureData)
 {
 	uint32 iRTextureMipLevels = 0;
-	if (pTexture->IsCubeMap()) 
-	{	
+	if (pTexture->IsCubeMap())
+	{
 		// Cube map texture...
-		iRTextureMipLevels				= pTexture->m_pD3DCubeTexture->GetLevelCount(); 
+		iRTextureMipLevels				= pTexture->m_pD3DCubeTexture->GetLevelCount();
 	}
-	else 
+	else
 	{
 		// Normal texture...
-		iRTextureMipLevels				= pTexture->m_pD3DTexture->GetLevelCount(); 
+		iRTextureMipLevels				= pTexture->m_pD3DTexture->GetLevelCount();
 	}
 
 	BPPIdent SrcBPP						= pTextureData->m_Header.GetBPPIdent();
 
-	if (iRTextureMipLevels > pTextureData->m_Header.m_nMipmaps) 
-	{	
+	if (iRTextureMipLevels > pTextureData->m_Header.m_nMipmaps)
+	{
 		// Check stuff...
-		AddDebugMessage(1, "d3d_TransferTexture: mipmap count is invalid!"); return false; 
+		AddDebugMessage(1, "d3d_TransferTexture: mipmap count is invalid!"); return false;
 	}
 
 	// Go thru each mipmap and copy it.
-	for (uint32 i = 0; i < iRTextureMipLevels; ++i) 
+	for (uint32 i = 0; i < iRTextureMipLevels; ++i)
 	{
 		uint32 iSrcLvl = i + pTexture->m_iStartMipmap;
-		if (!g_TextureManager.UploadRTexture(pTextureData, iSrcLvl, pTexture, i)) 
-		{ 
-			return false; 
-		} 
-	} 
+		if (!g_TextureManager.UploadRTexture(pTextureData, iSrcLvl, pTexture, i))
+		{
+			return false;
+		}
+	}
 
 	return true;
 }
@@ -81,21 +81,21 @@ bool d3d_TransferTexture(RTexture* pTexture, TextureData* pTextureData)
 // Makes its aspect ratio valid based on g_CV_MaxAspectRatio.
 void AdjustAspectRatio(uint32 width, uint32 height, uint32 *outWidth, uint32 *outHeight)
 {
-	if (g_Device.GetDeviceCaps()->TextureCaps & D3DPTEXTURECAPS_SQUAREONLY) 
+	if (g_Device.GetDeviceCaps()->TextureCaps & D3DPTEXTURECAPS_SQUAREONLY)
 	{
-		width = height = LTMAX(width, height); 
+		width = height = LTMAX(width, height);
 	}
-	else 
+	else
 	{
-		if (g_CV_MaxTexAspectRatio > 0) 
+		if (g_CV_MaxTexAspectRatio > 0)
 		{
 			uint32* pMin = width > height ? &height : &width;
 			uint32* pMax = width > height ? &width  : &height;
-			if ((int)(*pMax / *pMin) > g_CV_MaxTexAspectRatio) 
+			if ((int)(*pMax / *pMin) > g_CV_MaxTexAspectRatio)
 			{
-				*pMin = *pMax / (uint32)g_CV_MaxTexAspectRatio; 
-			} 
-		} 
+				*pMin = *pMax / (uint32)g_CV_MaxTexAspectRatio;
+			}
+		}
 	}
 	*outWidth  = width;
 	*outHeight = height;
@@ -125,26 +125,26 @@ int32 d3d_GetFirstUsableMipmap(TextureData *pTexture)
 // Don't call this.. it's only called by d3d_SetTexture.
 RTexture* d3d_CreateAndLoadTexture(SharedTexture *pSharedTexture)
 {
-	RTexture*	 pRet = NULL; 
+	RTexture*	 pRet = nullptr;
 
 	// Ask the engine to get the system memory version ready.
 	TextureData* pTextureData = g_pStruct->GetTexture(pSharedTexture);
-	if (pTextureData) 
+	if (pTextureData)
 	{
 		// Setup the surfaces and copy the texture data over.
 		pRet = g_TextureManager.CreateRTexture(pSharedTexture,pTextureData);
-		if (pRet) 
+		if (pRet)
 		{
 			// Alrighty!  Put the texture data in there and load it up.
-			if (!d3d_TransferTexture(pRet, pTextureData)) 
+			if (!d3d_TransferTexture(pRet, pTextureData))
 			{
 				AddDebugMessage(4, "Unable to transfer texture data to video memory.");
-				g_TextureManager.FreeTexture(pRet); pRet = NULL; 
+				g_TextureManager.FreeTexture(pRet); pRet = nullptr;
 			}
 			else
 			{
 				if (ShouldFreeSystemTexture(pSharedTexture))
-					g_pStruct->FreeTexture(pSharedTexture); 
+					g_pStruct->FreeTexture(pSharedTexture);
 			}
 		}
 	}
@@ -154,47 +154,47 @@ RTexture* d3d_CreateAndLoadTexture(SharedTexture *pSharedTexture)
 
 void d3d_BindTexture(SharedTexture *pSharedTexture, bool bTextureChanged)
 {
-	if (!pSharedTexture) 
+	if (!pSharedTexture)
 	{
-		return; 
+		return;
 	}
 
-	if (pSharedTexture->m_pRenderData) 
-	{	
+	if (pSharedTexture->m_pRenderData)
+	{
 		// Convert it and stuff.
-		if (bTextureChanged) 
+		if (bTextureChanged)
 		{
-			RTexture* pRTexture		  = (RTexture*)pSharedTexture->m_pRenderData; 
+			RTexture* pRTexture		  = (RTexture*)pSharedTexture->m_pRenderData;
 
 			TextureData* pTextureData = g_pStruct->GetTexture(pSharedTexture);
-			if (pTextureData) 
+			if (pTextureData)
 			{
 				// Alrighty!  Put the texture data in there and load it up.
-				if(!d3d_TransferTexture(pRTexture, pTextureData)) 
+				if(!d3d_TransferTexture(pRTexture, pTextureData))
 				{
-					AddDebugMessage(4, "Unable to transfer texture data to video memory."); 
+					AddDebugMessage(4, "Unable to transfer texture data to video memory.");
 				}
 				else
-				{			
+				{
 					if (ShouldFreeSystemTexture(pSharedTexture))
-						g_pStruct->FreeTexture(pSharedTexture); 
+						g_pStruct->FreeTexture(pSharedTexture);
 				}
-			} 
-		} 
+			}
+		}
 	}
-	else 
+	else
 	{
-		d3d_CreateAndLoadTexture(pSharedTexture); 
+		d3d_CreateAndLoadTexture(pSharedTexture);
 	}
 }
 
 void d3d_UnbindTexture(SharedTexture *pSharedTexture)
 {
 	RTexture *pTexture;
-	if (pSharedTexture->m_pRenderData) 
+	if (pSharedTexture->m_pRenderData)
 	{
 		pTexture = (RTexture*)pSharedTexture->m_pRenderData;
-		g_TextureManager.FreeTexture(pTexture); 
+		g_TextureManager.FreeTexture(pTexture);
 	}
 }
 
@@ -222,7 +222,7 @@ static void CalcRTextureMemoryUse(TextureData* pTexture, RTexture* pRTexture, ui
 		nBaseUncompressedMemory *= 6;
 		nBaseMemory *= 6;
 	}
-	
+
 	//now we need to add in support for the mip maps (note we start at 1, since 0 is the base image)
 	uint32 nMipMemory				= 0;
 	uint32 nUncompressedMipMemory	= 0;
@@ -244,21 +244,21 @@ static void CalcRTextureMemoryUse(TextureData* pTexture, RTexture* pRTexture, ui
 // Exposed functions.
 bool CTextureManager::Init(bool bFullInit)
 {
-	if (bFullInit) 
+	if (bFullInit)
 	{
 		// Still using this puffy g_Textures list...
-		dl_TieOff(&g_Textures);	
+		dl_TieOff(&g_Textures);
 	}
 
 	memset(m_TextureFormats, 0, sizeof(m_TextureFormats));
 
 	m_RTextureBank.Init(64, 0);
 
-	if (!SelectTextureFormats())			
-	{ 
+	if (!SelectTextureFormats())
+	{
 		// Select our prefered texture formats...
-		return false; 
-	}				
+		return false;
+	}
 
 	return (m_bInitialized = true);
 }
@@ -281,16 +281,16 @@ bool CTextureManager::QueryDDSupport(PFormat* Format)
 	D3DModeInfo*	pDisplayMode = g_Device.GetModeInfo();
 	D3DFORMAT		D3DSrcFormat = d3d_PFormatToD3DFormat(Format);
 
-	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DSrcFormat) == D3D_OK) { return true; }
+	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DSrcFormat) == D3D_OK) { return true; }
 	return false;
 }
 
 // Figures out what format we'll use based on the flags...
 D3DFORMAT CTextureManager::QueryDDFormat1(BPPIdent BPP, uint32 iFlags)
 {
-	uint32 iFormat = NULL;				// Pick a texture format.
+	uint32 iFormat = 0;				// Pick a texture format.
 
-	if (d3d_ShouldUseS3TC(BPP)) 
+	if (d3d_ShouldUseS3TC(BPP))
 		return g_TextureManager.S3TCFormatConv(BPP);
 
 	//handle bumpmap formats first, then normal texture formats
@@ -298,15 +298,15 @@ D3DFORMAT CTextureManager::QueryDDFormat1(BPPIdent BPP, uint32 iFlags)
 		iFormat = FORMAT_LUMBUMPMAP;
 	else if (iFlags & DTX_BUMPMAP)
 		iFormat = FORMAT_BUMPMAP;
-	else if (!(iFlags & DTX_PREFER16BIT) && g_CV_32BitTextures && g_TextureManager.m_TextureFormats[FORMAT_32BIT].m_bValid) 
-		iFormat = FORMAT_32BIT; 
-	else if (iFlags & DTX_PREFER5551) 
-		iFormat = FORMAT_FULLBRITE; 
-	else if (iFlags & DTX_PREFER4444) 
-		iFormat = FORMAT_4444; 
-	else if (iFlags & DTX_FULLBRITE)  
+	else if (!(iFlags & DTX_PREFER16BIT) && g_CV_32BitTextures && g_TextureManager.m_TextureFormats[FORMAT_32BIT].m_bValid)
+		iFormat = FORMAT_32BIT;
+	else if (iFlags & DTX_PREFER5551)
+		iFormat = FORMAT_FULLBRITE;
+	else if (iFlags & DTX_PREFER4444)
+		iFormat = FORMAT_4444;
+	else if (iFlags & DTX_FULLBRITE)
 		iFormat = FORMAT_FULLBRITE;	// If they didn't choose a specific alpha mode but chose fullbrite, then use 5551.
-	else 
+	else
 		iFormat = FORMAT_NORMAL;
 
 	//see if we stumbled across an invalid format
@@ -324,15 +324,15 @@ bool CTextureManager::ConvertTexDataToDD(uint8* pSrcData, PFormat* SrcFormat, ui
 #else
  	D3DFORMAT D3DSrcFormat = d3d_PFormatToD3DFormat(SrcFormat); assert(D3DSrcFormat != D3DFMT_UNKNOWN);
 	D3DFORMAT D3DDstFormat = QueryDDFormat1(eDstType, nDstFlags); assert(D3DDstFormat != D3DFMT_UNKNOWN);
-	
+
 	// Create a quick little surface to convert into....
-	LPDIRECT3DSURFACE9 pD3DDstSurface = NULL; LPDIRECT3DTEXTURE9 pD3DDstTexture = NULL;
-	HRESULT hResult = PD3DDEVICE->CreateTexture(DstWidth,DstHeight,1,NULL,D3DDstFormat,D3DPOOL_SYSTEMMEM,&pD3DDstTexture);
-	if (hResult != D3D_OK || !pD3DDstTexture) 
+	LPDIRECT3DSURFACE9 pD3DDstSurface = nullptr; LPDIRECT3DTEXTURE9 pD3DDstTexture = nullptr;
+	HRESULT hResult = PD3DDEVICE->CreateTexture(DstWidth,DstHeight,1,nullptr,D3DDstFormat,D3DPOOL_SYSTEMMEM,&pD3DDstTexture);
+	if (hResult != D3D_OK || !pD3DDstTexture)
 		return false;
 
 	hResult = pD3DDstTexture->GetSurfaceLevel(0,&pD3DDstSurface);
-	if (hResult != D3D_OK || !pD3DDstSurface) 
+	if (hResult != D3D_OK || !pD3DDstSurface)
 		return false;
 
 	uint32 SrcPitch = g_TextureManager.GetPitch(D3DSrcFormat,SrcWidth);
@@ -341,20 +341,20 @@ bool CTextureManager::ConvertTexDataToDD(uint8* pSrcData, PFormat* SrcFormat, ui
 	hResult = D3DXLoadSurfaceFromMemory(pD3DDstSurface,NULL,NULL,pSrcData,D3DSrcFormat,SrcPitch,NULL,&SrcRect,D3DX_FILTER_LINEAR,0);
 
 	// Lock it and copy out it's data...
-	D3DLOCKED_RECT LockedRect; pD3DDstSurface->LockRect(&LockedRect,NULL,NULL); 
+	D3DLOCKED_RECT LockedRect; pD3DDstSurface->LockRect(&LockedRect,nullptr,0);
 	uint8* pD3DSrcData = (uint8*)LockedRect.pBits;
-	for (uint y = 0; y < DstHeight; ++y) 
+	for (uint y = 0; y < DstHeight; ++y)
 	{
 		memcpy(pDstData,pD3DSrcData,DstWidth*DstFormat->GetBytesPerPixel());
 		pDstData    += DstWidth * DstFormat->GetBytesPerPixel();
-		pD3DSrcData += LockedRect.Pitch; 
+		pD3DSrcData += LockedRect.Pitch;
 	}
 	pD3DDstSurface->UnlockRect();
 
 	pD3DDstSurface->Release();
 	pD3DDstTexture->Release();
 
-	if (hResult != D3D_OK) 
+	if (hResult != D3D_OK)
 		return false;
 
 	return true;
@@ -364,12 +364,12 @@ bool CTextureManager::ConvertTexDataToDD(uint8* pSrcData, PFormat* SrcFormat, ui
 bool CTextureManager::UploadRTexture(TextureData* pSrcTexture, uint32 iSrcLvl, RTexture* pDstTexture, uint32 iDstLvl)
 {
 	TextureMipData* pSrcMip = &pSrcTexture->m_Mips[iSrcLvl];
-	PFormat SrcFormat; 
+	PFormat SrcFormat;
 	pSrcTexture->SetupPFormat(&SrcFormat);
 
 	D3DFORMAT D3DSrcFormat = QueryDDFormat1(pSrcTexture->m_Header.GetBPPIdent(), pSrcTexture->m_Header.m_IFlags);
 
-	if (pDstTexture->IsCubeMap()) 
+	if (pDstTexture->IsCubeMap())
 	{
 #ifndef _WINDOWS
 		return true;
@@ -377,57 +377,57 @@ bool CTextureManager::UploadRTexture(TextureData* pSrcTexture, uint32 iSrcLvl, R
 		// Cube map texture...
 		LPDIRECT3DCUBETEXTURE9 pD3DDstTexture = pDstTexture->m_pD3DCubeTexture;
 
-		uint8* pSrcData = pSrcMip->m_Data; 
+		uint8* pSrcData = pSrcMip->m_Data;
 		uint32 SrcPitch = GetPitch(D3DSrcFormat,pSrcMip->m_Width);
 
-		RECT SrcRect; 
-		SrcRect.left	= 0; 
-		SrcRect.top		= 0; 
-		SrcRect.right	= pSrcMip->m_Width; 
+		RECT SrcRect;
+		SrcRect.left	= 0;
+		SrcRect.top		= 0;
+		SrcRect.right	= pSrcMip->m_Width;
 		SrcRect.bottom	= pSrcMip->m_Height;
 
-		for (uint32 i = 0; i < 6; ++i) 
+		for (uint32 i = 0; i < 6; ++i)
 		{
-			LPDIRECT3DSURFACE9 pDstSurface = NULL; 
+			LPDIRECT3DSURFACE9 pDstSurface = nullptr;
 
 			pD3DDstTexture->GetCubeMapSurface((D3DCUBEMAP_FACES)i,iDstLvl,&pDstSurface);
-			if (!pDstSurface) 
+			if (!pDstSurface)
 				return false;
 
 			HRESULT hResult = D3DXLoadSurfaceFromMemory(pDstSurface,NULL,NULL,pSrcData,D3DSrcFormat,SrcPitch,NULL,&SrcRect,D3DX_FILTER_NONE,0);
 
 			uint32 iRefCnt = pDstSurface->Release();
-			if (hResult != D3D_OK) 
-				return false; 
-	
+			if (hResult != D3D_OK)
+				return false;
+
 			pSrcData += pSrcMip->m_dataSize;
 		}
 #endif
 	}
-	else 
+	else
 	{
 		// Normal texture..
 		LPDIRECT3DTEXTURE9 pD3DDstTexture = pDstTexture->m_pD3DTexture;
 		uint8* pSrcData = pSrcMip->m_Data;
 		HRESULT hResult;
 #ifdef _WINDOWS
-		LPDIRECT3DSURFACE9 pDstSurface = NULL; 
+		LPDIRECT3DSURFACE9 pDstSurface = nullptr;
 		pD3DDstTexture->GetSurfaceLevel(iDstLvl,&pDstSurface);
 		if (!pDstSurface) return false;
 
 		uint32 SrcPitch = GetPitch(D3DSrcFormat,pSrcMip->m_Width);
 
 		RECT SrcRect;
-		SrcRect.left = 0; 
-		SrcRect.top = 0; 
-		SrcRect.right = pSrcMip->m_Width; 
+		SrcRect.left = 0;
+		SrcRect.top = 0;
+		SrcRect.right = pSrcMip->m_Width;
 		SrcRect.bottom =  pSrcMip->m_Height;
 
 		LT_MEM_TRACK_ALLOC(hResult = D3DXLoadSurfaceFromMemory(pDstSurface,NULL,NULL,pSrcData,D3DSrcFormat,SrcPitch,NULL,&SrcRect,D3DX_FILTER_NONE,0), LT_MEM_TYPE_RENDERER);
 
 		pDstSurface->Release();
 #else
-		RECT* pRect = NULL;
+		RECT* pRect = nullptr;
 		D3DLOCKED_RECT LockedRect;
 		pD3DDstTexture->LockRect(iSrcLvl, &LockedRect, pRect, 0);
 		memcpy(LockedRect.pBits, pSrcData, pSrcMip->m_dataSize);
@@ -446,9 +446,9 @@ bool CTextureManager::UploadRTexture(TextureData* pSrcTexture, uint32 iSrcLvl, R
 RTexture* CTextureManager::CreateRTexture(SharedTexture* pSharedTexture, TextureData* pTextureData)
 {
 	// [KLS] 10/17/01 Removed assert if not initialized, this can happen when you
-	// ALT-TAB (the assert was really annoying when debugging and didn't represent 
+	// ALT-TAB (the assert was really annoying when debugging and didn't represent
 	// a real problem).
-	if (!m_bInitialized) return NULL;
+	if (!m_bInitialized) return nullptr;
 
 	//flags for the render texture
 	uint32 nFlags = 0;
@@ -474,26 +474,26 @@ RTexture* CTextureManager::CreateRTexture(SharedTexture* pSharedTexture, Texture
 	uint32 baseMipmapOffset = 0;
 
 	// If not using S3TC, add a mipmap offset.
-	if (!d3d_ShouldUseS3TC(pTextureData->m_Header.GetBPPIdent()))		
+	if (!d3d_ShouldUseS3TC(pTextureData->m_Header.GetBPPIdent()))
 		baseMipmapOffset += pTextureData->m_Header.GetNonS3TCMipmapOffset();
 
 	baseMipmapOffset	= LTMIN(baseMipmapOffset, pTextureData->m_Header.m_nMipmaps-1);
 
 	// Make sure we're using a valid size.
-	int32 firstUsable	= d3d_GetFirstUsableMipmap(pTextureData);				
+	int32 firstUsable	= d3d_GetFirstUsableMipmap(pTextureData);
 
-	if (firstUsable == -1) 
-		return NULL;
+	if (firstUsable == -1)
+		return nullptr;
 
 	baseMipmapOffset	= LTMAX(baseMipmapOffset, firstUsable);
 
 	int32 nMipmaps		= pTextureData->m_Header.m_Extra[1];
-	if (nMipmaps == 0) 
+	if (nMipmaps == 0)
 		nMipmaps = NUM_MIPMAPS;
 
-	int32 maxMipmaps	= pTextureData->m_Header.m_nMipmaps - baseMipmapOffset;	
-	if (maxMipmaps == 0) 
-		return NULL;
+	int32 maxMipmaps	= pTextureData->m_Header.m_nMipmaps - baseMipmapOffset;
+	if (maxMipmaps == 0)
+		return nullptr;
 
 	float fAngle		= MATH_DEGREES_TO_RADIANS((float)(pTextureData->m_Header.GetDetailTextureAngle()));
 	int32 nMipsToCreate	= (uint8)LTCLAMP(nMipmaps, 1, maxMipmaps);
@@ -501,10 +501,10 @@ RTexture* CTextureManager::CreateRTexture(SharedTexture* pSharedTexture, Texture
 	// Create the RTexture.
 	RTexture* pRTexture;
 	LT_MEM_TRACK_ALLOC(pRTexture = m_RTextureBank.Allocate(), LT_MEM_TYPE_RENDERER);
-	
-	if (!pRTexture)	
-		return NULL; 
-	
+
+	if (!pRTexture)
+		return nullptr;
+
 	pRTexture->m_Flags				 = (uint8)nFlags;
 	pRTexture->m_BaseWidth			 = pTextureData->m_Mips[baseMipmapOffset].m_Width;
 	pRTexture->m_BaseHeight			 = pTextureData->m_Mips[baseMipmapOffset].m_Height;
@@ -513,80 +513,80 @@ RTexture* CTextureManager::CreateRTexture(SharedTexture* pSharedTexture, Texture
 	pRTexture->m_DetailTextureAngleS = (float)sin(fAngle);
 	pRTexture->m_iStartMipmap		 = (uint8)baseMipmapOffset;
 
-	ConParse cParse; 
-	
+	ConParse cParse;
+
 	cParse.Init(pTextureData->m_Header.m_CommandString);	// Use alpha reference value.
-	if (cParse.ParseFind("AlphaRef", false, 1)) 
-	{ 
-		pRTexture->m_AlphaRef = (uint16)atoi(cParse.m_Args[1]); 
+	if (cParse.ParseFind("AlphaRef", false, 1))
+	{
+		pRTexture->m_AlphaRef = (uint16)atoi(cParse.m_Args[1]);
 	}
-	else 
-	{ 
-		pRTexture->m_AlphaRef = ALPHAREF_NONE; 
+	else
+	{
+		pRTexture->m_AlphaRef = ALPHAREF_NONE;
 	}
 
 	//read in the mipmap offset value
-	cParse.Init(pTextureData->m_Header.m_CommandString);	
-	if (cParse.ParseFind("MipMapBias", false, 1)) 
-	{ 
+	cParse.Init(pTextureData->m_Header.m_CommandString);
+	if (cParse.ParseFind("MipMapBias", false, 1))
+	{
 		pRTexture->m_fMipMapBias = (float)atof(cParse.m_Args[1]);
 	}
 
 	// Adjust size for cards that require square textures...
-	uint32 iTexWidth  = pRTexture->m_BaseWidth; 
+	uint32 iTexWidth  = pRTexture->m_BaseWidth;
 	uint32 iTexHeight = pRTexture->m_BaseHeight;
 
-	if (iFormat == D3DFMT_DXT1 || iFormat == D3DFMT_DXT3 || iFormat == D3DFMT_DXT5) 
-	{	
+	if (iFormat == D3DFMT_DXT1 || iFormat == D3DFMT_DXT3 || iFormat == D3DFMT_DXT5)
+	{
 		// Force it to be square?  Compressed textures don't need this.
-		AdjustAspectRatio(iTexWidth, iTexHeight, &iTexWidth, &iTexHeight); 
+		AdjustAspectRatio(iTexWidth, iTexHeight, &iTexWidth, &iTexHeight);
 	}
 
 	// Create the D3D Texture...
 
-	if (pRTexture->IsCubeMap()) 
-	{			
+	if (pRTexture->IsCubeMap())
+	{
 		// It's a cubemap...
 
 		// Cube maps must be square...
-		assert(iTexWidth == iTexHeight);			
+		assert(iTexWidth == iTexHeight);
 
 		// Don't create mipmaps if cube mapping and mipmapping aren't supported together
 		if ((g_Device.GetDeviceCaps()->TextureCaps & D3DPTEXTURECAPS_MIPCUBEMAP) == 0)
 			nMipsToCreate = 0;
 
-		HRESULT hResult = PD3DDEVICE->CreateCubeTexture(max(iTexWidth,iTexHeight),nMipsToCreate,NULL,iFormat,D3DPOOL_MANAGED,&pRTexture->m_pD3DCubeTexture);
-		if (hResult != D3D_OK) 
+		HRESULT hResult = PD3DDEVICE->CreateCubeTexture(max(iTexWidth,iTexHeight),nMipsToCreate,0,iFormat,D3DPOOL_MANAGED,&pRTexture->m_pD3DCubeTexture);
+		if (hResult != D3D_OK)
 		{
 			AddDebugMessage(4, "Unable to create (%d) cube texture surface.", max(iTexWidth,iTexHeight));
-			return NULL; 
+			return nullptr;
 		}
 
 		// Little double check...
-		D3DSURFACE_DESC MipDesc;					
+		D3DSURFACE_DESC MipDesc;
 		pRTexture->m_pD3DCubeTexture->GetLevelDesc(0,&MipDesc);
 		assert(MipDesc.Width == pTextureData->m_Mips[pRTexture->m_iStartMipmap].m_Width && MipDesc.Height == pTextureData->m_Mips[pRTexture->m_iStartMipmap].m_Height);
 
 		// Set priority!
-		pRTexture->m_pD3DCubeTexture->SetPriority(pTextureData->m_Header.GetTexturePriority()); 
+		pRTexture->m_pD3DCubeTexture->SetPriority(pTextureData->m_Header.GetTexturePriority());
 	}
-	else 
-	{	
+	else
+	{
 		// It's just a normal texture...
-		HRESULT hResult = PD3DDEVICE->CreateTexture(iTexWidth,iTexHeight,nMipsToCreate,NULL,iFormat,D3DPOOL_MANAGED,&pRTexture->m_pD3DTexture);
-		if (hResult != D3D_OK) 
+		HRESULT hResult = PD3DDEVICE->CreateTexture(iTexWidth,iTexHeight,nMipsToCreate,0,iFormat,D3DPOOL_MANAGED,&pRTexture->m_pD3DTexture);
+		if (hResult != D3D_OK)
 		{
 			AddDebugMessage(4, "Unable to create (%dx%d) texture surface.", iTexWidth, iTexHeight);
-			return NULL; 
+			return nullptr;
 		}
 
 		// Little double check...
-		D3DSURFACE_DESC MipDesc;					
+		D3DSURFACE_DESC MipDesc;
 		pRTexture->m_pD3DTexture->GetLevelDesc(0,&MipDesc);
 		assert(MipDesc.Width == pTextureData->m_Mips[pRTexture->m_iStartMipmap].m_Width && MipDesc.Height == pTextureData->m_Mips[pRTexture->m_iStartMipmap].m_Height);
-		
+
 		// Set priority!
-		pRTexture->m_pD3DTexture->SetPriority(pTextureData->m_Header.GetTexturePriority()); 
+		pRTexture->m_pD3DTexture->SetPriority(pTextureData->m_Header.GetTexturePriority());
 	}
 
 	// Setup the uv coordinate multipliers.
@@ -599,8 +599,8 @@ RTexture* CTextureManager::CreateRTexture(SharedTexture* pSharedTexture, Texture
 
 	// Associate the texture.
 	pRTexture->m_pSharedTexture		= pSharedTexture;
-	pSharedTexture->m_pRenderData	= pRTexture; 
-	
+	pSharedTexture->m_pRenderData	= pRTexture;
+
 	pRTexture->m_Link.m_pData = pRTexture;
 	dl_Insert(&g_Textures, &pRTexture->m_Link);
 
@@ -611,11 +611,11 @@ void CTextureManager::FreeAllTextures()
 {
 	LTLink* pListHead = &g_Textures;
 	LTLink* pCur	  = pListHead->m_pNext;
-	while (pCur != pListHead) 
+	while (pCur != pListHead)
 	{
 		LTLink* pNext = pCur->m_pNext;
 		FreeTexture((RTexture*)pCur->m_pData);
-		pCur = pNext; 
+		pCur = pNext;
 	}
 	dl_TieOff(pListHead);
 }
@@ -624,23 +624,23 @@ void CTextureManager::FreeAllTextures()
 void CTextureManager::FreeTexture(RTexture* pTexture)
 {
 	// Disassociates texture from its SharedTexture (if any)
-	if (pTexture->m_pSharedTexture) 
+	if (pTexture->m_pSharedTexture)
 	{
 		pTexture->m_pSharedTexture->m_pRenderData = NULL;
-		pTexture->m_pSharedTexture = NULL; 
+		pTexture->m_pSharedTexture = NULL;
 	}
 
 	// Update memory usage...
 	g_pStruct->m_SystemTextureMemory -= pTexture->GetMemoryUse();
 
-	if (pTexture->m_pD3DTexture) 
+	if (pTexture->m_pD3DTexture)
 	{
-		uint32 iRefCnt			= pTexture->m_pD3DTexture->Release(); 
-		pTexture->m_pD3DTexture = NULL; 
+		uint32 iRefCnt			= pTexture->m_pD3DTexture->Release();
+		pTexture->m_pD3DTexture = NULL;
 	}
 
 	// Remove it from the list and free it
-	if (pTexture->m_Link.m_pData) 
+	if (pTexture->m_Link.m_pData)
 		dl_Remove(&pTexture->m_Link);
 	m_RTextureBank.Free(pTexture);
 }
@@ -653,7 +653,7 @@ uint32 CTextureManager::GetPitch(D3DFORMAT Format, uint32 iWidth)
 		case D3DFMT_DXT1 : iPitch = iWidth*2; break;
 		case D3DFMT_DXT3 : iPitch = iWidth*4; break;
 		case D3DFMT_DXT5 : iPitch = iWidth*4; break; } }
-	else { 
+	else {
 		uint32 iBitCount, iAlphaMask, iRedMask, iGreenMask, iBlueMask;
 		d3d_GetColorMasks(Format,iBitCount,iAlphaMask,iRedMask,iGreenMask,iBlueMask);
 		iPitch = iWidth * iBitCount/8; }
@@ -696,84 +696,84 @@ bool CTextureManager::SelectTextureFormats()
 	D3DModeInfo*	pDisplayMode = g_Device.GetModeInfo();
 
  	// Check for a valid FORMAT_32BIT...
-	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_A8R8G8B8) == D3D_OK) {
+	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_A8R8G8B8) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_32BIT,D3DFMT_A8R8G8B8); }
 	else { AddDebugMessage(0, "FORMAT_32BIT texture format missing."); return false; }	// It's a sad thing, but not a failable offense...
 
 	// Check for a valid FORMAT_FULLBRITE...
-	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_A1R5G5B5) == D3D_OK) {
+	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_A1R5G5B5) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_FULLBRITE,D3DFMT_A1R5G5B5); }
-	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_A4R4G4B4) == D3D_OK) {
+	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_A4R4G4B4) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_FULLBRITE,D3DFMT_A4R4G4B4); }
 	else { AddDebugMessage(0, "FORMAT_FULLBRITE texture format missing."); return false; }
 
 	// Check for a valid FORMAT_4444...
-	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_A4R4G4B4) == D3D_OK) {
+	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_A4R4G4B4) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_4444,D3DFMT_A4R4G4B4); }
-	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_A1R5G5B5) == D3D_OK) {
+	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_A1R5G5B5) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_4444,D3DFMT_A1R5G5B5); }
 	else { AddDebugMessage(0, "FORMAT_4444 texture format missing."); return false; }
 
 	// Check for a valid FORMAT_NORMAL...
-	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_R5G6B5) == D3D_OK) {
+	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_R5G6B5) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_NORMAL,D3DFMT_R5G6B5); }
-	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_A1R5G5B5) == D3D_OK) {
+	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_A1R5G5B5) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_NORMAL,D3DFMT_A1R5G5B5); }
-	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_A4R4G4B4) == D3D_OK) {
+	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_A4R4G4B4) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_NORMAL,D3DFMT_A4R4G4B4); }
 	else { AddDebugMessage(0, "FORMAT_NORMAL texture format missing."); return false; }
 
 	// Check for a valid FORMAT_INTERFACE...
-	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_A8R8G8B8) == D3D_OK) {
+	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_A8R8G8B8) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_INTERFACE,D3DFMT_A8R8G8B8); }
-	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_A1R5G5B5) == D3D_OK) {
+	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_A1R5G5B5) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_INTERFACE,D3DFMT_A1R5G5B5); }
-	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_A4R4G4B4) == D3D_OK) {
+	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_A4R4G4B4) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_INTERFACE,D3DFMT_A4R4G4B4); }
 	else { AddDebugMessage(0, "FORMAT_INTERFACE texture format missing."); return false; }
 
 	// Check for a valid FORMAT_LIGHTMAP...
-	if (g_CV_32BitLightmaps && PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_R8G8B8) == D3D_OK) {
+	if (g_CV_32BitLightmaps && PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_R8G8B8) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_LIGHTMAP,D3DFMT_R8G8B8); }
-	else if (g_CV_32BitLightmaps && PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_X8R8G8B8) == D3D_OK) {
+	else if (g_CV_32BitLightmaps && PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_X8R8G8B8) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_LIGHTMAP,D3DFMT_X8R8G8B8); }
-	else if (g_CV_32BitLightmaps && PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_A8R8G8B8) == D3D_OK) {
+	else if (g_CV_32BitLightmaps && PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_A8R8G8B8) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_LIGHTMAP,D3DFMT_A8R8G8B8); }
-	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_X1R5G5B5) == D3D_OK) {
+	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_X1R5G5B5) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_LIGHTMAP,D3DFMT_X1R5G5B5); }
-	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_A1R5G5B5) == D3D_OK) {
+	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_A1R5G5B5) == D3D_OK) {
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_LIGHTMAP,D3DFMT_A1R5G5B5); }
 	else { AddDebugMessage(0, "FORMAT_LIGHTMAP texture format missing."); return false; }
 
 	// Check for a valid FORMAT_BUMPMAP...
 	bool bFoundBumpMapFormat = true;
-	
+
 	//Note that the following formats are commented out currently. The reason for this is that the image
 	//conversion code does not handle channels with over 8 bits correctly. This will have to be fixed,
 	//and these uncommented again...
 	/*
-	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_V16U16) == D3D_OK) 
-		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_BUMPMAP,D3DFMT_V16U16); 
-	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_W11V11U10) == D3D_OK) 
+	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_V16U16) == D3D_OK)
+		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_BUMPMAP,D3DFMT_V16U16);
+	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_W11V11U10) == D3D_OK)
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_BUMPMAP,D3DFMT_W11V11U10);
-	else*/ 
-	
-	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_V8U8) == D3D_OK) 
+	else*/
+
+	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_V8U8) == D3D_OK)
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_BUMPMAP,D3DFMT_V8U8);
-	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_Q8W8V8U8) == D3D_OK) 
+	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_Q8W8V8U8) == D3D_OK)
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_BUMPMAP,D3DFMT_Q8W8V8U8);
-	else 
+	else
 	{
 		bFoundBumpMapFormat = false;
 		AddDebugMessage(2, "FORMAT_BUMPMAP texture format missing."); // If we can't find one, no big deal...
 	}
 
 	// Check for a valid FORMAT_LUM_BUMPMAP...
-	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_V8U8) == D3D_OK) 
-		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_LUMBUMPMAP,D3DFMT_X8L8V8U8); 
-	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_V16U16) == D3D_OK) 
+	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_V8U8) == D3D_OK)
+		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_LUMBUMPMAP,D3DFMT_X8L8V8U8);
+	else if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_V16U16) == D3D_OK)
 		SetTextureFormatFromD3DFormat(CTextureManager::FORMAT_LUMBUMPMAP,D3DFMT_L6V5U5);
-	else 
+	else
 	{
 		//see if we found a bumpmap format
 		if(bFoundBumpMapFormat)
@@ -788,23 +788,23 @@ bool CTextureManager::SelectTextureFormats()
 			AddDebugMessage(2, "FORMAT_LUMBUMPMAP texture format missing");
 		}
 	}
-	
+
 	// Check for DXT Formats...
 	m_bSupportsDXT1 = m_bSupportsDXT3 = m_bSupportsDXT5 = false;
-	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_DXT1) == D3D_OK) { m_bSupportsDXT1 = true; }
-	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_DXT3) == D3D_OK) { m_bSupportsDXT3 = true; }
-	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,NULL,D3DRTYPE_TEXTURE,D3DFMT_DXT5) == D3D_OK) { m_bSupportsDXT5 = true; }
+	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_DXT1) == D3D_OK) { m_bSupportsDXT1 = true; }
+	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_DXT3) == D3D_OK) { m_bSupportsDXT3 = true; }
+	if (PDIRECT3D->CheckDeviceFormat(pAdapterInfo->iAdapterNum,pDeviceInfo->DeviceType,pDisplayMode->Format,0,D3DRTYPE_TEXTURE,D3DFMT_DXT5) == D3D_OK) { m_bSupportsDXT5 = true; }
 
 	return true;
 }
 
- 
+
 void CTextureManager::SetTextureFormatFromD3DFormat(ETEXTURE_FORMATS eFormat,D3DFORMAT iFormat)
 {
 	assert((int32)eFormat < (int32)NUM_TEXTUREFORMATS);
-	TextureFormat* pFormat = &m_TextureFormats[eFormat]; 
-	
-	pFormat->m_PF = iFormat; 
+	TextureFormat* pFormat = &m_TextureFormats[eFormat];
+
+	pFormat->m_PF = iFormat;
 	pFormat->m_bValid = true;
 
 	//get the bit count of the format
@@ -857,12 +857,12 @@ CCachedStageInfo	g_CachedStageInfo[MAX_TEXTURESTAGES];
 static void d3d_TrackTextureMemory(CTrackedTextureMem& TextureMem, ERendererFrameStats eMemType)
 {
 #ifndef _FINAL
-	if (TextureMem.m_nTextureFrameCode != g_CurFrameCode) 
+	if (TextureMem.m_nTextureFrameCode != g_CurFrameCode)
 	{
 		IncFrameStat(eMemType, TextureMem.m_nMemory);
 		IncFrameStat(eFS_TotalUncompressedTexMemory, TextureMem.m_nUncompressedMemory);
 
-		TextureMem.m_nTextureFrameCode = g_CurFrameCode; 
+		TextureMem.m_nTextureFrameCode = g_CurFrameCode;
 	}
 #endif
 }
@@ -895,7 +895,7 @@ static void d3d_InternalSetCurrentTextureDirect(LPDIRECT3DBASETEXTURE9 pTexture,
 	if(pTexture != StageInfo.m_pTexture)
 	{
 		//keep track of the number of texture changes
-		IncFrameStat(eFS_TextureChanges, 1); 
+		IncFrameStat(eFS_TextureChanges, 1);
 		PD3DDEVICE->SetTexture(nStage, pTexture);
 		StageInfo.m_pTexture = pTexture;
 	}
@@ -906,15 +906,15 @@ static void d3d_InternalSetCurrentTextureDirect(LPDIRECT3DBASETEXTURE9 pTexture,
 }
 
 // Call this to have it set the texture.
-bool d3d_SetTexture(SharedTexture* pTexture, uint32 iStage, ERendererFrameStats eMemType) 
+bool d3d_SetTexture(SharedTexture* pTexture, uint32 iStage, ERendererFrameStats eMemType)
 {
 	//see if we actually have a valid texture
-	if (pTexture) 
+	if (pTexture)
 	{
 		//we do, make sure that the render texture is correct
 		RTexture* pRTexture = (RTexture*)pTexture->m_pRenderData;
-	
-		if(!pRTexture) 
+
+		if(!pRTexture)
 		{
 			//It is currently not setup, lets try and create the texture
 			pRTexture = d3d_CreateAndLoadTexture(pTexture);
@@ -922,28 +922,28 @@ bool d3d_SetTexture(SharedTexture* pTexture, uint32 iStage, ERendererFrameStats 
 			{
 				//failed to create it, just clear out the stage
 				d3d_InternalSetCurrentTextureDirect(NULL, iStage, 0.0f, ALPHAREF_NONE);
-				return false; 
+				return false;
 			}
 		}
 
 		//the render texture is valid, set it up
-		
+
 		// Track texture memory usage, we only need this during development though
 		d3d_TrackTextureMemory(pRTexture->m_TextureMem, eMemType);
 
 		//now actually setup the texture
 		d3d_InternalSetCurrentTextureDirect(pRTexture->m_pD3DTexture, iStage, pRTexture->m_fMipMapBias, pRTexture->m_AlphaRef);
-	}	
-	else 
+	}
+	else
 	{
 		//we didn't have a texture, just clear it out
 		d3d_InternalSetCurrentTextureDirect(NULL, iStage, 0.0f, ALPHAREF_NONE);
 	}
 
-	return true; 
+	return true;
 }
 
-// Call to set a D3D texture 
+// Call to set a D3D texture
 bool d3d_SetTextureDirect(LPDIRECT3DBASETEXTURE9 pTexture, uint32 nStage)
 {
 	d3d_InternalSetCurrentTextureDirect(pTexture, nStage, 0.0f, ALPHAREF_NONE);

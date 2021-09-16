@@ -91,7 +91,7 @@ void d3d_DeleteSurface(HLTBUFFER hSurf)
 
 	if(!hSurf)
 		return;
-	
+
 	pRSurface = (RSurface*)hSurf;
 
 	d3d_DestroyTiles(pRSurface);
@@ -109,16 +109,16 @@ void d3d_GetSurfaceInfo(HLTBUFFER hSurf, uint32 *pWidth, uint32 *pHeight)
 
 void* d3d_LockSurface(HLTBUFFER hSurf, uint32& Pitch)
 {
-	if (!hSurf) return NULL;
+	if (!hSurf) return nullptr;
 	RSurface* pRSurface = (RSurface*)hSurf;
-	
+
 	D3DLOCKED_RECT LockRect;
-	HRESULT hResult = pRSurface->m_pSurface->LockRect(&LockRect, NULL, NULL);
+	HRESULT hResult = pRSurface->m_pSurface->LockRect(&LockRect, nullptr, 0);
 	if(hResult == D3D_OK) {
 		Pitch = LockRect.Pitch;
 		return LockRect.pBits; }
 	else {
-		return NULL; }
+		return nullptr; }
 }
 
 void d3d_UnlockSurface(HLTBUFFER hSurf)
@@ -136,16 +136,16 @@ bool d3d_LockScreen(int left, int top, int right, int bottom, void **pData, long
 	g_ScreenLockRect.right	= right;
 	g_ScreenLockRect.bottom = bottom;
 
-	LPDIRECT3DSURFACE9		pBackBuffer = NULL;
+	LPDIRECT3DSURFACE9		pBackBuffer = nullptr;
 	if (FAILED(PD3DDEVICE->GetBackBuffer(0,D3DBACKBUFFER_TYPE_MONO,&pBackBuffer)))	{ return false; }
-	
-	D3DLOCKED_RECT LockRect; 
-	if (FAILED(pBackBuffer->LockRect(&LockRect, &g_ScreenLockRect, NULL)))			{ 
+
+	D3DLOCKED_RECT LockRect;
+	if (FAILED(pBackBuffer->LockRect(&LockRect, &g_ScreenLockRect, 0)))			{
 		pBackBuffer->Release(); return false; }
 
 	*pData = LockRect.pBits; *pPitch = LockRect.Pitch;
 
-	if (pBackBuffer)																{ pBackBuffer->Release(); pBackBuffer = NULL; }
+	if (pBackBuffer)																{ pBackBuffer->Release(); pBackBuffer = nullptr; }
 	g_bScreenLocked = true;
 
 	return true;
@@ -155,11 +155,11 @@ void d3d_UnlockScreen()
 {
 	if (!g_bScreenLocked) return;
 
-	LPDIRECT3DSURFACE9		pBackBuffer = NULL;
+	LPDIRECT3DSURFACE9		pBackBuffer = nullptr;
 	if (FAILED(PD3DDEVICE->GetBackBuffer(0,D3DBACKBUFFER_TYPE_MONO,&pBackBuffer)))	{ return; }
 	if (FAILED(pBackBuffer->UnlockRect()))											{ pBackBuffer->Release(); return; }
 
-	if (pBackBuffer)																{ pBackBuffer->Release(); pBackBuffer = NULL; }
+	if (pBackBuffer)																{ pBackBuffer->Release(); pBackBuffer = nullptr; }
 	g_bScreenLocked = false;
 
 	InvalidateRect((LTRect*)&g_ScreenLockRect);
@@ -175,15 +175,15 @@ void d3d_BlitFromScreen(BlitRequest* pRequest)
 		if (PD3DDEVICE) PD3DDEVICE->EndScene(); }
 
 	RECT srcRect; LTRectToRect(&srcRect,  pRequest->m_pSrcRect);
-	POINT destPt; destPt.x = pRequest->m_pDestRect->left; destPt.y = pRequest->m_pDestRect->top; 
-	
-	LPDIRECT3DSURFACE9		pBackBuffer = NULL;
+	POINT destPt; destPt.x = pRequest->m_pDestRect->left; destPt.y = pRequest->m_pDestRect->top;
+
+	LPDIRECT3DSURFACE9		pBackBuffer = nullptr;
 	if (FAILED(PD3DDEVICE->GetBackBuffer(0,D3DBACKBUFFER_TYPE_MONO,&pBackBuffer)))	{ return; }
 
 	// Copy away!
 	HRESULT hResult = PD3DDEVICE->UpdateSurface(pBackBuffer,&srcRect,pRSurface->m_pSurface,&destPt);
 
-	if (pBackBuffer)																{ pBackBuffer->Release(); pBackBuffer = NULL; }
+	if (pBackBuffer)																{ pBackBuffer->Release(); pBackBuffer = nullptr; }
 
 	if (g_Device.IsIn3D()) {
 		if (PD3DDEVICE) PD3DDEVICE->BeginScene(); }
@@ -194,20 +194,20 @@ void d3d_ReallyBlitToScreen(BlitRequest *pRequest)
 	RSurface* pRSurface = (RSurface*)pRequest->m_hBuffer;
 
 	// Spit out a warning if we're in 3D..
-	if (g_Device.IsIn3D()) 
+	if (g_Device.IsIn3D())
 	{
 		AddDebugMessage(20, "Warning: drawing a nonoptimized surface while in 3D mode.");
-		if(PD3DDEVICE) PD3DDEVICE->EndScene(); 
+		if(PD3DDEVICE) PD3DDEVICE->EndScene();
 	}
 
 	RECT srcRect;  LTRectToRect(&srcRect,  pRequest->m_pSrcRect);
 	RECT destRect; LTRectToRect(&destRect, pRequest->m_pDestRect);
-	POINT destPt;  destPt.x = pRequest->m_pDestRect->left; destPt.y = pRequest->m_pDestRect->top; 
-	
-	LPDIRECT3DSURFACE9		pBackBuffer = NULL;
-	if (FAILED(PD3DDEVICE->GetBackBuffer(0,D3DBACKBUFFER_TYPE_MONO,&pBackBuffer)))	
-	{ 
-		return; 
+	POINT destPt;  destPt.x = pRequest->m_pDestRect->left; destPt.y = pRequest->m_pDestRect->top;
+
+	LPDIRECT3DSURFACE9		pBackBuffer = nullptr;
+	if (FAILED(PD3DDEVICE->GetBackBuffer(0,D3DBACKBUFFER_TYPE_MONO,&pBackBuffer)))
+	{
+		return;
 	}
 
 	D3DSURFACE_DESC			BackBuffer_SurfDesc;
@@ -215,31 +215,31 @@ void d3d_ReallyBlitToScreen(BlitRequest *pRequest)
 	D3DSURFACE_DESC			Src_SurfDesc;
 	pRSurface->m_pSurface->GetDesc(&Src_SurfDesc);
 
-	LTRGB TranspColor; 
+	LTRGB TranspColor;
 	bool bUseTrans = false;
 
-	if (pRequest->m_BlitOptions & BLIT_TRANSPARENT) 
+	if (pRequest->m_BlitOptions & BLIT_TRANSPARENT)
 	{
-  		if (pRSurface->m_LastTransparentColor.dwVal != pRequest->m_TransparentColor.dwVal) 
+  		if (pRSurface->m_LastTransparentColor.dwVal != pRequest->m_TransparentColor.dwVal)
 		{
-			pRSurface->m_LastTransparentColor = pRequest->m_TransparentColor; 
-		} 
+			pRSurface->m_LastTransparentColor = pRequest->m_TransparentColor;
+		}
 		TranspColor.a = RGBA_GETA(pRequest->m_TransparentColor.dwVal);
 		TranspColor.r = RGBA_GETR(pRequest->m_TransparentColor.dwVal);
 		TranspColor.g = RGBA_GETG(pRequest->m_TransparentColor.dwVal);
 		TranspColor.b = RGBA_GETB(pRequest->m_TransparentColor.dwVal);
-		bUseTrans = true; 
+		bUseTrans = true;
 	}
 
 	// Setup for a ConvertRequest to do it...
 	FMConvertRequest request;
-	PFormat PSrcFormat; 
+	PFormat PSrcFormat;
 	if(!d3d_D3DFormatToPFormat(Src_SurfDesc.Format,&PSrcFormat))
 		return;
 
 	request.m_pSrcFormat = &PSrcFormat;
-	
-	PFormat PDstFormat; 
+
+	PFormat PDstFormat;
 	if(!d3d_D3DFormatToPFormat(BackBuffer_SurfDesc.Format,&PDstFormat))
 		return;
 
@@ -250,26 +250,26 @@ void d3d_ReallyBlitToScreen(BlitRequest *pRequest)
 
 	D3DLOCKED_RECT SrcLockRect,DstLockRect;
 	if (FAILED(pRSurface->m_pSurface->LockRect(&SrcLockRect,&srcRect,D3DLOCK_READONLY))) { pBackBuffer->Release(); return; }
-	if (FAILED(pBackBuffer->LockRect(&DstLockRect,&destRect,NULL))) { pRSurface->m_pSurface->UnlockRect(); pBackBuffer->Release(); return; }
+	if (FAILED(pBackBuffer->LockRect(&DstLockRect,&destRect,0))) { pRSurface->m_pSurface->UnlockRect(); pBackBuffer->Release(); return; }
 	request.m_pSrc			= (uint8*)SrcLockRect.pBits;
 	request.m_SrcPitch		= SrcLockRect.Pitch;
 	request.m_pDest			= (uint8*)DstLockRect.pBits;
 	request.m_DestPitch		= DstLockRect.Pitch;
 
-	s_pFormatMgr->Mgr()->ConvertPixels(&request,bUseTrans ? &TranspColor : NULL);
+	s_pFormatMgr->Mgr()->ConvertPixels(&request,bUseTrans ? &TranspColor : nullptr);
 
 	pRSurface->m_pSurface->UnlockRect();
-	pBackBuffer->UnlockRect(); 
+	pBackBuffer->UnlockRect();
 
-	if (pBackBuffer)																
-	{ 
-		pBackBuffer->Release(); 
-		pBackBuffer = NULL; 
-	}
-	
-	if (g_Device.IsIn3D()) 
+	if (pBackBuffer)
 	{
-		if(PD3DDEVICE) PD3DDEVICE->BeginScene(); 
+		pBackBuffer->Release();
+		pBackBuffer = nullptr;
+	}
+
+	if (g_Device.IsIn3D())
+	{
+		if(PD3DDEVICE) PD3DDEVICE->BeginScene();
 	}
 
 	InvalidateRect((LTRect*)&destRect);
@@ -284,22 +284,22 @@ void d3d_BlitToScreen(BlitRequest *pRequest)
 	// Optimize the surface if we need to use a blend mode
 	LTSurfaceBlend blend;
 	d3d_GetOptimized2DBlend(blend);
-	if (g_bInOptimized2D && g_Device.IsIn3D() && (pRSurface->m_pTiles == NULL)) 
+	if (g_bInOptimized2D && g_Device.IsIn3D() && (pRSurface->m_pTiles == nullptr))
 	{
-		d3d_OptimizeSurface(pRequest->m_hBuffer, (pRequest->m_BlitOptions == BLIT_TRANSPARENT) ? pRequest->m_TransparentColor.dwVal : 0xFFFFFFFF ); 
+		d3d_OptimizeSurface(pRequest->m_hBuffer, (pRequest->m_BlitOptions == BLIT_TRANSPARENT) ? pRequest->m_TransparentColor.dwVal : 0xFFFFFFFF );
 	}
-	
+
 	// Can this be drawn as an optimized 2D surface?
-	if (pRSurface->m_pTiles && g_bInOptimized2D && g_Device.IsIn3D()) 
+	if (pRSurface->m_pTiles && g_bInOptimized2D && g_Device.IsIn3D())
 	{
 		if (pRequest->m_bUseOld)
-			d3d_BlitToScreen3D_Old(pRequest); 
+			d3d_BlitToScreen3D_Old(pRequest);
 		else
-			d3d_BlitToScreen3D(pRequest); 
+			d3d_BlitToScreen3D(pRequest);
 	}
-	else 
+	else
 	{
-		d3d_ReallyBlitToScreen(pRequest); 
+		d3d_ReallyBlitToScreen(pRequest);
 	}
 }
 
@@ -310,10 +310,10 @@ bool d3d_WarpToScreen(BlitRequest *pRequest)
 	RSurface* pRSurface = (RSurface*)pRequest->m_hBuffer;
 
 	// Can this be drawn as an optimized 2D surface?
-	if (pRSurface->m_pTiles && g_bInOptimized2D && g_Device.IsIn3D()) 
+	if (pRSurface->m_pTiles && g_bInOptimized2D && g_Device.IsIn3D())
 	{
 		d3d_WarpToScreen3D(pRequest);
-		return true; 
+		return true;
 	}
 	return false;
 }
@@ -327,7 +327,7 @@ bool d3d_GetScreenFormat(PFormat* pFormat)
 void d3d_MakeScreenShotBMP(const char *pFilename, uint32 nWidth, uint32 nHeight)
 {
 #ifdef _WINDOWS
-	LPDIRECT3DSURFACE9 pBackBuffer = NULL; D3DSURFACE_DESC SurfDesc;
+	LPDIRECT3DSURFACE9 pBackBuffer = nullptr; D3DSURFACE_DESC SurfDesc;
 	if (FAILED(PD3DDEVICE->GetBackBuffer(0,D3DBACKBUFFER_TYPE_MONO,&pBackBuffer)))	{ return; }
 	pBackBuffer->GetDesc(&SurfDesc);
 
@@ -337,10 +337,10 @@ void d3d_MakeScreenShotBMP(const char *pFilename, uint32 nWidth, uint32 nHeight)
 
 	// Lock the back buffer.
 	D3DLOCKED_RECT LockRect; HRESULT hResult;
-	if (FAILED(hResult = pBackBuffer->LockRect(&LockRect, NULL, NULL))) 
+	if (FAILED(hResult = pBackBuffer->LockRect(&LockRect, nullptr, 0)))
 	{
-		dsi_ConsolePrint("MakeScreenShotBMP: g_pOffscreen->Lock returned %d.", hResult); 
-		return; 
+		dsi_ConsolePrint("MakeScreenShotBMP: g_pOffscreen->Lock returned %d.", hResult);
+		return;
 	}
 
 	// Do the color conversion.
@@ -355,20 +355,20 @@ void d3d_MakeScreenShotBMP(const char *pFilename, uint32 nWidth, uint32 nHeight)
 	request.m_Height	= nHeight;
 	LTRESULT dResult	= g_FormatMgr.ConvertPixels(&request);
 
-	if (FAILED(pBackBuffer->UnlockRect())) 
-	{ 
-		dsi_ConsolePrint("MakeScreenShotBMP: FormatMgr::ConvertPixels returned %d.", dResult); 
-		return; 
+	if (FAILED(pBackBuffer->UnlockRect()))
+	{
+		dsi_ConsolePrint("MakeScreenShotBMP: FormatMgr::ConvertPixels returned %d.", dResult);
+		return;
 	}
 
 	// Save the bitmap.
 	FILE* fp = fopen(pFilename, "wb");
-	if (!fp) 
+	if (!fp)
 	{
-		dsi_ConsolePrint("MakeScreenShotBMP: fopen(%s) failed.", pFilename); 
-		return; 
+		dsi_ConsolePrint("MakeScreenShotBMP: fopen(%s) failed.", pFilename);
+		return;
 	}
-	
+
 	BITMAPFILEHEADER fileHeader; BITMAPINFOHEADER infoHeader;
 	memset(&fileHeader, 0, sizeof(fileHeader));
 	memset(&infoHeader, 0, sizeof(infoHeader));
@@ -383,26 +383,26 @@ void d3d_MakeScreenShotBMP(const char *pFilename, uint32 nWidth, uint32 nHeight)
 	infoHeader.biPlanes = 1;
 	infoHeader.biBitCount = 24;
 	infoHeader.biCompression = BI_RGB;
-	
+
 	fwrite(&fileHeader, sizeof(fileHeader), 1, fp);
 	fwrite(&infoHeader, sizeof(infoHeader), 1, fp);
 
-	for (uint32 y=0; y < nHeight; ++y) 
+	for (uint32 y=0; y < nHeight; ++y)
 	{
 		uint32* pOutLine = &outputBuf[(nHeight-y-1) * nWidth];
-		for(uint32 x=0; x < nWidth; ++x) 
+		for(uint32 x=0; x < nWidth; ++x)
 		{
 			fwrite(pOutLine, 3, 1, fp);
-			++pOutLine; 
-		} 
+			++pOutLine;
+		}
 	}
 
 	fclose(fp);
 
-	if (pBackBuffer) 
-	{ 
-		pBackBuffer->Release(); 
-		pBackBuffer = NULL; 
+	if (pBackBuffer)
+	{
+		pBackBuffer->Release();
+		pBackBuffer = nullptr;
 	}
 
 	dsi_ConsolePrint("ScreenShot: Created %s successfully.", pFilename);
@@ -411,7 +411,7 @@ void d3d_MakeScreenShotBMP(const char *pFilename, uint32 nWidth, uint32 nHeight)
 
 void d3d_MakeScreenShotTGA(const char *pFilename, uint32 nWidth, uint32 nHeight)
 {
-	LPDIRECT3DSURFACE9 pBackBuffer = NULL; D3DSURFACE_DESC SurfDesc;
+	LPDIRECT3DSURFACE9 pBackBuffer = nullptr; D3DSURFACE_DESC SurfDesc;
 	if (FAILED(PD3DDEVICE->GetBackBuffer(0,D3DBACKBUFFER_TYPE_MONO,&pBackBuffer)))	{ return; }
 	pBackBuffer->GetDesc(&SurfDesc);
 
@@ -421,10 +421,10 @@ void d3d_MakeScreenShotTGA(const char *pFilename, uint32 nWidth, uint32 nHeight)
 
 	// Lock the back buffer.
 	D3DLOCKED_RECT LockRect; HRESULT hResult;
-	if (FAILED(hResult = pBackBuffer->LockRect(&LockRect, NULL, NULL))) 
+	if (FAILED(hResult = pBackBuffer->LockRect(&LockRect, nullptr, 0)))
 	{
-		dsi_ConsolePrint("MakeScreenShotTGA: g_pOffscreen->Lock returned %d.", hResult); 
-		return; 
+		dsi_ConsolePrint("MakeScreenShotTGA: g_pOffscreen->Lock returned %d.", hResult);
+		return;
 	}
 
 	// Do the color conversion.
@@ -439,20 +439,20 @@ void d3d_MakeScreenShotTGA(const char *pFilename, uint32 nWidth, uint32 nHeight)
 	request.m_Height	= nHeight;
 	LTRESULT dResult	= g_FormatMgr.ConvertPixels(&request);
 
-	if (FAILED(pBackBuffer->UnlockRect())) 
-	{ 
-		dsi_ConsolePrint("MakeScreenShotTGA: FormatMgr::ConvertPixels returned %d.", dResult); 
-		return; 
+	if (FAILED(pBackBuffer->UnlockRect()))
+	{
+		dsi_ConsolePrint("MakeScreenShotTGA: FormatMgr::ConvertPixels returned %d.", dResult);
+		return;
 	}
 
 	// Save the bitmap.
 	FILE* fp = fopen(pFilename, "wb");
-	if (!fp) 
+	if (!fp)
 	{
-		dsi_ConsolePrint("MakeScreenShotTGA: fopen(%s) failed.", pFilename); 
-		return; 
+		dsi_ConsolePrint("MakeScreenShotTGA: fopen(%s) failed.", pFilename);
+		return;
 	}
-	
+
 	uint8 nByte;
 
 	//write out the ID length
@@ -492,14 +492,14 @@ void d3d_MakeScreenShotTGA(const char *pFilename, uint32 nWidth, uint32 nHeight)
 	fwrite(&nByte, sizeof(nByte), 1, fp);
 
 	//and now the image data!
-	for (uint32 y=0; y < nHeight; ++y) 
+	for (uint32 y=0; y < nHeight; ++y)
 	{
 		uint32* pOutLine = &outputBuf[(nHeight-y-1) * nWidth];
-		for(uint32 x=0; x < nWidth; ++x) 
+		for(uint32 x=0; x < nWidth; ++x)
 		{
 			fwrite(pOutLine, 3, 1, fp);
-			++pOutLine; 
-		} 
+			++pOutLine;
+		}
 	}
 
 	//now the footer
@@ -523,10 +523,10 @@ void d3d_MakeScreenShotTGA(const char *pFilename, uint32 nWidth, uint32 nHeight)
 	//close the file
 	fclose(fp);
 
-	if (pBackBuffer) 
-	{ 
-		pBackBuffer->Release(); 
-		pBackBuffer = NULL; 
+	if (pBackBuffer)
+	{
+		pBackBuffer->Release();
+		pBackBuffer = nullptr;
 	}
 
 	dsi_ConsolePrint("ScreenShot: Created %s successfully.", pFilename);
@@ -535,10 +535,10 @@ void d3d_MakeScreenShotTGA(const char *pFilename, uint32 nWidth, uint32 nHeight)
 
 void d3d_MakeScreenShot(const char *pFilename)
 {
-	LPDIRECT3DSURFACE9 pBackBuffer = NULL; 
-	if (FAILED(PD3DDEVICE->GetBackBuffer(0,D3DBACKBUFFER_TYPE_MONO,&pBackBuffer)))	
-	{ 
-		return; 
+	LPDIRECT3DSURFACE9 pBackBuffer = nullptr;
+	if (FAILED(PD3DDEVICE->GetBackBuffer(0,D3DBACKBUFFER_TYPE_MONO,&pBackBuffer)))
+	{
+		return;
 	}
 
 	D3DSURFACE_DESC SurfDesc;
@@ -546,7 +546,7 @@ void d3d_MakeScreenShot(const char *pFilename)
 
 	d3d_MakeScreenShotBMP(pFilename, SurfDesc.Width, SurfDesc.Height);
 
-	pBackBuffer->Release(); 
+	pBackBuffer->Release();
 }
 
 
@@ -639,17 +639,17 @@ void d3d_MakeCubicEnvMap(const char* pszPrefix, uint32 nSize, const SceneDesc& I
 void d3d_SwapBuffers(uint flags)
 {
 	CSAccess cLoadRenderCSLock(&g_Device.GetLoadRenderCS());
-	
+
 	if (!PD3DDEVICE)
 		return;
 
-	if ((flags & FLIPSCREEN_DIRTY) != 0) 
+	if ((flags & FLIPSCREEN_DIRTY) != 0)
 	{
-		DirtyRectSwap(); 
+		DirtyRectSwap();
 	}
-	else 
+	else
 	{
-		HRESULT hResult = PD3DDEVICE->Present(NULL,NULL,NULL,NULL); 
+		HRESULT hResult = PD3DDEVICE->Present(NULL,NULL,NULL,NULL);
 	}
 
 	// prevent frame buffering

@@ -61,10 +61,10 @@ ILTStream &operator>>(ILTStream &stream, SRBVertex &sVert)
 }
 
 // Implement the internal section stuff
-CRBSection::CRBSection() : 
-	m_nStartIndex(0), 
-	m_nTriCount(0), 
-	m_nStartVertex(0), 
+CRBSection::CRBSection() :
+	m_nStartIndex(0),
+	m_nTriCount(0),
+	m_nStartVertex(0),
 	m_nVertexCount(0),
 	m_nLightmapWidth(0),
 	m_nLightmapHeight(0),
@@ -508,8 +508,8 @@ bool CD3D_RenderBlock::Load(ILTStream *pStream)
 			// Translate the shader code
 			cCurSection.m_eShader = TranslatePCShaderCode(nShaderCode);
 
-			if ((cCurSection.m_eShader != eShader_Gouraud) && 
-				(cCurSection.m_eShader != eShader_Lightmap) && 
+			if ((cCurSection.m_eShader != eShader_Gouraud) &&
+				(cCurSection.m_eShader != eShader_Lightmap) &&
 				(cCurSection.m_pTexture[0] == NULL))
 			{
 				dsi_ConsolePrint("Renderer: Error loading texture %s", sTextureName[0]);
@@ -564,7 +564,7 @@ bool CD3D_RenderBlock::Load(ILTStream *pStream)
 	if (m_nTriCount)
 	{
 		LT_MEM_TRACK_ALLOC(m_aIndices = new uint16[m_nTriCount * 3],LT_MEM_TYPE_RENDER_WORLD);
-		
+
 		// Tracking for the active section vertex span information..
 		TSectionList::iterator iCurSection = m_aSections.begin();
 		uint32 nSectionLeft = iCurSection->m_nTriCount;
@@ -694,7 +694,7 @@ void CD3D_RenderBlock::DrawWireframeBounds()
 
 		aBlockData[(nBlockInit << 1)].x = m_vCenter.x - m_vHalfDims.x;
 		aBlockData[(nBlockInit << 1) + 1].x = m_vCenter.x + m_vHalfDims.x;
-		
+
 		aBlockData[(nBlockInit & 1) + ((nBlockInit & 2) << 1)].z = m_vCenter.z - m_vHalfDims.z;
 		aBlockData[(nBlockInit & 1) + ((nBlockInit & 2) << 1) + 2].z = m_vCenter.z + m_vHalfDims.z;
 	}
@@ -736,14 +736,14 @@ void CD3D_RenderBlock::DrawWireframeBounds()
 
 	PD3DDEVICE->SetVertexShader(NULL);
 	PD3DDEVICE->SetFVF(D3DFVF_XYZ);
-	PD3DDEVICE->DrawIndexedPrimitiveUP(D3DPT_LINELIST, 0, 8, 12, 
-		(void*)aBlockIndices, D3DFMT_INDEX16, 
+	PD3DDEVICE->DrawIndexedPrimitiveUP(D3DPT_LINELIST, 0, 8, 12,
+		(void*)aBlockIndices, D3DFMT_INDEX16,
 		(void*)aBlockData, sizeof(LTVector));
 }
 
 void CD3D_RenderBlock::GetLightList(const ViewParams& Params, const DynamicLight * const **pLightList, uint32 *pNumLights)
 {
-	// I really don't like accessing this global array like this, but it's the best way to 
+	// I really don't like accessing this global array like this, but it's the best way to
 	// get at this data under the current setup
 	if (!g_nNumWorldDynamicLights)
 	{
@@ -770,10 +770,10 @@ void CD3D_RenderBlock::GetLightList(const ViewParams& Params, const DynamicLight
 		LTVector vLightCenter = Params.m_mInvWorld * (*pCurLight)->GetPos();
 		float fLightRadius = (*pCurLight)->m_LightRadius;
 
-		if (((vLightCenter.x + fLightRadius) < GetBoundsMin().x) || 
+		if (((vLightCenter.x + fLightRadius) < GetBoundsMin().x) ||
 			((vLightCenter.y + fLightRadius) < GetBoundsMin().y) ||
 			((vLightCenter.z + fLightRadius) < GetBoundsMin().z) ||
-			((vLightCenter.x - fLightRadius) > GetBoundsMax().x) || 
+			((vLightCenter.x - fLightRadius) > GetBoundsMax().x) ||
 			((vLightCenter.y - fLightRadius) > GetBoundsMax().y) ||
 			((vLightCenter.z - fLightRadius) > GetBoundsMax().z))
 			continue;
@@ -865,7 +865,7 @@ bool CD3D_RenderBlock::Draw(const ViewParams& Params)
 	}
 
 	IncFrameStat(eFS_RBSections, (int32)(m_aSections.size()));
-	
+
 	return true;
 }
 
@@ -1184,10 +1184,10 @@ LTRGB CD3D_RenderBlock::GetLMTexel(const CRBSection &cSection, float fU, float f
 	// Get the integer coordinates
 	uint32 nTextureX = (uint32)(fU * (float)cSection.m_nLightmapWidth);
 	uint32 nTextureY = (uint32)(fV * (float)cSection.m_nLightmapHeight);
-	
+
 	// Read the base lightmap
 	LTRGB nResult;
-	if (!GetLMDataTexel(cSection.m_pLightmapData, cSection.m_nLightmapSize, 
+	if (!GetLMDataTexel(cSection.m_pLightmapData, cSection.m_nLightmapSize,
 		cSection.m_nLightmapWidth, nTextureX, nTextureY, &nResult))
 	{
 		nResult.r = nResult.g = nResult.b = 0;
@@ -1216,7 +1216,7 @@ LTRGB CD3D_RenderBlock::GetLMTexel(const CRBSection &cSection, float fU, float f
 		{
 			// Skip sub-lightmaps that don't have this texel in them
 			if ((iCurSubLM->m_nLeft > nTextureX) || (iCurSubLM->m_nTop > nTextureY) ||
-				((iCurSubLM->m_nLeft + iCurSubLM->m_nWidth) <= nTextureX) || 
+				((iCurSubLM->m_nLeft + iCurSubLM->m_nWidth) <= nTextureX) ||
 				((iCurSubLM->m_nTop + iCurSubLM->m_nHeight) <= nTextureY))
 				continue;
 
@@ -1299,7 +1299,7 @@ void CD3D_RenderBlock::UpdateShaderData(bool bFullUpdate)
  	{
  		if (m_aShaderIndices[nCurShader] == k_InvalidShaderIndex)
  			continue;
- 
+
  		CRenderShader *pShader = m_pWorld->GetShader((ERenderShader)nCurShader);
  		if (pShader)
  			pShader->MarkSectionBreaks();
@@ -1387,12 +1387,12 @@ ERenderShader CD3D_RenderBlock::TranslatePCShaderCode(uint32 nCode)
 
 // Triangle intersection code, adapted from code by Tomas Moller
 bool CD3D_RenderBlock::IntersectTri(
-	const SRay &sRay, 
+	const SRay &sRay,
 	const LTVector &vVert0,
 	const LTVector &vVert1,
 	const LTVector &vVert2,
-	float &fTime, 
-	float &fU, 
+	float &fTime,
+	float &fU,
 	float &fV
 ) const
 {
@@ -1412,12 +1412,12 @@ bool CD3D_RenderBlock::IntersectTri(
 
 	// calculate distance from vert0 to ray origin
 	LTVector vT = sRay.m_vOrigin - vVert0;
-      
+
     // calculate U parameter and test bounds
     fU = vT.Dot(vP);
 	if (fU < 0.0f || fU > fDet)
 		return false;
-      
+
 	// prepare to test V parameter
 	LTVector vQ = vEdge1.Cross(vT);
 
@@ -1486,7 +1486,7 @@ uint32 CD3D_RenderBlock::IntersectRay(const SRay &sRay, TIntersectionList &sResu
 
 		// Handle overlapping triangles in the first intersection case
 		// (Needed for lightmapped polygon handling..)
-		if (eIntersect == eIntersectionType_First && !sResults.empty() && 
+		if (eIntersect == eIntersectionType_First && !sResults.empty() &&
 			(sResults.front().m_fDistance > (sCurIntersect.m_fDistance + k_fEqualDistanceEpsilon)))
 		{
 			sResults.clear();
@@ -1585,7 +1585,7 @@ void CD3D_RenderBlock::ExtendSkyBounds(const ViewParams& Params, float &fMinX, f
 			bPrevClip = bCurClip;
 		}
 		// Skip over polys that are entirely outside the clipping area
-		if ((nNear == sCurPoly.m_aVerts.size()) || 
+		if ((nNear == sCurPoly.m_aVerts.size()) ||
 		// SKYBOX FIX for Multiple Cameras
 			/*
 			(fLocalMaxX < 0.0f) ||
@@ -1664,8 +1664,8 @@ void CD3D_RenderBlock::GetMemStats(CMemStats_World &cMemStats) const
 	}
 }
 
-void CD3D_RenderBlock::GetIntersectInfo(const SIntersection &sIntersect, 
-	LTRGB *pResult_LightingColor, 
+void CD3D_RenderBlock::GetIntersectInfo(const SIntersection &sIntersect,
+	LTRGB *pResult_LightingColor,
 	SharedTexture **pResult_Texture, LTRGB *pResult_TextureColor,
 	LTVector *pResult_InterpNormal, LTVector *pResult_TriNormal) const
 {
@@ -1723,9 +1723,9 @@ void CD3D_RenderBlock::GetIntersectInfo(const SIntersection &sIntersect,
 	}
 
 	// Figure out the texture UV's
-	float fTextureU = LTLERP(sVert0.m_fU0, sVert1.m_fU0, sIntersect.m_fU) + 
+	float fTextureU = LTLERP(sVert0.m_fU0, sVert1.m_fU0, sIntersect.m_fU) +
 						LTLERP(sVert0.m_fU0, sVert2.m_fU0, sIntersect.m_fV);
-	float fTextureV = LTLERP(sVert0.m_fV0, sVert1.m_fV0, sIntersect.m_fU) + 
+	float fTextureV = LTLERP(sVert0.m_fV0, sVert1.m_fV0, sIntersect.m_fU) +
 						LTLERP(sVert0.m_fV0, sVert2.m_fV0, sIntersect.m_fV);
 	// Wrap the texture coords
 	// Note : There should probably be some shader interaction on this one so clamped addressing will work
@@ -1792,16 +1792,16 @@ void CD3D_RenderBlock::GetIntersectInfo(const SIntersection &sIntersect,
 			LTRGB aVertexColors[3];
 			GetTriVertexColors(nTriBaseIndex, aVertexColors);
 			pResult_LightingColor->r = (uint8)(
-				LTLERP((float)aVertexColors[0].r, (float)aVertexColors[1].r, sIntersect.m_fU) + 
+				LTLERP((float)aVertexColors[0].r, (float)aVertexColors[1].r, sIntersect.m_fU) +
 				LTLERP((float)aVertexColors[0].r, (float)aVertexColors[2].r, sIntersect.m_fV));
 			pResult_LightingColor->g = (uint8)(
-				LTLERP((float)aVertexColors[0].g, (float)aVertexColors[1].g, sIntersect.m_fU) + 
+				LTLERP((float)aVertexColors[0].g, (float)aVertexColors[1].g, sIntersect.m_fU) +
 				LTLERP((float)aVertexColors[0].g, (float)aVertexColors[2].g, sIntersect.m_fV));
 			pResult_LightingColor->b = (uint8)(
-				LTLERP((float)aVertexColors[0].b, (float)aVertexColors[1].b, sIntersect.m_fU) + 
+				LTLERP((float)aVertexColors[0].b, (float)aVertexColors[1].b, sIntersect.m_fU) +
 				LTLERP((float)aVertexColors[0].b, (float)aVertexColors[2].b, sIntersect.m_fV));
 			pResult_LightingColor->a = (uint8)(
-				LTLERP((float)aVertexColors[0].a, (float)aVertexColors[1].a, sIntersect.m_fU) + 
+				LTLERP((float)aVertexColors[0].a, (float)aVertexColors[1].a, sIntersect.m_fU) +
 				LTLERP((float)aVertexColors[0].a, (float)aVertexColors[2].a, sIntersect.m_fV));
 		}
 	}

@@ -105,7 +105,7 @@ public:
 				AllocSet();
 				~AllocSet();
 
-	bool		Init(VisibleSet *pVisibleSet, char *pSetName, uint32 defaultMax);
+	bool		Init(VisibleSet *pVisibleSet, const char *pSetName, uint32 defaultMax);
 	void		Term();
 
 	LTObject		**m_pArray;
