@@ -163,7 +163,7 @@ bool d3d_FillSurfaceTiles(RSurface *pSurface, TextureFormat *pDestFormat, PValue
 				SurfaceTile* pTile = &pSurface->m_pTiles->m_Tiles[y*pSurface->m_pTiles->m_nTilesX+x];
 				
 				D3DLOCKED_RECT DestLockRect;
-				hResult = pTile->m_pTexture->LockRect(0,&DestLockRect, NULL, NULL);
+				hResult = pTile->m_pTexture->LockRect(0,&DestLockRect, NULL, 0);
 				if (hResult == D3D_OK) 
 				{
 					// Setup the ConvertRequest.
@@ -329,7 +329,7 @@ bool d3d_OptimizeSurface(HLTBUFFER hBuffer, PValue transparentColor )
 				}
 				
 				// Create the texture surface.
-				HRESULT hResult = PD3DDEVICE->CreateTexture(pTile->m_nTileWidth, pTile->m_nTileHeight, 1, NULL, pFormat->m_PF, D3DPOOL_MANAGED, &pTile->m_pTexture);
+				HRESULT hResult = PD3DDEVICE->CreateTexture(pTile->m_nTileWidth, pTile->m_nTileHeight, 1, 0, pFormat->m_PF, D3DPOOL_MANAGED, &pTile->m_pTexture);
 				if (hResult != D3D_OK) 
 				{
 					d3d_DestroyTiles(pSurface);

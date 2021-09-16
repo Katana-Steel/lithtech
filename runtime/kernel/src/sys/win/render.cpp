@@ -578,8 +578,10 @@ void r_InitRenderStruct(bool bFullClear)
 {
 	if(bFullClear)
 		memset(&g_Render, 0, sizeof(g_Render));
-	else
-		memset(&g_Render, 0, offsetof(RenderStruct, m_DontClearMarker));
+	else {
+		auto size = (char*)&g_Render.m_DontClearMarker - (char*)&g_Render;
+		memset(&g_Render, 0, size);
+	}
 	
 	g_Render.ProcessAttachment			= r_ProcessAttachment;	
 	g_Render.GetSharedTexture			= r_GetSharedTexture;
