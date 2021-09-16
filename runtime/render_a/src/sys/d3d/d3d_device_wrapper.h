@@ -79,7 +79,7 @@ public:
     HRESULT GetDeviceCaps(D3DCAPS9* pCaps) { return m_pDevice->GetDeviceCaps(pCaps); }
     HRESULT GetDisplayMode(D3DDISPLAYMODE* pMode) { return m_pDevice->GetDisplayMode(0, pMode); }
     HRESULT GetCreationParameters(D3DDEVICE_CREATION_PARAMETERS *pParameters) { return m_pDevice->GetCreationParameters(pParameters); }
-    HRESULT SetCursorProperties(UINT XHotSpot,UINT YHotSpot,IDirect3DSurface9* pCursorBitmap) { m_pDevice->SetCursorProperties(XHotSpot, YHotSpot, pCursorBitmap); }
+    HRESULT SetCursorProperties(UINT XHotSpot,UINT YHotSpot,IDirect3DSurface9* pCursorBitmap) { return m_pDevice->SetCursorProperties(XHotSpot, YHotSpot, pCursorBitmap); }
     void SetCursorPosition(UINT XScreenSpace,UINT YScreenSpace,DWORD Flags) { m_pDevice->SetCursorPosition(XScreenSpace, YScreenSpace, Flags); }
     BOOL ShowCursor(BOOL bShow) { return m_pDevice->ShowCursor(bShow); }
     HRESULT CreateAdditionalSwapChain(D3DPRESENT_PARAMETERS* pPresentationParameters,IDirect3DSwapChain9** pSwapChain) { return m_pDevice->CreateAdditionalSwapChain(pPresentationParameters, pSwapChain); }
