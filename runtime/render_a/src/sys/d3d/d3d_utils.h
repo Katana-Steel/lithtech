@@ -145,7 +145,7 @@ inline void GetVertexFlags_and_Size(VERTEX_BLEND_TYPE VertBlendType, uint32 iVer
 	{
 		// It's a vertex shader only type...
 		iVertSize					= d3d_GetVertexSize(iVertFlags) + iExtraData;
-		iVertFlags					= NULL;
+		iVertFlags					= 0;
 	}
 }
 

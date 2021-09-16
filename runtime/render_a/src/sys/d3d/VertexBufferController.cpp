@@ -49,7 +49,7 @@ bool VertexBufferController::CreateStream(uint32 iStreamNum, int32 nVertexCount,
 
 	assert(m_pVB_VertStream[iStreamNum]==NULL); assert(iStreamNum < VERTEXBUFFER_STREAMCOUNT);
 
-	uint32 iUsage					= (bDynamic ? D3DUSAGE_DYNAMIC : NULL) | (bWriteOnly ? D3DUSAGE_WRITEONLY : NULL) | (bUsagePoints ? D3DUSAGE_POINTS : NULL);
+	uint32 iUsage					= (bDynamic ? D3DUSAGE_DYNAMIC : 0) | (bWriteOnly ? D3DUSAGE_WRITEONLY : 0) | (bUsagePoints ? D3DUSAGE_POINTS : 0);
 	uint32 iVertFlags				= 0;
 	bool   bNonFixPipeData			= false;
 	GetVertexFlags_and_Size(VertBlendType,iVertDataType,iVertFlags,m_VertexSize[iStreamNum],m_UVSets[iStreamNum],bNonFixPipeData);
@@ -79,7 +79,7 @@ bool VertexBufferController::CreateIndexBuffer(int32 iIndexCount, bool bDynamic,
 	assert(m_pVB_Index==NULL); 
 
 	// Create m_pVB_Index...
-	uint32 iUsage					= (bDynamic ? D3DUSAGE_DYNAMIC : NULL) | (bWriteOnly ? D3DUSAGE_WRITEONLY : NULL); 
+	uint32 iUsage					= (bDynamic ? D3DUSAGE_DYNAMIC : 0) | (bWriteOnly ? D3DUSAGE_WRITEONLY : 0); 
 
 	// Check for HW T&L cap...
 	if ((!(g_Device.GetDeviceCaps()->DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT)) || g_CV_ForceSWVertProcess || bForceSWVertProc)
@@ -132,8 +132,8 @@ void VertexBufferController::RenderPoints(uint32 StartVert,uint32 PointCount)
 // Lock the source buffer (pBuffer)...
 bool VertexBufferController::Lock(VB_TYPE Type,bool bDiscardContents,bool bNoOverWrite,uint32 iOffsetToLock_Bytes,uint32 iSizeToLock_Bytes)
 {
-	uint32 uFlags = (bDiscardContents ? D3DLOCK_DISCARD : NULL) | (bNoOverWrite ? D3DLOCK_NOOVERWRITE : NULL); //(bDiscardContents ? D3DLOCK_DISCARD : NULL) | D3DLOCK_NOOVERWRITE;
-	if (!m_bDynamicVB[Type]) uFlags = NULL;														// Can't specify DISCARD OR NOOVERWRITE if it's not Dynamic...
+	uint32 uFlags = (bDiscardContents ? D3DLOCK_DISCARD : 0) | (bNoOverWrite ? D3DLOCK_NOOVERWRITE : 0); //(bDiscardContents ? D3DLOCK_DISCARD : NULL) | D3DLOCK_NOOVERWRITE;
+	if (!m_bDynamicVB[Type]) uFlags = 0;														// Can't specify DISCARD OR NOOVERWRITE if it's not Dynamic...
 
 	switch (Type) {
 	case eVERTSTREAM0 :

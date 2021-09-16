@@ -47,8 +47,8 @@ void CD3DRenderStateMgr::Reset()
 	for (uint32 i = 0; i < MAX_WORLDMATRIX; ++i) D3DMatrixIdentity(&m_World[i]);
 	D3DMatrixIdentity(&m_View);
 	D3DMatrixIdentity(&m_Proj);
-	m_VertexShader				= NULL;
-	m_pBackupRenderStyle		= NULL;
+	m_VertexShader				= 0;
+	m_pBackupRenderStyle		= nullptr;
 
 	for (uint32 l = 0; l < MAX_D3DLIGHTS; ++l) {
 		m_bLightEnable[l]		= false; }
