@@ -9,6 +9,7 @@
 #include "d3d_renderblock.h"
 #include "d3d_device.h"
 #include "d3d_draw.h"
+#include "d3d_texture.h"
 #include "d3d_rendershader_glow.h"
 #include "d3d_rendershader_dynamiclight.h"
 #include "d3d_viewparams.h"
@@ -1193,11 +1194,11 @@ protected:
 				spr_UpdateTracker(&m_pSpriteData[nCurrSpr]->m_SpriteTracker, nDeltaTimeMS);
 				if (m_pSpriteData[nCurrSpr]->m_SpriteTracker.m_pCurFrame)
 				{
-					SetTexture(m_pSpriteData[nCurrSpr]->m_SpriteTracker.m_pCurFrame->m_pTex);
+					this->SetTexture(m_pSpriteData[nCurrSpr]->m_SpriteTracker.m_pCurFrame->m_pTex);
 				}
 				else
 				{
-					SetTexture(LTNULL);
+					this->SetTexture(LTNULL);
 				}
 			}
 		}
