@@ -461,7 +461,7 @@ bool ScmdServer_Impl::HandleLogin( HCLIENT hClient, ILTMessage_Read& msg )
 		return true;
 	}
 
-#pragma message( "FIXFIX:  Need to make the password use a public key, rather than just hash." )
+// #pragma message( "FIXFIX:  Need to make the password use a public key, rather than just hash." )
 
 	// Read the password they sent in.
 	uint32 nHashedPassword = msg.Readuint32( );

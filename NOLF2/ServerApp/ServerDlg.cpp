@@ -1176,7 +1176,7 @@ void CServerDlg::OnShellUpdate( ILTMessage_Read& msg )
 		pPlayerInfo->m_nKills = msg.Readint16( );
 		pPlayerInfo->m_nTags = msg.Readint16( );
 		pPlayerInfo->m_nScore = msg.Readint16( );
-#pragma message("FIXFIX:  Make sure Frags Tags and Score is correct!")
+// #pragma message("FIXFIX:  Make sure Frags Tags and Score is correct!")
 	}
 }
 

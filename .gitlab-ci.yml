@@ -9,7 +9,7 @@ stages:
   - build
   - test
 
-gcc 7:
+gcc 10:
   image: "registry.gitlab.com/katana-steel/lithtech/gcc"
   stage: build
   script:
@@ -24,7 +24,7 @@ gcc 7:
       - build/*/*/lib*
       - build/*/*/*/lib* 
     expire_in: 2 days
-clang 5:
+clang 11:
   image: "registry.gitlab.com/katana-steel/lithtech/clang"
   stage: build
   script:

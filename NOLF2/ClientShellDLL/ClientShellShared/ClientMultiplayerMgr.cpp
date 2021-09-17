@@ -544,7 +544,7 @@ void ClientConnectionMgr::GetCurMessageSource(uint8 aAddr[4], uint16 *pPort)
 
 #ifndef SOURCE_RELEASE
 
-#pragma message( "FIXFIX: Remember to remove sections defined without SOURCE_RELEASE defines" )
+// #pragma message( "FIXFIX: Remember to remove sections defined without SOURCE_RELEASE defines" )
 
 // Global key used for cross-encryption  NOTE: MUST BE SAME AS ON SERVER!!
 #define KEY_MESSER_UPPER 0xDEADFACE
