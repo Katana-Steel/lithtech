@@ -19,9 +19,13 @@ Windows screenshot:
 
 ![nolf2 windows](https://cdn.discordapp.com/attachments/270406768750886912/642060349767680012/nolf2.jpg)
 
-![LT on Linux](https://imgur.com/LOpCNfa.png)
 
 ![debug nolf2 windows](https://cdn.discordapp.com/attachments/270406768750886912/642412574725636167/nolf2_vs.png)
+
+Linux screenshot:
+
+![NOLF2 using dxvk-native](https://i.imgur.com/b1hV8Fb.png)
+![LT on Linux](https://imgur.com/LOpCNfa.png)
 
 Requirements
 ------------
@@ -33,7 +37,31 @@ Requirements
 - SDL2 image
 - SDL2 mixer
 - dx9 sdk (windows only)
+- dxvk-native (linux only)
+- meson (linux for dxvk)
 - ninja (optional)
+
+
+
+building [dxvk-native](https://github.com/Joshua-Ashton/dxvk-native)
+--------------------------------------------------------------------
+
+```bash
+#this will build and install libraries and headers under /usr/local
+git clone https://github.com/Joshua-Ashton/dxvk-native
+cd dxvk-native
+TOP=`pwd`
+meson --buildtype "release" --prefix /usr/local/ -Dbuild_id=false build
+cd build
+sudo ninja install
+LIB_DIR=$(meson introspect --installed | python3 -c 'import sys,json; o = list(json.loads(sys.stdin.read()).values()); print("/".join(o[0].split("/")[:-1]))')
+#install headers
+cd $TOP;
+INC_DIR=/usr/local/include/dxvk-native
+sudo mkdir -p ${INC_DIR}
+sudo cp -rv include/* ${INC_DIR}/
+sed -i -e "/includedir=/ s%.+%includedir=${INC_DIR}%" -e "/libdir=/ s%.+%libdir=${LIB_DIR}%" /usr/share/pkgconfig/dxvk-native.pc
+```
 
 Quick how to get building
 -------------------------
@@ -54,7 +82,7 @@ TODO
     * Replace the usage of MFC with wxWidgets in the tools. (MFC and wxWidgets are close enough that it shouldn't be too painful.)
     * Replace DirectInput and other Windows specific code with SDL.
     * Create a new audio driver based on SDL and/or OpenAL.
-    * Create a new OpenGL or Vulkan renderer.
+    * ~~Create a new OpenGL or Vulkan renderer.~~
 * Long term, it might be cool to bring back something similar to the renderer DLLs that Shogo used. In this version of the engine, the renderer is statically linked to the engine.
 
 Games I want to support and the order to work on them
@@ -70,12 +98,23 @@ These are all the Lithtech I am aware of that had a public source release. If th
 
 Recent Developments
 ===================
+Thanks to Rohit Nirmal for his time in enabling DXVK-native and getting NOLF2 working with
+the retail assets.
+
+The travis-ci builds have become stagnant however I still maintain a mirror on gitlab
+where the pipelines now build and run tests against them in 2 stages, meaning the 
+produced binaries could be downloaded from a successful run.
+
+I've been setting up testing, build env in docker and cleaning up the code
+
+- Katana Steel
+
 After trying things out, I've managed to setup an automated build test with Travis-CI
 from github, and I keep a mirror on gitlab which also automatically builds Lithtech
 engine and and supporting libraries.
 
 On GitLab two builds are happening 1 for gcc and 1 for clang, to get a diversity in
-build tools used. Each are done with a docker build env which has latest stable cmake,
+build tools used. Each are done with a docker build env which has a stable cmake version (currently 3.17.5),
 and up to date GCC and Clang, at the time of writing.
 
 - Katana-Steel
@@ -102,6 +141,7 @@ The RC file is parsed by a python script which generates a single source C++ fil
 
 and generally stubbed out every function/class needed to compile the engine.
 
+DXVK has become a viable DirectX 9 implementation with dxvk-native enabling that will now build LIB_D3DRender.a static lib.
 
 Past work
 =========
@@ -114,4 +154,6 @@ There's a few options to maybe get the entirety of NOLF2 working with this code:
 1. Figure out the difference between formats and rework the engine to support both. (very unlikely)
 2. Locate an old version of Maya or 3ds Max (version 3 or 4 of either) to use the retail game's import plugin for, and then this release's export plugin, to "convert" them to the new format. (haven't been able to find an old Maya or 3ds Max so far)
 3. Recreate the levels from scratch. Really give the entire game a proper remake. (beyond *my* capabilities)
+
+
 
