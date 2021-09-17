@@ -62,7 +62,7 @@ CRenderStyle* D3DRenderStyles::LoadRenderStyle(const char* szFilename)
 					pFileStream->Release(); 
 					string szTmp = "Couldn't Load Renderstyle "; 
 					szTmp += szFilename; szTmp += "\n"; 
-					OutputDebugString("%s", szTmp.c_str()); 
+					OutputDebugString(szTmp.c_str()); 
 					return NULL;
 				} 
 

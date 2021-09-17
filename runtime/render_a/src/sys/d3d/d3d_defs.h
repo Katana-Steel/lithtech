@@ -22,7 +22,7 @@
 #define LPD3DVERTEXBUFFERCUR		LPDIRECT3DVERTEXBUFFER9
 
 #ifdef __LINUX
-#define OutputDebugString printf
+#define OutputDebugString(s) printf("%s", s)
 #endif
 
 #endif
