@@ -352,7 +352,7 @@ void CRenderShader_Gouraud_Texture::PreFlushBlock(CInternalSection &cSection)
 {
 	// Setup texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(1, TSChannel_Base);					
+		cSection.m_pTextureEffect->Install({TSChannel_Base});					
 }
 
 void CRenderShader_Gouraud_Texture::PostFlushBlock(CInternalSection &cSection, 
@@ -378,7 +378,7 @@ void CRenderShader_Gouraud_Texture::PostFlushBlock(CInternalSection &cSection,
 
 	// Clear texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(1, TSChannel_Base);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base});
 }
 
 void CRenderShader_Gouraud_Texture::PostFlush()
@@ -709,7 +709,7 @@ void CRenderShader_Gouraud_Detail::PreFlushBlock(CInternalSection &cSection)
 {
 	// Setup texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(2, TSChannel_Base, TSChannel_Detail);					
+		cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_Detail});					
 }
 
 void CRenderShader_Gouraud_Detail::PostFlushBlock(CInternalSection &cSection, 
@@ -735,7 +735,7 @@ void CRenderShader_Gouraud_Detail::PostFlushBlock(CInternalSection &cSection,
 	}
 
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(2, TSChannel_Base, TSChannel_Detail);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_Detail});
 }
 
 void CRenderShader_Gouraud_Detail::PostFlush()
@@ -1116,7 +1116,7 @@ void CRenderShader_Gouraud_EnvMap::PreFlushBlock(CInternalSection &cSection)
 {
 	// Setup texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(2, TSChannel_Base, TSChannel_EnvMap);
+		cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_EnvMap});
 }
 
 void CRenderShader_Gouraud_EnvMap::PostFlushBlock(CInternalSection &cSection, 
@@ -1143,7 +1143,7 @@ void CRenderShader_Gouraud_EnvMap::PostFlushBlock(CInternalSection &cSection,
 
 	// Clear texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(2, TSChannel_Base, TSChannel_EnvMap);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_EnvMap});
 }
 
 void CRenderShader_Gouraud_EnvMap::PostFlush()
@@ -1547,7 +1547,7 @@ void CRenderShader_Gouraud_EnvBumpMap::PreFlushBlock(CInternalSection &cSection)
 {
 	// Setup texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(3, TSChannel_Base, TSChannel_Null, TSChannel_Base);
+		cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_Null, TSChannel_Base});
 }
 
 void CRenderShader_Gouraud_EnvBumpMap::PostFlushBlock(CInternalSection &cSection, 
@@ -1574,7 +1574,7 @@ void CRenderShader_Gouraud_EnvBumpMap::PostFlushBlock(CInternalSection &cSection
 
 	// Clear texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(3, TSChannel_Base, TSChannel_Null, TSChannel_Base);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_Null, TSChannel_Base});
 }
 
 void CRenderShader_Gouraud_EnvBumpMap::PostFlush()
@@ -1906,7 +1906,7 @@ void CRenderShader_Gouraud_DualTexture::PreFlushBlock(CInternalSection &cSection
 {
 	// Setup texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(2, TSChannel_Base, TSChannel_DualTexture);
+		cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_DualTexture});
 }
 
 void CRenderShader_Gouraud_DualTexture::PostFlushBlock(CInternalSection &cSection, 
@@ -1914,7 +1914,7 @@ void CRenderShader_Gouraud_DualTexture::PostFlushBlock(CInternalSection &cSectio
 		uint32 nStartVertex, uint32 nEndVertex)
 {
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(2, TSChannel_Base, TSChannel_DualTexture);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_DualTexture});
 }
 
 void CRenderShader_Gouraud_DualTexture::PostFlush()
@@ -2274,7 +2274,7 @@ void CRenderShader_Gouraud_DOT3BumpMap::PreFlushBlock(CInternalSection &cSection
 {
 	// Setup texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(1, TSChannel_Base);
+		cSection.m_pTextureEffect->Install({TSChannel_Base});
 }
 
 
@@ -2300,7 +2300,7 @@ void CRenderShader_Gouraud_DOT3BumpMap::PostFlushBlock(CInternalSection &cSectio
 
 	// Clear texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(1, TSChannel_Base);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base});
 }
 
 
@@ -2763,7 +2763,7 @@ void CRenderShader_Gouraud_DOT3EnvBumpMap::PreFlushBlock(CInternalSection &cSect
 {
 	// Setup texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(3, TSChannel_Base, TSChannel_Null, TSChannel_Base );
+		cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_Null, TSChannel_Base} );
 }
 
 void CRenderShader_Gouraud_DOT3EnvBumpMap::PostFlushBlock(CInternalSection &cSection, 
@@ -2790,7 +2790,7 @@ void CRenderShader_Gouraud_DOT3EnvBumpMap::PostFlushBlock(CInternalSection &cSec
 
 	// Clear texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(3, TSChannel_Base, TSChannel_Null, TSChannel_Base );
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_Null, TSChannel_Base} );
 }
 
 void CRenderShader_Gouraud_DOT3EnvBumpMap::PostFlush()
@@ -3023,7 +3023,7 @@ void CRenderShader_Gouraud_Effect::PreFlushBlock(CInternalSection &cSection)
 {
 	// Setup texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(1, TSChannel_Base);					
+		cSection.m_pTextureEffect->Install({TSChannel_Base});					
 }
 
 bool CRenderShader_Gouraud_Effect::FlushWithEffect(CInternalSection &cSection, 
@@ -3157,7 +3157,7 @@ void CRenderShader_Gouraud_Effect::PostFlushBlock(CInternalSection &cSection,
 
 	// Clear texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(1, TSChannel_Base);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base});
 }
 
 void CRenderShader_Gouraud_Effect::PostFlush()

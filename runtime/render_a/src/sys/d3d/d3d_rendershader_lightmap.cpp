@@ -319,7 +319,7 @@ void CRenderShader_Lightmap::PreFlushBlock(CInternalSection &cSection)
 {
 	// Setup texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(1, TSChannel_LightMap);
+		cSection.m_pTextureEffect->Install({TSChannel_LightMap});
 }
 
 void CRenderShader_Lightmap::PostFlushBlock(CInternalSection &cSection,
@@ -327,7 +327,7 @@ void CRenderShader_Lightmap::PostFlushBlock(CInternalSection &cSection,
 		uint32 nStartVertex, uint32 nEndVertex)
 {
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(1, TSChannel_LightMap);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_LightMap});
 }
 
 void CRenderShader_Lightmap::PostFlush()
@@ -541,7 +541,7 @@ void CRenderShader_Lightmap_Texture::FlushChangeSection(CInternalSection &cSecti
 void CRenderShader_Lightmap_Texture::PreFlushBlock(CInternalSection &cSection)
 {
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(1, TSChannel_Base);
+		cSection.m_pTextureEffect->Install({TSChannel_Base});
 }
 
 void CRenderShader_Lightmap_Texture::PostFlushBlock(CInternalSection &cSection,
@@ -567,7 +567,7 @@ void CRenderShader_Lightmap_Texture::PostFlushBlock(CInternalSection &cSection,
 	}
 
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(1, TSChannel_Base);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base});
 }
 
 void CRenderShader_Lightmap_Texture::PostFlush()
@@ -860,7 +860,7 @@ void CRenderShader_Lightmap_Texture_Detail::FlushChangeSection(CInternalSection 
 void CRenderShader_Lightmap_Texture_Detail::PreFlushBlock(CInternalSection &cSection)
 {
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(2, TSChannel_Base, TSChannel_Detail);
+		cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_Detail});
 }
 
 void CRenderShader_Lightmap_Texture_Detail::PostFlushBlock(CInternalSection &cSection,
@@ -886,7 +886,7 @@ void CRenderShader_Lightmap_Texture_Detail::PostFlushBlock(CInternalSection &cSe
 	}
 
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(2, TSChannel_Base, TSChannel_Detail);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_Detail});
 }
 
 void CRenderShader_Lightmap_Texture_Detail::PostFlush()
@@ -1074,7 +1074,7 @@ void CRenderShader_Lightmap_Texture_EnvMap::FlushChangeSection(CInternalSection 
 void CRenderShader_Lightmap_Texture_EnvMap::PreFlushBlock(CInternalSection &cSection)
 {
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(2, TSChannel_Base, TSChannel_EnvMap);
+		cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_EnvMap});
 }
 
 void CRenderShader_Lightmap_Texture_EnvMap::PostFlushBlock(CInternalSection &cSection,
@@ -1100,7 +1100,7 @@ void CRenderShader_Lightmap_Texture_EnvMap::PostFlushBlock(CInternalSection &cSe
 	}
 
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(2, TSChannel_Base, TSChannel_EnvMap);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_EnvMap});
 }
 
 void CRenderShader_Lightmap_Texture_EnvMap::PostFlush()
@@ -1376,7 +1376,7 @@ void CRenderShader_Lightmap_Texture_EnvBumpMap::FlushChangeSection(CInternalSect
 void CRenderShader_Lightmap_Texture_EnvBumpMap::PreFlushBlock(CInternalSection &cSection)
 {
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(3, TSChannel_Base, TSChannel_Null, TSChannel_Base);
+		cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_Null, TSChannel_Base});
 }
 
 void CRenderShader_Lightmap_Texture_EnvBumpMap::PostFlushBlock(CInternalSection &cSection,
@@ -1402,7 +1402,7 @@ void CRenderShader_Lightmap_Texture_EnvBumpMap::PostFlushBlock(CInternalSection 
 	}
 
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(3, TSChannel_Base, TSChannel_Null, TSChannel_Base);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_Null, TSChannel_Base});
 }
 
 void CRenderShader_Lightmap_Texture_EnvBumpMap::PostFlush()
@@ -1604,7 +1604,7 @@ void CRenderShader_Lightmap_Texture_DualTexture::FlushChangeSection(CInternalSec
 void CRenderShader_Lightmap_Texture_DualTexture::PreFlushBlock(CInternalSection &cSection)
 {
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(2, TSChannel_Base, TSChannel_DualTexture);
+		cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_DualTexture});
 }
 
 void CRenderShader_Lightmap_Texture_DualTexture::PostFlushBlock(CInternalSection &cSection,
@@ -1612,7 +1612,7 @@ void CRenderShader_Lightmap_Texture_DualTexture::PostFlushBlock(CInternalSection
 		uint32 nStartVertex, uint32 nEndVertex)
 {
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(2, TSChannel_Base, TSChannel_DualTexture);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_DualTexture});
 }
 
 void CRenderShader_Lightmap_Texture_DualTexture::PostFlush()
@@ -1848,7 +1848,7 @@ void CRenderShader_Lightmap_Texture_DOT3BumpMap::PreFlushBlock(CInternalSection 
 {
 	// Setup texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(1, TSChannel_Base);
+		cSection.m_pTextureEffect->Install({TSChannel_Base});
 }
 
 
@@ -1877,7 +1877,7 @@ void CRenderShader_Lightmap_Texture_DOT3BumpMap::PostFlushBlock(CInternalSection
 
 	// Clear texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(1, TSChannel_Base );
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base} );
 }
 
 
@@ -2188,7 +2188,7 @@ void CRenderShader_Lightmap_Texture_DOT3EnvBumpMap::PreFlushBlock(CInternalSecti
 {
 	// Setup texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(3, TSChannel_Base, TSChannel_Null, TSChannel_Base);
+		cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_Null, TSChannel_Base});
 }
 
 void CRenderShader_Lightmap_Texture_DOT3EnvBumpMap::PostFlushBlock(CInternalSection &cSection, 
@@ -2216,7 +2216,7 @@ void CRenderShader_Lightmap_Texture_DOT3EnvBumpMap::PostFlushBlock(CInternalSect
 
 	// Clear texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Uninstall(3, TSChannel_Base, TSChannel_Null, TSChannel_Base);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_Null, TSChannel_Base});
 }
 
 void CRenderShader_Lightmap_Texture_DOT3EnvBumpMap::PostFlush()

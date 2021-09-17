@@ -595,7 +595,7 @@ protected:
 
 				if(cSection.m_pTextureEffect)
 				{
-					cSection.m_pTextureEffect->Install(1, TSChannel_Base);
+					cSection.m_pTextureEffect->Install({TSChannel_Base});
 				}
 
 				IncFrameStat(eFS_ShaderTris, cSection.m_nTriCount);
@@ -612,7 +612,7 @@ protected:
 
 				if(cSection.m_pTextureEffect)
 				{
-					cSection.m_pTextureEffect->Uninstall(1, TSChannel_Base);
+					cSection.m_pTextureEffect->Uninstall({TSChannel_Base});
 				}
 			}
 

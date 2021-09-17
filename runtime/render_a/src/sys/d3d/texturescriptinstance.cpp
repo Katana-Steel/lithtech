@@ -165,47 +165,39 @@ bool CTextureScriptInstance::Evaluate(bool bForce)
 	return true;
 }
 
+#include <vector>
+#include <algorithm>
 //Installs the matrix into the specified channel with the appropriate flags.
 //If evaluate is true it will (unforcefully) evaluate the matrix
-bool CTextureScriptInstance::Install(uint32 nNumChannels, ...)
+bool CTextureScriptInstance::Install(std::initializer_list<ETextureScriptChannel> scripts)
 {
 	//check the parameters
-	ASSERT(nNumChannels > 0);
+	ASSERT(scripts.size() > 0);
 
-	//build up our channel list
-	nNumChannels = LTMIN(MAX_CHANNELS, nNumChannels);
-
-	ETextureScriptChannel ChannelList[MAX_CHANNELS];
-	va_list vl;
-	va_start(vl, nNumChannels);
-
-	for(uint32 nCurrChannel = 0; nCurrChannel < nNumChannels; nCurrChannel++)
-	{
-		ChannelList[nCurrChannel] = (ETextureScriptChannel)va_arg(vl, ETextureScriptChannel);
-	}
-	va_end(vl);
-
+	std::vector<ETextureScriptChannel> ChannelList{scripts};
 
 	//evaluate our matrices
 	if(!Evaluate())
 		return false;
 
-	//now setup for all stages
-	for(uint32 nCurrStage = 0; nCurrStage < NUM_STAGES; nCurrStage++)
+	//now setup for all stages and get the stage
+	for (auto &stage: m_Stages)
 	{
-		//get the stage
-		CTextureScriptInstanceStage* pStage = &m_Stages[nCurrStage];
-
 		//just keep on moving if it isn't valid
-		if(!pStage->m_bValid)
+		if(!stage.m_bValid)
+			continue;
+
+		//see if the channel this maps to is valid
+		auto idx = std::find(ChannelList.begin(), ChannelList.end(), stage.m_eChannel);
+		if(idx == ChannelList.end())
 			continue;
 
 		//determine the override
-		CTextureScriptInstanceStage* pOverride = (pStage->m_pOverride) ? pStage->m_pOverride : pStage;
+		CTextureScriptInstanceStage* pOverride = (stage.m_pOverride) ? stage.m_pOverride : &stage;
 
 		//make sure that the override stage is valid
 		ASSERT(pOverride->m_bValid);
-		ASSERT(pOverride->m_pOverride == NULL);
+		ASSERT(pOverride->m_pOverride == nullptr);
 
 		//determine the input parameter type
 		uint32 nInput;
@@ -243,7 +235,7 @@ bool CTextureScriptInstance::Install(uint32 nNumChannels, ...)
 		if(nEvalFlags & ITextureScriptEvaluator::FLAG_PROJECTED)
 			nTTF |= D3DTTFF_PROJECTED;
 
-		LTMatrix& mSrcMat = pStage->m_mTransform;
+		LTMatrix& mSrcMat = stage.m_mTransform;
 
 		//convert our matrix to a D3D matrix (our source transposed)
 		D3DMATRIX mMat = { mSrcMat.m[0][0], mSrcMat.m[1][0], mSrcMat.m[2][0], mSrcMat.m[3][0],
@@ -251,16 +243,11 @@ bool CTextureScriptInstance::Install(uint32 nNumChannels, ...)
 							mSrcMat.m[0][2], mSrcMat.m[1][2], mSrcMat.m[2][2], mSrcMat.m[3][2],
 							mSrcMat.m[0][3], mSrcMat.m[1][3], mSrcMat.m[2][3], mSrcMat.m[3][3] };
 
-		//see if the channel this maps to is valid
-		for(uint32 nChannel = 0; nChannel < nNumChannels; nChannel++)
-		{
-			//see if this channel matches
-			if(ChannelList[nChannel] == pStage->m_eChannel)
-			{
-				//found a match, so lets go ahead and update it
+		for (uint32 nChannel=0; nChannel < ChannelList.size(); nChannel++)
+			if(stage.m_eChannel == ChannelList.at(nChannel)) {//found a match, so lets go ahead and update it
 				D3D_CALL(PD3DDEVICE->SetTextureStageState(nChannel, D3DTSS_TEXTURETRANSFORMFLAGS, nTTF));
 				D3D_CALL(PD3DDEVICE->SetTransform((D3DTRANSFORMSTATETYPE)(D3DTS_TEXTURE0 + nChannel), &mMat));
-				if( (nInput == D3DTSS_TCI_PASSTHRU) && (pStage->m_eChannel == TSChannel_DualTexture || pStage->m_eChannel == TSChannel_Detail) )
+				if( (nInput == D3DTSS_TCI_PASSTHRU) && (stage.m_eChannel == TSChannel_DualTexture || stage.m_eChannel == TSChannel_Detail) )
 				{
 					D3D_CALL(PD3DDEVICE->SetTextureStageState(nChannel, D3DTSS_TEXCOORDINDEX, nInput|1));
 				}
@@ -269,52 +256,37 @@ bool CTextureScriptInstance::Install(uint32 nNumChannels, ...)
 					D3D_CALL(PD3DDEVICE->SetTextureStageState(nChannel, D3DTSS_TEXCOORDINDEX, nInput));
 				}
 			}
-		}
 	}
 
 	return true;
 }
 
 //disables all transforms that were set
-bool CTextureScriptInstance::Uninstall(uint32 nNumChannels, ...)
+bool CTextureScriptInstance::Uninstall(std::initializer_list<ETextureScriptChannel> scripts)
 {
 	//check the parameters
-	ASSERT(nNumChannels > 0);
+	ASSERT(scripts.size() > 0);
 
-	//build up our channel list
-	nNumChannels = LTMIN(MAX_CHANNELS, nNumChannels);
+	std::vector<ETextureScriptChannel> ChannelList{scripts};
 
-	ETextureScriptChannel ChannelList[MAX_CHANNELS];
-	va_list vl;
-	va_start(vl, nNumChannels);
-
-	for(uint32 nCurrChannel = 0; nCurrChannel < nNumChannels; nCurrChannel++)
+	//now setup for all stages and get the stage
+	for (auto& stage: m_Stages)
 	{
-		ChannelList[nCurrChannel] = (ETextureScriptChannel)va_arg(vl, ETextureScriptChannel);
-	}
-	va_end(vl);
-
-	//now setup for all stages
-	for(uint32 nCurrStage = 0; nCurrStage < NUM_STAGES; nCurrStage++)
-	{
-		//get the stage
-		CTextureScriptInstanceStage* pStage = &m_Stages[nCurrStage];
-
 		//just keep on moving if it isn't valid
-		if(!pStage->m_bValid)
+		if(!stage.m_bValid)
 			continue;
 
 		//see if the channel this maps to is valid
-		for(uint32 nChannel = 0; nChannel < nNumChannels; nChannel++)
-		{
-			//see if this channel matches
-			if(ChannelList[nChannel] == pStage->m_eChannel)
-			{
+		auto idx = std::find(ChannelList.begin(),ChannelList.end(), stage.m_eChannel);
+		if(idx == ChannelList.end())
+			continue;
+
+		for (uint32 nChannel=0; nChannel < ChannelList.size(); nChannel++)
+			if(stage.m_eChannel == ChannelList.at(nChannel)) {//found a match, so lets go ahead and update it
 				//found a match
 				D3D_CALL(PD3DDEVICE->SetTextureStageState(nChannel, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE));
 				D3D_CALL(PD3DDEVICE->SetTextureStageState(nChannel, D3DTSS_TEXCOORDINDEX, D3DTSS_TCI_PASSTHRU | nChannel));
 			}
-		}
 	}
 	return true;
 }

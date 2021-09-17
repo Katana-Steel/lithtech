@@ -124,7 +124,7 @@ void CRenderShader_Gouraud_Texture_Fullbright::DrawNormal(const DrawState &cStat
 				d3d_SetTexture(cSection.m_pTexture, 0, eFS_WorldBaseTexMemory);
 
 				if(cSection.m_pTextureEffect)
-					cSection.m_pTextureEffect->Install(1, TSChannel_Base);
+					cSection.m_pTextureEffect->Install({TSChannel_Base});
 
 				// Draw it
 				PD3DDEVICE->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 
@@ -149,7 +149,7 @@ void CRenderShader_Gouraud_Texture_Fullbright::DrawNormal(const DrawState &cStat
 				PD3DDEVICE->SetRenderState(D3DRS_DESTBLEND, (g_CV_Saturate) ? D3DBLEND_SRCCOLOR : D3DBLEND_ZERO);
 
 				if(cSection.m_pTextureEffect)
-					cSection.m_pTextureEffect->Uninstall(1, TSChannel_Base);
+					cSection.m_pTextureEffect->Uninstall({TSChannel_Base});
 
 				d3d_DisableTexture(0);
 			}
@@ -207,7 +207,7 @@ void CRenderShader_Gouraud_Texture_Fullbright::PreFlushBlock(CInternalSection &c
 {
 	// Setup texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(2, TSChannel_Base, TSChannel_Base);
+		cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_Base});
 }
 
 void CRenderShader_Gouraud_Texture_Fullbright::PostFlushBlock(CInternalSection &cSection, 
@@ -217,7 +217,7 @@ void CRenderShader_Gouraud_Texture_Fullbright::PostFlushBlock(CInternalSection &
 	// Clear texture effects
 	if (cSection.m_pTextureEffect)
 	{
-		cSection.m_pTextureEffect->Uninstall(2, TSChannel_Base, TSChannel_Base);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_Base});
 
 		//we also have to reset our odd texture referencing since the script will set it back to the
 		//default value
@@ -373,7 +373,7 @@ void CRenderShader_Gouraud_Detail_Fullbright::DrawNormal(const DrawState &cState
 				d3d_SetTexture(cSection.m_pTexture->GetLinkedTexture(eLinkedTex_Detail), 1, eFS_WorldDetailTexMemory);
 
 				if (cSection.m_pTextureEffect)
-					cSection.m_pTextureEffect->Install(2, TSChannel_Base, TSChannel_Detail);
+					cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_Detail});
 
 				// Draw it
 				PD3DDEVICE->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 
@@ -402,7 +402,7 @@ void CRenderShader_Gouraud_Detail_Fullbright::DrawNormal(const DrawState &cState
 				}
 
 				if (cSection.m_pTextureEffect)
-					cSection.m_pTextureEffect->Uninstall(2, TSChannel_Base, TSChannel_Detail);
+					cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_Detail});
 
 				d3d_DisableTexture(0);
 				d3d_DisableTexture(1);
@@ -474,7 +474,7 @@ void CRenderShader_Gouraud_Detail_Fullbright::PreFlushBlock(CInternalSection &cS
 {
 	// Setup texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(4, TSChannel_Base, TSChannel_Detail, TSChannel_Null, TSChannel_Base);
+		cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_Detail, TSChannel_Null, TSChannel_Base});
 }
 
 void CRenderShader_Gouraud_Detail_Fullbright::PostFlushBlock(CInternalSection &cSection, 
@@ -484,7 +484,7 @@ void CRenderShader_Gouraud_Detail_Fullbright::PostFlushBlock(CInternalSection &c
 	// Clear texture effects
 	if (cSection.m_pTextureEffect)
 	{
-		cSection.m_pTextureEffect->Uninstall(4, TSChannel_Base, TSChannel_Detail, TSChannel_Null, TSChannel_Base);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_Detail, TSChannel_Null, TSChannel_Base});
 
 		//we also have to reset our odd texture referencing since the script will set it back to the
 		//default value
@@ -660,7 +660,7 @@ void CRenderShader_Gouraud_EnvMap_Fullbright::DrawNormal(const DrawState &cState
 				d3d_SetTexture(cSection.m_pTexture->GetLinkedTexture(eLinkedTex_EnvMap), 1, eFS_WorldEnvMapTexMemory);
 
 				if (cSection.m_pTextureEffect)
-					cSection.m_pTextureEffect->Install(2, TSChannel_Base, TSChannel_EnvMap);
+					cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_EnvMap});
 
 				// Draw it
 				PD3DDEVICE->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 
@@ -689,7 +689,7 @@ void CRenderShader_Gouraud_EnvMap_Fullbright::DrawNormal(const DrawState &cState
 				}
 
 				if (cSection.m_pTextureEffect)
-					cSection.m_pTextureEffect->Uninstall(2, TSChannel_Base, TSChannel_EnvMap);
+					cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_EnvMap});
 
 				d3d_DisableTexture(0);
 				d3d_DisableTexture(1);
@@ -774,7 +774,7 @@ void CRenderShader_Gouraud_EnvMap_Fullbright::PreFlushBlock(CInternalSection &cS
 {
 	// Setup texture effects
 	if (cSection.m_pTextureEffect)
-		cSection.m_pTextureEffect->Install(4, TSChannel_Base, TSChannel_EnvMap, TSChannel_Null, TSChannel_Base);
+		cSection.m_pTextureEffect->Install({TSChannel_Base, TSChannel_EnvMap, TSChannel_Null, TSChannel_Base});
 }
 
 void CRenderShader_Gouraud_EnvMap_Fullbright::PostFlushBlock(CInternalSection &cSection, 
@@ -784,7 +784,7 @@ void CRenderShader_Gouraud_EnvMap_Fullbright::PostFlushBlock(CInternalSection &c
 	// Clear texture effects
 	if (cSection.m_pTextureEffect)
 	{
-		cSection.m_pTextureEffect->Uninstall(4, TSChannel_Base, TSChannel_EnvMap, TSChannel_Null, TSChannel_Base);
+		cSection.m_pTextureEffect->Uninstall({TSChannel_Base, TSChannel_EnvMap, TSChannel_Null, TSChannel_Base});
 
 		//we also have to reset our odd texture referencing since the script will set it back to the
 		//default value

@@ -42,7 +42,7 @@ void CRenderShader_Glow::DrawGlow(SharedTexture* pTexture, CTextureScriptInstanc
 
 	//setup the texture script if appropriate
 	if(pTexEffect)
-		pTexEffect->Install(1, eChannel);
+		pTexEffect->Install({eChannel});
 
 	//now render away
 	PD3DDEVICE->DrawIndexedPrimitive(	D3DPT_TRIANGLELIST, 
@@ -51,7 +51,7 @@ void CRenderShader_Glow::DrawGlow(SharedTexture* pTexture, CTextureScriptInstanc
 
 	//remove the texture script
 	if(pTexEffect)
-		pTexEffect->Uninstall(1, eChannel);
+		pTexEffect->Uninstall({eChannel});
 
 	//try to not leak
 	d3d_DisableTexture(0);

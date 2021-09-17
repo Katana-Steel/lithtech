@@ -54,7 +54,7 @@ public:
 	CTextureScriptInstanceStage* m_pOverride;
 };
 
-
+#include <initializer_list>
 class CTextureScriptInstance
 {
 public:
@@ -70,10 +70,11 @@ public:
 	//parameters indicate how many channels are being used, and the variable list
 	//is N elements, each describing the type of texture that the channel represents
 	// (the ETextureScriptChannel enum)
-	bool	Install(uint32 nNumChannels, ...);
+
+	bool	Install(std::initializer_list<enum ETextureScriptChannel> scripts);
 
 	//disables all transforms
-	bool	Uninstall(uint32 nNumChannels, ...);
+	bool	Uninstall(std::initializer_list<enum ETextureScriptChannel> scripts);
 
 	//reference counting functionality
 	void	AddRef()			{ m_nRefCount++; }
