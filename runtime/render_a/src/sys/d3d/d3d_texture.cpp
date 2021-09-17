@@ -327,7 +327,7 @@ bool CTextureManager::ConvertTexDataToDD(uint8* pSrcData, PFormat* SrcFormat, ui
 
 	// Create a quick little surface to convert into....
 	LPDIRECT3DSURFACE9 pD3DDstSurface = nullptr; LPDIRECT3DTEXTURE9 pD3DDstTexture = nullptr;
-	HRESULT hResult = PD3DDEVICE->CreateTexture(DstWidth,DstHeight,1,nullptr,D3DDstFormat,D3DPOOL_SYSTEMMEM,&pD3DDstTexture);
+	HRESULT hResult = PD3DDEVICE->CreateTexture(DstWidth,DstHeight,1,0,D3DDstFormat,D3DPOOL_SYSTEMMEM,&pD3DDstTexture);
 	if (hResult != D3D_OK || !pD3DDstTexture)
 		return false;
 
