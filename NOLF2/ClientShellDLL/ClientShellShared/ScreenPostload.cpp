@@ -443,7 +443,11 @@ void CScreenPostload::OnFocus(LTBOOL bFocus)
 
 		}
 
-		nFontSize = (uint8)((float)HelpFontSize * g_pInterfaceResMgr->GetYRatio());
+		float yratio = g_pInterfaceResMgr->GetYRatio();
+#ifdef _LINUX
+		yratio *= 0.8f;
+#endif
+		nFontSize = (uint8)((float)HelpFontSize * yratio);
 		pFont = g_pInterfaceResMgr->GetFont(HelpFont);
 
 		if (!m_pHelpStr)
