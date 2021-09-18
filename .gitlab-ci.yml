@@ -9,6 +9,7 @@ stages:
   - build
   - test
 
+
 gcc 10:
   image: "registry.gitlab.com/katana-steel/lithtech/gcc"
   stage: build
@@ -18,6 +19,23 @@ gcc 10:
     - cd build
     - cmake -G Ninja -DJSON_BuildTests=off ..
     - cmake --build .
+  artifacts:
+    paths:
+      - build/OUT
+      - build/*/*/lib*
+      - build/*/*/*/lib* 
+    expire_in: 2 days
+gcc 10 no dxvk:
+  image: "registry.gitlab.com/katana-steel/lithtech/gcc"
+  stage: build
+  script:
+    - g++ --version
+    - rm -f /usr/share/pkgconfig/dxvk*
+    - mkdir build
+    - cd build
+    - cmake -G Ninja -DJSON_BuildTests=off ..
+    - cmake --build .
+  allow_failure: true 
   artifacts:
     paths:
       - build/OUT
