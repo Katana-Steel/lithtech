@@ -334,6 +334,9 @@ uint32 CScreenMain::OnCommand(uint32 dwCommand, uint32 dwParam1, uint32 dwParam2
 			g_pInterfaceMgr->ShowDemoScreens(LTTRUE);
 #else
             g_pLTClient->Shutdown();
+			SDL_Event evt;
+			evt.quit = {SDL_QUIT, SDL_GetTicks()};
+			SDL_PushEvent(&evt);
 #endif
 			break;
 		}
