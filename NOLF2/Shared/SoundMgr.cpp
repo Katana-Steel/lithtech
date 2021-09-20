@@ -306,10 +306,11 @@ uint32 CGameSoundMgr::GetSoundIdFromFilename(const char* pSoundFile)
 	{
 		int nStrLen = (int)strlen(pStr);
 
-		char buf[255];
+		char *buf = new char[255];
 		strncpy(buf, pStr, nStrLen - 4);
 
 		nId = atol(buf);
+		delete [] buf;
 	}
 
 	return nId;
