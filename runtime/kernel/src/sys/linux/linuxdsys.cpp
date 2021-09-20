@@ -194,7 +194,7 @@ void dsi_ServerSleep(uint32 ms)
 
 extern int32 g_ScreenWidth, g_ScreenHeight;	// Console variables.
 
-static void dsi_GetDLLModes(char *pDLLName, RMode **pMyList)
+static void dsi_GetDLLModes(const char *pDLLName, RMode **pMyList)
 {
 	RMode *pMyMode;
 	RMode *pListHead, *pCur;
@@ -227,6 +227,14 @@ RMode* dsi_GetRenderModes()
 
 void dsi_RelinquishRenderModes(RMode *pMode)
 {
+    RMode *pCur = pMode;
+    RMode *pNext = nullptr;
+    while (pCur)
+    {
+        pNext = pCur->m_pNext;
+        dfree(pCur);
+        pCur = pNext;
+    }
 }
 
 LTRESULT dsi_GetRenderMode(RMode *pMode)
