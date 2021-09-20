@@ -1,4 +1,4 @@
-Travis[![Build Status](https://travis-ci.com/Katana-Steel/lithtech.svg?branch=linux-x86_64)](https://travis-ci.org/Katana-Steel/lithtech)
+Github![Build Status](https://github.com/Katana-Steel/lithtech/actions/workflows/cmake.yml/badge.svg)]
 GL[![pipeline status](https://gitlab.com/Katana-Steel/lithtech/badges/linux-x86_64/pipeline.svg)](https://gitlab.com/Katana-Steel/lithtech/pipelines)
 
 lithtech
