@@ -626,12 +626,32 @@ uint32 dsi_GetKeyUp(uint32 i) {
     return g_ClientGlob.m_KeyUps[i];
 }
 
+int dsi_GetSDLDown(uint32 i)
+{
+	return g_ClientGlob.m_SDLDowns[i];
+}
+
+int dsi_GetSDLUp(uint32 i)
+{
+	return g_ClientGlob.m_SDLUps[i];
+}
+
 void dsi_ClearKeyDowns() {
+	size_t i;
     g_ClientGlob.m_nKeyDowns=0;
+	for (i = 0; i < SDL_NUM_SCANCODES; i++)
+	{
+		g_ClientGlob.m_SDLDowns[i] = 0;
+	}
 }
 
 void dsi_ClearKeyUps() {
-    g_ClientGlob.m_nKeyUps=0;
+	size_t i;
+	g_ClientGlob.m_nKeyUps=0;
+	for (i = 0; i < SDL_NUM_SCANCODES; i++)
+	{
+		g_ClientGlob.m_SDLUps[i] = 0;
+	}
 }
 
 void dsi_ClearKeyMessages() {

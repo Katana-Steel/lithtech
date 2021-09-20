@@ -95,6 +95,8 @@ uint16 dsi_NumKeyUps();
 uint32 dsi_GetKeyDown(uint32 i);
 uint32 dsi_GetKeyDownRep(uint32 i);
 uint32 dsi_GetKeyUp(uint32 i);
+int dsi_GetSDLDown(uint32 i);
+int dsi_GetSDLUp(uint32 i);
 void dsi_ClearKeyDowns();
 void dsi_ClearKeyUps();
 void dsi_ClearKeyMessages();
@@ -174,7 +176,9 @@ class ClientGlob {
 
     uint32          m_KeyDowns[MAX_KEYBUFFER];
     uint32          m_KeyUps[MAX_KEYBUFFER];
-    SDL_Keycode		m_SDLDowns[SDL_NUM_SCANCODES];
+    int				m_SDLDowns[SDL_NUM_SCANCODES]; //sent to CClientMgr::ForwardMessagesToScript
+    int				m_SDLUps[SDL_NUM_SCANCODES]; ////sent to CClientMgr::ForwardMessagesToScript
+    int				m_SDLInputs[SDL_NUM_SCANCODES]; //sent to CClientMgr::ProcessAllInput
     int				m_mousedown[2];
     int				m_mouserel[2];
     int				m_mousewheel;

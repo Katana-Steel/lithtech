@@ -1163,7 +1163,7 @@ void CInterfaceMgr::UpdateLoadingLevelState()
 			ChangeState(GS_PLAYING);
 		}
 	}
-	else if ((m_bLoadFailed) || (g_pLTClient->IsConnected() && IsKeyDown(VK_ESCAPE)))
+	else if ((m_bLoadFailed) || (g_pLTClient->IsConnected() && IsKeyDown(SDLK_ESCAPE)))
 	{
 		m_bLoadFailed = LTFALSE;
 		m_LoadingScreen.Hide();
@@ -2928,7 +2928,7 @@ LTBOOL CInterfaceMgr::OnKeyDown(int key, int rep)
 
 			switch (key)
 			{
-				case VK_PAUSE:
+				case SDLK_PAUSE:
 				{
 					if (IsMultiplayerGame()) return LTFALSE;
 
@@ -2943,7 +2943,7 @@ LTBOOL CInterfaceMgr::OnKeyDown(int key, int rep)
 				break;
 
 				// Escape Key Handling
-				case VK_ESCAPE:
+				case SDLK_ESCAPE:
 				{
 					bool bHandled = false;
 					if (!g_pPlayerMgr->IsPlayerDead() && g_pPlayerMgr->IsPlayerInWorld())

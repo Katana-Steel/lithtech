@@ -149,20 +149,24 @@ LTRESULT CClientMgr::ProcessError(LTRESULT theError) {
 
 void CClientMgr::ForwardMessagesToScript()
 {
-    int i;
+	int i;
 
-    if (i_client_shell != NULL) {
-        for (i=0; i < dsi_NumKeyDowns(); i++) {
-            i_client_shell->OnKeyDown(dsi_GetKeyDown(i), dsi_GetKeyDownRep(i));
-        }
-
-        for (i=0; i < dsi_NumKeyUps(); i++) {
-            i_client_shell->OnKeyUp(dsi_GetKeyUp(i));
-        }
-
-        dsi_ClearKeyDowns();
-        dsi_ClearKeyUps();
-    }
+	if (i_client_shell != NULL)
+	{
+		for (i=0; i < SDL_NUM_SCANCODES; i++)
+		{
+			if (dsi_GetSDLDown(i))
+			{
+				i_client_shell->OnKeyDown(SDL_GetKeyFromScancode((SDL_Scancode)i), 0);
+			}
+			if (dsi_GetSDLUp(i))
+			{
+				i_client_shell->OnKeyUp(SDL_GetKeyFromScancode((SDL_Scancode)i));
+			}
+		}
+		dsi_ClearKeyDowns();
+		dsi_ClearKeyUps();
+	}
 }
 
 

@@ -70,11 +70,11 @@
 #define WEAPON_MOVE_INC_VALUE_SLOW		0.0025f
 #define WEAPON_MOVE_INC_VALUE_FAST		0.005f
 
-#define VK_TOGGLE_GHOST_MODE			VK_F1
-#define VK_TOGGLE_SPECTATOR_MODE		VK_F2
-#define VK_TOGGLE_SCREENSHOTMODE		VK_F3
-#define VK_WRITE_CAM_POS				VK_F4
-#define VK_MAKE_CUBIC_ENVMAP			VK_F12
+#define VK_TOGGLE_GHOST_MODE			SDLK_F1
+#define VK_TOGGLE_SPECTATOR_MODE		SDLK_F2
+#define VK_TOGGLE_SCREENSHOTMODE		SDLK_F3
+#define VK_WRITE_CAM_POS				SDLK_F4
+#define VK_MAKE_CUBIC_ENVMAP			SDLK_F12
 
 	
 uint32              g_dwSpecial         = 2342349;
@@ -2070,18 +2070,15 @@ void CGameClientShell::OnKeyDown(int key, int rep)
 	// [RP] - 8/03/02: WinXP likes to add a second OnKeyDown() message with an invalid key of 255
 	//		  for certain single key presses.  Just ignore invalid key codes 255 and larger.
 
-	if( key >= 0xFF )
-		return;
-
-	// The engine handles the VK_F8 key for screenshots.
-	if( key == VK_F8 )
+	// The engine handles the F8 key for screenshots.
+	if( key == SDLK_F8 )
 		return;
 
 	//if we are performance testing...
 	if (IsRunningPerformanceTest())
 	{
 		//allow abort...
-		if (key == VK_ESCAPE)
+		if (key == SDLK_ESCAPE)
 			AbortPerformanceTest();
 
 		//but don't process anything else
@@ -2165,7 +2162,7 @@ void CGameClientShell::OnKeyDown(int key, int rep)
 	// Allow quickload from anywhere, anytime.
 	// jrg - 8/31/02 - well, almost anywhere and almost anytime, except...
 	GameState eGameState = g_pInterfaceMgr->GetGameState();
-	if	( key == VK_F9 && 
+	if	( key == SDLK_F9 &&
 			(	GS_PLAYING == eGameState ||
 				GS_SCREEN == eGameState ||
 				GS_POPUP == eGameState ||
@@ -2208,7 +2205,7 @@ void CGameClientShell::OnKeyDown(int key, int rep)
 		}
 		return;
 	}
-	else if( key == VK_F6 )
+	else if( key == SDLK_F6 )
 	{
 		// Only allow quicksave if we're in a world and not a remote client.
 		if( GetPlayerMgr()->IsPlayerInWorld() && !g_pClientMultiplayerMgr->IsConnectedToRemoteServer( ))
@@ -2248,8 +2245,8 @@ void CGameClientShell::OnKeyDown(int key, int rep)
 // ----------------------------------------------------------------------- //
 void CGameClientShell::OnKeyUp(int key)
 {
-	// The engine handles the VK_F8 key for screenshots.
-	if( key == VK_F8 )
+	// The engine handles the F8 key for screenshots.
+	if( key == SDLK_F8 )
 		return;
 
 	if (IsRunningPerformanceTest())

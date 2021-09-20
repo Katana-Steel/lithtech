@@ -812,6 +812,7 @@ void client_input(SDL_Event e)
 		vkey = sdl2_keycode_to_vkey(e.key.keysym.sym);
 		scancode = SDL_GetScancodeFromKey(e.key.keysym.sym);
 		g_ClientGlob.m_SDLDowns[scancode] = 1;
+		g_ClientGlob.m_SDLInputs[scancode] = 1;
 
 		if (g_ClientGlob.m_nKeyDowns < MAX_KEYBUFFER)
 		{
@@ -823,7 +824,9 @@ void client_input(SDL_Event e)
 	else if( e.type == SDL_KEYUP )
 	{
 		scancode = SDL_GetScancodeFromKey(e.key.keysym.sym);
-		g_ClientGlob.m_SDLDowns[scancode] = 0;
+		g_ClientGlob.m_SDLUps[scancode] = 1;
+		g_ClientGlob.m_SDLInputs[scancode] = 0;
+
 		if (g_ClientGlob.m_nKeyUps < MAX_KEYBUFFER)
 		{
 			vkey = sdl2_keycode_to_vkey(e.key.keysym.sym);
@@ -1087,7 +1090,7 @@ void CClientMgr::ProcessAllInput(bool bForceClear) {
     pCurSlot = m_Commands[!m_iCurInputSlot];
 
 	memset(pCurSlot, 0, MAX_CLIENT_COMMANDS);
-	m_InputMgr->ReadInput(m_InputMgr, pCurSlot, m_AxisOffsets, (void*)g_ClientGlob.m_SDLDowns, g_ClientGlob.m_mousedown, g_ClientGlob.m_mouserel, g_ClientGlob.m_mousewheel);
+	m_InputMgr->ReadInput(m_InputMgr, pCurSlot, m_AxisOffsets, (void*)g_ClientGlob.m_SDLInputs, g_ClientGlob.m_mousedown, g_ClientGlob.m_mouserel, g_ClientGlob.m_mousewheel);
 
     if (!m_bInputState || (bForceClear || dsi_IsConsoleUp()))
     {
