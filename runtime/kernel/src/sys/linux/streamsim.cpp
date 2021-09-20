@@ -16,10 +16,8 @@ class SSFile : public CGenLTStream
 {
 public:
 
-			SSFile()
+			SSFile(FILE *fp) : m_pFile(fp), m_bError(LTFALSE)
 			{
-				m_bError = LTFALSE;
-				m_pFile = LTNULL;
 			}
 
 			~SSFile()
@@ -137,7 +135,7 @@ public:
 		fseek(m_pFile, curPos, SEEK_SET);
 		return LT_OK;
 	}
-
+private:
 	FILE	*m_pFile;
 	LTBOOL	m_bError;
 };
@@ -401,21 +399,16 @@ return LT_OK;      // DAN - temporary
 
 ILTStream* streamsim_Open(const char *pFilename, const char *pAccess)
 {
-	/*
 	FILE *fp;
 	SSFile *pFile;
 
 	fp = fopen(pFilename, pAccess);
 	if(!fp)
-		return 0;
+		return nullptr;
 
-	LT_MEM_TRACK_ALLOC(pFile = new SSFile,LT_MEM_TYPE_MISC);
-	if(pFile)
-		pFile->m_pFile = fp;
+	LT_MEM_TRACK_ALLOC(pFile = new SSFile(fp),LT_MEM_TYPE_MISC);
 
 	return pFile;
-	*/
-return NULL;      // DAN - temporary
 }
 
 
