@@ -196,12 +196,33 @@ extern int32 g_ScreenWidth, g_ScreenHeight;	// Console variables.
 
 static void dsi_GetDLLModes(char *pDLLName, RMode **pMyList)
 {
+	RMode *pMyMode;
+	RMode *pListHead, *pCur;
+
+	pListHead = rdll_GetSupportedModes();
+
+	// Copy the mode list.
+	pCur = pListHead;
+	while (pCur)
+	{
+		LT_MEM_TRACK_ALLOC(pMyMode = (RMode*)dalloc(sizeof(RMode)),LT_MEM_TYPE_MISC);
+		memcpy(pMyMode, pCur, sizeof(RMode));
+
+		pMyMode->m_pNext = *pMyList;
+		*pMyList = pMyMode;
+
+		pCur = pCur->m_pNext;
+	}
+
+	rdll_FreeModeList(pListHead);
 }
 
 
 RMode* dsi_GetRenderModes()
 {
-return NULL;      // DAN - temporary
+	RMode *pList = LTNULL;
+	dsi_GetDLLModes("integrated", &pList);
+	return pList;
 }
 
 void dsi_RelinquishRenderModes(RMode *pMode)
@@ -215,9 +236,9 @@ LTRESULT dsi_GetRenderMode(RMode *pMode)
     pMode->m_Height = g_ScreenHeight;
     pMode->m_Description[0] = 0;
     pMode->m_InternalName[0] = 0;
-    pMode->m_bHWTnL = false;
+    pMode->m_bHWTnL = true;
     pMode->m_pNext = nullptr;
-    return LTTRUE;      // DAN - temporary
+    return LT_OK;
 }
 
 LTRESULT dsi_SetRenderMode(RMode *pMode, const char *pName)
