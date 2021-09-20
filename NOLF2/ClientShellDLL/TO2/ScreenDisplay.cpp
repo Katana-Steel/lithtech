@@ -406,14 +406,21 @@ RMode CScreenDisplay::GetRendererModeStruct(int nResolutionIndex)
 	RMode mode;
 	mode.m_bHWTnL = m_rendererData.m_bHWTnL;
 
-	SAFE_STRCPY(mode.m_InternalName, m_rendererData.m_internalName);
-	SAFE_STRCPY(mode.m_Description, m_rendererData.m_description);
+	if (nResolutionIndex < m_rendererData.m_resolutionArray.GetSize()) {
+		SAFE_STRCPY(mode.m_InternalName, m_rendererData.m_internalName);
+		SAFE_STRCPY(mode.m_Description, m_rendererData.m_description);
+		ScreenDisplayResolution resolution=m_rendererData.m_resolutionArray[nResolutionIndex];
+		mode.m_Width=resolution.m_dwWidth;
+		mode.m_Height=resolution.m_dwHeight;
+		mode.m_BitDepth=resolution.m_dwBitDepth;
+	} else {
+		SAFE_STRCPY(mode.m_InternalName, "640x480x32");
+		SAFE_STRCPY(mode.m_Description, "Minimal 640x480");
+		mode.m_Width=640;
+		mode.m_Height=480;
+		mode.m_BitDepth=32;
 
-	ScreenDisplayResolution resolution=m_rendererData.m_resolutionArray[nResolutionIndex];
-	mode.m_Width=resolution.m_dwWidth;
-	mode.m_Height=resolution.m_dwHeight;
-	mode.m_BitDepth=resolution.m_dwBitDepth;
-
+	}
     mode.m_pNext=LTNULL;
 
 	return mode;
