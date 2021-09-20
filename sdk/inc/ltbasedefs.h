@@ -70,7 +70,7 @@
 	{ return strncasecmp(string1, string2, len); }
 	inline char* strupr(char* s)
 	{ while (*s) { *s = toupper(*s); ++s; } return s; }
-	inline int notSupportedLinux ()
+	inline void notSupportedLinux ()
 	{  ASSERT( false && "Not supported on Linux" ); }
 
 #endif
