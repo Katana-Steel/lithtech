@@ -1,5 +1,7 @@
-Github![Build Status](https://github.com/Katana-Steel/lithtech/actions/workflows/cmake.yml/badge.svg)]
-GL[![pipeline status](https://gitlab.com/Katana-Steel/lithtech/badges/linux-x86_64/pipeline.svg)](https://gitlab.com/Katana-Steel/lithtech/pipelines)
+| **Github** | **Gitlab** |
+| -: | -: |
+|[![Build Status](https://github.com/Katana-Steel/lithtech/actions/workflows/cmake.yml/badge.svg)](https://github.com/Katana-Steel/lithtech/actions/) |[![pipeline status](https://gitlab.com/Katana-Steel/lithtech/badges/linux-x86_64/pipeline.svg)](https://gitlab.com/Katana-Steel/lithtech/pipelines)|
+
 
 lithtech
 ========
