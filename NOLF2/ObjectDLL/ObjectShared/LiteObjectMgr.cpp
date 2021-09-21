@@ -530,17 +530,13 @@ void CLiteObjectMgr::AddInactiveObject(GameBaseLite *pObject)
 void CLiteObjectMgr::RemoveObjectList(TObjectList &aList)
 {
 	// Remove the objects in the engine
-	TObjectList::iterator iCurObj = aList.begin();
-	for (; iCurObj != aList.end(); ++iCurObj)
-	{
-		if (*iCurObj)
+	for(auto& pObj : aList)
+		if(pObj && g_pLTServer)
 		{
-			GameBaseLite *pObj = *iCurObj;
-			// Clear out the entry in the list so we don't think we have it any more
-			*iCurObj = 0;
-			g_pLTServer->RemoveObject(pObj->GetClass(), pObj);
+			GameBaseLite *pGame = pObj;
+			pObj = nullptr;
+			g_pLTServer->RemoveObject(pGame->GetClass(), pGame);
 		}
-	}
 	// Forget...
 	{
 		TObjectList obj{};	

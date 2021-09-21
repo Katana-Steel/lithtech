@@ -805,8 +805,11 @@ LPBASECLASS sm_AllocateObjectOfClass(ClassDef *pClass)
 void sm_FreeObjectOfClass(ClassDef *pClass, LPBASECLASS pObject)
 {
     CClassData *pClassData;
-
-    pClassData = (CClassData*)pClass->m_pInternal[g_pServerMgr->m_ClassMgr.m_ClassIndex];
+    if(g_pServerMgr) {
+        pClassData = (CClassData*)pClass->m_pInternal[g_pServerMgr->m_ClassMgr.m_ClassIndex];
+    } else {
+        pClassData = (CClassData*)pClass->m_pInternal[0];
+    }
 
     pClass->m_DestructFn(pObject);
     sb_Free(&pClassData->m_ObjectBank, pObject);
