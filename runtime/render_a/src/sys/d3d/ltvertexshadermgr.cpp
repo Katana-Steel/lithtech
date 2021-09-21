@@ -173,7 +173,7 @@ void LTVertexShaderImp::FreeDeviceObject()
 
 void LTVertexShaderImp::SetName(const char *pName)
 {
-	LTStrCpy(m_FileName, pName, MAX_PATH);
+	LTStrCpy(m_FileName, pName, _MAX_PATH);
 }
 
 

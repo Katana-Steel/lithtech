@@ -1,7 +1,7 @@
 project(Test_DynResDLL)
 
 include_directories(./
-    ../../libs/DynRes)
+    ${CMAKE_SOURCE_DIR}/libs/DynRes)
 
 set(exec_src
     src/resources.h
@@ -9,7 +9,7 @@ set(exec_src
     src/main.cpp)
 
 add_custom_command(OUTPUT myres.rc.cpp
-    COMMAND  ../../../libs/DynRes/rc.parser.py ../../../tests/DynResDLL/src/myres.rc)
+    COMMAND  ${CMAKE_SOURCE_DIR}/libs/DynRes/rc.parser.py ${CMAKE_SOURCE_DIR}/tests/DynResDLL/src/myres.rc)
 
 
 add_library(${PROJECT_NAME} SHARED ${exec_src})

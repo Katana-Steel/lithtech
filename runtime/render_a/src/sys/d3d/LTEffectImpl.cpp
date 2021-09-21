@@ -171,7 +171,7 @@ bool  LTEffectImpl::Recreate()
 
 void LTEffectImpl::SetName(const char *pName)
 {
-	LTStrCpy(m_FileName, pName, MAX_PATH);
+	LTStrCpy(m_FileName, pName, _MAX_PATH);
 }
 
 LTRESULT LTEffectImpl::SetBool(const char* szParam, LTBOOL bBool)  const
