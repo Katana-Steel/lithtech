@@ -125,6 +125,11 @@ CUI_RESULTTYPE CUIFormattedPolyString_Impl::SetCharScreenWidth(uint8 width)
 CUI_RESULTTYPE CUIFormattedPolyString_Impl::SetCharScreenHeight(uint8 height)
 {
 	if (!m_Valid)	return CUIR_INVALID_POLYSTRING;
+	uint16 *pTable = m_pFont->GetFontTable();
+
+	if(pTable[0] == 17 || pTable[0] == 11)
+		height = (uint8)((float)height * 0.85f);
+
 
 	m_CharScreenHeight = height;
 
