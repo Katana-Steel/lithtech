@@ -726,12 +726,10 @@ void CScreenDisplay::UpdateHelpText()
 		pCtrl->UpdateData();
 		LTFLOAT verticalFOV = g_pInterfaceResMgr->GetVerticalFOV(m_nFOV);
 		LTFLOAT squareFOV = g_pInterfaceResMgr->Get4x3HorizontalFOV(verticalFOV);
+		char tmpStr[4096];
+		FormatString(IDS_HELP_FOV, tmpStr, 4095, std::to_string((int)std::floor(squareFOV)).c_str());
 
-		HSTRING hHelpTxt = g_pLTClient->FormatString(IDS_HELP_FOV, std::to_string((int)std::floor(squareFOV)).c_str());
-		std::string helpText = g_pLTClient->GetStringData(hHelpTxt);
-
-		s_pHelpStr->SetText(helpText.c_str());
-		g_pLTClient->FreeString(hHelpTxt);
+		s_pHelpStr->SetText(tmpStr);
 		m_dwCurrHelpID = 0;
 		return;
 	}
