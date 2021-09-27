@@ -1222,7 +1222,7 @@ static HSURFACE cis_GetScreenSurface()
 	if(!g_pCisRenderStruct)
 		return LTNULL;
 
-	return (HSURFACE)&g_ScreenSurface;
+	return (HSURFACE)g_ScreenSurface;
 }
 
 
@@ -1469,7 +1469,7 @@ static void cis_GetSurfaceDims(HSURFACE hSurf, uint32 *pWidth, uint32 *pHeight)
 		return;
 	}
 
-	SDL_Surface *s = (SDL_Surface*)hSurf;
+	SDL_Surface *s = (SDL_Surface*)(hSurf);
 	*pWidth = s->w;
 	*pHeight = s->h;
 #endif
@@ -1717,7 +1717,7 @@ static LTRESULT cis_SetSurfaceAlpha(HSURFACE hSurface, float alpha)
 	pSurface->m_Alpha = LTCLAMP(alpha, 0.0f, 1.0f);
 	return LT_OK;
 #else
-	SDL_SetSurfaceAlphaMod((SDL_Surface*)hSurface, (0xff && (255.0f * alpha)));
+	SDL_SetSurfaceAlphaMod((SDL_Surface*)hSurface, (0xff & (int)(255.0f * alpha)));
     return LT_OK;
 #endif
 }
