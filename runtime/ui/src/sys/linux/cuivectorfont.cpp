@@ -143,6 +143,9 @@ bool CUIVectorFont::Init(
 
 	bool bOk = Init(pszFontFile, pszFontFace, pointSize, szChars, fontParams);
 
+	if (!strcmp(pszFontFace, "Expo") || !strcmp(pszFontFace, "Typist"))
+		m_Flags |= CUI_FONT_SCALEONLINUX;
+
 	return bOk;
 }
 
@@ -214,8 +217,14 @@ void CUIVectorFont::Term()
 	m_Valid = false;
 }
 
+struct size2d_t
+{
+	unsigned int cx;
+	unsigned int cy;
+};
+
 // Spacing between each character in font map.
-const int kCharSpacing = 2;
+size2d_t kCharSpacing{3,5};
 
 inline int GetPowerOfTwo(int nValue)
 {
@@ -236,20 +245,14 @@ struct glyph_metrics_t
 	int origin_y;
 };
 
-struct size2d_t
-{
-	unsigned int cx;
-	unsigned int cy;
-};
-
 static void GetTextureSizeFromCharSizes(glyph_metrics_t const* pGlyphMetrics, size2d_t const& sizeMaxGlyphSize,
 	int nLen, size2d_t& sizeTexture)
 {
 	// Get the total area of the pixels of all the characters.  We use the largest glyph size
 	// rather than the exact values because this is just a rough
 	// guess and if we overestimate in width, we just get a shorter texture.
-	int nTotalPixelArea = (sizeMaxGlyphSize.cx + kCharSpacing) * nLen *
-		(sizeMaxGlyphSize.cy + kCharSpacing);
+	int nTotalPixelArea = (sizeMaxGlyphSize.cx + kCharSpacing.cx) * nLen *
+		(sizeMaxGlyphSize.cy + kCharSpacing.cy);
 
 	// Use the square root of the area guess at the width.
 	int nRawWidth = static_cast<int>(sqrtf(static_cast<float>(nTotalPixelArea)) + 0.5f);
@@ -258,7 +261,7 @@ static void GetTextureSizeFromCharSizes(glyph_metrics_t const* pGlyphMetrics, si
 	sizeTexture.cx = GetPowerOfTwo(nRawWidth);
 
 	// Start the height off as one row.
-	int nRawHeight = sizeMaxGlyphSize.cy + kCharSpacing;
+	int nRawHeight = sizeMaxGlyphSize.cy + kCharSpacing.cy;
 
 	// To find the height, keep putting characters into the rows until we reach the bottom.
 	int nXOffset = 0;
@@ -268,7 +271,7 @@ static void GetTextureSizeFromCharSizes(glyph_metrics_t const* pGlyphMetrics, si
 		int nCharWidth = pGlyphMetrics[nGlyph].width;
 
 		// See if this width fits in the current row.
-		int nNewXOffset = nXOffset + nCharWidth + kCharSpacing;
+		int nNewXOffset = nXOffset + nCharWidth + kCharSpacing.cx;
 		if (nNewXOffset < sizeTexture.cx)
 		{
 			// Still fits in the current row.
@@ -279,7 +282,7 @@ static void GetTextureSizeFromCharSizes(glyph_metrics_t const* pGlyphMetrics, si
 			// Doesn't fit in the current row.  Englarge by one row
 			// and start at the left again.
 			nXOffset = 0;
-			nRawHeight += sizeMaxGlyphSize.cy + kCharSpacing;
+			nRawHeight += sizeMaxGlyphSize.cy + kCharSpacing.cy;
 		}
 	}
 
@@ -482,14 +485,14 @@ bool CUIVectorFont::CreateFontTextureAndTable(InstalledFontFace& installedFontFa
 			// Get this character's width.
 			char nChar = pszChars[nGlyph];
 			glyph_metrics_t& glyphMetrics = aGlyphMetrics[nGlyph];
-			int nCharWidthWithSpacing = glyphMetrics.width + kCharSpacing;
+			int nCharWidthWithSpacing = glyphMetrics.width + kCharSpacing.cx;
 
 			int nCharRightSide = sizeOffset.cx + nCharWidthWithSpacing;
 			if (nCharRightSide >= sizeTexture.cx)
 			{
 				// Doesn't fit in the current row.  Go to the next row.
 				sizeOffset.cx = 0;
-				sizeOffset.cy += sizeMaxGlyphSize.cy + kCharSpacing;
+				sizeOffset.cy += sizeMaxGlyphSize.cy + kCharSpacing.cy;
 			}
 
 			// Fill in the font character map if we have one.

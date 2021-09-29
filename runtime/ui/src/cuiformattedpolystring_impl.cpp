@@ -127,7 +127,7 @@ CUI_RESULTTYPE CUIFormattedPolyString_Impl::SetCharScreenHeight(uint8 height)
 	if (!m_Valid)	return CUIR_INVALID_POLYSTRING;
 	uint16 *pTable = m_pFont->GetFontTable();
 
-	if(pTable[0] == 17 || pTable[0] == 11)
+	if(m_pFont->GetAttributes() & CUI_FONT_SCALEONLINUX)
 		height = (uint8)((float)height * 0.85f);
 
 

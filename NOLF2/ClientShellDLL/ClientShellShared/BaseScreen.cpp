@@ -2068,14 +2068,10 @@ void CBaseScreen::UpdateHelpText()
 			if (s_pHelpStr && strlen(szHelpText))
 			{
 				s_pHelpStr->SetText(szHelpText);
-				float yratio = g_pInterfaceResMgr->GetYRatio();
-#ifdef _LINUX
-				yratio *= 0.8f;
-#endif
 				uint16 nWidth = (uint16)( (LTFLOAT)s_HelpWidth * g_pInterfaceResMgr->GetYRatio());
 				float helpX = (float)s_HelpRect.left * g_pInterfaceResMgr->GetXRatio();
 				float helpY = (float)s_HelpRect.top * g_pInterfaceResMgr->GetYRatio();
-				uint8 nSize = (uint8)((LTFLOAT)s_HelpSize * yratio);
+				uint8 nSize = (uint8)((LTFLOAT)s_HelpSize * g_pInterfaceResMgr->GetYRatio());
 
 				s_pHelpStr->SetPosition(helpX,helpY);
 				s_pHelpStr->SetCharScreenHeight(nSize);
