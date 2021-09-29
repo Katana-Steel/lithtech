@@ -84,6 +84,14 @@ static LTRESULT cis_SetSurfaceAlpha(HSURFACE surface, float alpha)
     return LT_OK;
 }
 
+static LTRESULT cis_GetSurfaceAlpha(HSURFACE surface, float &alpha)
+{
+    uint8 nAlpha=0;
+    SDL_GetSurfaceAlphaMod((SDL_Surface*)surface, &nAlpha));
+    alpha = (float)nAlpha / 255.0f;
+    return LT_OK;
+}
+
 static HLTCOLOR cis_CreateColor(float r, float g, float b, bool bTransparent)
 {
 	if(bTransparent)
@@ -167,6 +175,7 @@ void cis_Init()
     ilt_client->CreateSurface = cis_CreateSurface;
     ilt_client->GetSurfaceDims = cis_GetSurfaceDimentions;
     ilt_client->SetSurfaceAlpha = cis_SetSurfaceAlpha;
+    ilt_client->GetSurfaceAlpha = cis_GetSurfaceAlpha;
     ilt_client->OptimizeSurface = cis_OptimizeSurface;
     ilt_client->FillRect = cis_FillRect;
     ilt_client->SetupColor1 = cis_CreateColor;

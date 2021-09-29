@@ -24,7 +24,7 @@ int main(int count, const char **args)
     std::cout << "loading strings from sharable object '" << res << "'\n";
     void *h = dlopen(res, RTLD_NOW);
     if(h != nullptr) {
-        printString(0, h); // sentinel value in the string resource generated file
+        printString(1, h); // sentinel value in the string resource generated file
         printString(IDS_VERSION, h);
         printString(IDS_APPNAME, h);
         printString(IDS_CHAPTER_ONE, h);
