@@ -1441,6 +1441,11 @@ LTRESULT CLTClient::RemoveObject(HLOCALOBJ hObj)
 		RETURN_ERROR(1, CLTClient::RemoveObject, LT_INVALIDPARAMS);
 	}
 
+	if (!g_pClientMgr)
+	{
+		RETURN_ERROR(1, CLTClient::RemoveObject, LT_CANTREMOVESERVEROBJECT);
+	}
+
 	LTObject *pObject = (LTObject*)hObj;
 	if (pObject->m_ObjectID != (uint16)-1)
 	{
