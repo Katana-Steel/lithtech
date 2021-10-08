@@ -1222,7 +1222,11 @@ static HSURFACE cis_GetScreenSurface()
 	if(!g_pCisRenderStruct)
 		return LTNULL;
 
+#ifndef USE_DXVK
+	return (HSURFACE)&g_ScreenSurface;
+#else
 	return (HSURFACE)g_ScreenSurface;
+#endif
 }
 
 

@@ -2158,7 +2158,7 @@ INLINE_FN T LTMAX(T a, TB b) { return ((a > (T)b) ? a : (T)b); }
 template<class T>
 INLINE_FN T LTABS(T a) { return ((a >= 0) ? a : -a); }
 template<class T, class TB, class TC>
-INLINE_FN T LTCLAMP(T a, TB min, TC max) { return std::min((T)max, std::max(a, (T)min)); }
+INLINE_FN T LTCLAMP(T a, TB min, TC max) { return LTMIN((T)max, LTMAX(a, (T)min)); }
 template<class T, class TMAX, class TINTERP>
 INLINE_FN T LTLERP(T min, TMAX max, TINTERP t) { return (min + (((T)max - min) * t)); }
 
