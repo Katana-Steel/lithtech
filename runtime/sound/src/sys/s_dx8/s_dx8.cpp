@@ -3425,7 +3425,7 @@ void CDx8SoundSys::Get3DProviderAttribute( LHPROVIDER hLib, char* sName, void* p
 }
 
 
-S32	CDx8SoundSys::Enumerate3DProviders( LHPROENUM* phNext, LHPROVIDER* phDest, char** psName)
+S32	CDx8SoundSys::Enumerate3DProviders( LHPROENUM* phNext, LHPROVIDER* phDest, const char** psName)
 {
 	int nCur = *phNext;
 	phNext[0] += 1;
