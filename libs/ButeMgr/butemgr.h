@@ -27,11 +27,14 @@
 #endif
 
 #include <functional>
-#if _MSC_VER >= 1300 && !defined(__clang__)
+#if _MSC_VER >= 1300 && _MSC_VER < 1916 && !defined(__clang__)
 #	include <iosfwd>
 #	include <strstream>
 #	include <iostream>
 #	include <fstream>
+#elif  _MSC_VER >= 1916
+#   include <fstream>
+#   include <sstream>
 #elif defined(__LINUX)
 #   include <unordered_set>
 #   include <unordered_map>
@@ -581,23 +584,23 @@ inline bool CButeMgr::Parse( istream& iCrypt, streamsize nLen, const char* crypt
 {
 	m_bCrypt = true;
 	m_cryptMgr.SetKey(cryptKey);
-#ifndef __LINUX
+#if !defined(__LINUX) && _MSC_VER >= 1300 && _MSC_VER < 1916
 	char* buf2 = new char[(unsigned int)nLen];
 #endif
-#if _MSC_VER >= 1300 && !defined(__clang__)
+#if _MSC_VER >= 1300 && _MSC_VER < 1916 && !defined(__clang__)
 	std::ostrstream pOss{buf2, nLen};
-#elif defined(__LINUX)
+#elif defined(__LINUX) ||  _MSC_VER >= 1916
 	std::string buffer{};
-	buffer.reserve(nLen);
+	buffer.reserve((unsigned int)nLen);
 	std::ostringstream pOss{buffer};
 #else
 	ostrstream pOss(buf2, nLen);
 #endif // VC7
 	m_cryptMgr.Decrypt(iCrypt, pOss);
 
-#if _MSC_VER >= 1300 && !defined(__clang__)
+#if _MSC_VER >= 1300 && _MSC_VER < 1916 && !defined(__clang__)
 	std::istrstream IStream{const_cast<const char *>(buf2), pOss.pcount()};
-#elif defined(__LINUX)
+#elif defined(__LINUX) ||  _MSC_VER >= 1916
     std::istringstream IStream{const_cast<const std::string&>(buffer)};
 #else
 	istrstream IStream(buf2, pOss->pcount());
@@ -605,7 +608,7 @@ inline bool CButeMgr::Parse( istream& iCrypt, streamsize nLen, const char* crypt
 
 	Reset();
 
-#ifndef __LINUX
+#if !defined(__LINUX) && _MSC_VER >= 1300 && _MSC_VER < 1916
 	bool retVal = Parse( IStream );
 
 	delete buf2;
@@ -671,9 +674,9 @@ inline bool CButeMgr::Parse(void* pData, unsigned long size, int decryptCode,
 		return false;
 	std::streamsize len = size;
 	const char* buf1 = (const char*)pData;
-#if _MSC_VER >= 1300 && !defined(__clang__)
+#if _MSC_VER >= 1300 && _MSC_VER < 1916 && !defined(__clang__)
 	std::istrstream IStream(buf1, len);
-#elif defined(__LINUX)
+#elif defined(__LINUX) ||  _MSC_VER >= 1916
 	std::istringstream IStream{std::string{(char*)pData, size}};
 #else
 	istrstream IStream((char*)pData, size);
@@ -691,10 +694,10 @@ inline bool CButeMgr::Parse(void* pData, unsigned long size, const char* cryptKe
 	if (!pData)
 		return false;
 	const char* buf1 = (const char*)pData;
-#if _MSC_VER >= 1300 && !defined(__clang__)
+#if _MSC_VER >= 1300 && _MSC_VER < 1916 && !defined(__clang__)
 	std::streamsize len = size;
 	std::istrstream Iss(buf1, len);
-#elif defined(__LINUX)
+#elif defined(__LINUX) || _MSC_VER >= 1916
 	std::streamsize len = size;
 	std::istringstream _Iss{std::string{buf1, size}};
 	std::istream& Iss = _Iss;

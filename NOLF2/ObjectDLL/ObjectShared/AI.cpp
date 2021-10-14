@@ -3623,15 +3623,15 @@ void CAI::UpdateInfo()
 		else if( g_AIInfoTrack.GetFloat() == 4.0f )
 		{
 			// Show Relations.
-#if _MSC_VER >= 1300 
+#if _MSC_VER >= 1300 && _MSC_VER < 1916
 			std::ostrstream out;
-#elif __LINUX
+#elif defined(__LINUX) || _MSC_VER >= 1916
 			std::ostringstream out{};
 #else
 			ostrstream out;
 #endif // VC7
 			out << *(m_pRelationMgr->GetRelationUser()) << '\n';
-#ifdef __LINUX
+#if defined(__LINUX) || _MSC_VER >= 1916
 			info += out.str().c_str();
 #else
 			info += out.str();

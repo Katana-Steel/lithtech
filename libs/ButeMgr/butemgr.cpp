@@ -1127,15 +1127,15 @@ bool CButeMgr::Save(const char* szNewFileName)
 	is.seekg(0);
 
 	// Create the buffer.
-	char *pssBuf = new char[nFileLength];
+	char *pssBuf = new char[(unsigned int)nFileLength];
 	pssBuf[0] = '\0';
 
 	std::string buffer;
-	buffer.reserve(nFileLength);
+	buffer.reserve((unsigned int)nFileLength);
 
-#if _MSC_VER >= 1300 
+#if _MSC_VER >= 1300 && _MSC_VER < 1916 && !defined(__clang__)
 	std::strstream ss(pssBuf, nFileLength, std::ios_base::in | std::ios_base::out);
-#elif defined(__GNUC__)
+#elif defined(__GNUC__) ||  _MSC_VER >= 1916
 	std::stringstream ss(buffer, std::ios_base::in | std::ios_base::out);
 #else
 	strstream ss(pssBuf, nFileLength, ios::in | ios::out);
@@ -1144,11 +1144,11 @@ bool CButeMgr::Save(const char* szNewFileName)
 	if (m_bCrypt)
 	{
 		m_cryptMgr.Decrypt(is, ss);
-#if _MSC_VER >= 1300
+#if _MSC_VER >= 1300 && _MSC_VER < 1916 && !defined(__clang__)
 		m_pSaveData = new std::iostream(new std::strstreambuf(nFileLength));
-#elif defined(__GNUC__)
+#elif defined(__GNUC__) ||  _MSC_VER >= 1916
 		auto strbuf = new std::stringbuf;
-		strbuf->str().reserve(nFileLength);
+		strbuf->str().reserve((unsigned int)nFileLength);
 		m_pSaveData = new std::iostream{strbuf};
 #else
 		m_pSaveData = new iostream(new strstreambuf(nFileLength));
@@ -1196,10 +1196,10 @@ bool CButeMgr::Save(const char* szNewFileName)
 		return false;
 	}
 
-#if _MSC_VER >= 1300 || defined(__GNUC__)
+#if _MSC_VER >= 1300 && _MSC_VER < 1916 && !defined(__clang__)
     m_pSaveData->flags(m_pSaveData->flags() | std::ios_base::showpoint | std::ios_base::fixed);
 #else
-    m_pSaveData->flags(m_pSaveData->flags() | ios::showpoint | ios::fixed);
+    m_pSaveData->flags(m_pSaveData->flags() | std::ios::showpoint | std::ios::fixed);
 #endif // VC7
 
 	ss.clear();

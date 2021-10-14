@@ -73,6 +73,8 @@ inline T Clamp( T val, T min, T max )
 	return Min( max, Max( val, min ));
 }
 
+#ifndef _ASSERT
 #define _ASSERT(x)
+#endif
 
 #endif  // _GLOBALS_H_
