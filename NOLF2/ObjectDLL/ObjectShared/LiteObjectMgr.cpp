@@ -443,24 +443,15 @@ bool CLiteObjectMgr::IsObjectInList(TObjectList &aList, GameBaseLite *pObject)
 	return std::find(aList.begin(), aList.end(), pObject) != aList.end();
 }
 
+//
+// Jake: Re-wrote this with remove_if, it's much faster than the previous method
+// and it doesn't happen to accidentally remove the wrong item and cause crashing.
+// (I assume that's a STLPort -> MSVC Std bug though.)
+//
 void CLiteObjectMgr::CleanList(TObjectList &aList)
 {
-	// Clear nulls from the end of the list
-	while (!aList.empty() && (aList.back() == 0))
-		aList.pop_back();
-
-	// Swap empties to the end of the list and get rid of them
-	TObjectList::iterator iCurObj = aList.begin();
-	while (iCurObj != aList.end())
-	{
-		if (!*iCurObj)
-		{
-			*iCurObj = aList.back();
-			aList.pop_back();
-		}
-		else
-			++iCurObj;
-	}
+	aList.erase(std::remove_if(aList.begin(), aList.end(),
+		[](GameBaseLite* item) { return item == nullptr; }), aList.end());
 }
 
 void CLiteObjectMgr::CleanObjectLists()
