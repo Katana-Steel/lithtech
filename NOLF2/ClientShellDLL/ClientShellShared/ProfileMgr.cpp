@@ -152,7 +152,8 @@ void SaveDisplaySettings()
 									"GammaR",
 									"GammaG",
 									"GammaB",
-									"FOV"
+									"FOV",
+									"Windowed"
 								};
 
 	uint32 nNumVals = sizeof(pszValsToSave) / sizeof(pszValsToSave[0]);
@@ -1066,7 +1067,7 @@ void CUserProfile::ImplementMusicVolume()
 
 void CUserProfile::ApplyDisplay()
 {
-
+	LTBOOL previousWindowed = GetConsoleInt("Windowed", 1);
 	LTBOOL initVS = (LTBOOL)GetConsoleInt("VSyncOnFlip",1);
 	WriteConsoleInt("HardwareCursor",m_bHardwareCursor);
 	WriteConsoleInt("VSyncOnFlip",m_bVSync);
@@ -1075,7 +1076,9 @@ void CUserProfile::ApplyDisplay()
 	WriteConsoleFloat("GammaR",m_fGamma);
 	WriteConsoleFloat("GammaG",m_fGamma);
 	WriteConsoleFloat("GammaB",m_fGamma);
+	WriteConsoleInt("Windowed", m_bWindowed);
 
+	bool bWindowedModeChanged = previousWindowed != m_bWindowed;
 	bool bRestart = (initVS != m_bVSync);
 //	if (bRestart)
 //	{
@@ -1100,7 +1103,7 @@ void CUserProfile::ApplyDisplay()
 		}
 
 
-		if (pMode && !IsRendererEqual(pMode,&currentMode))
+		if ((pMode && bWindowedModeChanged) || (pMode && !IsRendererEqual(pMode, &currentMode)))
 		{
 			//switch renderers
 			g_pInterfaceResMgr->DrawMessage(IDS_REINITIALIZING_RENDERER);
@@ -1112,6 +1115,12 @@ void CUserProfile::ApplyDisplay()
 //			if (bRestart)
 //				g_pLTClient->CPrint("CUserProfile::ApplyDisplay() : cancel restart because of mode change");
 			bRestart = false;
+
+			SDL_Window* window;
+			if (g_pLTClient->GetEngineHook("sdl_window", (void**)&window) == LT_OK)
+			{
+				SDL_SetWindowFullscreen(window, m_bWindowed ? 0 : SDL_WINDOW_FULLSCREEN);
+			}
 		}
 
 		// Free the linked list of render modes
@@ -1569,6 +1578,7 @@ void CUserProfile::SetDisplay()
 	m_fGamma = (GetConsoleFloat("GammaR",1.0f) + GetConsoleFloat("GammaG",1.0f) + GetConsoleFloat("GammaB",1.0f)) / 3.0f;
 
 	m_nFOV = GetConsoleInt("FOV", 75);
+	m_bWindowed = GetConsoleInt("Windowed", 1);
 
 	// The current render mode
 	RMode currentMode;

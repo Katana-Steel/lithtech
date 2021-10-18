@@ -273,6 +273,7 @@ public:
 	uint32	m_nScreenDepth;
 	float	m_fGamma;
 	uint32  m_nFOV;
+	LTBOOL  m_bWindowed;
 
 	//****************** display
 	sPerformCfg m_sPerformance;

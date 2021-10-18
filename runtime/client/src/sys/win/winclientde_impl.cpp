@@ -1738,6 +1738,11 @@ static LTRESULT cis_GetEngineHook(const char *pName, void **pData)
 #endif
 		return LT_OK;
 	}
+	else if(stricmp(pName, "sdl_window")==0)
+	{
+		*pData = g_ClientGlob.m_window;
+		return LT_OK;
+	}
 	else if(stricmp(pName, "cres_hinstance")==0)
 	{
 		return bm_GetInstanceHandle(g_pClientMgr->m_hClientResourceModule, pData);

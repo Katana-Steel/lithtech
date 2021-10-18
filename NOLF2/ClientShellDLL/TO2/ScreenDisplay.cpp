@@ -138,6 +138,10 @@ CScreenDisplay::CScreenDisplay()
 
     m_pResolutionCtrl   = LTNULL;
 	m_pHardwareCursor	= LTNULL;
+	m_pFOV = LTNULL;
+	m_pWindowed = LTNULL;
+	m_bWindowed = LTTRUE;
+
 }
 
 CScreenDisplay::~CScreenDisplay()
@@ -178,6 +182,8 @@ LTBOOL CScreenDisplay::Build()
 
 	// Setup the resolution control based on the current renderer
 	SetupResolutionCtrl();
+
+	m_pWindowed = AddToggle(IDS_WINDOWED_MODE, IDS_HELP_WINDOWED_MODE, kGap, &m_bWindowed);
 
 	m_pHardwareCursor = AddToggle(IDS_HARDWARE_CURSOR,IDS_HELP_HARDWARE_CURSOR,kGap,&m_bHardwareCursor);
 
@@ -450,6 +456,7 @@ void CScreenDisplay::OnFocus(LTBOOL bFocus)
 		m_nFOV = pProfile->m_nFOV;
 
 		m_pHardwareCursor->Enable(GetConsoleInt("DisableHardwareCursor",0) == 0);
+		m_bWindowed = pProfile->m_bWindowed;
 
 		// The current render mode
 		RMode currentMode;
@@ -483,6 +490,7 @@ void CScreenDisplay::OnFocus(LTBOOL bFocus)
 		if (m_bEscape)
 		{
 			pProfile->m_nFOV = m_nFOV;
+			pProfile->m_bWindowed = m_bWindowed;
 			pProfile->m_bHardwareCursor = m_bHardwareCursor;
 			pProfile->m_bVSync = m_bVSync;
 			pProfile->m_fGamma = ConvertToGamma(m_nGamma);

@@ -1118,7 +1118,23 @@ uint32 CGameClientShell::OnEngineInitialized(RMode *pMode, LTGUID *pAppGuid)
         m_Music.Init(g_pLTClient);
 	}
 
+	CUserProfile* pProfile = g_pProfileMgr->GetCurrentProfile();
+	if (pProfile)
+	{
+		hVar = g_pLTClient->GetConsoleVar("windowed");
+		const char* pStr = g_pLTClient->GetVarValueString(hVar);
+		if (pStr)
+		{
+			pProfile->m_bWindowed = (atoi(pStr) == 1);
+		}
 
+		SDL_Window* window;
+
+		if (g_pLTClient->GetEngineHook("sdl_window", (void**)&window) == LT_OK)
+		{
+			SDL_SetWindowFullscreen(window, pProfile->m_bWindowed ? 0 : SDL_WINDOW_FULLSCREEN);
+		}
+	}
 
 	// Initialize the global physics states...
 
@@ -1167,7 +1183,6 @@ uint32 CGameClientShell::OnEngineInitialized(RMode *pMode, LTGUID *pAppGuid)
 		
 		// Use the settings from the current profile to determine what the game will be...
 
-		CUserProfile *pProfile = g_pProfileMgr->GetCurrentProfile( );
 		if( nHost && pProfile )
 		{
 			bool bOk = true;

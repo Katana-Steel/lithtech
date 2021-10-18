@@ -1015,6 +1015,8 @@
 #define IDS_APP_UNABLE_TO_CREATE_HW_TNL_DEVICE 2203
 #define IDS_FOV                         2204
 #define IDS_HELP_FOV                    2205
+#define IDS_WINDOWED_MODE               2206
+#define IDS_HELP_WINDOWED_MODE          2207
 
 // Next default values for new objects
 // 

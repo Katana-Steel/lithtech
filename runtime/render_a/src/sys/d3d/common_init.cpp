@@ -122,7 +122,7 @@ int d3d_Init(RenderStructInit *pInit)
 	d3d_ReadConsoleVariables();
 
 	// Run windowed?
-	pStr = g_pStruct->GetParameterValueString(g_pStruct->GetParameter("windowed"));
+	pStr = "1"; //this is now checked in the client shell
 	g_bRunWindowed = (pStr && atoi(pStr) == 1);
 
 	// Init globals.

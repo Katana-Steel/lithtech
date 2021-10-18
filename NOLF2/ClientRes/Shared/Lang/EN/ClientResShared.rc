@@ -1299,6 +1299,8 @@ BEGIN
                             "A hardware TnL device was unable to be created. This could be due to either not having DirectX 8.1 installed or not having a hardware TnL capable video card. Both of these are required to play %1!s! and although you can continue to play the game by pressing OK, please note that it is not officially supported and may result in crashes, lockups, and poor performance."
     IDS_FOV                 "Field of View"
     IDS_HELP_FOV            "Horizontal Field of View (Equivalent to %1!s! when corrected for aspect ratio.)"
+    IDS_WINDOWED_MODE       "Windowed Mode"
+    IDS_HELP_WINDOWED_MODE  "Enable or disable windowed mode."
 END
 
 STRINGTABLE DISCARDABLE 
