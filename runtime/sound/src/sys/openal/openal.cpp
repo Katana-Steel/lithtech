@@ -1108,8 +1108,8 @@ public:
 	virtual void		Set3DSamplePlaybackRate( LH3DSAMPLE hS, S32 siPlayback_rate );
 	virtual void		Set3DSampleDistances( LH3DSAMPLE hS, float fMax_dist, float fMin_dist );
 	virtual void		Set3DSamplePreference( LH3DSAMPLE hSample, char* sName, void* pVal );
-	virtual void		Set3DSampleLoopBlock( LH3DSAMPLE hS, sint32 siLoop_start_offset, sint32 siLoop_end_offset, bool bEnable ) {};
-	virtual void		Set3DSampleLoop( LH3DSAMPLE hS, bool bLoop ) {};
+	virtual void		Set3DSampleLoopBlock( LH3DSAMPLE hS, sint32 siLoop_start_offset, sint32 siLoop_end_offset, bool bEnable );
+	virtual void		Set3DSampleLoop( LH3DSAMPLE hS, bool bLoop );
 	virtual void		Set3DSampleObstruction( LH3DSAMPLE hS, float fObstruction );
 	virtual float		Get3DSampleObstruction( LH3DSAMPLE hS );
 	virtual void		Set3DSampleOcclusion( LH3DSAMPLE hS, float fOcclusion );
@@ -1823,6 +1823,30 @@ void COpenALSoundSys::Set3DSampleDistances( LH3DSAMPLE hS, float fMax_dist, floa
 void COpenALSoundSys::Set3DSamplePreference( LH3DSAMPLE hSample, char* sName, void* pVal )
 {
 }
+
+void COpenALSoundSys::Set3DSampleLoopBlock( LH3DSAMPLE hS, sint32 siLoop_start_offset, sint32 siLoop_end_offset, bool bEnable )
+{
+	if( hS == NULL )
+		return;
+
+	C3DSample* p3DSample = ( C3DSample* )hS;
+	CSample* pSample = &p3DSample->m_sample;
+	pSample->m_nLoopStart = siLoop_start_offset;
+	pSample->m_nLoopEnd = siLoop_end_offset;
+	pSample->m_bLoopBlock = bEnable;
+}
+
+void COpenALSoundSys::Set3DSampleLoop( LH3DSAMPLE hS, bool bLoop )
+{
+	if( hS == NULL )
+		return;
+
+	C3DSample* p3DSample = ( C3DSample* )hS;
+	p3DSample->m_sample.Restore( );
+
+	p3DSample->m_sample.SetLooping( this, bLoop );
+}
+
 
 void COpenALSoundSys::Set3DSampleObstruction( LH3DSAMPLE hS, float fObstruction )
 {
