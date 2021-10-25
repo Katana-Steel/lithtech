@@ -165,6 +165,8 @@ public:
 	// return the volume offset.  This offset is applied to whatever volume is set.
 	int GetVolumeOffset(); 
 
+	void Update(uint32 dt) {}
+
 	// return the pointer to the DM performance object
 	IDirectMusicPerformance8* GetPerformance() { return m_pPerformance; }
 

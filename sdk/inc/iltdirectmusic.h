@@ -415,7 +415,7 @@ Used for: Music.
 */
 	virtual int GetVolumeOffset() = 0;
 
-	
+	virtual void Update(uint32 dt) = 0;
 };
 	
 #endif //! __ILTDIRECTMUSIC_H__

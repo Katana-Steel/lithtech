@@ -99,6 +99,10 @@ define_holder(ILTFontManager, font_manager);
 static ICommandLineArgs *command_line_args;
 define_holder(ICommandLineArgs, command_line_args);
 
+//the ILTDirectMusicMgr game interface.
+#include "iltdirectmusic.h"
+static ILTDirectMusicMgr *ilt_directmusicmgr;
+define_holder(ILTDirectMusicMgr, ilt_directmusicmgr);
 
 #ifdef DE_LOCAL_SERVERBIND
 // only include this if server-client are on same.
@@ -920,6 +924,8 @@ LTRESULT CClientMgr::Update()
 
         UpdateFrameRate();
     }
+
+    ilt_directmusicmgr->Update(m_nFrameTimeMS);
 
     // Sleep in between frames.. helpful for debugging so it doesn't hog
     // all the processor time.
