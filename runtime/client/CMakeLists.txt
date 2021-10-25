@@ -62,6 +62,7 @@ set(exec_src
 	../shared/src/concommand.cpp
 	../shared/src/conparse.cpp
 	../kernel/src/sys/sdl2/InputSDL2.cpp
+	../kernel/src/ltdirectmusiccontrolfile.cpp
 	src/console.cpp
 	src/consolecommands.cpp
 	src/cutil.cpp
@@ -179,7 +180,6 @@ if(WIN32)
 	../kernel/src/sys/win/interface_helpers.cpp
 	../kernel/src/sys/win/load_pcx.cpp
 	../kernel/src/sys/win/ltdirectmusic_impl.cpp
-	../kernel/src/sys/win/ltdirectmusiccontrolfile.cpp
 	../kernel/src/sys/win/ltdirectmusicloader.cpp
 	../kernel/src/sys/win/lthread.cpp
 	../kernel/src/sys/win/ltlibraryloader.cpp
