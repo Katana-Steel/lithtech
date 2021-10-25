@@ -88,6 +88,9 @@ public:
 	LTRESULT		AcquireSample( )
 	;
 
+	void			SetSampleHandle(LHSAMPLE sample)
+	{ m_hSample = sample; }
+
 	virtual LTRESULT	Acquire3DSample( )
 	;
 
