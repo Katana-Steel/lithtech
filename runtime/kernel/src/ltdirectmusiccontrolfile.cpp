@@ -135,7 +135,7 @@ BOOL CControlFileMgrDStream::FileEOF()
 // This is a test remove this function. TO DO!!!
 void FileReadTest()
 {
-	char* pFileName = "\\directmusic\\sanity6\\sanity6script.txt";
+	const char* pFileName = "\\directmusic\\sanity6\\sanity6script.txt";
 
 	FileRef ref;
 	ref.m_FileType = FILE_ANYFILE;

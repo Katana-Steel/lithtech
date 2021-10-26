@@ -33,13 +33,13 @@ extern int32 g_CV_LTDMConsoleOutput;
 #endif
 
 // output error to console
-extern void LTDMConOutError(char *pMsg, ...);
+extern void LTDMConOutError(const char *pMsg, ...);
 
 // output warning to console
-extern void LTDMConOutWarning(char *pMsg, ...);
+extern void LTDMConOutWarning(const char *pMsg, ...);
 
 // output message to console
-extern void LTDMConOutMsg(int nLevel, char *pMsg, ...);
+extern void LTDMConOutMsg(int nLevel, const char *pMsg, ...);
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
