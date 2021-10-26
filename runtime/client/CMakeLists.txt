@@ -179,7 +179,6 @@ if(WIN32)
 	../kernel/src/sys/win/InputSim.cpp
 	../kernel/src/sys/win/interface_helpers.cpp
 	../kernel/src/sys/win/load_pcx.cpp
-	../kernel/src/sys/win/ltdirectmusic_impl.cpp
 	../kernel/src/sys/win/ltdirectmusicloader.cpp
 	../kernel/src/sys/win/lthread.cpp
 	../kernel/src/sys/win/ltlibraryloader.cpp
@@ -235,6 +234,16 @@ elseif (NOT WIN32)
 	../sound/src/sys/linux/sdl.cpp
     )
 endif (ENABLE_OPENAL)
+
+if (ENABLE_DIRECTMUSIC)
+	set(exec_src ${exec_src}
+	../kernel/src/sys/win/ltdirectmusic_impl.cpp
+    )
+else (ENABLE_DIRECTMUSIC)
+	set(exec_src ${exec_src}
+	../kernel/src/genericmusic_impl.cpp
+    )
+endif (ENABLE_DIRECTMUSIC)
 
 if (WIN32 OR ENABLE_DXVK)
 	set(exec_src ${exec_src}

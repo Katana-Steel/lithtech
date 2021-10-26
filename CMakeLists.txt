@@ -26,11 +26,13 @@ option(ENABLE_D3D "Enable Direct3D" ON)
 option(ENABLE_DIRECTX "Enable DirectX" ON)
 option(ENABLE_DIRECTSHOW "Enable DirectShow" ON)
 option(ENABLE_OPENAL "Use OpenAL as audio backend" OFF)
+option(ENABLE_DIRECTMUSIC "Use DirectMusic as music backend" OFF)
 else(WIN32)
 option(ENABLE_OPENGL "Enable OpenGL 3.3" ${GL})
 option(ENABLE_VULKAN "Enable Vulkan" OFF)
 option(ENABLE_DXVK "Enable DXVK" ${VK})
 option(ENABLE_OPENAL "Use OpenAL as audio backend" ON)
+option(ENABLE_DIRECTMUSIC OFF)
 endif(WIN32)
 option(USE_INTERNAL_ZLIB "Use bundled zlib" ON)			# eventually want default to be OFF
 option(USE_INTERNAL_FREETYPE "Use bundled freetype" ON)	# eventually want default to be OFF
