@@ -217,6 +217,11 @@ private:
 	//	haven't been loaded
 	bool m_bSaveVariablesMask;
 
+	//On Linux, the client shell is heap allocated and deleted in CClientMgr::TermClientShellDE.
+	//For some reason, PrintString does not correctly see this, and calls OnConsolePrint to a NULL pointer.
+	//Instead, check this.
+	bool m_bClientShellIsGone;
+
 protected:
 
 	enum EConState {
@@ -429,6 +434,8 @@ public:
 	// Event handling
 
 	void	OnKeyPress( uint32 key );
+
+	void	ClientShellIsGone();
 
 };
 

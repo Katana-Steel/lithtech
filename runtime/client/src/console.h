@@ -51,6 +51,9 @@ void con_DrawSmall(int nLines);
 void con_PrintString(CONCOLOR theColor, int filterLevel, const char *pMsg);
 void con_Printf(CONCOLOR theColor, int filterLevel, const char *pMsg, ...);
 void con_WhitePrintf(const char *pMsg, ...);
+#ifdef __LINUX
+void con_client_shell_is_gone();
+#endif
 
 #endif // __CONSOLE_H__
 

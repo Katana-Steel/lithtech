@@ -687,6 +687,7 @@ CConsole::CConsole()
 
 	m_bInitialized = true;
 	m_bInitTerminate = false;
+	m_bClientShellIsGone = false;
 
 	m_Tex = NULL;
 	m_Font = NULL;
@@ -1328,7 +1329,7 @@ void CConsole::PrintString(CONCOLOR theColor, int filterLevel, const char *pMsg)
 
 	//	Send the info we're using for output to the client shell so the 
 	//	game code can do whatever it wants with it.
-	if (i_client_shell != NULL) {
+	if (!m_bClientShellIsGone) {
 		CConsolePrintData	PrintData;
 
 		//	turn the CONCOLOR into an LTRGB
@@ -1471,6 +1472,11 @@ void CConsole::OnKeyPress(uint32 key)
 			GetCommandBox()->OnKeyPress( key );
 			break;
 	}
+}
+
+void CConsole::ClientShellIsGone()
+{
+	m_bClientShellIsGone = true;
 }
 
 uint32 GetInterfaceSurfaceMemory()

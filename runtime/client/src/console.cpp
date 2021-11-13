@@ -88,6 +88,13 @@ void con_WhitePrintf(const char *pMsg, ...)
 	va_end( marker );
 }
 
+#ifdef __LINUX
+void con_client_shell_is_gone()
+{
+	GETCONSOLE()->ClientShellIsGone();
+}
+#endif
+
 void con_OnKeyPress(uint32 key)
 {
 	if (dsi_IsConsoleEnabled ())

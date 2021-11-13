@@ -19,5 +19,18 @@ define_holder(ILTTexInterface,g_pTexInterface);
 
 SETUP_CLIENTSHELL();
 
+#ifndef __LINUX
 define_interface(CTO2GameClientShell, IClientShell);
+#else
+static CAPIInstanceDefines<CTO2GameClientShell>
+	global_static_impl_CTO2GameClientShell_defines_IClientShell_Default_{
+		new CTO2GameClientShell,
+		"IClientShell" "." "Default",
+		IClientShell::_IClientShell_VERSION_};
 
+static SStaticSearchInterface
+	global_static_var_search_IClientShell_CTO2GameClientShell_Default_ = {
+		SEARCH_MARKER_INTERFACE, SEARCH_MARKER_INT, "IClientShell",
+		"CTO2GameClientShell", "Default",
+		IClientShell::_IClientShell_VERSION_};
+#endif

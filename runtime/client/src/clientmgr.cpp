@@ -433,6 +433,12 @@ void CClientMgr::TermClientShellDE()
     {
         bm_UnbindModule(m_hShellModule);
         m_hShellModule = NULL;
+#ifdef __LINUX
+        delete i_client_shell;
+        i_client_shell = NULL;
+        con_client_shell_is_gone();
+#endif
+
     }
 
     if (m_hClientResourceModule)
