@@ -87,7 +87,7 @@ static LTRESULT cis_SetSurfaceAlpha(HSURFACE surface, float alpha)
 static LTRESULT cis_GetSurfaceAlpha(HSURFACE surface, float &alpha)
 {
     uint8 nAlpha=0;
-    SDL_GetSurfaceAlphaMod((SDL_Surface*)surface, &nAlpha));
+    SDL_GetSurfaceAlphaMod((SDL_Surface*)surface, &nAlpha);
     alpha = (float)nAlpha / 255.0f;
     return LT_OK;
 }
