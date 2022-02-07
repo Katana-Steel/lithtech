@@ -362,6 +362,7 @@ include_directories(./
     ../../../libs/CryptMgr
     ../../../libs/lith
     ../../../libs/RegMgr
+    ../../../libs/RandomGen/src
     ../../../libs/ServerDir
     ../../Shared
     ../../Shared/TO2)
@@ -374,5 +375,6 @@ target_link_libraries(${PROJECT_NAME}
     LIB_MFCStub
     LIB_RegMgr
     LIB_StdLith
+    LIB_Random
     ${SDL2_LIBRARIES}
     ServerDir)

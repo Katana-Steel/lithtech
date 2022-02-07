@@ -65,6 +65,8 @@
 #include <time.h>
 #include <algorithm>
 
+#include "lith_random.hpp"
+
 #define MAX_CLIENT_NAME_LENGTH		100
 #define CLIENT_PING_UPDATE_RATE		3.0f
 #define UPDATENAME_INTERVAL			10.0f
@@ -331,7 +333,7 @@ LTRESULT CGameServerShell::OnServerInitialized()
 	// Seed the random number generator so GetRandom() isn't the same each game.
 	// IMPORTANT: reseeding the random number generator should not happen all the time
 	// as it can lead to GetRandom() not acting as random as you might think.
-	
+	katana_steel::lithtech::seed();
 	srand(time(NULL));
 
 	return LT_OK;

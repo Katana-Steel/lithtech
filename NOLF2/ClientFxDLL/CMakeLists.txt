@@ -8,6 +8,8 @@ if(LINUX)
 include(FindPkgConfig)
 endif(LINUX)
 
+link_libraries(LIB_Random)
+
 add_library(${PROJECT_NAME} SHARED
 	BaseFx.cpp
 	bouncychunkfx.cpp
@@ -44,6 +46,7 @@ add_definitions(-DNOPS2 -DMEMTRACK_CLIENTFX)
 include_directories(../Shared
 	../../sdk/inc
 	../../libs/MFCStub
+	../../libs/RandomGen/src
 	${SDL2_INCLUDE_DIRS}
 	../../libs/stdlith)
 

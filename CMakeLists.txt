@@ -96,6 +96,7 @@ add_subdirectory(libs/lith)								# LIB_Lith
 add_subdirectory(libs/stdlith)							# LIB_StdLith
 add_subdirectory(libs/ltmem)							# LIB_LTMem
 add_subdirectory(libs/rezmgr)							# LIB_RezMgr
+add_subdirectory(libs/RandomGen)                        # LIB_Random
 
 if(LINUX)
     set(JSON_BuildTests off)
@@ -185,4 +186,5 @@ add_subdirectory(tests/RegMgr)
 add_subdirectory(tests/CShell)
 add_subdirectory(tests/DynRes)
 add_subdirectory(tests/DynResDLL)
+add_subdirectory(tests/rndgen)
 endif(NOT WIN32)

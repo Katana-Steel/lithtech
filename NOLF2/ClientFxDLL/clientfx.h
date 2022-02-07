@@ -18,6 +18,8 @@
 	#include "iltdrawprim.h"
 	#include "iltsoundmgr.h"
 
+	#include "lith_random.hpp"
+
 	// Defines....
 
 	#define NUM_FX								17
@@ -110,19 +112,12 @@
 
 	inline LTFLOAT GetRandom( LTFLOAT min, LTFLOAT max )
 	{
-		LTFLOAT randNum = (LTFLOAT)rand() / RAND_MAX;
-		return (min + (max - min ) * randNum);
+		return katana_steel::lithtech::getRandom(min, max);
 	}
 
 	inline int GetRandom( int min, int max )
 	{
-		if( (max - min + 1) == 0)		// check for divide-by-zero case
-		{
-			if( rand() & 1 ) return( min );
-			else return( max );
-		}
-
-		return( (rand() % (max - min + 1)) + min );
+		return katana_steel::lithtech::getRandom(min, max);
 	}
 
 
