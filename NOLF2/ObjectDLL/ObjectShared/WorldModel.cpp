@@ -403,6 +403,14 @@ void WorldModel::ReadProps( ObjectCreateStruct *pOCS )
 		if( genProp.m_String[0] )
 		{
 			m_hstrAttachments = g_pLTServer->CreateString( genProp.m_String );
+			//Do not allow WorldModels to attach to themselves. This prevents
+			//an assertion failure in Lithtech's om_CreateAttachment function
+			//when loading the first map in Siberia for the AirPlane_Prop00.Propeller model.
+			const char *pAttachments = g_pLTServer->GetStringData(m_hstrAttachments);
+			if (!strcmp(pOCS->m_Name, pAttachments))
+			{
+				FREE_HSTRING(m_hstrAttachments);
+			}
 		}
 	}
 
