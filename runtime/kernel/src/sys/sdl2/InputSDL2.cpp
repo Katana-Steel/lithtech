@@ -8,6 +8,7 @@
 #include "linuxdsys.h"
 #endif
 #include "sdl2_scancode_to_dinput.h"
+#include <unordered_map>
 
 #define SPECIAL_MOUSEX	-50000
 #define SPECIAL_MOUSEY	-50001
@@ -39,6 +40,8 @@ struct ISBinding
 	ISBinding *m_pNext;
 };
 
+
+std::unordered_map<std::string, ISAction*> g_sdl2_actions;
 
 ISBinding *g_Bindings_sdl2;
 ISAction *g_Actions_sdl2;
@@ -221,6 +224,12 @@ SDL2Key* input_sdl2_FindKey(const char *pName, const char* deviceName, float ran
 
 ISAction* input_sdl2_FindAction(const char *pName)
 {
+	std::string tmp{pName};
+	if (g_sdl2_actions.find(tmp) != g_sdl2_actions.end())
+		return g_sdl2_actions.at(tmp);
+
+	return nullptr;
+/*
 	ISAction *pCur;
 
 	for(pCur=g_Actions_sdl2; pCur; pCur=pCur->m_pNext)
@@ -230,6 +239,7 @@ ISAction* input_sdl2_FindAction(const char *pName)
 	}
 
 	return LTNULL;
+*/
 }
 
 
@@ -260,13 +270,10 @@ void input_sdl2_term(InputMgr *pMgr)
 	}
 	g_Bindings_sdl2 = LTNULL;
 
-	for(pAction=g_Actions_sdl2; pAction; )
-	{
-		pNextAction = pAction->m_pNext;
-		dfree(pAction);
-		pAction = pNextAction;
-	}
-	g_Actions_sdl2 = LTNULL;
+	for(auto &act : g_sdl2_actions)
+		dfree(act.second);
+
+	g_sdl2_actions.clear();
 }
 
 bool input_sdl2_IsInitted(InputMgr *pMgr)
@@ -384,8 +391,7 @@ void input_sdl2_AddAction(InputMgr *pMgr, const char *pActionName, int actionCod
 	LT_MEM_TRACK_ALLOC(pAction = (ISAction*)dalloc(sizeof(ISAction)),LT_MEM_TYPE_INPUT);
 	LTStrCpy(pAction->m_Name, pActionName, sizeof(pAction->m_Name));
 	pAction->m_Code = actionCode;
-	pAction->m_pNext = g_Actions_sdl2;
-	g_Actions_sdl2 = pAction;
+        g_sdl2_actions[pActionName] = pAction;
 }
 
 bool input_sdl2_EnableDevice(InputMgr *pMgr, const char *pDeviceName)
