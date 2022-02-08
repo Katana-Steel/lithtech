@@ -221,7 +221,7 @@ void CClientShell::Term()
     // Uninit the server mugger if there is one.
     if (g_pServerMgr) {
         delete g_pServerMgr;
-        g_pServerMgr = NULL;
+        g_pServerMgr = nullptr;
     }
 
     // Uninit object stuff.
@@ -351,7 +351,7 @@ LTRESULT CClientShell::CreateServerMgr()
     if (!g_pServerMgr || !g_pServerMgr->Init())
     {
         delete g_pServerMgr;
-        g_pServerMgr = NULL;
+        g_pServerMgr = nullptr;
 
         RETURN_ERROR(1, CClientShell::CreateServerMgr, LT_CANTCREATESERVER);
     }

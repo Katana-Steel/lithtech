@@ -617,7 +617,7 @@ SERVERAPI SI_CREATESTATUS CreateServer(int version, LTGUID &appGuid, ServerInter
     else
     {
         delete g_pServerMgr;
-        g_pServerMgr = LTNULL;
+        g_pServerMgr = nullptr;
 
         dsi_Term();
         return SI_ERRORINITTING;
@@ -631,7 +631,7 @@ SERVERAPI void DeleteServer()
     {
         g_pServerMgr->Term();
         delete g_pServerMgr;
-        g_pServerMgr = LTNULL;
+        g_pServerMgr = nullptr;
 
         dsi_Term();
     }
