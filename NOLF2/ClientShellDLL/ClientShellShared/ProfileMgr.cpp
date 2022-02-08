@@ -83,8 +83,8 @@ namespace
 	char szDefProfileName[16] = "";
 }
 
-	char s_aTagName[30];
-	char s_aAttName[30];
+	char s_aTagName[40];
+	char s_aAttName[40];
 
 CommandData g_CommandArray[] =
 {
