@@ -348,13 +348,20 @@ void CLiteObjectMgr::Update()
 
 	// Update the active objects
 	// Note : This can't use an iterator, since the update might add objects or something like that...
-	uint32 nActiveObjectSize = (uint32)(m_aActiveObjects.size());
-	for (uint32 nCurObj = 0; nCurObj < nActiveObjectSize; ++nCurObj)
+	auto nActiveObjectSize = m_aActiveObjects.size();
+	for (size_t nCurObj = 0; nCurObj < m_aActiveObjects.size(); ++nCurObj)
 	{
 		GameBaseLite *pCurObj = m_aActiveObjects[nCurObj];
 		if (pCurObj)
 			pCurObj->Update();
-		ASSERT(nCurObj < m_aActiveObjects.size());
+
+		if (nActiveObjectSize > m_aActiveObjects.size()) // if we removed items, start over.
+		{
+			nCurObj = -1;
+			nActiveObjectSize = m_aActiveObjects.size();
+		}
+
+		 ASSERT(nCurObj < m_aActiveObjects.size());
 	}
 
 	// Clean up, if we need to
@@ -404,7 +411,7 @@ void CLiteObjectMgr::PreStartWorld(bool bSwitchingWorlds)
 
 	// Clear the initial update list
 	{
-		TObjectList obj{};	
+		TObjectList obj{};
 		m_aInitialUpdateObjects.swap(obj);
 	}
 
@@ -434,7 +441,7 @@ bool CLiteObjectMgr::RemoveObjectFromList(TObjectList &aList, GameBaseLite *pObj
 	TObjectList::iterator iObj = std::find(aList.begin(), aList.end(), pObject);
 	if (iObj == aList.end())
 		return false;
-	*iObj = 0;
+	aList.erase(iObj);
 	return true;
 }
 
