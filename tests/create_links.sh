@@ -17,6 +17,7 @@ RES=$(for f in ${R[@]}; do [[ "${f}" =~ ${1:-test} ]] && echo $f; done)
 SHELL=$(for f in ${S[@]}; do [[ "${f}" =~ ${2:-test} ]] && echo $f; done)
 OBJ=NOLF2/ObjectDLL/TO2/libObject.lto
 FX=NOLF2/ClientFxDLL/libClientFx.fxd
+SRV_DIR=libs/ServerDir/libServerDir.so
 REN=runtime/render_a/src/sys/ogl/libOGLRender.so
 ENGINE=$([ -f ${E[1]} ] && echo ${E[1]} || echo ${E[0]})
 
@@ -28,6 +29,7 @@ links=(
     ${REN}:libOGLRender.so
     ${RES}:libCRes.so
     ${SHELL}:libCShell.so
+    ${SRV_DIR}:libServerDir.so
     ../${OBJ}:Game/libObject.lto
     ../${FX}:Game/libClientFx.fxd
 )

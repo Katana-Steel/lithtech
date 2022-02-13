@@ -35,6 +35,7 @@ jobs:
       run: |
         cd ${{github.workspace}}/build
         OUT/testRegMgr
+        OUT/testRandGen
         OUT/testDynRes tests/DynResDLL/libtestCRes.so
         OUT/testDynRes NOLF2/ClientRes/TO2/libCRes.so
       

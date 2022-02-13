@@ -328,5 +328,8 @@ target_link_libraries(${PROJECT_NAME}
     ServerDir)
 
 if(LINUX)
-	target_link_libraries(${PROJECT_NAME} LIB_DynRes pthread)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        BUILD_WITH_INSTALL_RPATH TRUE
+        INSTALL_RPATH "$ORIGIN/")
+    target_link_libraries(${PROJECT_NAME} LIB_DynRes pthread)
 endif(LINUX)

@@ -3,3 +3,4 @@ Rez
 *.REZ
 .vscode
 codeblocks
+.cache
