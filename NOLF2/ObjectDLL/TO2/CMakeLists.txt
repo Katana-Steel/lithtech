@@ -348,7 +348,11 @@ if(MSVC)
     add_definitions(-D_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS)	# VC14 deprecated stdext::hash_*
 endif(MSVC)
 if(LINUX)
+    if(CMAKE_COMPILER_IS_GNUCC)
     set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-Werror -Wno-c++1z-compat -fPIC -fno-gnu-unique")
+    else(CMAKE_COMPILER_IS_GNUCC)
+    set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-Werror -Wno-c++1z-compat -fPIC")
+    endif(CMAKE_COMPILER_IS_GNUCC)
     include_directories(${CMAKE_SOURCE_DIR}/json/single_include)
 endif(LINUX)
 
