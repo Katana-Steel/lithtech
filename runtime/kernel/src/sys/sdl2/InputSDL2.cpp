@@ -42,6 +42,7 @@ struct ISBinding
 
 
 std::unordered_map<std::string, ISAction*> g_sdl2_actions;
+std::vector<ISBinding*> g_sdl2_bindings;
 
 ISBinding *g_Bindings_sdl2;
 ISAction *g_Actions_sdl2;
@@ -270,9 +271,13 @@ void input_sdl2_term(InputMgr *pMgr)
 	}
 	g_Bindings_sdl2 = LTNULL;
 
+	for (auto &bind : g_sdl2_bindings)
+		dfree(bind);
+
 	for(auto &act : g_sdl2_actions)
 		dfree(act.second);
 
+	g_sdl2_bindings.clear();
 	g_sdl2_actions.clear();
 }
 
@@ -304,6 +309,59 @@ void input_sdl2_ReadInput(InputMgr *pMgr, uint8 *pActionsOn, float axisOffsets[3
 	g_mousewheel = mousewheel;
 
 	axisOffsets[0] = axisOffsets[1] = axisOffsets[2] = 0.0f;
+
+	for (auto &pBinding: g_sdl2_bindings)
+	{
+		switch(pBinding->m_pKey->key)
+		{
+		case SPECIAL_MOUSEX:
+			value = float(mouserel[0]) * pBinding->m_pKey->m_Scale;
+			break;
+		case SPECIAL_MOUSEY:
+			value = float(mouserel[1]) * pBinding->m_pKey->m_Scale;
+			break;
+		case SPECIAL_MOUSECLICK_LEFT:
+			if(mouseclick[0])
+				value = 1.0f;
+			break;
+		case SPECIAL_MOUSECLICK_RIGHT:
+			if(mouseclick[1])
+				value = 1.0f;
+			break;
+		case SPECIAL_MOUSEWHEEL_UP:
+			if(mousewheel > 0)
+				value = 1.0f;
+			break;
+		case SPECIAL_MOUSEWHEEL_DOWN:
+			if(mousewheel < 0)
+				value = 1.0f;
+			break;
+		default:
+			scancode = SDL_GetScancodeFromKey(pBinding->m_pKey->key);
+			if(downs[scancode] == 1)
+			{
+				value = 1.0f;
+			}
+			break;
+		}
+
+		switch(pBinding->m_pAction->m_Code)
+		{
+		case -1:
+			axisOffsets[0] += value;
+			break;
+		case -2:
+			axisOffsets[1] += value;
+			break;
+		case -3:
+			axisOffsets[2] += value;
+			break;
+		default:
+			pActionsOn[pBinding->m_pAction->m_Code] |= (uint8)value;
+			break;
+
+		}
+	}
 
 	for(pBinding=g_Bindings_sdl2; pBinding; pBinding=pBinding->m_pNext)
 	{
@@ -421,6 +479,20 @@ bool input_sdl2_AddBinding(InputMgr *pMgr,
 	SDL2Key *pKey = input_sdl2_FindKey(pTriggerName, pDeviceName, rangeLow, rangeHigh);
 	if(!pKey)
 		return false;
+    auto bind = std::find_if(g_sdl2_bindings.begin(),g_sdl2_bindings.end(),
+		[pAction, pDeviceName](auto b) { return (b->m_pAction == pAction && !strcmp(b->m_deviceName, pDeviceName)); }
+	);
+	if (bind != g_sdl2_bindings.end())
+		if((*bind)->m_pKey != pKey)
+		{
+			(*bind)->m_pKey = pKey;
+			(*bind)->m_ranges[0] = rangeLow;
+			(*bind)->m_ranges[1] = rangeHigh;
+			return true;
+		} else {
+			// no duplicates
+			return false;
+		}
 
 	for(bind_cur=g_Bindings_sdl2; bind_cur; bind_cur=bind_cur->m_pNext)
 	{
@@ -446,12 +518,15 @@ bool input_sdl2_AddBinding(InputMgr *pMgr,
 	LT_MEM_TRACK_ALLOC(pBinding = (ISBinding*)dalloc(sizeof(ISBinding)),LT_MEM_TYPE_INPUT);
 	pBinding->m_pKey = pKey;
 	pBinding->m_pAction = pAction;
-	pBinding->m_pNext = g_Bindings_sdl2;
 	strcpy(pBinding->m_deviceName, pDeviceName);
 	pBinding->m_ranges[0] = rangeLow;
 	pBinding->m_ranges[1] = rangeHigh;
 
+	// g_sdl2_bindings.push_back(pBinding);
+
+	pBinding->m_pNext = g_Bindings_sdl2;
 	g_Bindings_sdl2 = pBinding;
+
 	return true;
 }
 
@@ -571,8 +646,25 @@ void input_sdl2_SaveBindings(FILE *fp)
 	{
 		fprintf(fp, "AddAction %s %d\n", action_cur->m_Name, action_cur->m_Code);
 	}
+	for( auto pCur : g_sdl2_actions)
+		fprintf(fp, "AddAction %s %d\n", pCur.second->m_Name, pCur.second->m_Code);
 
 	fprintf(fp, "\nenabledevice \"##keyboard\"\n");
+
+	for (auto &cur_bind: g_sdl2_bindings)
+	{
+		if(!strcmp(cur_bind->m_deviceName, "##keyboard"))
+		{
+			auto dik = SDLScanCodeToKeyNum(
+				SDL_GetScancodeFromKey(cur_bind->m_pKey->key)
+			);
+			fprintf(fp, "rangebind \"##keyboard\" \"##%d\" %f %f \"%s\"\n",
+				dik,
+				cur_bind->m_ranges[0], cur_bind->m_ranges[1],
+				cur_bind->m_pAction->m_Name
+			);
+		}
+	}
 	for(bind_cur=g_Bindings_sdl2; bind_cur; bind_cur=bind_cur->m_pNext)
 	{
 		scancode = SDL_GetScancodeFromKey(bind_cur->m_pKey->key);
