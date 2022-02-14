@@ -348,8 +348,8 @@ void CLiteObjectMgr::Update()
 
 	// Update the active objects
 	// Note : This can't use an iterator, since the update might add objects or something like that...
-	auto nActiveObjectSize = m_aActiveObjects.size();
-	for (size_t nCurObj = 0; nCurObj < m_aActiveObjects.size(); ++nCurObj)
+	int64_t nActiveObjectSize = m_aActiveObjects.size();
+	for (int64_t nCurObj = 0; nCurObj < m_aActiveObjects.size(); ++nCurObj)
 	{
 		GameBaseLite *pCurObj = m_aActiveObjects[nCurObj];
 		if (pCurObj)
@@ -359,9 +359,11 @@ void CLiteObjectMgr::Update()
 		{
 			nCurObj = -1;
 			nActiveObjectSize = m_aActiveObjects.size();
+			if (m_aActiveObjects.size() == 0)
+				break;
 		}
 
-		 ASSERT(nCurObj < m_aActiveObjects.size());
+		 ASSERT(nCurObj < (int64_t)m_aActiveObjects.size());
 	}
 
 	// Clean up, if we need to
