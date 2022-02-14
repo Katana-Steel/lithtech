@@ -20,4 +20,3 @@ define_holder(ILTTexInterface,g_pTexInterface);
 SETUP_CLIENTSHELL();
 
 define_interface(CTO2GameClientShell, IClientShell);
-
