@@ -415,7 +415,8 @@ void CWinUtil::WriteToDebugFile (char const* strText)
 #ifdef __LINUX
 void getLevelName(const std::string& path, char* worldname)
 {
-  const std::string& szWorldTitle = split(split(path,'/').back(), '.').front();
-  strcpy(worldname, szWorldTitle.c_str());	
+  auto f = split(split(path,'/').back(), '.');
+  const std::string& szWorldTitle = f.front();
+  strcpy(worldname, szWorldTitle.c_str());
 }
 #endif
