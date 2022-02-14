@@ -13,6 +13,7 @@
 #include "stringmgr.h"
 #include "sysfile.h"
 #include "ltengineobjects.h"
+#include "lith_random.hpp"
 
 #ifndef __LINUX
     #include "renderstruct.h"
@@ -274,9 +275,7 @@ void ic_FreeFileList(FileEntry *pList)
 
 float ic_Random(LTFLOAT min, LTFLOAT max)
 {
-	LTFLOAT randNum = (LTFLOAT)rand() / RAND_MAX;
-	
-	return min + (max - min) * randNum;
+	return katana_steel::lithtech::getRandom(min, max);
 }
 
 

@@ -97,12 +97,13 @@ void ps_AddParticles(LTParticleSystem *pSystem, uint32 nParticles,
 
 	for(i=0; i < nParticles; i++)
 	{
-		t[0] = (LTFLOAT)rand() / RAND_MAX;
-		t[1] = (LTFLOAT)rand() / RAND_MAX;
-		t[2] = (LTFLOAT)rand() / RAND_MAX;
-		t[3] = (LTFLOAT)rand() / RAND_MAX;
-		t[4] = (LTFLOAT)rand() / RAND_MAX;
-		t[5] = (LTFLOAT)rand() / RAND_MAX;
+
+		t[0] = katana_steel::lithtech::getRandom();
+		t[1] = katana_steel::lithtech::getRandom();
+		t[2] = katana_steel::lithtech::getRandom();
+		t[3] = katana_steel::lithtech::getRandom();
+		t[4] = katana_steel::lithtech::getRandom();
+		t[5] = katana_steel::lithtech::getRandom();
 
 		VINTERP(offset, (*minOffset), (*maxOffset), t[0], t[1], t[2]);
 		VINTERP(vel, (*minVel), (*maxVel), t[3], t[4], t[5]);

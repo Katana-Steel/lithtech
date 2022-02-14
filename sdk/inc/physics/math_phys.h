@@ -220,13 +220,14 @@ inline int32 rdtsc()
 
 Used for: Math.
 */
+/*
 inline float RandomFloat(const float a, const float b)
 {
     const float u = (float)rand() / RAND_MAX;//between 0 and 1
 
-    return u*a + (1-u)*b;
+    return u*a + (1-u)*b; 
 }
-
+*/
 
 //---------------------------------------------------------------------------//
 /*!

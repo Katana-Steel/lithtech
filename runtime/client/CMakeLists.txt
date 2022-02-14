@@ -272,6 +272,7 @@ include_directories(src
 	../../libs/stdlith
 	../../libs/rezmgr
 	../../libs/lith
+	../../libs/RandomGen/src
 	../../libs/LTGUIMgr
 	../../tools/PreProcessor
 	../shared/src
@@ -347,6 +348,7 @@ set(libs ${libs}
 	LIB_Info
 	LIB_ILTSound
 	LIB_UI
+	LIB_Random
     ${SDL2_LIBRARIES})
 
 

@@ -15,6 +15,7 @@
 #include "iltclient.h"
 #include "GameClientShell.h"
 
+#include "lith_random.hpp"
 
 extern CGameClientShell* g_pGameClientShell;
 
@@ -200,7 +201,7 @@ LTBOOL CScatterFX::CreateObject( ILTClient* pClientDE )
 				curBlindData++;
 
 				//-0----
-				float tmp = (float)rand() / (float)RAND_MAX;
+				float tmp = katana_steel::lithtech::getRandom();
 				tmp *= 2.0f * PI;
 
 				particles[j].xoffset = (float)sin( tmp ) * m_fWidth * particles[j].scale;
@@ -399,7 +400,7 @@ CScatterFXSubVolume::CScatterFXSubVolume() :
 		uint32 i;
 		for( i = 0; i < SCATTERFX_TABLESIZE; ++i )
 		{
-			rndTable[i] = (uint32)(((float)rand() / (float)RAND_MAX) * (SCATTERFX_TABLESIZE - 1));
+			rndTable[i] = katana_steel::lithtech::getRandom(0, SCATTERFX_TABLESIZE - 1);
 			sinTable[i] = (float)sin( curAngle );
 			curAngle += angleStep;
 		}

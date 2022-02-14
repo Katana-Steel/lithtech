@@ -9,13 +9,13 @@
 #include "wave.h"
 #endif
 
+#include "lith_random.hpp"
+
 class CSoundInstance;
 
 inline float GetRandom(float min, float max)
 {
-	float randNum = (float)rand() / RAND_MAX;
-	float num = min + (max - min) * randNum;
-	return num;
+	return katana_steel::lithtech::getRandom(min, max);
 }
 
 class CSoundBuffer

@@ -137,6 +137,7 @@ include_directories(src
 	../../libs/stdlith
 	../../libs/rezmgr
 	../../libs/lith
+	../../libs/RandomGen/src
 	../shared/src
 	../kernel/src
 	../kernel/mem/src
@@ -185,6 +186,7 @@ target_link_libraries(${PROJECT_NAME}
 	LIB_RezMgr
 	LIB_Info
 	LIB_Lith
+	LIB_Random
 	LIB_StdLith
 	LIB_LTMem)
 

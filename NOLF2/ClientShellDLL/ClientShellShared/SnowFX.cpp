@@ -15,6 +15,7 @@
 #include "iltclient.h"
 #include "GameClientShell.h"
 
+#include "lith_random.hpp"
 
 //#define SNOWFX_PROFILE_ACTIVATION			// if defined, airspace activation times will be displayed in the console
 
@@ -403,20 +404,20 @@ bool CSnowFXParticleMgr::AllocateParticles( uint32 numParticles, CSnowFXParticle
 			m_NumParticles = 0;
 		}
 
-		srand( 101374 );
+		katana_steel::lithtech::seed( 101374 );
 		for( uint32 i = 0; i < m_NumParticles; i++ )
 		{
-			m_Particles[i].id = (uint32)(((float)rand() / (float)RAND_MAX) * (SNOWFX_TABLESIZE - 1));
-			m_Particles[i].pos.x = ((float)rand() / (float)RAND_MAX) * 2.0f - 1.0f;
-			m_Particles[i].pos.y = ((float)rand() / (float)RAND_MAX) * 2.0f - 1.0f;
-			m_Particles[i].pos.z = ((float)rand() / (float)RAND_MAX) * 2.0f - 1.0f;
+			m_Particles[i].id = katana_steel::lithtech::getRandom(0, SNOWFX_TABLESIZE-1);
+			m_Particles[i].pos.x = katana_steel::lithtech::getRandom(0.0f, 2.0f) - 1.0f;
+			m_Particles[i].pos.y = katana_steel::lithtech::getRandom(0.0f, 2.0f) - 1.0f;
+			m_Particles[i].pos.z = katana_steel::lithtech::getRandom(0.0f, 2.0f) - 1.0f;
 		}
 	}
 
 	if( !m_Particles || (numParticles > m_NumParticles) )
 		return false;
 
-	float offsetAmt = (float)rand() / (float)RAND_MAX;
+	float offsetAmt = katana_steel::lithtech::getRandom();
 
 	uint32 startRange = m_NumParticles - numParticles;
 	uint32 start = (uint32)(offsetAmt * startRange);
@@ -447,7 +448,7 @@ CSnowFXAirspace::CSnowFXAirspace() :
 	{
 		tableInit = true;
 
-		srand( 1337 );
+		katana_steel::lithtech::seed(1337);
 
 		float angleStep = (2*PI)/(float)SNOWFX_TABLESIZE;
 		float curAngle = 0.0f;
@@ -455,7 +456,7 @@ CSnowFXAirspace::CSnowFXAirspace() :
 		uint32 i;
 		for( i = 0; i < SNOWFX_TABLESIZE; i++ )
 		{
-			rndTable[i] = (uint32)(((float)rand() / (float)RAND_MAX) * (SNOWFX_TABLESIZE - 1));
+			rndTable[i] = katana_steel::lithtech::getRandom(0, SNOWFX_TABLESIZE - 1);
 			sinTable[i] = (float)sin( curAngle );
 			curAngle += angleStep;
 		}

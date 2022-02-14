@@ -309,6 +309,7 @@ include_directories(../ClientShellShared
     ../../../libs/ButeMgr
     ../../../libs/CryptMgr
     ../../../libs/lith
+    ../../../libs/RandomGen/src
     ../../../libs/RegMgr
     ../../../libs/LTGUIMgr
     ../../../libs/ServerDir
@@ -324,6 +325,7 @@ target_link_libraries(${PROJECT_NAME}
     LIB_Lith
     LIB_RegMgr
     LIB_LTGUIMgr
+    LIB_Random
     ${SDL2_LIBRARIES}
     ServerDir)
 

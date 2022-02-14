@@ -37,6 +37,8 @@
 
 #include "fullintersectline.h"
 
+#include "lith_random.hpp"
+
 //------------------------------------------------------------------
 //------------------------------------------------------------------
 // Holders and their headers.
@@ -1974,12 +1976,12 @@ LTRESULT si_CacheFile(uint32 fileType, const char *pFilename)
 
 int si_IntRandom(int min, int max)
 {
-	return min + (rand() % (max - (min - 1)));
+	return katana_steel::lithtech::getRandom(min, max);
 }
 
 float si_RandomScale(LTFLOAT scale)
 {
-	return ((LTFLOAT)rand() / RAND_MAX) * scale;
+	return katana_steel::lithtech::getRandom(0.0f, scale);
 }
 
 void si_BPrint(const char *pMsg, ...)

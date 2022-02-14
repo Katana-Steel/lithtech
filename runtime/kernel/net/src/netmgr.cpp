@@ -10,6 +10,7 @@
 #include "sysudpdriver.h"
 
 #include <algorithm>
+#include "lith_random.hpp"
 
 
 extern int32 g_CV_ShowConnStats;
@@ -1076,8 +1077,7 @@ bool CNetMgr::HandleReceivedPacket(CPacket_Read &cPacket, CBaseConn *pSender, bo
 		}
 
 		// Ok, maybe drop the packet.
-		float test;
-		test = ((float)rand() / RAND_MAX) * 100.0f;
+		float test = katana_steel::lithtech::getRandom(0.0f, 100.0f);
 		if (test < g_CV_DropRate)
 		{
 			++m_nDroppedPackets;

@@ -11,6 +11,7 @@
 #include "StdAfx.h"
 #include "ltbasedefs.h"
 #include "CommonUtilities.h"
+#include "lith_random.hpp"
 
 // Globally available interface pointers
 
@@ -61,9 +62,7 @@ int GetRandom(int lo, int hi)
 
 float GetRandom(float min, float max)
 {
-	float randNum = (float)rand() / RAND_MAX;
-	float num = min + (max - min) * randNum;
-	return num;
+	return katana_steel::lithtech::getRandom(min, max);
 }
 
 
