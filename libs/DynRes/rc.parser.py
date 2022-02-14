@@ -14,16 +14,16 @@ def parseRC(rcFile):
         cur_lst = None
         str_id = None
         txt = None
-        for l in f.readlines():
-            if l.lower().startswith(u'#include'):
-                n = l.split('"')
+        for ln in f.readlines():
+            if ln.lower().startswith(u'#include'):
+                n = ln.split('"')
                 ret_incl.append(n[1].replace(u'\\', u'/'))
-            if u'stringtable' in l.lower():
+            if u'stringtable' in ln.lower():
                 cur_lst = str_table
-            if u'end' == l.lower():
+            if u'end' == ln.lower():
                 cur_lst = None
-            if l.startswith(u' ') and cur_lst is not None:
-                n = l.strip(u'\n').split(u'"')
+            if ln.startswith(u' ') and cur_lst is not None:
+                n = ln.strip(u'\n').split(u'"')
                 if str_id is None:
                     str_id = n[0].strip()
                 if len(n) == 1:
