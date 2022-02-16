@@ -103,7 +103,8 @@ LTRESULT CSysTexInterface::CreateTextureFromName(HTEXTURE &hTexture, const char 
 		
 		if (hTexture) 
 		{
-			memset(hTexture, 0, sizeof(*hTexture));
+			// the texture has already had it ctor called
+			// memset(hTexture, 0, sizeof(*hTexture));
 			hTexture->m_pFile = pIdent;
 			pIdent->m_pData	  = hTexture;
 
@@ -161,7 +162,7 @@ LTRESULT CSysTexInterface::CreateTextureFromData(HTEXTURE &hTexture, ETextureTyp
 		return LT_ERROR;
 
 	//clear the texture out, and add it to the global list of shared textures
-	memset(hTexture, 0, sizeof(*hTexture)); 
+	// memset(hTexture, 0, sizeof(*hTexture)); 
 	dl_AddHead(&g_pClientMgr->m_SharedTextures, &hTexture->m_Link, hTexture);
 
 	//there is no file reference for this shared texture since it is entirely user created

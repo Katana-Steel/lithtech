@@ -134,7 +134,7 @@ inline T* ObjectBank<T, CS>::Allocate() {
         pRet = (T*)sb_Allocate(&m_Bank);
         if (pRet)
         {
-            ::new((DummyThingForConstructor*)0, pRet) T;
+            ::new(pRet) T;
         }
     m_CS.Leave();
 

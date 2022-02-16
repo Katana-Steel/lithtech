@@ -771,7 +771,7 @@ LTBOOL CMoArray<T, C>::InternalNiceSetSize(uint32 newSize, LTBOOL bFast, LAlloc 
     // Copy as many elements as we can.
     if (bFast)
     {
-        memcpy(pNewArray, m_pArray, sizeof(T)*nToCopy);
+        memcpy((void*)pNewArray, (void*)m_pArray, sizeof(T)*nToCopy);
     }
     else
     {
