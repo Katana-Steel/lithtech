@@ -190,8 +190,8 @@ void  d3d_D3DFormatToString(D3DFORMAT Format, char *pStr, uint32 nBufferLen)
 
 bool d3d_CheckCVar(char *pVarName, const char *pVal)
 {
-	HLTPARAM hParam;
-	if (hParam = g_pStruct->GetParameter(pVarName)) {
+	HLTPARAM hParam = g_pStruct->GetParameter(pVarName);
+	if (hParam) {
 		if (stricmp(g_pStruct->GetParameterValueString(hParam), pVal) == 0) return true; }
 	return false;
 }
