@@ -259,7 +259,7 @@ bool CRenderShader_Gouraud_Detail_Fullbright::ValidateShader(const CRBSection &c
 	d3d_SetTexture(cSection.m_pTexture[0], 3, eFS_WorldBaseTexMemory);
 	d3d_SetTexture(cSection.m_pTexture[0]->GetLinkedTexture(eLinkedTex_Detail), 4, eFS_WorldDetailTexMemory);
 
-	RTexture *pRenderTexture = (cSection.m_pTexture) ? (RTexture*)cSection.m_pTexture[0]->m_pRenderData : 0;
+	RTexture *pRenderTexture = (cSection.m_pTexture[0]) ? (RTexture*)cSection.m_pTexture[0]->m_pRenderData : 0;
 	bool bAlphaTest = (pRenderTexture) ? pRenderTexture->m_AlphaRef != ALPHAREF_NONE : false;
 
 	// Set up the alpha states
@@ -528,7 +528,7 @@ bool CRenderShader_Gouraud_EnvMap_Fullbright::ValidateShader(const CRBSection &c
 	d3d_SetTexture(cSection.m_pTexture[0],3, eFS_WorldBaseTexMemory);
 	d3d_SetTexture(cSection.m_pTexture[0]->GetLinkedTexture(eLinkedTex_EnvMap), 4, eFS_WorldEnvMapTexMemory);
 
-	RTexture *pRenderTexture = (cSection.m_pTexture) ? (RTexture*)cSection.m_pTexture[0]->m_pRenderData : 0;
+	RTexture *pRenderTexture = (cSection.m_pTexture[0]) ? (RTexture*)cSection.m_pTexture[0]->m_pRenderData : 0;
 	bool bAlphaTest = (pRenderTexture) ? pRenderTexture->m_AlphaRef != ALPHAREF_NONE : false;
 
 	// Set up the alpha states
