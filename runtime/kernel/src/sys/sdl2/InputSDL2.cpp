@@ -44,8 +44,6 @@ struct ISBinding
 std::unordered_map<std::string, ISAction*> g_sdl2_actions;
 std::vector<ISBinding*> g_sdl2_bindings;
 
-ISBinding *g_Bindings_sdl2;
-ISAction *g_Actions_sdl2;
 int g_key_state[SDL_NUM_SCANCODES];
 int g_click_state[2];
 int g_mousewheel;
@@ -230,24 +228,11 @@ ISAction* input_sdl2_FindAction(const char *pName)
 		return g_sdl2_actions.at(tmp);
 
 	return nullptr;
-/*
-	ISAction *pCur;
-
-	for(pCur=g_Actions_sdl2; pCur; pCur=pCur->m_pNext)
-	{
-		if(stricmp(pCur->m_Name, pName) == 0)
-			return pCur;
-	}
-
-	return LTNULL;
-*/
 }
 
 
 bool input_sdl2_init(InputMgr *pMgr, ConsoleState *pState)
 {
-	g_Bindings_sdl2 = LTNULL;
-	g_Actions_sdl2 = LTNULL;
 	size_t i;
 	for (i = 0; i < SDL_NUM_SCANCODES; i++)
 	{
@@ -260,17 +245,6 @@ bool input_sdl2_init(InputMgr *pMgr, ConsoleState *pState)
 
 void input_sdl2_term(InputMgr *pMgr)
 {
-	ISBinding *pBinding, *pNextBinding;
-	ISAction *pAction, *pNextAction;
-
-	for(pBinding=g_Bindings_sdl2; pBinding; )
-	{
-		pNextBinding = pBinding->m_pNext;
-		dfree(pBinding);
-		pBinding = pNextBinding;
-	}
-	g_Bindings_sdl2 = LTNULL;
-
 	for (auto &bind : g_sdl2_bindings)
 		dfree(bind);
 
@@ -299,11 +273,7 @@ long input_sdl2_PlayJoystickEffect(InputMgr *pMgr, const char* strEffectName, fl
 
 void input_sdl2_ReadInput(InputMgr *pMgr, uint8 *pActionsOn, float axisOffsets[3], void* keyDowns, int* mouseclick, int* mouserel, int mousewheel)
 {
-	ISBinding *pBinding;
-	float value;
-	int mx, my, i;
 	SDL_Keycode* downs = (SDL_Keycode*)keyDowns;
-	SDL_Scancode scancode;
 	memcpy(g_key_state, keyDowns, sizeof(int) * SDL_NUM_SCANCODES);
 	memcpy(g_click_state, mouseclick, sizeof(int) * 2);
 	g_mousewheel = mousewheel;
@@ -312,6 +282,8 @@ void input_sdl2_ReadInput(InputMgr *pMgr, uint8 *pActionsOn, float axisOffsets[3
 
 	for (auto &pBinding: g_sdl2_bindings)
 	{
+		float value = 0.0f;
+
 		switch(pBinding->m_pKey->key)
 		{
 		case SPECIAL_MOUSEX:
@@ -337,7 +309,7 @@ void input_sdl2_ReadInput(InputMgr *pMgr, uint8 *pActionsOn, float axisOffsets[3
 				value = 1.0f;
 			break;
 		default:
-			scancode = SDL_GetScancodeFromKey(pBinding->m_pKey->key);
+			auto scancode = SDL_GetScancodeFromKey(pBinding->m_pKey->key);
 			if(downs[scancode] == 1)
 			{
 				value = 1.0f;
@@ -362,71 +334,6 @@ void input_sdl2_ReadInput(InputMgr *pMgr, uint8 *pActionsOn, float axisOffsets[3
 
 		}
 	}
-
-	for(pBinding=g_Bindings_sdl2; pBinding; pBinding=pBinding->m_pNext)
-	{
-		value = 0.0f;
-
-		if(pBinding->m_pKey->key == SPECIAL_MOUSEX)
-		{
-			value = (float)(mouserel[0]) * pBinding->m_pKey->m_Scale;
-		}
-		else if(pBinding->m_pKey->key == SPECIAL_MOUSEY)
-		{
-			value = (float)(mouserel[1]) * pBinding->m_pKey->m_Scale;
-		}
-		else if(pBinding->m_pKey->key == SPECIAL_MOUSECLICK_LEFT && mouseclick[0])
-		{
-			value = 1.0f;
-		}
-		else if(pBinding->m_pKey->key == SPECIAL_MOUSECLICK_RIGHT && mouseclick[1])
-		{
-			value = 1.0f;
-		}
-		else if(pBinding->m_pKey->key == SPECIAL_MOUSEWHEEL_UP && mousewheel > 0)
-		{
-			value = 1.0f;
-		}
-		else if(pBinding->m_pKey->key == SPECIAL_MOUSEWHEEL_DOWN && mousewheel < 0)
-		{
-			value = 1.0f;
-		}
-		else
-		{
-			scancode = SDL_GetScancodeFromKey(pBinding->m_pKey->key);
-			if(downs[scancode] == 1)
-			{
-				value = 1.0f;
-			}
-		}
-
-		switch(pBinding->m_pAction->m_Code)
-		{
-		case -1:
-			{
-				axisOffsets[0] += value;
-			}
-			break;
-
-		case -2:
-			{
-				axisOffsets[1] += value;
-			}
-			break;
-
-		case -3:
-			{
-				axisOffsets[2] += value;
-			}
-			break;
-
-		default:
-			{
-				pActionsOn[pBinding->m_pAction->m_Code] |= (uint8)value;
-			}
-			break;
-		}
-	}
 }
 
 bool input_sdl2_FlushInputBuffers(InputMgr *pMgr)
@@ -449,7 +356,8 @@ void input_sdl2_AddAction(InputMgr *pMgr, const char *pActionName, int actionCod
 	LT_MEM_TRACK_ALLOC(pAction = (ISAction*)dalloc(sizeof(ISAction)),LT_MEM_TYPE_INPUT);
 	LTStrCpy(pAction->m_Name, pActionName, sizeof(pAction->m_Name));
 	pAction->m_Code = actionCode;
-        g_sdl2_actions[pActionName] = pAction;
+	pAction->m_pNext = nullptr;
+	g_sdl2_actions[pActionName] = pAction;
 }
 
 bool input_sdl2_EnableDevice(InputMgr *pMgr, const char *pDeviceName)
@@ -483,35 +391,17 @@ bool input_sdl2_AddBinding(InputMgr *pMgr,
 		[pAction, pDeviceName](auto b) { return (b->m_pAction == pAction && !strcmp(b->m_deviceName, pDeviceName)); }
 	);
 	if (bind != g_sdl2_bindings.end())
-		if((*bind)->m_pKey != pKey)
+	{
+		bind_cur = *bind;
+		if(bind_cur->m_pKey != pKey)
 		{
-			(*bind)->m_pKey = pKey;
-			(*bind)->m_ranges[0] = rangeLow;
-			(*bind)->m_ranges[1] = rangeHigh;
+			bind_cur->m_pKey = pKey;
+			bind_cur->m_ranges[0] = rangeLow;
+			bind_cur->m_ranges[1] = rangeHigh;
 			return true;
 		} else {
 			// no duplicates
 			return false;
-		}
-
-	for(bind_cur=g_Bindings_sdl2; bind_cur; bind_cur=bind_cur->m_pNext)
-	{
-		if (bind_cur->m_pAction == pAction
-			&& !strcmp(bind_cur->m_deviceName, pDeviceName))
-		{
-			if (bind_cur->m_pKey != pKey)
-			{
-				bind_cur->m_pKey = pKey;
-				bind_cur->m_pAction = pAction;
-				bind_cur->m_ranges[0] = rangeLow;
-				bind_cur->m_ranges[1] = rangeHigh;
-				return true;
-			}
-			else
-			{
-				// no duplicates
-				return false;
-			}
 		}
 	}
 
@@ -522,11 +412,7 @@ bool input_sdl2_AddBinding(InputMgr *pMgr,
 	pBinding->m_ranges[0] = rangeLow;
 	pBinding->m_ranges[1] = rangeHigh;
 
-	// g_sdl2_bindings.push_back(pBinding);
-
-	pBinding->m_pNext = g_Bindings_sdl2;
-	g_Bindings_sdl2 = pBinding;
-
+	g_sdl2_bindings.push_back(pBinding);
 	return true;
 }
 
@@ -545,86 +431,74 @@ bool input_sdl2_ScaleTrigger(InputMgr *pMgr, const char *pDeviceName, const char
 	}
 }
 
+void make_keyboard_binding(DeviceBinding* pBinding, ISBinding *bind)
+{
+	LTStrCpy( pBinding->strDeviceName, "Keyboard", sizeof(pBinding->strDeviceName) );
+	LTStrCpy( pBinding->strTriggerName, bind->m_pKey->m_pName, sizeof(pBinding->strTriggerName) );
+	pBinding->m_nObjectId = (uint32)bind->m_pKey->key;
+}
+
+void make_mouse_binding(DeviceBinding* pBinding, ISBinding *bind)
+{
+	LTStrCpy( pBinding->strDeviceName, "Mouse", sizeof(pBinding->strDeviceName) );
+	LTStrCpy( pBinding->strTriggerName, bind->m_pKey->m_pName, sizeof(pBinding->strTriggerName) );
+	switch (bind->m_pKey->key) {
+	case SPECIAL_MOUSECLICK_LEFT:
+		pBinding->m_nObjectId = 1;
+		break;
+	case SPECIAL_MOUSECLICK_RIGHT:
+		pBinding->m_nObjectId = 2;
+		break;
+	case SPECIAL_MOUSEWHEEL_UP:
+		pBinding->m_nObjectId = 3;
+		pBinding->pActionHead->nRangeLow = bind->m_ranges[0];
+		pBinding->pActionHead->nRangeHigh = bind->m_ranges[1];
+		break;
+	case SPECIAL_MOUSEWHEEL_DOWN:
+		pBinding->m_nObjectId = 4;
+		pBinding->pActionHead->nRangeLow = bind->m_ranges[0];
+		pBinding->pActionHead->nRangeHigh = bind->m_ranges[1];
+		break;
+	}
+}
+
 DeviceBinding* input_sdl2_GetDeviceBindings ( uint32 nDevice )
 {
-	DeviceBinding* pBindingsHead = LTNULL;
-	ISBinding *pISBinding;
+	DeviceBinding* pBindingsHead = nullptr;
 
-	pISBinding = g_Bindings_sdl2;
-	for(pISBinding = g_Bindings_sdl2; pISBinding; pISBinding = pISBinding->m_pNext)
+	for (auto &cur_bind: g_sdl2_bindings)
 	{
-		if (nDevice == DEVICETYPE_MOUSE && strcmp(pISBinding->m_deviceName, "##mouse"))
+		if (nDevice == DEVICETYPE_MOUSE && strcmp(cur_bind->m_deviceName, "##mouse"))
 		{
 			continue;
 		}
-		if (nDevice == DEVICETYPE_KEYBOARD && strcmp(pISBinding->m_deviceName, "##keyboard"))
+		if (nDevice == DEVICETYPE_KEYBOARD && strcmp(cur_bind->m_deviceName, "##keyboard"))
 		{
 			continue;
 		}
+		GameAction *Action;
+		LT_MEM_TRACK_ALLOC(Action = new GameAction,LT_MEM_TYPE_INPUT);
+		memset( Action, 0, sizeof(GameAction) );
+
+		Action->nActionCode = cur_bind->m_pAction->m_Code;
+		LTStrCpy( Action->strActionName, cur_bind->m_pAction->m_Name, sizeof( Action->strActionName) );
+
 		DeviceBinding* pBinding;
 		LT_MEM_TRACK_ALLOC(pBinding = new DeviceBinding,LT_MEM_TYPE_INPUT);
 		if( !pBinding ) break;
 		memset( pBinding, 0, sizeof(DeviceBinding) );
 
-		if (nDevice == DEVICETYPE_MOUSE)
+		LTStrCpy( pBinding->strDeviceName, "Unknown", sizeof(pBinding->strDeviceName) );
+		pBinding->pActionHead = Action;
+		switch(nDevice)
 		{
-			LTStrCpy( pBinding->strDeviceName, "Mouse", sizeof(pBinding->strDeviceName) );
-		}
-		else if (nDevice == DEVICETYPE_KEYBOARD)
-		{
-			LTStrCpy( pBinding->strDeviceName, "Keyboard", sizeof(pBinding->strDeviceName) );
-		}
-		else
-		{
-			LTStrCpy( pBinding->strDeviceName, "Unknown", sizeof(pBinding->strDeviceName) );
-		}
-
-		LTStrCpy( pBinding->strTriggerName, pISBinding->m_pKey->m_pName, sizeof(pBinding->strTriggerName) );
-		switch (nDevice)
-		{
-		case DEVICETYPE_KEYBOARD:
-			pBinding->m_nObjectId = (uint32)pISBinding->m_pKey->key;
-			break;
 		case DEVICETYPE_MOUSE:
-			if (pISBinding->m_pKey->key == SPECIAL_MOUSECLICK_LEFT)
-			{
-				pBinding->m_nObjectId = 1;
-			}
-			if (pISBinding->m_pKey->key == SPECIAL_MOUSECLICK_RIGHT)
-			{
-				pBinding->m_nObjectId = 2;
-			}
-			if (pISBinding->m_pKey->key == SPECIAL_MOUSEWHEEL_UP)
-			{
-				pBinding->m_nObjectId = 3;
-			}
-			if (pISBinding->m_pKey->key == SPECIAL_MOUSEWHEEL_DOWN)
-			{
-				pBinding->m_nObjectId = 4;
-			}
+			make_mouse_binding(pBinding, cur_bind);
 			break;
-		default:
-			pBinding->m_nObjectId = 0;
+		case DEVICETYPE_KEYBOARD:
+			 make_keyboard_binding(pBinding, cur_bind);
+			break;
 		}
-
-		// go through the actions, adding them to the trigger
-		GameAction* pActionHead = LTNULL;
-
-		GameAction* pNewAction;
-		LT_MEM_TRACK_ALLOC(pNewAction = new GameAction,LT_MEM_TYPE_INPUT);
-		memset( pNewAction, 0, sizeof(GameAction) );
-
-		pNewAction->nActionCode = pISBinding->m_pAction->m_Code;
-		strcpy (pNewAction->strActionName, pISBinding->m_pAction->m_Name);
-		if (pISBinding->m_pKey->key == SPECIAL_MOUSEWHEEL_UP || pISBinding->m_pKey->key == SPECIAL_MOUSEWHEEL_DOWN)
-		{
-			pNewAction->nRangeLow = pISBinding->m_ranges[0];
-			pNewAction->nRangeHigh = pISBinding->m_ranges[1];
-		}
-		pNewAction->pNext = pActionHead;
-		pActionHead = pNewAction;
-
-		pBinding->pActionHead = pActionHead;
 
 		pBinding->pNext = pBindingsHead;
 		pBindingsHead = pBinding;
@@ -638,15 +512,8 @@ void input_sdl2_SaveBindings(FILE *fp)
 	ISAction* action_cur;
 	ISBinding* bind_cur;
 	SDL_Scancode scancode;
-	int dik;
-	int i;
-	const char* axis;
 
-	for(action_cur=g_Actions_sdl2; action_cur; action_cur=action_cur->m_pNext)
-	{
-		fprintf(fp, "AddAction %s %d\n", action_cur->m_Name, action_cur->m_Code);
-	}
-	for( auto pCur : g_sdl2_actions)
+	for( auto &pCur : g_sdl2_actions)
 		fprintf(fp, "AddAction %s %d\n", pCur.second->m_Name, pCur.second->m_Code);
 
 	fprintf(fp, "\nenabledevice \"##keyboard\"\n");
@@ -665,63 +532,43 @@ void input_sdl2_SaveBindings(FILE *fp)
 			);
 		}
 	}
-	for(bind_cur=g_Bindings_sdl2; bind_cur; bind_cur=bind_cur->m_pNext)
-	{
-		scancode = SDL_GetScancodeFromKey(bind_cur->m_pKey->key);
-		dik = SDLScanCodeToKeyNum(scancode);
-		if (!strcmp(bind_cur->m_deviceName, "##keyboard"))
-		{
-			fprintf(fp, "rangebind \"##keyboard\" \"##%d\" %f %f \"%s\"\n",
-				dik, bind_cur->m_ranges[0], bind_cur->m_ranges[1], bind_cur->m_pAction->m_Name);
-		}
-	}
 
 	fprintf(fp, "\nenabledevice \"##mouse\"\n");
-	for(bind_cur=g_Bindings_sdl2; bind_cur; bind_cur=bind_cur->m_pNext)
+	for(auto &cur_bind: g_sdl2_bindings)
 	{
-		scancode = SDL_GetScancodeFromKey(bind_cur->m_pKey->key);
-		dik = SDLScanCodeToKeyNum(scancode);
-		axis = NULL;
-		if (strcmp(bind_cur->m_deviceName, "##mouse"))
-		{
+		const char *axis = nullptr;
+		if(strcmp(cur_bind->m_deviceName, "##mouse")) // if not mouse binding, continue
 			continue;
-		}
 
-		if (!strcmp(bind_cur->m_pAction->m_Name, "Axis1"))
+		if (!strcmp(cur_bind->m_pAction->m_Name, "Axis1"))
 		{
 			axis = "x-axis";
 		}
-		else if (!strcmp(bind_cur->m_pAction->m_Name, "Axis2"))
+		else if (!strcmp(cur_bind->m_pAction->m_Name, "Axis2"))
 		{
 			axis = "y-axis";
-		}
-		else
-		{
-			/* other action */
-			if (bind_cur->m_pKey->key == SPECIAL_MOUSECLICK_LEFT)
-			{
+		} else {
+			switch (cur_bind->m_pKey->key) {
+			case SPECIAL_MOUSECLICK_LEFT:
 				axis = "3";
-			}
-			if (bind_cur->m_pKey->key == SPECIAL_MOUSECLICK_RIGHT)
-			{
+				break;
+			case SPECIAL_MOUSECLICK_RIGHT:
 				axis = "4";
-			}
-			if (bind_cur->m_pKey->key == SPECIAL_MOUSEWHEEL_UP
-				|| bind_cur->m_pKey->key == SPECIAL_MOUSEWHEEL_DOWN)
-			{
+				break;
+			case SPECIAL_MOUSEWHEEL_DOWN:
+			case SPECIAL_MOUSEWHEEL_UP:
 				axis = "z-axis";
+				break;
 			}
 		}
-
-		if (axis == NULL)
-		{
+		if (!axis)
 			continue;
-		}
+
 		fprintf(fp, "rangebind \"##mouse\" \"##%s\" %f %f \"%s\"\n",
-			axis, bind_cur->m_ranges[0], bind_cur->m_ranges[1], bind_cur->m_pAction->m_Name);
+			axis, cur_bind->m_ranges[0], cur_bind->m_ranges[1], cur_bind->m_pAction->m_Name);
 	}
 
-	for(i = 0; i < NUM_KEYS; i++)
+	for(int i = 0; i < NUM_KEYS; i++)
 	{
 		if(!stricmp(g_Keys[i].m_pName, "x-axis"))
 		{
