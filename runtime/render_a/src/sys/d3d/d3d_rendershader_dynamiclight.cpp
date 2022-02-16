@@ -202,6 +202,7 @@ void CRenderShader_DynamicLight::SetStates()
 		}
 
 		// Note : No other lighting methods are currently supported...
+		default: break;
 	}
 
 	// Set the states we need no matter what type of lighting we're doing

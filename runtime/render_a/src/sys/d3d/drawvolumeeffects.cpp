@@ -661,6 +661,7 @@ static void TestAndDrawVolumeEffect(const ViewParams& Params, LTObject* pObject 
 	case VolumeEffectInfo::kDynamicParticles:
 		DrawDynamicParticles( Params, pEffect );
 		break;
+	default: break;
 	}
 }
 

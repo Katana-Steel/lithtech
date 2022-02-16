@@ -311,6 +311,7 @@ void CUIStaticText_Impl::AlignTextInWidget()
 			case CUI_VALIGN_BOTTOM:
 				ypos = m_Rect.y + (m_Rect.height - h - m_GutterBottom);
 				break;
+		default: break;
 
 		}
 
@@ -328,6 +329,7 @@ void CUIStaticText_Impl::AlignTextInWidget()
 			case CUI_HALIGN_RIGHT:
 				xpos = m_Rect.x + m_Rect.width - m_GutterRight;
 				break;
+		default: break;
 		}
 
 		m_pPolyStr->SetPosition(xpos, ypos);

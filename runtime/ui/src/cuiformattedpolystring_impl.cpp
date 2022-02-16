@@ -647,6 +647,7 @@ void CUIFormattedPolyString_Impl::ApplyXYZ()
 				if (line_start < stop_idx) current_word++;
 				line_start = i;
 				break;
+			default: break;
 		}
 
 		start_word = m_pLines[lines*2] + 1;

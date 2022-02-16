@@ -685,6 +685,7 @@ LTRESULT CClientMgr::AppInitMusic(const char *pszMusicDLL)
             SetupError(LT_UNABLETOINITMUSICDLL, m_MusicDLLName);
             RETURN_ERROR(1, CClientMgr::AppInitMusic, LT_UNABLETOINITMUSICDLL);
             break;
+        default: break;
     }
 
     return LT_OK;

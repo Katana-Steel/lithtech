@@ -650,6 +650,7 @@ uint32 CTextureManager::GetPitch(D3DFORMAT Format, uint32 iWidth)
 	uint32 iPitch;
 	if (Format == D3DFMT_DXT1 || Format == D3DFMT_DXT3 || Format == D3DFMT_DXT5) {
 		switch (Format) {
+		default: break;
 		case D3DFMT_DXT1 : iPitch = iWidth*2; break;
 		case D3DFMT_DXT3 : iPitch = iWidth*4; break;
 		case D3DFMT_DXT5 : iPitch = iWidth*4; break; } }

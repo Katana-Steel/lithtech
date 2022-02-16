@@ -117,6 +117,7 @@ CUI_RESULTTYPE CUIOption_Impl::SetColors(CUI_ELEMENTTYPE elm,
 		case CUIE_OPTION_DISABLED:
 			elm = CUIE_CHECK_DISABLED;
 			break;
+		default: break;
 	}
 
 	return CUICheck_Impl::SetColors(elm, argb0, argb1, argb2, argb3);
@@ -141,6 +142,7 @@ CUI_RESULTTYPE	CUIOption_Impl::SetTexture(CUI_ELEMENTTYPE elm,
 		case CUIE_OPTION_DISABLED:
 			elm = CUIE_CHECK_DISABLED;
 			break;
+		default: break;
 	}
 
 	return CUICheck_Impl::SetTexture(elm, hTex, pRect);

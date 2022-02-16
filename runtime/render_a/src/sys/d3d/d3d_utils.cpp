@@ -33,6 +33,7 @@ D3DFORMAT d3d_PFormatToD3DFormat(const PFormat *pFormat)
 		assert(0); break;
 	case BPP_8		   :	
 		return D3DFMT_P8;	break; 
+	default: break;
 	}
 	return (D3DFORMAT)NULL;
 }
@@ -91,6 +92,7 @@ bool d3d_D3DFormatToPFormat(D3DFORMAT iD3DFormat, PFormat *pFormat)
 	case D3DFMT_DXT1 : pFormat->Init(BPP_S3TC_DXT1,iAlphaMask,iRedMask,iGreenMask,iBlueMask); return true; break;
 	case D3DFMT_DXT3 : pFormat->Init(BPP_S3TC_DXT3,iAlphaMask,iRedMask,iGreenMask,iBlueMask); return true; break;
 	case D3DFMT_DXT5 : pFormat->Init(BPP_S3TC_DXT5,iAlphaMask,iRedMask,iGreenMask,iBlueMask); return true; break; 
+	default: break;
 	}
 
 	d3d_GetColorMasks(iD3DFormat,iBitCount,iAlphaMask,iRedMask,iGreenMask,iBlueMask);

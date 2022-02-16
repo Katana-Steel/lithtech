@@ -437,6 +437,7 @@ static void RenderModelPieces( ModelInstance* pInstance )
 						}
 					}
 					break;
+				default: break;
 				}
 
 				//add to our polygon counts

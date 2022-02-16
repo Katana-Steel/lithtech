@@ -100,6 +100,7 @@ HTEXTURE	CUIWidget_Impl::GetTexture(CUI_ELEMENTTYPE elm)
 		case CUIE_BG:
 			return m_DrawBG.m_Texture;
 			break;
+		default: break;
 	}
 
 	return NULL;

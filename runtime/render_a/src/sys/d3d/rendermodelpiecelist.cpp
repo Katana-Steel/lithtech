@@ -54,6 +54,7 @@ static void BeginRenderableModelPiece(CDIModelDrawable* pRPiece, DDMatrix* pTran
 		break;
 	case CRenderObject::eVAMesh :
 		break;
+	default: break;
 	}
 }
 
@@ -107,6 +108,7 @@ static void RenderModelPiece( CDIModelDrawable* pRPiece,
 			}
 		}
 		break;
+	default: break;
 	}
 
 	//update our model polygon counts for information reporting
@@ -132,6 +134,7 @@ static void EndRenderableModelPiece(CDIModelDrawable* pRPiece)
 		break;
 	case CRenderObject::eVAMesh :
 		break;
+	default: break;
 	}
 }
 

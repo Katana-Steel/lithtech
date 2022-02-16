@@ -69,6 +69,7 @@ bool CD3DRenderStateMgr::SetRenderStyleTextures(CD3DRenderStyle* pRenderStyle, u
 		case RENDERSTYLE_USE_TEXTURE2 : d3d_SetTexture(pTextureList[1],iTexStage, eFS_ModelTexMemory); break;
 		case RENDERSTYLE_USE_TEXTURE3 : d3d_SetTexture(pTextureList[2],iTexStage, eFS_ModelTexMemory); break;
 		case RENDERSTYLE_USE_TEXTURE4 : d3d_SetTexture(pTextureList[3],iTexStage, eFS_ModelTexMemory); break;
+		default: break;
 		}
 	}
 

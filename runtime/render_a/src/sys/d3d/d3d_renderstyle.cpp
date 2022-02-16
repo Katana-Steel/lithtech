@@ -183,6 +183,7 @@ bool CD3DRenderStyle::IsSupportedOnDevice()
 		for (i = 0; i < 4; ++i) {																// Go through the texture stages, checking the caps...
 			if (RenderPass.TextureStages[i].ColorOp == RENDERSTYLE_COLOROP_DISABLE)				{ continue; }
 			switch (RenderPass.TextureStages[i].ColorOp) {
+			default: break;
 			case RENDERSTYLE_COLOROP_SELECTARG1			: if (!(g_Device.GetDeviceCaps()->TextureOpCaps & D3DTEXOPCAPS_SELECTARG1))			 { return false; } break;
 			case RENDERSTYLE_COLOROP_SELECTARG2			: if (!(g_Device.GetDeviceCaps()->TextureOpCaps & D3DTEXOPCAPS_SELECTARG2))			 { return false; } break;
 			case RENDERSTYLE_COLOROP_MODULATE			: if (!(g_Device.GetDeviceCaps()->TextureOpCaps & D3DTEXOPCAPS_MODULATE))			 { return false; } break;
@@ -196,6 +197,7 @@ bool CD3DRenderStyle::IsSupportedOnDevice()
 			case RENDERSTYLE_COLOROP_BUMPENVMAPLUM		: if (!(g_Device.GetDeviceCaps()->TextureOpCaps & D3DTEXOPCAPS_BUMPENVMAPLUMINANCE)) { return false; } break; }
 
 			switch (RenderPass.TextureStages[i].AlphaOp) {
+			default: break;
 			case RENDERSTYLE_ALPHAOP_SELECTARG1			: if (!(g_Device.GetDeviceCaps()->TextureOpCaps & D3DTEXOPCAPS_SELECTARG1))			 { return false; } break;
 			case RENDERSTYLE_ALPHAOP_SELECTARG2			: if (!(g_Device.GetDeviceCaps()->TextureOpCaps & D3DTEXOPCAPS_SELECTARG2))			 { return false; } break;
 			case RENDERSTYLE_ALPHAOP_MODULATE			: if (!(g_Device.GetDeviceCaps()->TextureOpCaps & D3DTEXOPCAPS_MODULATE))			 { return false; } break;
