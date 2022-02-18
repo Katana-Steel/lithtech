@@ -1,6 +1,7 @@
 #include "iltsound.h"
 #include "SDL.h"
 #include "wave.h"
+#include <iostream>
 #ifdef _LINUX
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -295,6 +296,8 @@ public:
 		void** ppChunk2, unsigned int* pdwChunkSize2, unsigned int dwFlags );
 	void Unlock( void* pChunk1, unsigned int dwChunkSize1, void* pChunk2, unsigned int dwChunkSize2 );
 	void HandleLoop( COpenALSoundSys* pSoundSys );
+	void DisplayError();
+
 
 public:
 	unsigned int m_dwPlayFlags;
@@ -302,6 +305,7 @@ public:
 
 public:
 	WAVEFORMATEX			m_waveFormat;
+	ALenum					error;
 	ALuint					source;
 	ALuint					buffer;
 	char*					m_pSoundData;
@@ -341,10 +345,36 @@ void CSample::Reset( )
 	m_bLooping = false;
 	source = 0;
 	buffer = 0;
+	error = 0;
+	alGetError();
+}
+
+void CSample::DisplayError()
+{
+	switch (error) {
+	case AL_NO_ERROR: break;
+	case AL_INVALID_NAME:
+		std::cout << "OpenAL invalid name\n";
+		break;
+	case AL_INVALID_ENUM:
+		std::cout << "OpenAL invalid Enum\n";
+		break;
+	case AL_INVALID_VALUE:
+		std::cout << "OpenAL invalid Value\n";
+		break;
+	case AL_INVALID_OPERATION:
+		std::cout << "OpenAL invalid Operation\n";
+		break;
+	case AL_OUT_OF_MEMORY:
+		std::cout << "OpenAL Out of Memory\n";
+		break;
+	}
 }
 
 void CSample::Term( )
 {
+	if ( source>0 )
+		std::cout << "CSample::Term source id: " << source << '\n';
 	alDeleteSources(1, &source);
 	alDeleteBuffers(1, &buffer);
 
@@ -374,11 +404,26 @@ bool CSample::Init( int& hResult, void* pDS, uint32 uiNumSamples,
 	if (source == 0)
 	{
 		alGenSources(1, &source);
+		error = alGetError();
+		if (error != AL_NO_ERROR) {
+			std::cout << "genSources ";
+			DisplayError();
+			Term();
+			return false;
+		} else {
+			std::cout << "CSample::Init source id: " << source << '\n';
+		}
 	}
 
 	if (buffer == 0)
 	{
 		alGenBuffers(1, &buffer);
+		if (error != AL_NO_ERROR) {
+			std::cout << "genBuffers ";
+			DisplayError();
+			Term();
+			return false;
+		}
 	}
 
 	return true;
@@ -444,6 +489,11 @@ bool CSample::Play( )
 	alSourcei(source, AL_BUFFER, buffer);
 	alSource3f(source, AL_POSITION, 0, 0, 0);
 	alSourcePlay(source);
+	error = alGetError();
+	if (error != AL_NO_ERROR){
+		std::cout << "CSample::Play: ";
+		DisplayError();
+	}
 	return true;
 }
 
@@ -493,7 +543,10 @@ bool CSample::Fill( )
 	// when the sound ends.
 	if( IsPlaying( ))
 	{
-		ASSERT( !"CSample::Fill:  Buffer should have been stopped before reaching fill." );
+		error = alGetError();
+		DisplayError();
+		if (error != AL_NO_ERROR)
+			ASSERT( !"CSample::Fill:  Buffer should have been stopped before reaching fill." );
 	}
 
 	switch (m_waveFormat.wBitsPerSample)
@@ -636,12 +689,7 @@ bool C3DSample::Init( int& hResult, void* pDS, uint32 uiNumSamples, WAVEFORMATEX
 		return false;
 	}
 
-	if( !m_sample.Init( hResult, pDS, uiNumSamples, true, pWaveFormat, pFilterData ) )
-	{
-		return false;
-	}
-
-	return true;
+	return m_sample.Init( hResult, pDS, uiNumSamples, true, pWaveFormat, pFilterData );
 }
 
 void C3DSample::Term( )
@@ -1909,6 +1957,17 @@ void COpenALSoundSys::StopSample( LHSAMPLE hS )
 
 void COpenALSoundSys::StartSample( LHSAMPLE hS )
 {
+	if (hS == nullptr)
+		return;
+
+	CSample* pSample = ( CSample* )hS;
+	pSample->Restore( );
+
+	m_hResult = pSample->Stop( true );
+	m_hResult = pSample->Play( );
+
+	char* m_pcLastError = LastError( );
+
 }
 
 void COpenALSoundSys::ResumeSample( LHSAMPLE hS )

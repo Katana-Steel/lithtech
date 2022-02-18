@@ -292,10 +292,10 @@ void CD3DRenderStateMgr::SetBumpEnvMapMatrix(uint32 BumpEnvMapStage)
 
 	D3DMATRIX VS; memset(&VS, 0, sizeof(D3DMATRIX));
 	VS._11	= (float)vp.Width/2;						// Create view scaling matrix:
-	VS._22	= -(float)(vp.Height/2);					// | Width/2    0           0          0 |
+	VS._22	= -((float)vp.Height/2);					// | Width/2    0           0          0 |
 	VS._33	= (float)(vp.MaxZ - vp.MinZ);				// | 0          -Height/2   0          0 |
-	VS._41	= (float)(vp.X + vp.Width/2);				// | 0          0           MaxZ-MinZ  0 |
-	VS._42	= (float)(vp.Height/2 + vp.Y);				// | X+Width/2  Height/2+Y  MinZ       1 |
+	VS._41	= (float)(vp.X + VS._11);					// | 0          0           MaxZ-MinZ  0 |
+	VS._42	= (float)((-VS._22) + vp.Y);				// | X+Width/2  Height/2+Y  MinZ       1 |
 	VS._43	= (float)vp.MinZ;
 	VS._44	= 1.0f;
 
