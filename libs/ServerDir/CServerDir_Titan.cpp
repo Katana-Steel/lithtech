@@ -1568,6 +1568,9 @@ bool CServerDirectory_Titan::HasActivePeerInfo(EPeerInfo eInfoType) const
 		return cActivePeer.m_bHasDetails;
 	case ePeerInfo_Ping:
 		return cActivePeer.m_bHasPing;
+	case ePeerInfo_Service:
+	case ePeerInfo_TotalNum:
+		return false;
 	}
 
 	return false;
