@@ -315,7 +315,7 @@ public:
 	S32						m_nLoopStart;
 	S32						m_nLoopEnd;
 	bool					m_bLoopBlock;
-	uint32					m_nLastPlayPos;
+	int32					m_nLastPlayPos;
 	bool					m_bLooping;
 
 	static 	LTLink			m_lstSampleLoopHead;
@@ -373,8 +373,6 @@ void CSample::DisplayError()
 
 void CSample::Term( )
 {
-	if ( source>0 )
-		std::cout << "CSample::Term source id: " << source << '\n';
 	alDeleteSources(1, &source);
 	alDeleteBuffers(1, &buffer);
 
@@ -400,7 +398,7 @@ bool CSample::Init( int& hResult, void* pDS, uint32 uiNumSamples,
 	{
 		memcpy( &m_waveFormat, pWaveFormat, sizeof( WAVEFORMATEX ) );
 	}
-
+/*
 	if (source == 0)
 	{
 		alGenSources(1, &source);
@@ -414,7 +412,7 @@ bool CSample::Init( int& hResult, void* pDS, uint32 uiNumSamples,
 			std::cout << "CSample::Init source id: " << source << '\n';
 		}
 	}
-
+*/
 	if (buffer == 0)
 	{
 		alGenBuffers(1, &buffer);
@@ -472,22 +470,35 @@ bool CSample::SetCurrentPosition( unsigned int dwStartOffset )
 	if( source == 0 )
 		return false;
 
-	alSourcef(source, AL_BYTE_OFFSET, dwStartOffset);
+	alSourcei(source, AL_BYTE_OFFSET, dwStartOffset);
 
 	// Set the last play pos to zero, because doing this on a playing sound
 	// seems to not really set it to exactly dwStartOffset anyway.
-	m_nLastPlayPos = 0;
+	m_nLastPlayPos = dwStartOffset;
 
 	return true;
 }
 
 bool CSample::Play( )
 {
-	if( source == 0 )
+	if( buffer == 0 )
 		return false;
 
+	if (source == 0)
+	{
+		alGetError();
+		alGenSources(1, &source);
+		error = alGetError();
+		if (error != AL_NO_ERROR) {
+			std::cout << "CSample::Play genSources: ";
+			DisplayError();
+			return false;
+		}
+	}
+
 	alSourcei(source, AL_BUFFER, buffer);
-	alSource3f(source, AL_POSITION, 0, 0, 0);
+	alSourcei(source, AL_BYTE_OFFSET, m_nLastPlayPos);
+	// alSource3f(source, AL_POSITION, 0, 0, 0);
 	alSourcePlay(source);
 	error = alGetError();
 	if (error != AL_NO_ERROR){
@@ -504,17 +515,19 @@ bool CSample::Stop( bool bReset )
 
 	alSourceStop(source);
 
+	alGetSourcei(source, AL_BYTE_OFFSET, &m_nLastPlayPos);
 	if( bReset )
 	{
-		alSourcef(source, AL_SEC_OFFSET, 0.0f);
+		m_nLastPlayPos = 0;
+		alDeleteSources(1, &source);
+		source = 0;
 	}
-
 	return true;
 }
 
 void CSample::Restore( )
 {
-	if( source == 0 )
+	if( buffer == 0 )
 		return;
 
 	Fill( );
@@ -533,9 +546,9 @@ bool CSample::Fill( )
 		printf("Error in Fill - m_uiSoundDataLen is zero!\n");
 		return false;
 	}
-	if(source == 0 )
+	if(buffer == 0 )
 	{
-		printf("Error in Fill - source is zero!\n");
+		printf("Error in Fill - buffer is zero!\n");
 		return false;
 	}
 
@@ -706,6 +719,11 @@ void C3DSample::SetPosition( LTVector& pos )
 //	float fRatioInnerToDist, fDistSquared;
 
 	I3DObject::SetPosition(	pos );
+	if(m_sample.source == 0)
+		return;
+
+	alSource3f(m_sample.source, AL_POSITION, pos.x, pos.y, pos.z);
+
 
 /*
 	// we want the relative position of the object to the inner
@@ -735,6 +753,10 @@ void C3DSample::SetPosition( LTVector& pos )
 void C3DSample::SetVelocity( LTVector& vel )
 {
 	I3DObject::SetVelocity( vel );
+	if(m_sample.source == 0)
+		return;
+
+	alSource3f(m_sample.source, AL_VELOCITY, vel.x, vel.y, vel.z);
 	PRINTSTUB;
 }
 
@@ -1009,9 +1031,9 @@ uint32 CStream::FillBuffer( COpenALSoundSys* pSoundSys )
 		printf("Error in Fill - m_uiSoundDataLen is zero!\n");
 		return false;
 	}
-	if(source == 0 )
+	if(buffer == 0 )
 	{
-		printf("Error in Fill - source is zero!\n");
+		printf("Error in Fill - buffer is zero!\n");
 		return false;
 	}
 
@@ -1469,12 +1491,21 @@ void COpenALSoundSys::Set3DPosition( LH3DPOBJECT hObj, float fX, float fY, float
 	}
 	else
 	{
+		C3DSample *p3dSample = (C3DSample*)hObj;
+		LTVector pos{fX,fY,fZ};
+		p3dSample->SetPosition(pos);
 		//printf("STUB: Set3DPosition for a non-listener\n");
 	}
 }
 
 void COpenALSoundSys::Set3DVelocityVector( LH3DPOBJECT hObj, float fDX_per_ms, float fDY_per_ms, float fDZ_per_ms )
 {
+	if (hObj == alcontext)
+		return;
+
+	C3DSample *p3dSample = (C3DSample*)hObj;
+	LTVector vel{fDX_per_ms,fDY_per_ms,fDZ_per_ms};
+	p3dSample->SetVelocity(vel);		
 }
 
 void COpenALSoundSys::Set3DOrientation( LH3DPOBJECT hObj, float fX_face, float fY_face, float fZ_face, float fX_up, float fY_up, float fZ_up )
