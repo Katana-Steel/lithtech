@@ -486,7 +486,7 @@ bool CSample::Play( )
 
 	if (source == 0)
 	{
-		alGetError();
+		alGetError(); // clear errors, prior to create a new source
 		alGenSources(1, &source);
 		error = alGetError();
 		if (error != AL_NO_ERROR) {
@@ -498,7 +498,7 @@ bool CSample::Play( )
 
 	alSourcei(source, AL_BUFFER, buffer);
 	alSourcei(source, AL_BYTE_OFFSET, m_nLastPlayPos);
-	// alSource3f(source, AL_POSITION, 0, 0, 0);
+	alSource3i(source, AL_POSITION, 0, 0, 0);
 	alSourcePlay(source);
 	error = alGetError();
 	if (error != AL_NO_ERROR){
