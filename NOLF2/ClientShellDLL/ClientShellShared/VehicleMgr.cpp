@@ -993,13 +993,14 @@ void CVehicleMgr::UpdateVehicleMotion()
 			fAccelAdjust = fAccelAdjust > fAccelMag ? fAccelMag : fAccelAdjust;
 
 			vAccel -= vAccelDir * fAccelAdjust;
-
-			if (vAccel.Mag() < 10.0f)
+			LTFLOAT fAccel = vAccel.Mag();
+			if (fAccel != fAccel || fAccel < 10.0f)
 			{
 				vAccel.Init();
+				fAccel = vAccel.Mag();
 			}
 
-			m_fVehicleBaseMoveAccel = vAccel.Mag();
+			m_fVehicleBaseMoveAccel = fAccel;
 		}
 		else
 		{
