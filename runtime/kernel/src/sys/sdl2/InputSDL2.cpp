@@ -8,6 +8,7 @@
 #include "linuxdsys.h"
 #endif
 #include "sdl2_scancode_to_dinput.h"
+#include <algorithm>
 #include <unordered_map>
 
 #define SPECIAL_MOUSEX	-50000
@@ -509,10 +510,6 @@ DeviceBinding* input_sdl2_GetDeviceBindings ( uint32 nDevice )
 
 void input_sdl2_SaveBindings(FILE *fp)
 {
-	ISAction* action_cur;
-	ISBinding* bind_cur;
-	SDL_Scancode scancode;
-
 	for( auto &pCur : g_sdl2_actions)
 		fprintf(fp, "AddAction %s %d\n", pCur.second->m_Name, pCur.second->m_Code);
 
