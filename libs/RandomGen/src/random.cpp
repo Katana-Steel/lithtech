@@ -12,6 +12,8 @@ static RandGen r;
 
 float getRandom(float min, float max) noexcept {
   try {
+    if(min<max)
+      std::swap(min, max);
     std::uniform_real_distribution<float> urd{min, max};
     return urd(r.mt);
   } catch(...) {
@@ -21,6 +23,8 @@ float getRandom(float min, float max) noexcept {
 
 int getRandom(int min, int max) noexcept {
   try {
+    if(min<max)
+      std::swap(min, max);
     std::uniform_int_distribution<int> urd{min, max};
     return urd(r.mt);
   } catch(...) {
@@ -29,7 +33,7 @@ int getRandom(int min, int max) noexcept {
 }
 
 void seed(int s) noexcept {
-  if (s != 0) {
+  if (s == 0) {
     std::chrono::system_clock clk;
     r.mt.seed(clk.to_time_t(clk.now()));
   } else {

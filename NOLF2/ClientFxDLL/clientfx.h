@@ -112,15 +112,11 @@
 
 	inline LTFLOAT GetRandom( LTFLOAT min, LTFLOAT max )
 	{
-		if ( min > max )
-			return katana_steel::lithtech::getRandom(max, min);
 		return katana_steel::lithtech::getRandom(min, max);
 	}
 
 	inline int GetRandom( int min, int max )
 	{
-		if ( min > max )
-			return katana_steel::lithtech::getRandom(max, min);
 		return katana_steel::lithtech::getRandom(min, max);
 	}
 
