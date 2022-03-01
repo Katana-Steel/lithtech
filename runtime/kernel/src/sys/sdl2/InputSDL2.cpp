@@ -145,7 +145,8 @@ SDL2Key g_Keys[] =
 	"Left Shift", SDLK_LSHIFT, 1.0f,
 	"Right Shift", SDLK_RSHIFT, 1.0f,
 	"Space", SDLK_SPACE, 1.0f,
-	"CapsLock", SDLK_CAPSLOCK, 1.0f
+	"CapsLock", SDLK_CAPSLOCK, 1.0f,
+	"Delete", SDLK_DELETE, 1.0f
 };
 #define NUM_KEYS (sizeof(g_Keys)/sizeof(g_Keys[0]))
 
