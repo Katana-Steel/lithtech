@@ -488,6 +488,12 @@ LTBOOL CScreenConfigure::HandleKeyDown(int key, int rep)
 				int nCommand = pCtrl->GetParam1();
 				CBindingData* pData = m_pProfile->FindBinding(nCommand);
 
+				/* don't unbind an already unbound action */
+				if (pData->nDeviceObjectId[0] == 0)
+				{
+					return handled;
+				}
+
 				UnBind( pData->nDeviceObjectId[0], NULL, DEVICETYPE_KEYBOARD);
 				UnBind( 0, pData->strTriggerName[1], DEVICETYPE_MOUSE);
 
