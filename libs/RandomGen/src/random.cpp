@@ -12,7 +12,7 @@ static RandGen r;
 
 float getRandom(float min, float max) noexcept {
   try {
-    if(min<max)
+    if(min>max)
       std::swap(min, max);
     std::uniform_real_distribution<float> urd{min, max};
     return urd(r.mt);
@@ -23,7 +23,7 @@ float getRandom(float min, float max) noexcept {
 
 int getRandom(int min, int max) noexcept {
   try {
-    if(min<max)
+    if(min>max)
       std::swap(min, max);
     std::uniform_int_distribution<int> urd{min, max};
     return urd(r.mt);
