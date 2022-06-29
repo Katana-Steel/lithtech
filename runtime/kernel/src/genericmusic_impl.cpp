@@ -1028,10 +1028,8 @@ LTRESULT CLTDirectMusicMgr::SetVolume(const long nVolume)
 	CSoundInstance** array;
 	float fVolume = 0.0f;
 	unsigned int i, num_instances;
-	fVolume = 126.0f / 7500.0f;
+	fVolume = 100.0f / 7500.0f;
 	fVolume *= ((float)nVolume + 2500.0f);
-	fVolume += 1.0f;
-
 	m_nVolume = (uint16)fVolume;
 
 	pSegment = m_lstSegments.GetFirst();
@@ -1043,7 +1041,7 @@ LTRESULT CLTDirectMusicMgr::SetVolume(const long nVolume)
 
 		for (i = 0; i < num_instances; i++)
 		{
-			array[i]->SetVolume(m_nVolume);
+			array[i]->SetVolumeNoMultiplier(m_nVolume);
 		}
 
 		pSegment = pSegment->Next();
@@ -2584,8 +2582,8 @@ bool CLTDirectMusicMgr::PlayInstance(CSoundInstance* instance, int reset_prev)
 	if (instance->GetSample())
 	{
 		instance->SetTimer(instance->GetDuration());
-		instance->SetVolume(m_nVolume);
 		instance->UpdateOutput(0);
+		instance->SetVolumeNoMultiplier(m_nVolume);
 		if (reset_prev)
 		{
 			m_nPrevIntensity = 0;

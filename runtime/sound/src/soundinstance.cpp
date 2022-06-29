@@ -490,6 +490,20 @@ LTRESULT CSoundInstance::SetVolume(uint16 nOrigVolume)
 	return LT_OK;
 }
 
+//this function is only called from genericmusic_impl.cpp for music instances,
+//so that changes to the sound effect volume don't impact music volumes
+LTRESULT CSoundInstance::SetVolumeNoMultiplier(uint16 volume)
+{
+	if ( m_hSample )
+	{
+		GetSoundSys()->SetSampleVolume( m_hSample, volume );
+	}
+	else
+		return LT_ERROR;
+
+	return LT_OK;
+}
+
 LTRESULT CSoundInstance::SetPan(uint16 nPan)
 {
 	m_nCurPan = nPan;

@@ -2042,11 +2042,7 @@ void COpenALSoundSys::SetSampleVolume( LHSAMPLE hS, S32 siVolume )
 	if( siVolume > ( S32 )MAX_MASTER_VOLUME )
 		siVolume = ( S32 )MAX_MASTER_VOLUME;
 
-	long lDSVolume;
-	CONVERT_LIN_VOL_TO_LOG_VOL( siVolume, lDSVolume );
-
-	vol = 1.0f / 10000.0f;
-	vol *= (lDSVolume + 10000.0f);
+	vol = (float)siVolume * 0.01f;
 
 	alSourcef(pSample->source, AL_GAIN, vol);
 }

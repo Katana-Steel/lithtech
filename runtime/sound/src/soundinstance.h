@@ -157,6 +157,7 @@ public:
 	;
 
 	virtual LTRESULT	SetVolume(uint16 nOrigVolume);
+	virtual LTRESULT	SetVolumeNoMultiplier(uint16 volume);
 
 	virtual LTRESULT	GetVolume(uint16 &nVolume);
 
