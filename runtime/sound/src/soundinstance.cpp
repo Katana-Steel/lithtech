@@ -855,8 +855,8 @@ LTRESULT CSoundInstance::StartRendering( )
 		else
 		{
 			dwCurPos = m_dwDuration - m_dwTimer;
-			GetSoundSys()->SetStreamMsPosition( m_hStream, dwCurPos );
-			GetSoundSys()->PauseStream( m_hStream, 0 );
+			GetSoundSys()->PauseStream(m_hStream, 0);
+			GetSoundSys()->SetStreamMsPosition(m_hStream, dwCurPos);
 		}
 	}
 	else if( m_h3DSample )
