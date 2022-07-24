@@ -270,6 +270,36 @@ static char* mpeg3_decode(char* p, unsigned int length,
 }
 
 class COpenALSoundSys;
+struct COALSource
+{
+	COALSource()
+	{
+		alGetError();
+		alGenSources(1, &m_hSrc);
+		auto error = alGetError();
+		if (error != AL_NO_ERROR)
+			throw error;
+	}
+	~COALSource()
+	{
+		alDeleteSources(1, &m_hSrc);
+	}
+
+	void setBuffer(ALint openal_buffer)
+	{
+		alSourcei(m_hSrc, AL_BUFFER, openal_buffer);
+	}
+	void setPlayOffset(ALint offset)
+	{
+		alSourcei(m_hSrc, AL_BYTE_OFFSET, offset);
+	}
+	void setWorldPosition(const LTVector3f &pos)
+	{
+		alSource3f(m_hSrc, AL_POSITION, pos.x, pos.y, pos.z);
+	}
+private:
+	ALuint m_hSrc;
+};
 
 //! CSample
 
@@ -386,7 +416,7 @@ void CSample::Term( )
 	if( m_bAllocatedSoundData && m_pSoundData != NULL )
 		delete[] m_pSoundData;
 
-	Reset( );
+	Reset();
 }
 
 bool CSample::Init( int& hResult, void* pDS, uint32 uiNumSamples,
@@ -406,21 +436,7 @@ bool CSample::Init( int& hResult, void* pDS, uint32 uiNumSamples,
 	{
 		memcpy( &m_waveFormat, pWaveFormat, sizeof( WAVEFORMATEX ) );
 	}
-/*
-	if (source == 0)
-	{
-		alGenSources(1, &source);
-		error = alGetError();
-		if (error != AL_NO_ERROR) {
-			std::cout << "genSources ";
-			DisplayError();
-			Term();
-			return false;
-		} else {
-			std::cout << "CSample::Init source id: " << source << '\n';
-		}
-	}
-*/
+
 	if (buffer == 0)
 	{
 		alGenBuffers(1, &buffer);
@@ -529,6 +545,10 @@ bool CSample::Stop( bool bReset )
 	if( bReset )
 	{
 		m_nLastPlayPos = 0;
+
+	}
+	if (! m_bLooping )
+	{
 		alDeleteSources(1, &source);
 		source = 0;
 	}
@@ -1936,6 +1956,10 @@ void COpenALSoundSys::Set3DSamplePlaybackRate( LH3DSAMPLE hS, S32 siPlayback_rat
 
 void COpenALSoundSys::Set3DSampleDistances( LH3DSAMPLE hS, float fMax_dist, float fMin_dist )
 {
+	if ( !hS ) return;
+	C3DSample *sample = (C3DSample*)hS;
+	alSourcef(sample->m_sample.source, AL_MAX_DISTANCE, fMax_dist);
+
 }
 
 void COpenALSoundSys::Set3DSamplePreference( LH3DSAMPLE hSample, char* sName, void* pVal )
@@ -1948,10 +1972,10 @@ void COpenALSoundSys::Set3DSampleLoopBlock( LH3DSAMPLE hS, sint32 siLoop_start_o
 		return;
 
 	C3DSample* p3DSample = ( C3DSample* )hS;
-	CSample* pSample = &p3DSample->m_sample;
-	pSample->m_nLoopStart = siLoop_start_offset;
-	pSample->m_nLoopEnd = siLoop_end_offset;
-	pSample->m_bLoopBlock = bEnable;
+	CSample &pSample = p3DSample->m_sample;
+	pSample.m_nLoopStart = siLoop_start_offset;
+	pSample.m_nLoopEnd = siLoop_end_offset;
+	pSample.m_bLoopBlock = bEnable;
 }
 
 void COpenALSoundSys::Set3DSampleLoop( LH3DSAMPLE hS, bool bLoop )
