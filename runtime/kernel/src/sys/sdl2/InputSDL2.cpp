@@ -10,6 +10,7 @@
 #include "sdl2_scancode_to_dinput.h"
 #include <algorithm>
 #include <unordered_map>
+#include <vector>
 
 #define SPECIAL_MOUSEX	-50000
 #define SPECIAL_MOUSEY	-50001
