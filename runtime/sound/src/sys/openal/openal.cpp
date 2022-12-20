@@ -41,6 +41,8 @@ enum
 #define PRINTSTUB
 #endif
 
+#define C3D_REFERENCE_DISTANCE 2000.0f
+
 //ADPCM decoding from https://github.com/dbry/adpcm-xq/
 //see adpcm_license.txt for details.
 
@@ -499,6 +501,7 @@ bool CSample::Play( )
 	alSourcei(source, AL_BUFFER, buffer);
 	alSourcei(source, AL_BYTE_OFFSET, m_nLastPlayPos);
 	alSource3i(source, AL_POSITION, 0, 0, 0);
+	alSourcei(source, AL_LOOPING, m_bLooping ? AL_TRUE : AL_FALSE);
 	alSourcePlay(source);
 	error = alGetError();
 	if (error != AL_NO_ERROR){
@@ -724,6 +727,7 @@ void C3DSample::SetPosition( LTVector& pos )
 
 	alSource3f(m_sample.source, AL_POSITION, pos.x, pos.y, pos.z);
 
+	alSourcef(m_sample.source, AL_REFERENCE_DISTANCE, C3D_REFERENCE_DISTANCE);
 
 /*
 	// we want the relative position of the object to the inner
