@@ -771,7 +771,8 @@ LTRESULT dsi_DoErrorMessage(const char *pMessage) {
 
 void dsi_MessageBox(const char *pMessage, const char *pTitle) {
     int i;
-    i = MessageBox(g_ClientGlob.m_hMainWnd, pMessage, pTitle, MB_OK);
+    i = SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+        pTitle, pMessage, g_ClientGlob.m_window);
 }
 
 LTRESULT dsi_GetVersionInfo(LTVersionInfo &info) {

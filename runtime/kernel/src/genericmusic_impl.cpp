@@ -18,6 +18,7 @@ static IClientFileMgr *client_file_mgr;
 define_holder(IClientFileMgr, client_file_mgr);
 
 #define DEFAULT_PCHANNELS	256
+#include <string>
 
 #ifndef NOLITHTECH
 extern int32 g_CV_LTDMConsoleOutput;

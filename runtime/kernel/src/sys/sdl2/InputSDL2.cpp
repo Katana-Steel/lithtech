@@ -9,6 +9,7 @@
 #endif
 #include "sdl2_scancode_to_dinput.h"
 #include <algorithm>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
