@@ -36,25 +36,12 @@ struct FTClient;
 
 class CPacket_Read;
 
-class FileRef
+struct FileRef
 {
-public:
-
-            FileRef()
-            {
-                m_FileType = FILE_ANYFILE;
-                m_pFilename = NULL;
-                m_FileID = -1;
-            }
-
-
-public:
-
-    int     m_FileType;     // One of the FILE_ defines above.
-    const char  *m_pFilename;   // Filename, if not a server file.
-    uint16  m_FileID;       // File ID, if it's a server file.
+    int         m_FileType = FILE_ANYFILE;    // One of the FILE_ defines above.
+    const char* m_pFilename = nullptr;        // Filename, if not a server file.
+    uint16      m_FileID = 0xFFFF;            // File ID, if it's a server file.
 };
-
 
 struct FileIdentifier
 {
@@ -84,7 +71,7 @@ public:
     virtual void OnDisconnect() = 0;
 
     // Add resources.  If pTreeTypes is set, it will tell you what types the trees are.
-    virtual void AddResourceTrees(const char **pTreeNames, int nTrees, 
+    virtual void AddResourceTrees(const char **pTreeNames, int nTrees,
         TreeType *pTreeTypes, int *nTreesLoaded) = 0;
 
     // Helper to get a filename out of a FileRef.
