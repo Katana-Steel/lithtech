@@ -1,10 +1,10 @@
 
 // This module implements all the dsi_interface functions.
 
-#include <stdarg.h>
-#include <sys/time.h>
+#include <cstdarg>
 #include <iostream>
 
+#include "SDL_timer.h"
 #include "bdefs.h"
 #include "render.h"
 #include "stdlterror.h"
@@ -177,16 +177,19 @@ void dsi_Sleep(uint32 ms)
 // poll (requires sys/poll.h)
 //	poll(NULL, 0, ms);
 // select (requires sys/time.h, sys/types.h, unistd.h)
-	timeval timeout;
-	timeout.tv_sec = 0;
-	timeout.tv_usec = ms*1000;
-	select(0, NULL, NULL, NULL, &timeout);
+//	timeval timeout;
+//	timeout.tv_sec = 0;
+//	timeout.tv_usec = ms*1000;
+//	select(0, NULL, NULL, NULL, &timeout);
 // SIGALRM (requires sys/time.h, unistd.h)
 //	itimerval timerconfig;
 //	memset(&timerconfig, 0, sizeof(timerconfig));
 //	timerconfig.it_value.tv_usec = ms*1000;
 //	setitimer(ITIMER_REAL, &timerconfig, NULL);
 //	pause();
+
+// the simplest implementation using sdl2:
+    SDL_Delay(ms);
 }
 
 void dsi_ServerSleep(uint32 ms)
