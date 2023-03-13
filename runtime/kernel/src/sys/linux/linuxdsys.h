@@ -122,7 +122,7 @@ void dsi_PrintToConsole(const char *pMsg, ...);	// Print to console.
 
 void* dsi_GetInstanceHandle();	// Returns an HINSTANCE.
 void* dsi_GetResourceModule();	// Returns an HINSTANCE.
-void* dsi_GetMainWindow();		// Returns an HWND.
+void* dsi_GetMainWindow();		// Returns an SDL_WINDOW.
 
 // Message box.
 void dsi_MessageBox(char *pMsg, char *pTitle);
