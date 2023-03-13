@@ -20,7 +20,7 @@
 
 
 #ifndef __STDARG_H__
-#include "stdarg.h" // for variable argument macros
+#include <cstdarg> // for variable argument macros
 #define __STDARG_H__
 #endif
 

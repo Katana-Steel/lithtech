@@ -83,6 +83,8 @@ protected:
 public:
 	~CMapWordToPtr();
 
+	CMapWordToPtr& operator=(const CMapWordToPtr&)=delete;
+	CMapWordToPtr& operator=(CMapWordToPtr&&)=delete;
 
 protected:
 	// local typedefs for CTypedPtrMap class template

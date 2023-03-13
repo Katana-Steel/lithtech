@@ -125,6 +125,8 @@ class CClientMgr {
 
         CClientMgr();
         ~CClientMgr();
+        CClientMgr& operator=(const CClientMgr&)=delete;
+        CClientMgr& operator=(CClientMgr&&)=delete;
 
         // Initialize the client.. the client will hang onto pResources, so
         // allocate it if necessary..

@@ -22,8 +22,11 @@ class CTextureString :
 public:
 
 	CTextureString();
+	CTextureString(const CTextureString&)=delete;
+	CTextureString(CTextureString&&)=delete;
 	~CTextureString();
-
+	CTextureString& operator=(const CTextureString&)=delete;
+	CTextureString& operator=(CTextureString&&)=delete;
 	//called to create a string given a string and an associated font
 	LTRESULT	Create(const texture_string_type_t* pszString, const CFontInfo& Font);
 

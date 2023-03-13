@@ -34,6 +34,8 @@ class CClientShell : public CNetHandler
 
 								CClientShell();
 								~CClientShell();
+		CClientShell&			operator=(const CClientShell&)=delete;
+		CClientShell&			operator=(CClientShell&&)=delete;
 
 		bool					Init();
 		void					Term();

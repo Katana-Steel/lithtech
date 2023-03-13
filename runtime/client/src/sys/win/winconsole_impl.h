@@ -180,7 +180,11 @@ protected:
 
 public:
 	CConHistory( int iListSize = 0 );
+	CConHistory(const CConHistory&)=delete;
+	CConHistory(CConHistory&&)=delete;
 	virtual ~CConHistory();
+	CConHistory& operator=(const CConHistory&)=delete;
+	CConHistory& operator=(CConHistory&&)=delete;
 
 	// Member access
 	int		GetSize() const { return (m_iListSize) ? (m_iListSize - 1) : 0; };
