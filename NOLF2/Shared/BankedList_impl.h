@@ -506,8 +506,8 @@ void CBankedList<T>::Append(const T &_Item)
 	new(this, eNewOp_Append) T(_Item);
 }
 
-template <typename T>
-void CBankedList<T>::Delete(t_Type *pPtr, bool bCallDtor)
+template <typename t_Type>
+void CBankedList<t_Type>::Delete(t_Type *pPtr, bool bCallDtor)
 {
 	if (!pPtr)
 		return;
@@ -516,7 +516,7 @@ void CBankedList<T>::Delete(t_Type *pPtr, bool bCallDtor)
 	// Call the dtor
 	if (bCallDtor)
         delete pPtr;
-//        pPtr->~T();
+//        pPtr->~t_Type();
     else
         free(pPtr);
 #else
@@ -533,7 +533,7 @@ void CBankedList<T>::Delete(t_Type *pPtr, bool bCallDtor)
 
 	// Call the dtor
 	if (bCallDtor)
-		pPtr->~T();
+		pPtr->~t_Type();
 
 	// Delete it
 	iPtr.GetBank()->Remove(iPtr.GetIndex());

@@ -83,6 +83,9 @@ class CCharacterFX : public CSpecialFX
 
 		~CCharacterFX();
 
+		CCharacterFX& operator=(const CCharacterFX&)=delete;
+		CCharacterFX& operator=(CCharacterFX&&)=delete;
+
 		void DoFootStep()
 		{
 			// Alternate feet...

@@ -32,6 +32,8 @@
 										{
 											Term();
 										}
+			CSwapList<T>& operator=(const CSwapList<T>&)=delete;
+			CSwapList<T>& operator=(CSwapList<T>&&)=delete;
 
 			// Member Functions
 

@@ -25,6 +25,8 @@ class CCursorMgr
 public:
 	CCursorMgr();
 	~CCursorMgr();
+	CCursorMgr& operator=(const CCursorMgr&)=delete;
+	CCursorMgr& operator=(CCursorMgr&&)=delete;
 
 	LTBOOL		Init();
 	void		Term();

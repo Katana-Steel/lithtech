@@ -26,17 +26,19 @@ template <typename T>
 class CBankedListIter;
 
 // The main Banked List class
-template <typename T>
+template <typename t_Type>
 class CBankedList
 {
-    friend class CBankedListIter<T>;
-    friend class CBankedListBank<T>;
+    friend class CBankedListIter<t_Type>;
+    friend class CBankedListBank<t_Type>;
 public:
 	CBankedList();
 	~CBankedList();
+	CBankedList<t_Type>& operator=(const CBankedList<t_Type>&)=delete;
+	CBankedList<t_Type>& operator=(CBankedList<t_Type>&&)=delete;
 
 	// Internal types
-	typedef T t_Type;
+	// typedef T t_Type;
 	typedef CBankedList<t_Type> t_This;
 
 	// External types
@@ -64,7 +66,7 @@ public:
 	// Delete an item from the list (Will call the dtor if bCallDtor is set)
 	void Delete(t_Type *pPtr, bool bCallDtor = true);
 	// Create a new item in the list (Will call the ctor if bCallCtor is set)
-	T *New(t_NewOp eOp = eNewOp_Pack, bool bCallCtor = true);
+	t_Type *New(t_NewOp eOp = eNewOp_Pack, bool bCallCtor = true);
 
 	// Are you empty?
 	LTBOOL IsEmpty();

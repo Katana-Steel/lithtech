@@ -44,6 +44,8 @@ class CMoveMgr
 
 	CMoveMgr();
 	~CMoveMgr();
+	CMoveMgr& operator=(const CMoveMgr&)=delete;
+	CMoveMgr& operator=(CMoveMgr&&)=delete;
 
     LTBOOL      Init();
 

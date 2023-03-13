@@ -50,7 +50,9 @@
 
 			// Destructor
 
-										   ~CLTBModelFX();
+											~CLTBModelFX();
+			CLTBModelFX&					operator=(const CLTBModelFX&)=delete;
+			CLTBModelFX&					operator=(CLTBModelFX&&)=delete;
 
 			// Member Functions
 

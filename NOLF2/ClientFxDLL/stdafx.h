@@ -10,8 +10,8 @@
 #include <windows.h>
 #endif
 
-#include <stdio.h>
-#include <limits.h>
+#include <cstdio>
+#include <climits>
 
 #include "mfcstub.h"
 

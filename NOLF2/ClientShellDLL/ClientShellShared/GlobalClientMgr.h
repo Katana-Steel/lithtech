@@ -27,6 +27,8 @@ class CGlobalClientMgr : public CGlobalMgr
 
 		CGlobalClientMgr( );
 		~CGlobalClientMgr();
+		CGlobalClientMgr& operator=(const CGlobalClientMgr&)=delete;
+		CGlobalClientMgr& operator=(CGlobalClientMgr&&)=delete;
 
         LTBOOL Init( );
 		void Term( );

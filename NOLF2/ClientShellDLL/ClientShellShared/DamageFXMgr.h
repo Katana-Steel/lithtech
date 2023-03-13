@@ -54,6 +54,8 @@ struct DAMAGEFX
 {
 	DAMAGEFX();
 	~DAMAGEFX();
+	DAMAGEFX& operator=(const DAMAGEFX&)=delete;
+	DAMAGEFX& operator=(DAMAGEFX&&)=delete;
 
 	LTBOOL		Init( CButeMgr &ButeMgr, char *aTagName );
 	void		Start( );
@@ -159,6 +161,8 @@ class CDamageFXMgr : public CGameButeMgr
 
 		CDamageFXMgr();
 		~CDamageFXMgr();
+		CDamageFXMgr& operator=(const CDamageFXMgr&)=delete;
+		CDamageFXMgr& operator=(CDamageFXMgr&&)=delete;
 
 		LTBOOL		Init( const char* szAttributeFile = DMGFXMGR_DEFAULT_FILE );
 		void		Term();

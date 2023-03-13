@@ -55,6 +55,8 @@ class CGameClientShell : public IClientShellStub
 public:
 	CGameClientShell();
 	~CGameClientShell();
+	CGameClientShell& operator=(const CGameClientShell&)=delete;
+	CGameClientShell& operator=(CGameClientShell&&)=delete;
 
 
 	//**************************************************************************

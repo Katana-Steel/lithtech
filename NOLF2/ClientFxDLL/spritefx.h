@@ -55,6 +55,10 @@
 
 			virtual							~CSpriteFX();
 
+			// Assignment
+			CSpriteFX&						operator=(const CSpriteFX&)=delete;
+			CSpriteFX&						operator=(CSpriteFX&&)=delete;
+
 			// Member Functions
 
 			virtual bool					Init(ILTClient *pClientDE, FX_BASEDATA *pBaseData, const CBaseFXProps *pProps);

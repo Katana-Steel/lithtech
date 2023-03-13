@@ -45,6 +45,8 @@
 
 		CCreateFX( );
 		~CCreateFX( );
+		CCreateFX& operator=(const CCreateFX&)=delete;
+		CCreateFX& operator=(CCreateFX&&)=delete;
 
 		bool	Init( ILTClient *pLTClient, FX_BASEDATA *pData, const CBaseFXProps *pProps );
 		bool	Update( float tmCur )		{ return false; }

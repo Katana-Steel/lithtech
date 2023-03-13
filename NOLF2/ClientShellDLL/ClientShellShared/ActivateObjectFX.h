@@ -27,6 +27,8 @@ class CActivateObjectHandler
 
 		CActivateObjectHandler();
 		~CActivateObjectHandler();
+		CActivateObjectHandler& operator=(const CActivateObjectHandler&)=delete;
+		CActivateObjectHandler& operator=(CActivateObjectHandler&&)=delete; 
 
 		typedef std::vector<CActivateObjectHandler*> ActivateObjList;
 		static ActivateObjList const& GetActivateObjectList() { return m_lstActivateObjs; }
@@ -57,6 +59,8 @@ class CActivateObjectFX : public CSpecialFX
 
 		CActivateObjectFX();
 		~CActivateObjectFX();
+		CActivateObjectFX& operator=(const CActivateObjectFX&)=delete;
+		CActivateObjectFX& operator=(CActivateObjectFX&&)=delete; 
 
 		virtual LTBOOL	Init( HLOCALOBJ hServObj, ILTMessage_Read *pMsg );
 		virtual LTBOOL	OnServerMessage( ILTMessage_Read *pMsg );

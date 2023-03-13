@@ -29,6 +29,8 @@ class CClientSaveLoadMgr : public CSaveLoadMgr
 
 		CClientSaveLoadMgr( );
 		virtual ~CClientSaveLoadMgr( );
+		CClientSaveLoadMgr& operator=(const CClientSaveLoadMgr&)=delete;
+		CClientSaveLoadMgr& operator=(CClientSaveLoadMgr&&)=delete;
 
 		virtual bool	Init( char const* pszProfileName, bool bUseMultiplayerFolders );
 		virtual void	Term( );

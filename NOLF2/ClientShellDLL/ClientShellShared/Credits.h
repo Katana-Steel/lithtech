@@ -57,6 +57,8 @@ class CCredit
 public:
 	CCredit() { Clear(); }
 	~CCredit() { Term(); }
+	CCredit& operator=(const CCredit&)=delete;
+	CCredit& operator=(CCredit&&)=delete;
 
 	LTBOOL				Init( char* sBuf);
 	void				Term();
@@ -106,6 +108,8 @@ class CCredits
 public:
 	CCredits() { Clear(); }
 	~CCredits() { Term(); }
+	CCredits& operator=(const CCredits&)=delete;
+	CCredits& operator=(CCredits&&)=delete;
 
 	LTBOOL				Init (int nMode = CM_CREDITS, LTBOOL bClearScreen = LTFALSE);
 

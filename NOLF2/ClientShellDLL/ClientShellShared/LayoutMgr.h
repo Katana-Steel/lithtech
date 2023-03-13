@@ -92,6 +92,8 @@ class CLayoutMgr : public CGameButeMgr
 public:
 	CLayoutMgr();
 	virtual ~CLayoutMgr();
+	auto operator=(const CLayoutMgr&)=delete;
+	auto operator=(CLayoutMgr&&)=delete;
 
     virtual LTBOOL      Init(const char* szAttributeFile=LO_DEFAULT_FILE);
 	void		Term();

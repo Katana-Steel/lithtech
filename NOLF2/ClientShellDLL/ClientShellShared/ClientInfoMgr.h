@@ -31,6 +31,8 @@ public:
 
 	CClientInfoMgr();
 	~CClientInfoMgr();
+	CClientInfoMgr& operator=(const CClientInfoMgr&)=delete;
+	CClientInfoMgr& operator=(CClientInfoMgr&&)=delete;
 
     void    Init ();
 

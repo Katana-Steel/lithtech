@@ -98,6 +98,10 @@
 
 										   ~CSpriteSystem();
 
+			// Assignment
+			CSpriteSystem&						operator=(const CSpriteSystem&)=delete;
+			CSpriteSystem&						operator=(CSpriteSystem&&)=delete;
+
 			// Member Functions
 
 			bool							Init(ILTClient *pClientDE, FX_BASEDATA *pData, const CBaseFXProps *pProps);

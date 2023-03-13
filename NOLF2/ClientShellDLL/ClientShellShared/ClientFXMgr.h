@@ -39,11 +39,15 @@
 			// Constuctor
 
 											CClientFXMgr();
+											CClientFXMgr(const CClientFXMgr&) = delete;
+											CClientFXMgr(CClientFXMgr&&) = delete;
 
 			// Destructor
 
 											~CClientFXMgr();
-
+			// assignment operators
+			CClientFXMgr&					operator=(const CClientFXMgr&) = delete;
+			CClientFXMgr&					operator=(CClientFXMgr&&) = delete;
 			// Member Functions
 
 			bool							Init(ILTClient *pLTClient, LTBOOL bGlobal = LTTRUE);
@@ -159,6 +163,7 @@
 
 			//the camera that effects can use
 			HOBJECT							m_hCamera;
+
 	};
 
 	struct CLIENTFX_LINK

@@ -87,6 +87,8 @@ class CGameButeMgr
 		}
 
 		virtual ~CGameButeMgr() { Term( ); }
+		auto operator=(const CGameButeMgr&)=delete;
+		auto operator=(CGameButeMgr&&)=delete;
 
         inline void SetInRezFile(LTBOOL bInRezFile) { m_bInRezFile = bInRezFile; }
 

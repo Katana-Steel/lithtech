@@ -25,8 +25,12 @@ class CClientButeMgr : public CGameButeMgr
 	public :
 
 		CClientButeMgr();
+		CClientButeMgr(const CClientButeMgr&)=delete;
+		CClientButeMgr(CClientButeMgr&&)=delete;
 		~CClientButeMgr();
-
+		// assignment operators
+		CClientButeMgr& operator=(const CClientButeMgr&) = delete;
+		CClientButeMgr& operator=(CClientButeMgr&&) = delete;
         LTBOOL       Init(const char* szAttributeFile=CBMGR_DEFAULT_FILE);
 		void		Term();
 

@@ -35,6 +35,8 @@ public:
 	// constructor/destructor
 	CClientWeaponMgr();
 	~CClientWeaponMgr();
+	CClientWeaponMgr& operator=(const CClientWeaponMgr&)=delete;
+	CClientWeaponMgr& operator=(CClientWeaponMgr&&)=delete;
 
 	// standard init/term functions
 	bool            Init();

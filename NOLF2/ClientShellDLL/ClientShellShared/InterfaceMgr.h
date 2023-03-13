@@ -123,7 +123,8 @@ class CInterfaceMgr
 
 		CInterfaceMgr();
 		virtual ~CInterfaceMgr();
-
+		CInterfaceMgr& operator=(const CInterfaceMgr&)=delete;
+		CInterfaceMgr& operator=(CInterfaceMgr&&)=delete;
         virtual LTBOOL  Init();
 		virtual void	Term();
 		bool	IsInitialized( ) { return m_bInitialized; }

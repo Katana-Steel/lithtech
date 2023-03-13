@@ -60,6 +60,8 @@ class CBaseMenu : public CLTGUIWindow
 public:
 	CBaseMenu();
 	virtual ~CBaseMenu();
+	CBaseMenu& operator=(const CBaseMenu&)=delete;
+	CBaseMenu& operator=(CBaseMenu&&)=delete; 
 
 	virtual LTBOOL	Init();
 	virtual void	Term();

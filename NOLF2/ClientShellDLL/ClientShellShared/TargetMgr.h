@@ -23,6 +23,8 @@ class CTargetMgr
 public:
 	CTargetMgr();
 	virtual ~CTargetMgr();
+	CTargetMgr& operator=(const CTargetMgr&)=delete;
+	CTargetMgr& operator=(CTargetMgr&&)=delete;
 
 	virtual void Update();
 

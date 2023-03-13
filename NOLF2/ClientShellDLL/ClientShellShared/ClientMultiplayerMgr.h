@@ -34,6 +34,8 @@ public:
 	
 	ClientConnectionMgr( );
 	~ClientConnectionMgr( );
+	ClientConnectionMgr& operator=(const ClientConnectionMgr&)=delete;
+	ClientConnectionMgr& operator=(ClientConnectionMgr&&)=delete;
 
 	// Update called once per frame.
 	void		Update( );

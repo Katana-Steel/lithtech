@@ -34,7 +34,9 @@ class CGameSettings
 public:
 
 	CGameSettings();
-	~CGameSettings()	{}
+	~CGameSettings()=default;
+	CGameSettings& operator=(const CGameSettings&)=delete;
+	CGameSettings& operator=(CGameSettings&&)=delete;
 
     LTBOOL       Init (ILTClient* pClientDE, CGameClientShell* pClientShell);
 

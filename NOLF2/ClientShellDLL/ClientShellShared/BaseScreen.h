@@ -42,7 +42,8 @@ class CBaseScreen : public CLTGUICommandHandler
 public:
 	CBaseScreen();
 	virtual ~CBaseScreen();
-
+	CBaseScreen& operator=(const CBaseScreen&)=delete;
+	CBaseScreen& operator=(CBaseScreen&&)=delete;
 	// Initialization/Termination
     virtual LTBOOL   Init(int nScreenID);
 	virtual void	Term();

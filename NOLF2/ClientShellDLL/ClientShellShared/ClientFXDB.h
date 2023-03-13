@@ -130,6 +130,8 @@ public:
 
 	//not intended for use as a base class
 	~CClientFXDB();
+	CClientFXDB& operator=(const CClientFXDB&)=delete;
+	CClientFXDB& operator=(CClientFXDB&&)=delete;
 
 	//handle initialization/freeing of resources
 	bool							Init(ILTClient* pLTClient);

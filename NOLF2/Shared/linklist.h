@@ -42,6 +42,9 @@
 			// Destructor
 
 									~CLinkList() { Term(); }
+			CLinkList&				operator=(const CLinkList&) = delete;
+			CLinkList&				operator=(CLinkList&&) = delete;
+
 
 			// Member Functions
 

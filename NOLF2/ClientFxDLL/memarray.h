@@ -28,7 +28,8 @@
 			// Destructor
 
 									~CMemArray() { Term(); }
-
+			CMemArray<T>&			operator=(const CMemArray<T>&)=delete;
+			CMemArray<T>&			operator=(CMemArray<T>&&)=delete;
 			// Member Functions
 
 			void					Term();
