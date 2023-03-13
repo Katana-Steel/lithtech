@@ -1596,7 +1596,7 @@ bool CLTDirectMusicMgr::LoadSegment(const char* sSegmentName)
 	unsigned int w, wav_len;
 	char file[3];
 	ILTStream* stream;
-	FileRef playSoundFileRef;
+	// FileRef playSoundFileRef;
 	FileIdentifier* pIdent;
 	CSoundMgr* soundmgr = GetClientILTSoundMgrImpl();
 	PlaySoundInfo psi;
@@ -1621,14 +1621,10 @@ bool CLTDirectMusicMgr::LoadSegment(const char* sSegmentName)
 		return true;
 	}
 
-	// make a new segment item
-	LT_MEM_TRACK_ALLOC(pSegment = new CSegment, LT_MEM_TYPE_MUSIC);
-	if (pSegment == LTNULL) return false;
 
 	ilt_client->OpenFile(full_file.c_str(), &stream);
 	if (!stream)
 	{
-		delete pSegment;
 		return false;
 	}
 
@@ -1665,8 +1661,7 @@ bool CLTDirectMusicMgr::LoadSegment(const char* sSegmentName)
 		//only allow 1 wav per segment instead of wavs.size() for now
 		for (w = 0; w < wavs.size(); w++)
 		{
-			playSoundFileRef.m_pFilename = wavs[w].c_str();
-			playSoundFileRef.m_FileType = FILE_CLIENTFILE;
+			FileRef playSoundFileRef{FILE_CLIENTFILE, wavs[w].c_str()};
 			pIdent = client_file_mgr->GetFileIdentifier(&playSoundFileRef, TYPECODE_SOUND);
 
 			if (pIdent)
@@ -1691,9 +1686,13 @@ bool CLTDirectMusicMgr::LoadSegment(const char* sSegmentName)
 		}
 	}
 
+
 	// check if the load succeeded
 	if (hr > 0)
 	{
+		// make a new segment item
+		LT_MEM_TRACK_ALLOC(pSegment = new CSegment, LT_MEM_TYPE_MUSIC);
+		if (pSegment == LTNULL) return false;
 		// set the new segment up
 		pSegment->SetSegmentName(sSegmentName);
 		pSegment->SetSoundInstances(pSoundInstances, wavs.size());
@@ -1706,8 +1705,7 @@ bool CLTDirectMusicMgr::LoadSegment(const char* sSegmentName)
 	else
 	{
 		LTDMConOutWarning("WARNING! LTDirectMusic failed to load segment %s\n", sSegmentName);
-		delete pSegment;
-		return false;
+ 		return false;
 	}
 }
 

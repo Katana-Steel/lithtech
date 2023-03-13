@@ -73,9 +73,14 @@ public:
 
 	// default constructor
 	CLTDirectMusicMgr();
+	CLTDirectMusicMgr(const CLTDirectMusicMgr&)=delete;
+	CLTDirectMusicMgr(CLTDirectMusicMgr&&)=delete;
 
 	// default destructor (calls Term if it has not been called)
 	~CLTDirectMusicMgr();
+
+	CLTDirectMusicMgr& operator=(const CLTDirectMusicMgr&)=delete;
+	CLTDirectMusicMgr& operator=(CLTDirectMusicMgr&&)=delete;
 
 	// Initialize the Mgr
 	virtual LTRESULT Init();
@@ -427,6 +432,8 @@ public:
 					delete[] m_sSegmentNameLong;
 				}
 			}
+			CSegment& operator=(const CSegment&)=delete;
+			CSegment& operator=(CSegment&&)=delete;
 
 			CSoundInstance** GetSoundInstanceArray() { return m_sound_instances; }
 
