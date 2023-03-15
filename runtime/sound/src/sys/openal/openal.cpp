@@ -1673,7 +1673,7 @@ sint32 COpenALSoundSys::Init3DSampleFromAddress( LH3DSAMPLE hS, void* pStart,
 }
 
 static bool ParseWaveFile( void* pWaveFileBlock, void*& rpWaveFormat, uint32& ruiWaveFormatSize,
-	void*& rpSampleData, uint32& ruiSampleDataSize )
+	void*& rpSampleData, uint32& ruiSampleDataSize, uint32& numFactSamples )
 {
 
 	ruiSampleDataSize = ruiWaveFormatSize = 0;
@@ -1711,7 +1711,7 @@ static bool ParseWaveFile( void* pWaveFileBlock, void*& rpWaveFormat, uint32& ru
 				uint32 uiFactSize = *( ( uint32* )pucFileBlock );
 				pucFileBlock += sizeof( uint32 );
 
-				uint32* puiFactData = ( uint32* )pucFileBlock;
+				numFactSamples = *( uint32* )pucFileBlock;
 				pucFileBlock += uiFactSize;
 				break;
 			}
@@ -1782,11 +1782,13 @@ sint32	COpenALSoundSys::Init3DSampleFromFile( LH3DSAMPLE hS, void* pFile_image,
 
 	uint32 uiWaveFormatSize = 0;
 	uint32 uiSampleDataSize = 0;
+	uint32 num_fact_samples = 0;
 
 	void* pWaveFormat = NULL;
 	void* pSampleData = NULL;
 
-	bSuccess = ParseWaveFile( pFile_image, pWaveFormat, uiWaveFormatSize, pSampleData, uiSampleDataSize );
+	bSuccess = ParseWaveFile( pFile_image, pWaveFormat, uiWaveFormatSize,
+		pSampleData, uiSampleDataSize, num_fact_samples );
 	if( !bSuccess )
 		return LTFALSE;
 
@@ -1817,7 +1819,10 @@ sint32	COpenALSoundSys::Init3DSampleFromFile( LH3DSAMPLE hS, void* pFile_image,
 
 		PCM = adpcm_decode_data(pSampleData, pWaveFormatEx->nChannels, dwSamples, pWaveFormatEx->nBlockAlign);
 		pWaveFormatEx->wBitsPerSample = 16;
-
+		if (num_fact_samples < dwSamples && num_fact_samples > dwSamples - dwSamplesPerBlock)
+		{
+			dwSamples = num_fact_samples;
+		}
 		uiSampleDataSize = dwSamples * 2 * pWaveFormatEx->nChannels;
 		pSampleData = PCM;
 
@@ -2192,11 +2197,13 @@ LHSTREAM COpenALSoundSys::OpenStream( char* sFilename, uint32 nOffset, LHDIGDRIV
 
 	uint32 uiWaveFormatSize = 0;
 	uint32 uiSampleDataSize = 0;
+	uint32 num_fact_samples = 0;
 
 	void* pWaveFormat = NULL;
 	void* pSampleData = NULL;
 
-	bSuccess = ParseWaveFile( sStream, pWaveFormat, uiWaveFormatSize, pSampleData, uiSampleDataSize );
+	bSuccess = ParseWaveFile( sStream, pWaveFormat, uiWaveFormatSize,
+		pSampleData, uiSampleDataSize, num_fact_samples );
 	if( !bSuccess )
 		return NULL;
 
@@ -2450,11 +2457,13 @@ sint32 COpenALSoundSys::InitSampleFromFile( LHSAMPLE hS, void* pFile_image, sint
 
 	uint32 uiWaveFormatSize = 0;
 	uint32 uiSampleDataSize = 0;
+	uint32 num_fact_samples = 0;
 
 	void* pWaveFormat = NULL;
 	void* pSampleData = NULL;
 
-	bSuccess = ParseWaveFile( pFile_image, pWaveFormat, uiWaveFormatSize, pSampleData, uiSampleDataSize );
+	bSuccess = ParseWaveFile( pFile_image, pWaveFormat, uiWaveFormatSize,
+		pSampleData, uiSampleDataSize, num_fact_samples );
 	if( !bSuccess )
 		return LTFALSE;
 
@@ -2496,7 +2505,10 @@ sint32 COpenALSoundSys::InitSampleFromFile( LHSAMPLE hS, void* pFile_image, sint
 		PCM = adpcm_decode_data(pSampleData, pWaveFormatEx->nChannels, dwSamples, pWaveFormatEx->nBlockAlign);
 
 		pWaveFormatEx->wBitsPerSample = 16;
-
+		if (num_fact_samples < dwSamples && num_fact_samples > dwSamples - dwSamplesPerBlock)
+		{
+			dwSamples = num_fact_samples;
+		}
 		uiSampleDataSize = dwSamples * 2 * pWaveFormatEx->nChannels;
 		pSampleData = PCM;
 
