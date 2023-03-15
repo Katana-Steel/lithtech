@@ -2399,9 +2399,8 @@ LTRESULT CSoundMgr::GetSoundClassMultiplier( uint8 nSoundClass, float* pfMultipl
 
 //----------------------------------------------------------------------------------------------
 //
-//  CSoundMgr::GetSoundClassMultiplier
+//  CSoundMgr::GetSoundClassUseGlobalVolume
 //
-//  Gets the volume multiplier for a given sound class
 // 
 //----------------------------------------------------------------------------------------------
 LTRESULT CSoundMgr::GetSoundClassUseGlobalVolume( uint8 nSoundClass, bool* pbUseGlobalVolume )
