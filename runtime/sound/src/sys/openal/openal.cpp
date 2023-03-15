@@ -572,6 +572,11 @@ bool CSample::Fill( )
 			ASSERT( !"CSample::Fill:  Buffer should have been stopped before reaching fill." );
 	}
 
+	if (m_waveFormat.nChannels != 1 && m_waveFormat.nChannels != 2)
+	{
+		ASSERT(!"CSample::Fill: Invalid number of channels.");
+	}
+
 	switch (m_waveFormat.wBitsPerSample)
 	{
 	case 8:
@@ -1053,6 +1058,11 @@ uint32 CStream::FillBuffer( COpenALSoundSys* pSoundSys )
 	if( IsPlaying( ))
 	{
 		ASSERT( !"CSample::Fill:  Buffer should have been stopped before reaching fill." );
+	}
+
+	if (m_waveFormat.nChannels != 1 && m_waveFormat.nChannels != 2)
+	{
+		ASSERT(!"CStream::FillBuffer: Invalid number of channels.");
 	}
 
 	switch (m_pWaveFile->m_wfmt.wBitsPerSample)
@@ -2260,6 +2270,7 @@ LHSTREAM COpenALSoundSys::OpenStream( char* sFilename, uint32 nOffset, LHDIGDRIV
 	pStream->m_uiNextWriteOffset = 0;
 	pStream->m_uiLastPlayPos = 0;
 	pStream->m_uiTotalPlayed = 0;
+	pStream->m_waveFormat = pWaveFile->m_wfmt;
 
 	if ( !pStream->FillBuffer( this ) )
 	{
