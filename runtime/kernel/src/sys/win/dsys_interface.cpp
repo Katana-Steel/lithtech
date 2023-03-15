@@ -204,7 +204,7 @@ LTRESULT dsi_SetupMessage(char *pMsg, int maxMsgLen, LTRESULT dResult, va_list m
 // External functions.
 // --------------------------------------------------------------- //
 
-int dsi_Init() 
+int dsi_Init()
 {
     HRESULT hResult;
 
@@ -230,14 +230,14 @@ int dsi_Init()
 }
 
 
-void dsi_Term() 
+void dsi_Term()
 {
     df_Term();
     str_Term();
     dm_Term();
 
     dsi_UnloadResourceModule();
-    
+
     if (g_bComInitialized) {
         CoUninitialize();
         g_bComInitialized = LTFALSE;
@@ -250,15 +250,15 @@ void* dsi_GetResourceModule() {
 }
 
 
-LTRESULT GetOrCopyFile( char const* pszFilename, 
+LTRESULT GetOrCopyFile( char const* pszFilename,
 					   char* pszOutName, int outNameLen, bool& bFileCopied )
 {
     HLTFileTree *hTree;
     LTRESULT dResult;
-    
+
 	bFileCopied = false;
-    if (server_filemgr->DoesFileExist(pszFilename, &hTree, LTNULL) && 
-        (df_GetTreeType(hTree) == DosTree)) 
+    if (server_filemgr->DoesFileExist(pszFilename, &hTree, LTNULL) &&
+        (df_GetTreeType(hTree) == DosTree))
     {
         int status = df_GetFullFilename(hTree, ( char* )pszFilename, pszOutName, outNameLen);
         ASSERT(status != 0);
@@ -267,7 +267,7 @@ LTRESULT GetOrCopyFile( char const* pszFilename,
 
     // Get the temp path.
 	char szTempPath[MAX_PATH*2] = "";
-    if( !GetTempPath( sizeof( szTempPath ), szTempPath )) 
+    if( !GetTempPath( sizeof( szTempPath ), szTempPath ))
 		{
         strcpy( szTempPath, ".\\" );
         }
@@ -292,7 +292,7 @@ LTRESULT GetOrCopyFile( char const* pszFilename,
     return LT_OK;
         }
 
-LTRESULT dsi_LoadServerObjects(CClassMgr *pClassMgr) 
+LTRESULT dsi_LoadServerObjects(CClassMgr *pClassMgr)
 {
     char fileName[256];
     int status;
@@ -339,11 +339,11 @@ LTRESULT dsi_LoadServerObjects(CClassMgr *pClassMgr)
     }
 
     //let the dll know it's instance handle.
-    if (instance_handle_server != NULL) 
+    if (instance_handle_server != NULL)
 	{
         instance_handle_server->SetInstanceHandle( pClassMgr->m_ClassModule.m_hModule );
     }
-    
+
     return LT_OK;
 }
 
@@ -363,7 +363,7 @@ static void dsi_GetDLLModes(char *pDLLName, RMode **pMyList) {
     RMode *pListHead, *pCur;
 
     pListHead = rdll_GetSupportedModes();
-    
+
     // Copy the mode list.
     pCur = pListHead;
     while (pCur)
@@ -373,9 +373,9 @@ static void dsi_GetDLLModes(char *pDLLName, RMode **pMyList) {
 
         pMyMode->m_pNext = *pMyList;
         *pMyList = pMyMode;
-        
+
         pCur = pCur->m_pNext;
-    }                       
+    }
 
     rdll_FreeModeList(pListHead);
 }
@@ -386,7 +386,7 @@ RMode* dsi_GetRenderModes() {
 
     dsi_GetDLLModes("integrated", &pList);
 
- 
+
     return pList;
 }
 
@@ -412,7 +412,7 @@ LTRESULT dsi_GetRenderMode(RMode *pMode) {
 LTRESULT dsi_SetRenderMode(RMode *pMode, const char* window_name) {
     RMode currentMode;
     char message[256];
-    
+
     if (r_TermRender(1, false) != LT_OK) {
         dsi_SetupMessage(message, sizeof(message)-1, LT_UNABLETORESTOREVIDEO, LTNULL);
         dsi_OnClientShutdown(message);
@@ -454,8 +454,8 @@ LTRESULT dsi_ShutdownRender(uint32 flags) {
 }
 
 
-LTRESULT GetOrCopyClientFile( char const* pszFilename, 
-							 char* pszOutName, int outNameLen, bool& bFileCopied ) 
+LTRESULT GetOrCopyClientFile( char const* pszFilename,
+							 char* pszOutName, int outNameLen, bool& bFileCopied )
 {
     FileIdentifier *pIdent;
     FileRef ref;
@@ -465,7 +465,7 @@ LTRESULT GetOrCopyClientFile( char const* pszFilename,
     ref.m_FileType = FILE_ANYFILE;
     ref.m_pFilename = pszFilename;
     pIdent = client_file_mgr->GetFileIdentifier(&ref, TYPECODE_DLL);
-    if (pIdent && ((df_GetTreeType(pIdent->m_hFileTree) == DosTree))) 
+    if (pIdent && ((df_GetTreeType(pIdent->m_hFileTree) == DosTree)))
 	{
         int status = df_GetFullFilename(pIdent->m_hFileTree, ( char* )pszFilename, pszOutName, outNameLen);
         ASSERT(status != 0);
@@ -474,7 +474,7 @@ LTRESULT GetOrCopyClientFile( char const* pszFilename,
 
     // Get the temp path.
 	char szTempPath[MAX_PATH*2] = "";
-    if( !GetTempPath( sizeof( szTempPath ), szTempPath )) 
+    if( !GetTempPath( sizeof( szTempPath ), szTempPath ))
 		{
         strcpy( szTempPath, ".\\" );
         }
@@ -505,7 +505,7 @@ LTRESULT GetOrCopyClientFile( char const* pszFilename,
 
 
 
-LTRESULT dsi_InitClientShellDE() 
+LTRESULT dsi_InitClientShellDE()
 {
     char fileName[MAX_PATH];
     int status;
@@ -545,7 +545,7 @@ LTRESULT dsi_InitClientShellDE()
     //copy the file out of the res file.
 	bFileCopied = false;
     dResult = GetOrCopyClientFile( "cres.dll", fileName, sizeof(fileName), bFileCopied );
-    if (dResult != LT_OK) 
+    if (dResult != LT_OK)
 	{
         g_pClientMgr->SetupError(LT_ERRORCOPYINGFILE, "cres.dll");
         RETURN_ERROR_PARAM(1, InitClientShellDE, LT_ERRORCOPYINGFILE, "cres.dll");
@@ -573,14 +573,14 @@ LTRESULT dsi_InitClientShellDE()
 }
 
 
- 
+
 void dsi_OnMemoryFailure() {
 	ASSERT(!"Out of memory");
     longjmp(g_ClientGlob.m_MemoryJmp, 1);
 }
 
 
- 
+
 // Client-only functions.
 void dsi_ClientSleep(uint32 ms) {
     if (ms > 0) {
@@ -589,32 +589,32 @@ void dsi_ClientSleep(uint32 ms) {
 }
 
 
- 
+
 LTBOOL dsi_IsInputEnabled() {
     return g_ClientGlob.m_bInputEnabled;
 }
 
 
- 
+
 uint16 dsi_NumKeyDowns() {
     return g_ClientGlob.m_nKeyDowns;
 }
 
 
- 
+
 uint16 dsi_NumKeyUps() {
     return g_ClientGlob.m_nKeyUps;
 }
 
 
- 
+
 uint32 dsi_GetKeyDown(uint32 i) {
     ASSERT(i < MAX_KEYBUFFER);
     return g_ClientGlob.m_KeyDowns[i];
 }
 
 
- 
+
 uint32 dsi_GetKeyDownRep(uint32 i) {
     ASSERT(i < MAX_KEYBUFFER);
     return g_ClientGlob.m_KeyDownReps[i];
@@ -672,7 +672,7 @@ void dsi_ClearKeyMessages() {
 }
 
 LTBOOL dsi_IsConsoleUp() {
-	if (dsi_IsConsoleEnabled() == LTFALSE) 
+	if (dsi_IsConsoleEnabled() == LTFALSE)
 		return LTFALSE;
     return g_ClientGlob.m_bIsConsoleUp;
 }
@@ -708,7 +708,7 @@ void dsi_OnClientShutdown(char *pMsg) {
     else {
         g_ClientGlob.m_ExitMessage[0] = '\0';
     }
-	
+
 	if (g_ClientGlob.m_bProcessWindowMessages) {
 		SDL_Event sdlevent;
 		sdlevent.type = SDL_QUIT;
@@ -725,11 +725,11 @@ const char* dsi_GetDefaultWorld() {
 void dsi_PrintToConsole(const char *pMsg, ...) {
     char msg[500];
     va_list marker;
-	
+
     va_start(marker, pMsg);
     LTVSNPrintF(msg, sizeof(msg), pMsg, marker);
     va_end(marker);
-	
+
 	int32 len = (int32)strlen(msg);
 	if (msg[len-1] != '\n')
 	{
@@ -761,18 +761,17 @@ void dsi_SetSDL2Window(SDL_Window* window)
 
 LTRESULT dsi_DoErrorMessage(const char *pMessage) {
     con_PrintString(CONRGB(255,255,255), 0, pMessage);
-    
+
     if (!g_Render.m_bInitted) {
-        MessageBox(g_ClientGlob.m_hMainWnd, pMessage, g_ClientGlob.m_WndCaption, MB_OK);
+        dsi_MessageBox(pMessage, g_ClientGlob.m_WndCaption);
     }
 
     return LT_OK;
 }
 
 void dsi_MessageBox(const char *pMessage, const char *pTitle) {
-    int i;
-    i = SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-        pTitle, pMessage, g_ClientGlob.m_window);
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+    pTitle, pMessage, g_ClientGlob.m_window);
 }
 
 LTRESULT dsi_GetVersionInfo(LTVersionInfo &info) {

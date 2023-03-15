@@ -334,7 +334,7 @@ LTRESULT dsi_InitClientShellDE()
     copied = false;
     memset(filename, 0, MAX_PATH);
     dResult = GetOrCopyClientFile( reslib, filename, MAX_PATH, copied );
-    if (dResult != LTTRUE) 
+    if (dResult != LTTRUE)
 	{
         g_pClientMgr->SetupError(LT_ERRORCOPYINGFILE, reslib);
         RETURN_ERROR_PARAM(1, InitClientShellDE, LT_ERRORCOPYINGFILE, reslib);
@@ -345,7 +345,7 @@ LTRESULT dsi_InitClientShellDE()
 
     //check if it was loaded.
     if (status == BIND_CANTFINDMODULE) {
-        //unload the loaded cshell 
+        //unload the loaded cshell
         bm_UnbindModule(g_pClientMgr->m_hShellModule);
         g_pClientMgr->m_hShellModule = nullptr;
 
@@ -495,13 +495,18 @@ void* dsi_GetMainWindow()
     return (void*)g_ClientGlob.m_window;
 }
 
-LTRESULT dsi_DoErrorMessage(char *pMessage)
+LTRESULT dsi_DoErrorMessage(const char *pMessage)
 {
-return LT_OK;      // DAN - temporary
+    if (!g_Render.m_bInitted)
+        dsi_MessageBox(pMessage, g_ClientGlob.m_WndCaption);
+    return LT_OK;
 }
 
-void dsi_MessageBox(char *pMessage, char *pTitle)
+void dsi_MessageBox(const char *pMessage, const char *pTitle)
 {
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+    pTitle, pMessage, g_ClientGlob.m_window);
+
 }
 
 LTRESULT dsi_GetVersionInfo(LTVersionInfo &info)

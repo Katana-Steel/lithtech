@@ -114,7 +114,7 @@ LTRESULT dsi_SetupMessage(char *pMsg, int maxMsgLen, uint32 dResult, va_list mar
 
 // Puts an error message in the console if the renderer is initialized or
 // a message box otherwise.
-LTRESULT dsi_DoErrorMessage(char *pMessage);
+LTRESULT dsi_DoErrorMessage(const char *pMessage);
 
 
 bool dsi_IsConsoleEnabled();
@@ -125,7 +125,7 @@ void* dsi_GetResourceModule();	// Returns an HINSTANCE.
 void* dsi_GetMainWindow();		// Returns an SDL_WINDOW.
 
 // Message box.
-void dsi_MessageBox(char *pMsg, char *pTitle);
+void dsi_MessageBox(const char *pMsg, const char *pTitle);
 
 // System functions
 LTRESULT GetOrCopyClientFile(char *pFilename, char *pOutName, int outNameLen, bool &bFileCopied);
