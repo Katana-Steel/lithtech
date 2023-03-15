@@ -41,6 +41,10 @@ enum
 #define PRINTSTUB
 #endif
 
+#if 0
+#define USE_LOG_SCALE
+#endif
+
 #define C3D_REFERENCE_DISTANCE 2000.0f
 
 //ADPCM decoding from https://github.com/dbry/adpcm-xq/
@@ -145,7 +149,6 @@ static char* adpcm_decode_data(void* p, int num_channels,
     int samples_per_block = (block_size - num_channels * 4) * (num_channels ^ 3) + 1;
     char* pcm_block = new char[num_samples * num_channels * 2];
     unsigned char* adpcm_block = new unsigned char[block_size];
-    int full_size = 0;
     int ret_samples;
     char* pcm_ptr = pcm_block;
 
@@ -319,6 +322,7 @@ public:
 	bool					m_bLoopBlock;
 	int32					m_nLastPlayPos;
 	bool					m_bLooping;
+	float					m_fVolume;
 
 	static 	LTLink			m_lstSampleLoopHead;
 };
@@ -348,6 +352,7 @@ void CSample::Reset( )
 	source = 0;
 	buffer = 0;
 	error = 0;
+	m_fVolume = 0.0f;
 	alGetError();
 }
 
@@ -390,6 +395,7 @@ bool CSample::Init( int& hResult, void* pDS, uint32 uiNumSamples,
 	bool bUseFilter;
 
 	Term( );
+	m_fVolume = 0.0f;
 
 	if( pWaveFormat == NULL )
 	{
@@ -502,6 +508,7 @@ bool CSample::Play( )
 	alSourcei(source, AL_BYTE_OFFSET, m_nLastPlayPos);
 	alSource3i(source, AL_POSITION, 0, 0, 0);
 	alSourcei(source, AL_LOOPING, m_bLooping ? AL_TRUE : AL_FALSE);
+	alSourcef(source, AL_GAIN, m_fVolume);
 	alSourcePlay(source);
 	error = alGetError();
 	if (error != AL_NO_ERROR){
@@ -1809,7 +1816,6 @@ sint32	COpenALSoundSys::Init3DSampleFromFile( LH3DSAMPLE hS, void* pFile_image,
 			pWaveFormatEx->nBlockAlign ) * dwSamplesPerBlock;
 
 		PCM = adpcm_decode_data(pSampleData, pWaveFormatEx->nChannels, dwSamples, pWaveFormatEx->nBlockAlign);
-
 		pWaveFormatEx->wBitsPerSample = 16;
 
 		uiSampleDataSize = dwSamples * 2 * pWaveFormatEx->nChannels;
@@ -1851,28 +1857,42 @@ sint32	COpenALSoundSys::Init3DSampleFromFile( LH3DSAMPLE hS, void* pFile_image,
 	return LTTRUE;
 }
 
-void COpenALSoundSys::Set3DSampleVolume( LH3DSAMPLE hS, S32 siVolume )
+static float GetOpenALVolume(S32 siVolume)
 {
-	if( hS == NULL )
-		return;
-
-	C3DSample* p3DSample = ( C3DSample* )hS;
 	float vol;
-	// p3DSample->m_sample.Restore( );
-
 	if( siVolume < ( S32 )MIN_MASTER_VOLUME )
 		siVolume = ( S32 )MIN_MASTER_VOLUME;
 
 	if( siVolume > ( S32 )MAX_MASTER_VOLUME )
 		siVolume = ( S32 )MAX_MASTER_VOLUME;
 
+#ifdef USE_LOG_SCALE
 	long lDSVolume;
 	CONVERT_LIN_VOL_TO_LOG_VOL( siVolume, lDSVolume );
+	vol = (1.0f / ((float)DSBVOLUME_MAX - (float)DSBVOLUME_MIN));
+	vol *= (lDSVolume - DSBVOLUME_MIN);
+#else
+	vol = (1.0f / (MAX_MASTER_VOLUME - MIN_MASTER_VOLUME));
+	vol *= ((float)siVolume - MIN_MASTER_VOLUME);
+#endif
 
-	vol = 1.0f / 10000.0f;
-	vol *= (lDSVolume + 10000.0f);
+	return vol;
+}
 
-	alSourcef(p3DSample->m_sample.source, AL_GAIN, vol);
+void COpenALSoundSys::Set3DSampleVolume( LH3DSAMPLE hS, S32 siVolume )
+{
+	if( hS == NULL )
+		return;
+
+	C3DSample* p3DSample = ( C3DSample* )hS;
+	// p3DSample->m_sample.Restore( );
+
+	p3DSample->m_sample.m_fVolume = GetOpenALVolume(siVolume);
+
+	if (p3DSample->m_sample.source > 0)
+	{
+		alSourcef(p3DSample->m_sample.source, AL_GAIN, p3DSample->m_sample.m_fVolume);
+	}
 }
 
 U32	COpenALSoundSys::Get3DSampleStatus( LH3DSAMPLE hS )
@@ -2023,14 +2043,6 @@ void COpenALSoundSys::EndSample( LHSAMPLE hS )
 {
 }
 
-static float lerp(float x, float x0, float x1, float y0, float y1)
-{
-	float ret = (y1 - y0) / (x1 - x0);
-	ret *= (x - x0);
-	ret += y0;
-	return ret;
-}
-
 void COpenALSoundSys::SetSampleVolume( LHSAMPLE hS, S32 siVolume )
 {
 	if( hS == NULL )
@@ -2038,17 +2050,13 @@ void COpenALSoundSys::SetSampleVolume( LHSAMPLE hS, S32 siVolume )
 
 	CSample* pSample = ( CSample* )hS;
 	// pSample->Restore( );
-	float vol;
 
-	if( siVolume < ( S32 )MIN_MASTER_VOLUME )
-		siVolume = ( S32 )MIN_MASTER_VOLUME;
+	pSample->m_fVolume = GetOpenALVolume(siVolume);
 
-	if( siVolume > ( S32 )MAX_MASTER_VOLUME )
-		siVolume = ( S32 )MAX_MASTER_VOLUME;
-
-	vol = (float)siVolume * 0.01f;
-
-	alSourcef(pSample->source, AL_GAIN, vol);
+	if (pSample->source > 0)
+	{
+		alSourcef(pSample->source, AL_GAIN, pSample->m_fVolume);
+	}
 }
 
 void COpenALSoundSys::SetSamplePan( LHSAMPLE hS, S32 siPan )
@@ -2341,6 +2349,7 @@ void COpenALSoundSys::ResetStream( LHSTREAM hStream )
 
 void COpenALSoundSys::SetStreamVolume( LHSTREAM hStream, S32 siVolume )
 {
+	SetSampleVolume(hStream, siVolume);
 }
 
 void COpenALSoundSys::SetStreamPan( LHSTREAM hStream, S32 siPan )
