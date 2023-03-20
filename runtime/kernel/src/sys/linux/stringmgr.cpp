@@ -312,30 +312,30 @@ void str_FreeString(HSTRING hString)
 	}
 }
 
-
 bool str_CompareStrings(HSTRING hString1, HSTRING hString2)
 {
 	std::string String1( ((StringWrapper*)hString1)->m_Bytes);
 	std::string String2( ((StringWrapper*)hString2)->m_Bytes);
 
-	if( !String1.empty() || !String2.empty() )
+	if (String1.empty() || String2.empty())
 		return false;
 
-    return (String1 == String2);
+	return (String1 == String2);
 }
-
 
 bool str_CompareStringsUpper(HSTRING hString1, HSTRING hString2)
 {
 	ci_string String1( ((StringWrapper*)hString1)->m_Bytes);
 	ci_string String2( ((StringWrapper*)hString2)->m_Bytes);
 
-	if( !String1.empty() || !String2.empty() )
+	if (String1.empty() || String2.empty())
 		return false;
 
-    return (String1 == String2);
-}
+	std::transform(String1.begin(), String1.end(), String1.begin(), ::toupper);
+	std::transform(String2.begin(), String2.end(), String2.begin(), ::toupper);
 
+	return (String1 == String2);
+}
 
 char* str_GetStringData(HSTRING hString)
 {
