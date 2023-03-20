@@ -4528,6 +4528,10 @@ void CGameClientShell::HandleEvent(SDL_Event e)
 	{
 		OnMouseMove(g_hMainWnd, e.button.x, e.button.y, 0);
 	}
+	else if (e.type == SDL_TEXTINPUT)
+	{
+		OnChar(g_hMainWnd, e.text.text[0], 0);
+	}
 }
 
 void CGameClientShell::OnChar(HWND hWnd, char c, int rep)
