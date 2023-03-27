@@ -65,7 +65,7 @@ public:
 };
 
 
-
+#ifndef USE_DXVK
 // The font structure.
 class LTFont : public CGLLNode
 {
@@ -74,7 +74,9 @@ class LTFont : public CGLLNode
         HFONT   m_hFont;
 
 };
-
+#else
+class LTFont : public CGLLNode {}; // stub
+#endif
 
 // The surface structure.. 
 class CisSurface : public CGLLNode

@@ -1473,8 +1473,9 @@ void CConsole::OnKeyPress(uint32 key)
 	}
 }
 
+#ifndef USE_DXVK
 uint32 GetInterfaceSurfaceMemory()
 {
 	return 0;
 }
-
+#endif

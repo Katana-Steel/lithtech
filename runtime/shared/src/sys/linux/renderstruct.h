@@ -1,3 +1,6 @@
+#ifdef USE_DXVK
+#include "../win/renderstruct.h"
+#else
 #ifndef __RENDERSTRUCT_H__
 #define __RENDERSTRUCT_H__
 #ifndef __PIXELFORMAT_H__
@@ -8,11 +11,6 @@
 #endif
 
 #include "linuxddstructs.h"
-
-#ifdef USE_DXVK
-#include <d3d9.h>
-struct IDirect3DDevice9;
-#endif
 
 class SharedTexture;
 class TextureData;
@@ -162,26 +160,14 @@ struct RenderStruct
 
 
     // Functions implemented by the render driver.
-#ifdef USE_DXVK
-		int             (*Init)(RenderStructInit *pInit);   // Returns RENDER_OK for success, or an error code.
-#else
 		int             Init(RenderStructInit *pInit);
-#endif
 
         void            (*Term)(bool bFullTerm);
-#ifdef USE_DXVK
-        IDirect3DDevice9* (*GetD3DDevice)(); // Note: In spring the renderer will link directly with the engine.
-                            //  RenderStruct will go away - the renderer will be the only thing that
-                            //  needs d3d. The DrawPrim interface lives in the engine for now (and it needs the Device).
-#endif
         // Any textures you expect the renderer to use must be bound and unbound.
         // If bTextureChanged is TRUE, the renderer should reinitialize its data for the texture
         // even if it's already bound.
         void            (*BindTexture)(SharedTexture *pTexture, bool bTextureChanged);
         void            (*UnbindTexture)(SharedTexture *pTexture);
-#ifdef USE_DXVK
-        D3DFORMAT       (*GetTextureDDFormat1)(BPPIdent BPP, uint32 iFlags);
-#endif
         bool            (*QueryDDSupport)(PFormat* Format);
         bool            (*GetTextureDDFormat2)(BPPIdent BPP, uint32 iFlags, PFormat* pFormat);
         bool            (*ConvertTexDataToDD)(uint8* pSrcData, PFormat* SrcFormat, uint32 SrcWidth, uint32 SrcHeight, uint8* pDstData, PFormat* DstFormat, BPPIdent eDstType, uint32 nDstFlags, uint32 DstWidth, uint32 DstHeight);
@@ -192,13 +178,8 @@ struct RenderStruct
 
         // You render through a context.  Note: LithTech frees all of its lightmap data
         // after calling this because it assumes you converted it all into a more suitable format.
-#ifdef USE_DXVK
-        HRENDERCONTEXT  (*CreateContext)();
-        void            (*DeleteContext)(HRENDERCONTEXT hContext);
-#else
 		HRENDERCONTEXT  CreateContext();
 		void            DeleteContext(HRENDERCONTEXT hContext);
-#endif
 
         // Clear a section of the screen.  Flags are from CLEARSCREEN_ flags in de_codes.h.
         void            (*Clear)(LTRect *pRect, uint32 flags, LTRGBColor& ClearColor);
@@ -215,18 +196,9 @@ struct RenderStruct
         bool            (*GetOptimized2DBlend)(LTSurfaceBlend &blend);
         bool            (*SetOptimized2DColor)(HLTCOLOR color);
         bool            (*GetOptimized2DColor)(HLTCOLOR &color);
-#ifdef USE_DXVK
-        // Render a scene.
-        int             (*RenderScene)(SceneDesc *pScene);
-         // Handle a command from the console.
-        void            (*RenderCommand)(int argc, const char **argv);
-         // Show the backbuffer.
-        void            (*SwapBuffers)(uint flags );
-#else
 		int             RenderScene(SceneDesc *pScene);
 		void RenderCommand(uint32 argc, const char** argv);
 		void            SwapBuffers(uint flags );
-#endif
 
         // Get the screen pixel format.
         bool            (*GetScreenFormat)(PFormat *pFormat);
@@ -256,57 +228,21 @@ struct RenderStruct
 
         // Make a screenshot file.
         void            (*MakeScreenShot)(const char *pFilename);
-#ifdef USE_DXVK
-		//Generates a series of images that form a cubic environment map of the form Prefix[FW|BK|LF|RI|UP|DW].bmp
-		//aligned along the world's basis space from the given position
-		void			(*MakeCubicEnvMap)(const char* pszPrefix, uint32 nSize, const SceneDesc& InSceneDesc);
-#else
 		void			MakeCubicEnvMap(const char* pszPrefix, uint32 nSize, const SceneDesc& InSceneDesc);
-#endif
         // Reads in new console variable values.
         void            (*ReadConsoleVariables)();
-#ifdef USE_DXVK
-        // Get the current render info
-        void            (*GetRenderInfo)(RenderInfoStruct *pStruct);
-#else
 		void            GetRenderInfo(RenderInfoStruct* pRenderInfo);
-#endif
         // Blit from the screen.
 
         void            (*BlitFromScreen)(BlitRequest *pRequest);
-#ifdef USE_DXVK
-        // Creating RenderObjects...
-        CRenderObject*  (*CreateRenderObject)(CRenderObject::RENDER_OBJECT_TYPES ObjectType);
-        bool            (*DestroyRenderObject)(CRenderObject* pObject);
-        bool			(*LoadWorldData)(ILTStream *pStream);
-#else
 		CRenderObject*  CreateRenderObject(CRenderObject::RENDER_OBJECT_TYPES ObjectType);
         bool            DestroyRenderObject(CRenderObject* pObject);
         bool            LoadWorldData(ILTStream *pStream);
-#endif
 
 		// Change the color of a lightgroup in the currently loaded world
 		// Returns false if a world isn't loaded
 		bool			(*SetLightGroupColor)(uint32 nID, const LTVector &vColor);
 
-#ifdef USE_DXVK
-		// Change/query the state of an occluder in the currently loaded world
-		// Returns LT_NOTFOUND if the ID isn't found or LT_NOTINWORLD if a world isn't loaded
-		LTRESULT		(*SetOccluderEnabled)(uint32 nID, bool bEnabled);
-		LTRESULT		(*GetOccluderEnabled)(uint32 nID, bool *pEnabled);
-		// Accessing texture effect variables
-		uint32			(*GetTextureEffectVarID)(const char* pszEffectGroup, uint32 nStage);
-		bool			(*SetTextureEffectVar)(uint32 nVarID, uint32 nVar, float fValue);
-		// Access to the different object groups
-		bool			(*IsObjectGroupEnabled)(uint32 nGroup);
-		void			(*SetObjectGroupEnabled)(uint32 nGroup, bool bEnable);
-		void			(*SetAllObjectGroupEnabled)();
-		// Access to the render style map used when rendering the glow effect
-		bool			(*AddGlowRenderStyleMapping)(const char* pszSource, const char* pszMapTo);
-		bool			(*SetGlowDefaultRenderStyle)(const char* pszFile);
-		bool			(*SetNoGlowRenderStyle)(const char* pszFile);
-
-#else
 		LTRESULT SetOccluderEnabled(uint32 nID, bool bEnabled);
 		LTRESULT GetOccluderEnabled(uint32 nID, bool *pEnabled);
 		uint32	        GetTextureEffectVarID(const char* pszEffectGroup, uint32 nStage);
@@ -318,7 +254,6 @@ struct RenderStruct
 		bool			AddGlowRenderStyleMapping(const char* pszSource, const char* pszMapTo);
 		bool			SetGlowDefaultRenderStyle(const char* pszFile);
 		bool			SetNoGlowRenderStyle(const char* pszFile);
-#endif
 
         // This stuff MUST come last so it doesn't get zeroed out when switching res.
 
@@ -385,3 +320,4 @@ typedef void (*FreeModeListFn)(RMode *pHead);
 typedef void (*RenderDLLSetupFn)(RenderStruct *pStruct);
 
 #endif  // __RENDERSTRUCT_H__
+#endif  // USE_DXVK

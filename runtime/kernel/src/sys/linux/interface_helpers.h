@@ -1,3 +1,6 @@
+#ifdef USE_DXVK
+#include "../win/interface_helpers.h"
+#else
 // This module implements lots of helpful rectangle and 2d clipping
 // routines used for interface stuff.
 #ifndef __INTERFACE_HELPERS_H__
@@ -58,3 +61,4 @@ inline void* cis_LockSurface(CisSurface *pSurface, long &pitch, LTBOOL bSetDirty
 inline void cis_UnlockSurface(CisSurface *pSurface) {} // stub
 inline LTBOOL IsColorTransparent(HLTCOLOR hColor) { return LTFALSE; } // stub
 #endif  // __INTERFACE_HELPERS_H__
+#endif  // USE_DXVK

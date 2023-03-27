@@ -177,7 +177,6 @@ if(WIN32)
 	../kernel/src/sys/win/dutil.cpp
 	../kernel/src/sys/win/input.cpp
 	../kernel/src/sys/win/InputSim.cpp
-	../kernel/src/sys/win/interface_helpers.cpp
 	../kernel/src/sys/win/load_pcx.cpp
 	../kernel/src/sys/win/ltdirectmusicloader.cpp
 	../kernel/src/sys/win/lthread.cpp
@@ -250,6 +249,7 @@ if (WIN32 OR ENABLE_DXVK)
 	../model/src/sys/d3d/d3d_model_load.cpp
 	../render_b/src/sys/d3d/d3ddrawprim.cpp
 	../render_b/src/sys/d3d/d3dtexinterface.cpp
+	../kernel/src/sys/win/interface_helpers.cpp
 	../kernel/src/sys/win/render.cpp
 	src/sys/win/winclientde_impl.cpp
     )
