@@ -178,7 +178,6 @@ if(WIN32)
 	../kernel/src/sys/win/input.cpp
 	../kernel/src/sys/win/InputSim.cpp
 	../kernel/src/sys/win/load_pcx.cpp
-	../kernel/src/sys/win/ltdirectmusicloader.cpp
 	../kernel/src/sys/win/lthread.cpp
 	../kernel/src/sys/win/ltlibraryloader.cpp
 	../kernel/src/sys/win/ltrendermgr_impl.cpp
@@ -237,6 +236,7 @@ endif (ENABLE_OPENAL)
 if (ENABLE_DIRECTMUSIC)
 	set(exec_src ${exec_src}
 	../kernel/src/sys/win/ltdirectmusic_impl.cpp
+	../kernel/src/sys/win/ltdirectmusicloader.cpp
     )
 else (ENABLE_DIRECTMUSIC)
 	set(exec_src ${exec_src}

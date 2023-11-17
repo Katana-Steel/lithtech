@@ -54,7 +54,7 @@ extern ILTSoundSys* SoundSys( bool bTerminate = false );
 #include "soundbuffer.h"
 #endif
 
-#ifdef WIN32
+#if defined(WIN32) && !defined(USE_OPENAL)
 #ifndef __DMUSICI_H__
 #include <dmusici.h>
 #define __DMUSICI_H__
@@ -176,13 +176,13 @@ public:
 #ifdef USE_ABSTRACT_SOUND_INTERFACES
 //	===========================================================================
 
-#ifdef _LINUX
+#if defined(_LINUX) || defined(USE_OPENAL)
 #define LPDIRECTSOUND8 void*
 #define LPDIRECTSOUNDBUFFER void*
 #endif
 
 	LPDIRECTSOUND8 GetDirectSound( );
-#ifdef WIN32
+#if defined(WIN32) && !defined(USE_OPENAL)
 	IDirectMusicPerformance8* GetDirectMusicPerformance( );
 	IDirectMusic* GetDirectMusic();
 #else
