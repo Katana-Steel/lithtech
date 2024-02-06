@@ -82,7 +82,7 @@ LTBOOL CExplosionFX::CreateObject(ILTClient *pClientDE)
 
 		// Determine what container we're in...
 
-		ContainerCode eCode;
+		ContainerCode eCode = CC_NO_CONTAINER;
 		HLOCALOBJ objList[1];
         LTVector vTestPos = m_cs.vPos;
         uint32 dwNum = ::GetPointContainers(vTestPos, objList, 1, ::GetLiquidFlags());
