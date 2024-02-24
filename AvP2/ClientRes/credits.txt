@@ -1,0 +1,335 @@
+Fox Interactive Presents:
+Aliens vs. Predator 2
+ 
+Developed by
+Monolith Productions Inc.
+>TIME:5.0
+>BIG
+##
+Aliens vs. Predator 2
+is powered by LithTech
+>TIME:3.0
+>BIG
+##
+
+>TIME:2.0
+##
+Fox Interactive:
+>TIME:2.0
+>BIG
+##
+David Stalker, Producer
+Paul Pawlicki, Associate Producer
+Michael Heilemann, Director of Technology
+>TIME:2.5
+##
+Fox Quality Assurance Department:
+
+Don Sexton, Quality Assurance Manager
+Igor Krinitskiy, Assistant Quality Assurance Manager
+
+Project Lead:
+
+Glenn Dphrepaulezz
+>TIME:3.0
+## 
+Testers:
+Ken Anderson   -   Geoff Bent
+Terrance Brant   -   Joe Castellano
+Francis Choi   -   Kristian Davila
+Matt Dell   -   David Farkas
+Anant Jiemjitpolchai   -   Javier Lagos 
+Joseph Lamas   -   Cris Lee 
+Kerry Marshall   -   Aaron Minjares 
+Billy Pamier   -   Jen Redding 
+Gabe Slater   -   Jeff Spierer
+David Taylor   -   Luke Thai 
+Jason Weitzner   -   Chris Wilson 
+Hal Zabie
+>TIME:3.0
+## 
+Special Thanks:
+Eric Asevo
+Steven Bersch
+Aaron Blean
+Kristian Davila 
+Lindsey Fischer 
+Tom Gastall
+Ivo Gerscovich 
+Luke Letizia 
+Blake McCallister
+Dan MacKechnie
+Kimberlee MacMullan
+John Melchior
+Chris Miller
+Megan O'Brien
+Michael Pole
+Harish Rao
+Victor Rodriguez
+Jamie Samson
+Kirk Scott
+Dave Shaw
+Gary Sheinwald
+Kristin Sutter
+Rozita Tolouey
+Tim Tran
+Jack Van Leer
+Mark Vu
+Karly Young
+>TIME:3.0
+## 
+Justin Cooney, ATI
+Ritche Corpus, Logitech
+Brad Craig, AMD
+Mike Drummelsmith, Matrox
+Brian Harvey, NVIDIA
+Joe Kreiner, ST
+Nicolas Thibieroz, PowerVR
+Elias Slater, AMD
+>TIME:3.0
+##
+Thanks to all the filmmakers and storytellers who created, and contributed to, the legend.
+>TIME:5.0
+##
+>TIME:2.0
+##
+Monolith Productions
+Core Development Team:
+>TIME:3.0
+>BIG
+##
+James Ackley, Lead Sound Designer
+Rhett Baldwin, Level Designer
+Brice Broaddus, 3D Artist
+Mark Brown, Level Designer
+Ben Chamberlain, Lead Quality Assurance
+>TIME:5.0
+##
+Nathan Cheever, Level Designer
+Ben Coleman, Senior Level Designer
+Courtney Evans, Level Designer
+Andy Grant, 3D Artist
+Nathan Grigg, Music Designer
+>TIME:5.0
+##
+Ben Harrison, World Artist
+Nathan Hendrickson, Lead Level Designer
+Chris Hewett, Director of Development
+Peter Higley, Game Programmer
+Craig Hubbard, Creative Director
+>TIME:5.0
+##
+Andy Kaplan, Game Programmer
+Kevin Kilstrom, Lead 2D/3D Artist
+Eric Kohler, Art Director
+Andy Mattingly, Lead Programmer
+Dan Miller, Level Designer
+>TIME:5.0
+##
+Brian Pamintuan, Sound Designer
+Brad Pendleton, Senior Game Programmer
+Mark Spadoni, Game Programmer
+Dan Thibadeau, Senior Level Designer
+Cassano Thruston, Sound Designer
+>TIME:5.0
+##
+Bill Vandervoort, Senior Level Designer
+Brian Waite, 3D Animator
+William Westwater, Game Design / Producer
+Simon Wong, Motion Capture Artist
+>TIME:4.0
+##
+ 
+>TIME:2.0
+##
+Monolith Productions
+Additional Development:
+>TIME:3.0
+>BIG
+##
+Bryan Bouwman, Senior Engine Programmer
+Kevin Deadrick, Level Designer
+Bill Dewey, Sierra Programmer
+Mike Dussault, Engine Programmer
+>TIME:4.0
+##
+Jim Edwards, Game Programmer
+Israel Evans, Special FX Artist
+Crista Forest, Level Designer
+Jay Fuller, Level Designer
+Kevin Francis, Senior Engine Programmer
+>TIME:5.0
+##
+Terry Franguiadakis, Model Programmer
+Jim Geldmacher, Interface Programmer
+Bob Givnin, Quality Assurance
+Miguel Gomez, Lithtech Programmer
+Jonathan Gramlich, Quality Assurance
+>TIME:5.0
+##
+Geoff Kaimmer, World Artist
+Seiko Kobayashi, 3D Artist
+Kevin Lambert, Launcher Programmer
+Brian Long, Senior Game Programmer
+John O'Rorke, Engine Programmer
+>TIME:5.0
+##
+Curtis Salsman, 2D/3D Artist
+Matt Scott, Senior Engine Engineer
+Jonathan Stein, Product Manager
+Kevin Stephens, Director of Engineering
+Ewen Vowels, Engine Programmer
+>TIME:5.0
+##
+ 
+>TIME:2.0
+##
+Special Thanks to the 
+Following Monolith Personnel:
+>TIME:3.0
+>BIG
+##
+Andrea Barringer
+Wayne Burns
+Jason Hall
+Patti Kail
+Gary Kussman
+Spencer Maiers
+Kristin McLellan
+Samantha Ryan
+Jim Totaro
+Jim Wallingford
+Sandra Watanabe
+Kiyotaka Yaguchi
+>TIME:10.0
+##
+Additional Special Thanks:
+>TIME:3.0
+>BIG
+##
+Kyle "Pezman" Peschel
+Ben "Sadogoat" Bradbury
+Christoffer "Eldritch" Lundberg
+Lonnie "Glock" Wilson
+
+>TIME:5.0
+##
+
+>TIME:2.0
+##
+Sierra / Vivendi
+>TIME:3.0
+>BIG
+##
+Marketing & Public Relations:
+Koren Buckner
+Sarita Churchill
+Jessica Drossin
+Elisabeth Miller
+Kathy Carter
+Michelle Garnier-Winkler
+Janelle Watts
+>TIME:3.0
+## 
+Localisation:
+Barry Kehoe, Project Manager
+Anthony Fitzgerald, Lead Engineer
+Mick Lavin, Engineer
+Bill Sweeney, Graphics
+Francis Courchinoux, Quality Assurance
+Bartolomeo DiBenedetto, Quality Assurance
+>TIME:3.0
+## 
+
+Compatibility Lab:
+Sue Ung
+Sean Meichle
+Joe Easter
+>TIME:3.0
+##
+
+Quality Assurance:
+Brad Nelson - Executive Sr. Director Consumer Services
+Gary Stevens - Quality Assurance Director
+Ken Eaton - Quality Assurance Supervisor
+John Largis - Quality Assurance Lead
+Jim Gentle - Quality Assurance Tester
+Erinn Hamilton - Quality Assurance Tester
+Patrick Orr - Quality Assurance Tester
+Brian Burnett - Quality Assurance Tester
+Mark Storie - Quality Assurance Tester
+>TIME:3.0
+##
+Creative Services:
+Kathy Carter
+Jessica Drossin
+Elizabeth Miller
+Michelle Garnier-Winkler
+
+>TIME:5.0
+##
+Voice and Motion Capture Artists:
+>BIG
+##
+John Armstrong - Duke, Blackwell, Dimitri and Various
+Jock Blaney - McCain and Various
+Andromeda Dunker - Dunya and Various
+Kit Harris - Various
+Turner Heidi - Various
+Todd Licea - Harrison and Various
+Gary Schwartz - Eisenberg and Various
+David Scully - Jones, Ivan and Various
+Jeff Steitzer - Rykov and Various
+Jen Taylor - Tomiko and Various
+
+Andrew Hefferman - Motion Capture Performer
+Jamil Giovanni Mullen - Motion Capture Performer
+>TIME:10.0
+##
+
+>TIME:3.0
+##
+Additional Music Composition:
+>BIG 
+##
+Rich Ragsdale, Composer
+>TIME:2.0
+##
+
+Uses Miles Sound System
+Copyright (c) 1991-2001 by RAD Game Tools, Inc.
+Uses Bink Video Technology
+Copyright (c) 1994-2001 by RAD Game Tools, Inc.
+MPEG Layer-3 playback supplied with the Miles Sound System
+from RAD Game Tools, Inc. MPEG-3 audio compression
+technology licensed by Fraunhofer IIS and THOMPSON Multimedia.
+Sampled Instruments by Sonic Implants: www.sonicimplants.com
+GameSpy Arcade is (c) 1994-2001 GameSpy Industries, Ltd. The GameSpy logo
+and "GameSpy" are the trademarks of GameSpy Industries, Ltd.
+
+>TIME:10.0
+##
+(c) 2001 Twentieth Century Fox Film Corporation.  All Rights Reserved.
+LithTech (TM) Game Engine © 1998-1999 Monolith Productions, Inc. 
+All rights reserved. 
+Fox, Fox Interactive, Aliens vs. Predator 2 and 
+their associated logos are registered trademarks or 
+trademarks of Twentieth Century Fox Film Corporation. 
+LithTech is a trademark of Lithtech, Inc. 
+Windows is a registered trademark or trademark of Microsoft 
+Corporation in the United States and/or other countries. 
+The ratings icon is a trademark of the Interactive 
+Digital Software Association.
+>TIME:10.0
+##
+We would also like to thank all of the
+wives, husbands, children, and significant others who
+have supported us through the development
+process. Without their support, this
+game would not have been possible.
+>TIME:20.0
+## 
+>TIME:15.0
+##
+>END
+##

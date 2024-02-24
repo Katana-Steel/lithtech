@@ -1,0 +1,328 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\ServerApp.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\ServerApp.ico"
+IDI_SELECTED            ICON    DISCARDABLE     "res\\selected.ico"
+IDI_MARINE              ICON    DISCARDABLE     "res\\ico00001.ico"
+IDI_ALIEN               ICON    DISCARDABLE     "res\\marine1.ico"
+IDI_PREDATOR            ICON    DISCARDABLE     "res\\alien1.ico"
+IDI_CORPORATE           ICON    DISCARDABLE     "res\\ico00002.ico"
+IDI_ALIEN_CTRL          ICON    DISCARDABLE     "res\\ico00003.ico"
+IDI_CORPORATE_CTRL      ICON    DISCARDABLE     "res\\corporat.ico"
+IDI_MARINE_CTRL         ICON    DISCARDABLE     "res\\ico00004.ico"
+IDI_PREDATOR_CTRL       ICON    DISCARDABLE     "res\\predator.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_GAMESERVER DIALOG DISCARDABLE  0, 0, 423, 263
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Aliens vs. Predator 2 - Dedicated Server"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Server Info",IDC_STATIC,7,7,270,51
+    LTEXT           "Server Name:",IDC_STATIC,17,17,46,12
+    LTEXT           "<server name>",IDC_SERVER_NAME,67,17,120,12
+    LTEXT           "Running Time:",IDC_STATIC,17,41,46,12
+    LTEXT           "<server time>",IDC_SERVER_TIME,67,41,120,12
+    LTEXT           "Current Players:",IDC_STATIC,18,159,50,12
+    EDITTEXT        IDC_TOTALPLAYERS,244,29,20,12,ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
+    LTEXT           "Total Players:",IDC_STATIC,197,29,43,12
+    EDITTEXT        IDC_PEAKPLAYERS,244,17,20,12,ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
+    LTEXT           "Time in Level:",IDC_STATIC,313,17,45,12
+    LTEXT           "Static",IDC_TIMEINLEVEL,361,17,37,12
+    LTEXT           "Average Ping:",IDC_STATIC,108,159,45,12
+    EDITTEXT        IDC_AVERAGEPING,156,159,20,12,ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
+    GROUPBOX        "Players",IDC_STATIC,7,59,270,115
+    CONTROL         "List1",IDC_PLAYERS,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_NOSORTHEADER | WS_BORDER | 
+                    WS_TABSTOP,17,69,250,85
+    PUSHBUTTON      "&Boot Player",IDC_PLAYER_BOOT,197,157,70,12,WS_DISABLED
+    GROUPBOX        "Levels",IDC_STATIC,286,7,130,167
+    CONTROL         "List1",IDC_LEVELS,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOLABELWRAP | 
+                    LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | 
+                    WS_TABSTOP,296,30,110,124
+    PUSHBUTTON      "&Next Level",IDC_COMMANDS_NEXTLEVEL,296,157,54,12
+    PUSHBUTTON      "Select &Level",IDC_COMMANDS_SELLEVEL,352,157,54,12
+    PUSHBUTTON      "S&top Server",IDC_STOPSERVER,197,41,70,12
+    GROUPBOX        "Console",IDC_STATIC,7,176,409,80
+    EDITTEXT        IDC_CONSOLE_COMMAND,17,240,330,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Clear",IDC_CONSOLE_CLEAR,352,240,54,12
+    EDITTEXT        IDC_CONSOLE_WINDOW,17,186,389,52,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
+    DEFPUSHBUTTON   "*Send*",IDC_CONSOLE_SEND,388,0,35,8,NOT WS_VISIBLE
+    PUSHBUTTON      "*Button1*",IDC_STARTUP,351,0,35,8,NOT WS_VISIBLE
+    LTEXT           "Game Type:",IDC_STATIC,17,29,46,12
+    LTEXT           "<game type>",IDC_GAME_TYPE,67,29,120,12
+    LTEXT           "Peak Players:",IDC_STATIC,197,17,43,12
+    LTEXT           "<players>",IDC_NUM_PLAYERS,70,159,30,12
+END
+
+IDD_SELECTCONFIG DIALOG DISCARDABLE  0, 0, 162, 81
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Select Config"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,10,55,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,100,55,50,14
+    COMBOBOX        IDC_CONFIG,10,30,140,55,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Server Config File:",IDC_STATIC,10,15,140,10
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,0
+ PRODUCTVERSION 1,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "monolith@lith.com\0"
+            VALUE "CompanyName", "Monolith Productions Inc.\0"
+            VALUE "FileDescription", "AVP2 Stand-Alone Server\0"
+            VALUE "FileVersion", "1, 0, 0, 0\0"
+            VALUE "InternalName", "AVP2Serv\0"
+            VALUE "LegalCopyright", "Copyright (C) 2001, Monolith Productions, Inc.\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "AVP2Serv.exe\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "AVP2\0"
+            VALUE "ProductVersion", "1, 0, 0, 0\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_GAMESERVER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 416
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 256
+    END
+
+    IDD_SELECTCONFIG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 155
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 74
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_SPLASH              BITMAP  DISCARDABLE     "res\\splash.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ERROR_LOADREZ       "ERROR - Unable to load resources."
+    IDS_ERROR_MEMORY        "ERROR - Out of memory.  The server will be shutdown."
+    IDS_ERROR_BINARIES      "ERROR - Unable to load the game binaries."
+    IDS_ERROR_CANTSTARTSERVER "ERROR - Unable to start server."
+    IDS_ERROR_LOADWORLD     "ERROR - Unable to load the selected map."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_CONSOLE_SERVERSTOPPED "Server stopped."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_NETERR_GENERIC      "ERROR - Unable to setup the network game server."
+    IDS_NETERR_SELECTSERVICE 
+                            "ERROR - Unable to use the selected network service."
+    IDS_NETERR_FILLSERVICE  "ERROR - Unable to access the available network services."
+    IDS_NETERR_JOINSESSION  "ERROR - Unable to join the selected game session."
+    IDS_NETERR_HOSTSESSION  "ERROR - Unable to host the game session."
+    IDS_NETERR_INIT         "ERROR - Unable to initialize the networking system."
+    IDS_NETERR_SETNETSERVICE "ERROR - Unable to set the network service."
+    IDS_APPREGNAME          "Alien vs. Predator 2"
+    IDS_APPNAME             "AVP2Serv"
+    IDS_NETERR_NOCONFIGS    "ERROR - No server configuration file.  A configuration file must be setup inside the game menus and selected for the server."
+    IDS_NETERR_CORRUPTCONFIG 
+                            "ERROR - The config file could not be read properly. The file may be corrupt."
+    IDS_NETERR_NOMAPS       "ERROR - This config file has no maps selected."
+    IDS_NETERR_GAMETYPE     "ERROR - The config file contains an unknown game type."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_CHECKEXIT           "Are you sure you want to stop the server?"
+    IDS_CONSOLE_INITSERVER  "Initializing the server..."
+    IDS_CONSOLE_SERVERINITED "Server initialized."
+    IDS_CONSOLE_UNABLETOHOST "ERROR - Unable to host the game."
+    IDS_CONSOLE_SERVERRUNNING "Server is running."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ERROR_WORLDS        "ERROR - Unabe to get world list from server."
+    IDS_COLUMNHEADER_NAME   "Name"
+    IDS_COLUMNHEADER_PING   "Ping"
+    IDS_COLUMNHEADER_KILLS  "Kills"
+    IDS_COLUMNHEADER_SCORE  "Score"
+    IDS_COLUMNHEADER_WORLD  "World"
+    IDS_COLUMNHEADER_LIVES  "Lives"
+    IDS_SERVER              "Server"
+    IDS_NONE                "None"
+    IDS_COLUMNHEADER_TIMEONSERVER "Time"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ERROR_CANTSAVEOPTIONS 
+                            "ERROR - Unable to save the options into autoexec.cfg."
+    IDS_NEWPLAYER           "<Incoming Player>"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_GT_DM               "Deathmatch"
+    IDS_GT_TEAMDM           "Team Deathmatch"
+    IDS_GT_HUNT             "Hunt"
+    IDS_GT_SURVIVOR         "Survivor"
+    IDS_GT_OVERRUN          "Overrun"
+    IDS_GT_EVAC             "Evacuation"
+    IDS_GT_UNKNOWN          "Unknown"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\ServerApp.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

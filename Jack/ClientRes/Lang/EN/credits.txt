@@ -1,0 +1,334 @@
+MONOLITH PRODUCTIONS:
+>BIG
+>TIME:2.0
+>POS:UL
+##
+The Contract J.A.C.K. Team:
+(In Alphabetical Order)
+
+James Ackley, Lead Sound Designer
+Scott Albaugh, Senior 2D/3D Artist/Animator 
+Matt Allen, Senior 2D/3D Artist
+Ellen Beeman, Producer
+Curt Collins, 2D/3D Artist
+Kevin Deadrick, Level Designer
+>TIME:3.0
+>POS:UL
+##
+Michael Drummond, Level Designer
+Kevin Francis, Senior Engineer
+Jim Geldmacher, Engineer
+Jon Gramlich, Associate Producer/QA Lead
+Chris Hewett, Director of Development
+Rodney Houle, Level Designer
+>TIME:3.0
+>POS:UL
+##
+Craig Hubbard, Creative Director/Lead Game Designer
+Steve Lee, Senior 2D/3D Artist
+David Longo, Art Director/Lead 3D Artist
+Piotr Mintus, Engineer
+John Mulkey, Lead Level Designer
+Jeff Orkin, Senior Engineer
+>TIME:3.0
+>POS:UL
+##
+John O'Rorke, Senior Engineer
+Brian Pamintuan, Sound Designer
+Russ Pecoraro, Engineer
+Brad Pendleton, Lead Engineer
+Dusty Peterson, 2D/3D Artist
+Sasha Runnels, Senior 2D/3D Artist
+>TIME:3.0
+>POS:UL
+##
+Wes Saulsberry, Art Lead
+Kevin Stephens, Director of Engineering
+Akika Tanaka, 2D/3D Artist
+Cassano Thruston, Sound Designer
+Simon Wong, Motion Capture Engineer
+
+Music composed and arranged by Nathan Grigg
+>TIME:3.0
+>POS:UL
+##
+Special thanks to the 
+following Monolith personnel:
+
+Andrea Barringer
+Dan Brady
+Wayne Burns
+Dan Fagan
+Terry Franguiadakis
+>TIME:3.0
+>POS:UL
+##
+Andy Grant
+Jason Hall
+J.J. Hoesing
+Patti Kail
+Eric Kohler
+>TIME:2.0
+>POS:UL
+##
+Gary Kussman
+Spencer Maiers
+Dan Miller
+Frank Rooke
+Samantha Ryan
+>TIME:2.0
+>POS:UL
+##
+Jonathan Stein
+Jim Totaro
+Jim Wallingford
+Sandra Watanabe
+Kiyotaka Yaguchi
+>TIME:2.0
+>POS:UL
+##
+Special thanks to:
+
+Justin Cooney, ATI
+Todd Clauson, Intel
+Cindy Desmarais, Glitchpop
+Keith Galocy, NVidia
+Greg James, Nvidia
+>TIME:3.0
+>POS:UL
+##
+Jamie Lopez, The Actor’s Group
+Matt McClellan, Intel
+Steve Mitchell, Steve Mitchell Studios
+Derek Reynolds, Intel
+Kevin Schumacher, Topo Swope Talent
+Topo Swope, Topo Swope Talent
+>TIME:3.0
+>POS:UL
+##
+Voice Cast:
+
+John Armstrong (Il Pazzo & Various Enemies)
+Jock Blaney (Dmitrij Volkov)
+Ken Boynton (Dr. Harij & Various Enemies)
+Collin Byrne (Various Enemies)
+David Gehrman (Various Enemies)
+>TIME:3.0
+>POS:UL
+##
+Motion Capture Cast:
+
+Jenna Hawkins
+John Kaufmann
+Justin Emeka
+>TIME:2.0
+>POS:UL
+##
+SIERRA ENTERTAINMENT/VIVENDI UNIVERSAL PUBLISHING
+>TIME:2.0
+>BIG
+>POS:UL
+##
+Executive Producer:
+Rich Robinson
+
+Production Assistant:
+Angela Mendez
+>TIME:2.0
+>POS:UL
+##
+VP Development:
+Kelly Zmak
+
+Production Operations Manager:
+Julie Pitt
+>TIME:2.0
+>POS:UL
+##
+Director, Marketing:
+Lee Rossini
+
+Brand Manager:
+Adam Fossa
+>TIME:2.0
+>POS:UL
+##
+Marketing Associate:
+Beth Freeman
+
+Account Supervisor:
+Egil Gloersen
+>TIME:2.0
+>POS:UL
+##
+Director, Public Relations:
+Sarita Churchill
+
+VP QA:
+Rod Shean
+>TIME:2.0
+>POS:UL
+##
+QA Director:
+Stuart Hay
+
+QA Brand Manager:
+David Schapiro
+>TIME:2.0
+>POS:UL
+##
+QA Project Leads:
+William Guerrero, Joseph Peren
+
+QA Associate Lead:
+Robert Bare
+
+QA Associate Lead:
+Michael Kurilko
+>TIME:3.0
+>POS:UL
+##
+QA Testers: 
+
+Alex Hammond
+Andrew Ebert
+Armond James
+Chris Miller
+Daryl Vaughn
+David Dionisio
+Don Carroll
+>TIME:3.0
+>POS:UL
+##
+Dorian White
+Dylan Kozlowski
+Jerry Hung
+Jonathan Backer
+Jonathan Bigalbal
+Justin Walker
+Kevin Jefferson
+>TIME:3.0
+>POS:UL
+##
+Kevin Lo
+Kit Chan
+Mark Yao
+Matthew Byward
+Matthew Jensen
+Michael Choung
+Michael Jackson
+>TIME:3.0
+>POS:UL
+##
+Minh Do
+Phillip Semenik
+Pierre Shorette
+Raymond Hsiao
+Robert Scott
+Sergio Terrazas
+>TIME:3.0
+>POS:UL
+##
+Configuration Testing:
+
+Randy Linch
+Jaime Rios
+Afolabi Akibola
+Jason Perry
+Andrew Ebert
+Robert Gardner
+Min Huang
+Mark Jihanian
+Jack Yao
+>TIME:4.0
+>POS:UL
+##
+Compatibility Testing:
+
+Rey Castillo
+Bob Eatmon
+Peter Elmore
+Don. Carroll
+Jonathan Backer
+Matthew Jensen
+James Pasque
+Raymond Hsiao
+Veronica Valdez
+>TIME:4.0
+>POS:UL
+##
+Lab Tech:
+
+Jon Walton
+Stephen Yang
+Richard Benavides
+Jeffery Kuhn
+>TIME:3.0
+>POS:UL
+##
+Special Thanks:
+
+Jim Wilson
+Michael Pole
+Peter Della Penna
+Shari Lindholm
+James Shaw
+Tracy Gibbs
+>TIME:4.0
+>POS:UL
+##
+(c) 2003 Monolith Productions, Inc. All rights
+reserved. Contract J.A.C.K. and Cate Archer
+are trademarks of Monolith Productions, Inc.
+
+Development by Monolith Productions, Inc.
+  
+Sierra and the Sierra logo are registered
+trademarks or trademarks of Sierra Entertainment,
+Inc. in the U.S. and/or other countries.
+
+No One Lives Forever, Vivendi Universal Games
+and the Vivendi Universal Games logo are
+trademarks of Vivendi Universal Games, Inc.
+>TIME:4.0
+##
+This product contains Jupiter Technology
+licensed from Touchdown Entertainment, Inc.
+(c) 2003 Touchdown Entertainment, Inc. All rights
+reserved.
+
+Uses Bink Video. Copyright (c)1997-2003
+by RAD Game Tools, Inc.
+
+MPEG Layer-3 audio coding technology licensed
+from Fraunhofer IIS and Thomson multimedia.
+>TIME:4.0
+##
+NVIDIA, the NVIDIA Logo, NVIDIA The Way It's
+Meant to be Played Logo and other NVIDIA
+Marks are trademarks of NVIDIA Corporation
+in the United States and other countries.
+  
+Windows is a registered trademark or 
+trademark of Microsoft Corporation in the 
+United States and/or other countries.
+
+Pentium is a registered trademark of Intel
+Corporation. 
+  
+The ratings icon is a trademark of the 
+Interactive Digital Software Association.
+
+Any other trademarks are the property of
+their respective owners. 
+
+Earth, Moon, and Sun source photos courtesy
+of the National Aeronautics and Space
+Administration (NASA).
+
+Thanks for playing Contract J.A.C.K.!
+>TIME:4.0
+##
+>END
+
+

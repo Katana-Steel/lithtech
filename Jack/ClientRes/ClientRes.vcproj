@@ -1,0 +1,832 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="7.10"
+	Name="ClientRes"
+	ProjectGUID="{834A809D-AA21-4D0F-AD71-F7E50DC0A936}"
+	SccProjectName="Perforce Project"
+	SccAuxPath=""
+	SccLocalPath="."
+	SccProvider="MSSCCI:Perforce SCM">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Final IT|Win32"
+			OutputDirectory="..\..\\built\$(ConfigurationName)"
+			IntermediateDirectory="$(OutDir)\$(ProjectName)"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\..\libs\STLport-4.5.3\STLPORT"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_FINAL"
+				StringPooling="TRUE"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="TRUE"
+				UsePrecompiledHeader="2"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"
+				CommandLine="if &quot;$(NOLF2EXP_GAME)&quot;==&quot;&quot; goto Error
+echo copy &quot;$(TargetPath)&quot; &quot;$(NOLF2EXP_GAME)\Game&quot;
+copy &quot;$(TargetPath)&quot; &quot;$(NOLF2EXP_GAME)\Game&quot;
+goto End
+:Error
+@echo &quot;NOLF2EXP_GAME needed to publish game executables.&quot;
+:End
+"
+				Outputs="&quot;$(NOLF2EXP_GAME)\Game\$(TargetFileName)&quot;"/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="TRUE"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
+				OutputFile="$(Outdir)\CRes.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				SubSystem="2"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\built\FinalIT\ClientRes\TO2/ClientRes.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories=".\;lang\it;..\shared\;..\shared\Lang\it"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Final FR|Win32"
+			OutputDirectory="..\..\\built\$(ConfigurationName)"
+			IntermediateDirectory="$(OutDir)\$(ProjectName)"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\..\libs\STLport-4.5.3\STLPORT"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_FINAL"
+				StringPooling="TRUE"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="TRUE"
+				UsePrecompiledHeader="2"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"
+				CommandLine="if &quot;$(NOLF2EXP_GAME)&quot;==&quot;&quot; goto Error
+echo copy &quot;$(TargetPath)&quot; &quot;$(NOLF2EXP_GAME)\Game&quot;
+copy &quot;$(TargetPath)&quot; &quot;$(NOLF2EXP_GAME)\Game&quot;
+goto End
+:Error
+@echo &quot;NOLF2EXP_GAME needed to publish game executables.&quot;
+:End
+"
+				Outputs="&quot;$(NOLF2EXP_GAME)\Game\$(TargetFileName)&quot;"/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="TRUE"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
+				OutputFile="$(Outdir)\CRes.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				SubSystem="2"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\built\FinalFR\ClientRes\TO2/ClientRes.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories=".\;lang\fr;..\shared\;..\shared\Lang\fr"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Final ES|Win32"
+			OutputDirectory="..\..\\built\$(ConfigurationName)"
+			IntermediateDirectory="$(OutDir)\$(ProjectName)"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\..\libs\STLport-4.5.3\STLPORT"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_FINAL"
+				StringPooling="TRUE"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="TRUE"
+				UsePrecompiledHeader="2"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"
+				CommandLine="if &quot;$(NOLF2EXP_GAME)&quot;==&quot;&quot; goto Error
+echo copy &quot;$(TargetPath)&quot; &quot;$(NOLF2EXP_GAME)\Game&quot;
+copy &quot;$(TargetPath)&quot; &quot;$(NOLF2EXP_GAME)\Game&quot;
+goto End
+:Error
+@echo &quot;NOLF2EXP_GAME needed to publish game executables.&quot;
+:End
+"
+				Outputs="&quot;$(NOLF2EXP_GAME)\Game\$(TargetFileName)&quot;"/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="TRUE"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
+				OutputFile="$(Outdir)\CRes.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				SubSystem="2"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\built\FinalES\ClientRes\TO2/ClientRes.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories=".\;lang\es;..\shared\;..\shared\Lang\es"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="..\..\\built\$(ConfigurationName)"
+			IntermediateDirectory="$(OutDir)\$(ProjectName)"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="3"
+				GlobalOptimizations="TRUE"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="2"
+				AdditionalIncludeDirectories=".\,..\..\libs\STLport-4.5.3\STLPORT"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				StringPooling="TRUE"
+				ExceptionHandling="FALSE"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="FALSE"
+				UsePrecompiledHeader="2"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"
+				DisableSpecificWarnings="4530"/>
+			<Tool
+				Name="VCCustomBuildTool"
+				CommandLine="if &quot;$(NOLF2EXP_GAME)&quot;==&quot;&quot; goto Error
+echo copy &quot;$(TargetPath)&quot; &quot;$(NOLF2EXP_GAME)\Game&quot;
+copy &quot;$(TargetPath)&quot; &quot;$(NOLF2EXP_GAME)\Game&quot;
+goto End
+:Error
+@echo &quot;NOLF2EXP_GAME needed to publish game executables.&quot;
+:End
+"
+				Outputs="&quot;$(NOLF2EXP_GAME)\Game\$(TargetFileName)&quot;"/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="TRUE"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
+				OutputFile="$(Outdir)\CRes.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				SubSystem="2"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\built\Release\ClientRes\TO2/ClientRes.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Final DE|Win32"
+			OutputDirectory="..\..\\built\$(ConfigurationName)"
+			IntermediateDirectory="$(OutDir)\$(ProjectName)"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\..\libs\STLport-4.5.3\STLPORT"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_FINAL"
+				StringPooling="TRUE"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="TRUE"
+				UsePrecompiledHeader="2"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"
+				CommandLine="if &quot;$(NOLF2EXP_GAME)&quot;==&quot;&quot; goto Error
+echo copy &quot;$(TargetPath)&quot; &quot;$(NOLF2EXP_GAME)\Game&quot;
+copy &quot;$(TargetPath)&quot; &quot;$(NOLF2EXP_GAME)\Game&quot;
+goto End
+:Error
+@echo &quot;NOLF2EXP_GAME needed to publish game executables.&quot;
+:End
+"
+				Outputs="&quot;$(NOLF2EXP_GAME)\Game\$(TargetFileName)&quot;"/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="TRUE"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
+				OutputFile="$(Outdir)\CRes.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				SubSystem="2"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\built\FinalDE\ClientRes\TO2/ClientRes.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories=".\;lang\de;..\shared\;..\shared\Lang\de"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="..\..\\built\$(ConfigurationName)"
+			IntermediateDirectory="$(OutDir)\$(ProjectName)"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\..\libs\STLport-4.5.3\STLPORT"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				StringPooling="TRUE"
+				ExceptionHandling="TRUE"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="1"
+				UsePrecompiledHeader="2"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="3"
+				CompileAs="0"/>
+			<Tool
+				Name="VCCustomBuildTool"
+				CommandLine="if &quot;$(NOLF2EXP_GAME)&quot;==&quot;&quot; goto Error
+echo copy &quot;$(TargetPath)&quot; &quot;$(NOLF2EXP_GAME)\Game&quot;
+copy &quot;$(TargetPath)&quot; &quot;$(NOLF2EXP_GAME)\Game&quot;
+goto End
+:Error
+@echo &quot;NOLF2EXP_GAME needed to publish game executables.&quot;
+:End
+"
+				Outputs="&quot;$(NOLF2EXP_GAME)\Game\$(TargetFileName)&quot;"/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="TRUE"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
+				OutputFile="$(Outdir)\CRes.dll"
+				LinkIncremental="2"
+				SuppressStartupBanner="TRUE"
+				GenerateDebugInformation="TRUE"
+				SubSystem="2"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\built\debug\ClientRes\TO2/ClientRes.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Final|Win32"
+			OutputDirectory="..\..\\built\$(ConfigurationName)"
+			IntermediateDirectory="$(OutDir)\$(ProjectName)"
+			ConfigurationType="2"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="3"
+				GlobalOptimizations="TRUE"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="2"
+				AdditionalIncludeDirectories="..\..\libs\STLport-4.5.3\STLPORT"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_FINAL"
+				StringPooling="TRUE"
+				ExceptionHandling="FALSE"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="FALSE"
+				UsePrecompiledHeader="2"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				CompileAs="0"
+				DisableSpecificWarnings="4530"/>
+			<Tool
+				Name="VCCustomBuildTool"
+				CommandLine="if &quot;$(NOLF2EXP_GAME)&quot;==&quot;&quot; goto Error
+echo copy &quot;$(TargetPath)&quot; &quot;$(NOLF2EXP_GAME)\Game&quot;
+copy &quot;$(TargetPath)&quot; &quot;$(NOLF2EXP_GAME)\Game&quot;
+goto End
+:Error
+@echo &quot;NOLF2EXP_GAME needed to publish game executables.&quot;
+:End
+"
+				Outputs="&quot;$(NOLF2EXP_GAME)\Game\$(TargetFileName)&quot;"/>
+			<Tool
+				Name="VCLinkerTool"
+				IgnoreImportLibrary="TRUE"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
+				OutputFile="$(Outdir)\CRes.dll"
+				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
+				SubSystem="2"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\..\built\Final\ClientRes\TO2/ClientRes.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Localized Files"
+			Filter="">
+			<Filter
+				Name="DE"
+				Filter="">
+				<File
+					RelativePath=".\Lang\DE\ClientRes.rc">
+					<FileConfiguration
+						Name="Final IT|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\it;..\shared\;..\shared\Lang\it;Lang\DE;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final FR|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\fr;..\shared\;..\shared\Lang\fr;Lang\DE;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final ES|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\es;..\shared\;..\shared\Lang\es;Lang\DE;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;Lang\DE;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final DE|Win32">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\de;..\shared\;..\shared\Lang\de;Lang\DE;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;Lang\DE;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;Lang\DE;$(NoInherit)"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\Lang\DE\credits.txt">
+				</File>
+				<File
+					RelativePath=".\Lang\DE\intro.txt">
+				</File>
+			</Filter>
+			<Filter
+				Name="EN"
+				Filter="">
+				<File
+					RelativePath=".\Lang\EN\ClientRes.rc">
+					<FileConfiguration
+						Name="Final IT|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\it;..\shared\;..\shared\Lang\it;Lang\EN;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final FR|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\fr;..\shared\;..\shared\Lang\fr;Lang\EN;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final ES|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\es;..\shared\;..\shared\Lang\es;Lang\EN;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final DE|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\de;..\shared\;..\shared\Lang\de;Lang\EN;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final|Win32">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;$(NoInherit)"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\Lang\EN\credits.txt">
+				</File>
+				<File
+					RelativePath=".\Lang\EN\intro.txt">
+				</File>
+			</Filter>
+			<Filter
+				Name="ES"
+				Filter="">
+				<File
+					RelativePath=".\Lang\ES\ClientRes.rc">
+					<FileConfiguration
+						Name="Final IT|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\it;..\shared\;..\shared\Lang\it;Lang\ES;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final FR|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\fr;..\shared\;..\shared\Lang\fr;Lang\ES;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final ES|Win32">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\es;..\shared\;..\shared\Lang\es;Lang\ES;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;Lang\ES;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final DE|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\de;..\shared\;..\shared\Lang\de;Lang\ES;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;Lang\ES;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;Lang\ES;$(NoInherit)"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\Lang\ES\credits.txt">
+				</File>
+				<File
+					RelativePath=".\Lang\ES\intro.txt">
+				</File>
+			</Filter>
+			<Filter
+				Name="IT"
+				Filter="">
+				<File
+					RelativePath=".\Lang\IT\ClientRes.rc">
+					<FileConfiguration
+						Name="Final IT|Win32">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\it;..\shared\;..\shared\Lang\it;Lang\IT;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final FR|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\fr;..\shared\;..\shared\Lang\fr;Lang\IT;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final ES|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\es;..\shared\;..\shared\Lang\es;Lang\IT;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;Lang\IT;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final DE|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\de;..\shared\;..\shared\Lang\de;Lang\IT;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;Lang\IT;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;Lang\IT;$(NoInherit)"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\Lang\IT\credits.txt">
+				</File>
+				<File
+					RelativePath=".\Lang\IT\intro.txt">
+				</File>
+			</Filter>
+			<Filter
+				Name="FR"
+				Filter="">
+				<File
+					RelativePath=".\Lang\FR\ClientRes.rc">
+					<FileConfiguration
+						Name="Final IT|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\it;..\shared\;..\shared\Lang\it;Lang\FR;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final FR|Win32">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\fr;..\shared\;..\shared\Lang\fr;Lang\FR;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final ES|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\es;..\shared\;..\shared\Lang\es;Lang\FR;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;Lang\FR;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final DE|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\de;..\shared\;..\shared\Lang\de;Lang\FR;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;Lang\FR;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Final|Win32"
+						ExcludedFromBuild="TRUE">
+						<Tool
+							Name="VCResourceCompilerTool"
+							AdditionalIncludeDirectories=".\;lang\en;..\shared\;..\shared\Lang\EN;Lang\FR;$(NoInherit)"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\Lang\FR\credits.txt">
+				</File>
+				<File
+					RelativePath=".\Lang\FR\intro.txt">
+				</File>
+			</Filter>
+		</Filter>
+		<File
+			RelativePath=".\arrow.cur">
+		</File>
+		<File
+			RelativePath=".\ClientRes.h">
+		</File>
+		<File
+			RelativePath=".\main.cpp">
+		</File>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
