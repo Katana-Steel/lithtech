@@ -3,6 +3,7 @@
 #include "clientmgr.h"
 #include "iltclient.h"
 #include "console.h"
+#include "ltinteger.h"
 #include "winclientde_impl.h"
 #include "interface_helpers.h"
 #ifndef USE_DXVK
@@ -72,17 +73,17 @@ static PFormat g_PrevScreenFormat;
 static uint32 g_nPrevScreenPixelBytes;
 
 
-static LTRESULT cis_WarpSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc, 
+static LTRESULT cis_WarpSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	LTWarpPt *pCoords, int nCoords);
-static LTRESULT cis_WarpSurfaceToSurfaceTransparent(HSURFACE hDest, HSURFACE hSrc, 
+static LTRESULT cis_WarpSurfaceToSurfaceTransparent(HSURFACE hDest, HSURFACE hSrc,
 	LTWarpPt *pCoords, int nCoords, HLTCOLOR hColor);
-static LTRESULT cis_WarpSurfaceToSurfaceSolidColor(HSURFACE hDest, HSURFACE hSrc, 
+static LTRESULT cis_WarpSurfaceToSurfaceSolidColor(HSURFACE hDest, HSURFACE hSrc,
 	LTWarpPt *pCoords, int nCoords, HLTCOLOR hTransColor, HLTCOLOR hFillColor);
 
 static LTRESULT cis_End3D(uint flags);
 
 
-typedef LTRESULT (*DrawPixelsFn)(bool bSameSurface, uint8 *pSrcData, uint8 *pDestData, 
+typedef LTRESULT (*DrawPixelsFn)(bool bSameSurface, uint8 *pSrcData, uint8 *pDestData,
 	long srcPitch, long destPitch, LTRect *pSrcRect, LTRect *pDestRect);
 
 
@@ -102,7 +103,7 @@ inline void cis_SetSolidColor(uint32 inColor)
 
 
 static LTRESULT cis_OpaqueDraw(bool bSameSurface,
-	uint8 *pSrcLine, uint8 *pDestLine, 
+	uint8 *pSrcLine, uint8 *pDestLine,
 	long srcPitch, long destPitch, LTRect *pSrcRect, LTRect *pDestRect)
 {
 	uint32 y, rectWidth, rectHeight, bytesPerLine;
@@ -113,7 +114,7 @@ static LTRESULT cis_OpaqueDraw(bool bSameSurface,
 
 	pSrcLine += pSrcRect->top*srcPitch + pSrcRect->left*g_nScreenPixelBytes;
 	pDestLine += pDestRect->top*destPitch + pDestRect->left*g_nScreenPixelBytes;
-	
+
 	for(y=0; y < rectHeight; y++)
 	{
 		if(bSameSurface)
@@ -142,7 +143,7 @@ inline void cis_SolidColorDrawLine(uint8 *pSrcLine, uint8 *pDestLine, uint32 wid
 	while(width)
 	{
 		width--;
-		
+
 		if(src != g_TransparentColor)
 			dest = g_SolidColor;
 
@@ -152,7 +153,7 @@ inline void cis_SolidColorDrawLine(uint8 *pSrcLine, uint8 *pDestLine, uint32 wid
 }
 
 static LTRESULT cis_SolidColorDraw(bool bSameSurface,
-	uint8 *pSrcLine, uint8 *pDestLine, 
+	uint8 *pSrcLine, uint8 *pDestLine,
 	long srcPitch, long destPitch, LTRect *pSrcRect, LTRect *pDestRect)
 {
 	uint32 y, rectWidth, rectHeight;
@@ -173,7 +174,7 @@ static LTRESULT cis_SolidColorDraw(bool bSameSurface,
 		{
 			cis_SolidColorDrawLine(pSrcLine, pDestLine, rectWidth, (Pixel32*)LTNULL);
 		}
-		
+
 		pSrcLine += srcPitch;
 		pDestLine += destPitch;
 	}
@@ -202,12 +203,12 @@ inline void cis_TransparentDrawLine(uint8 *pSrcLine, uint8 *pDestLine, uint32 wi
 }
 
 static LTRESULT cis_TransparentDraw(bool bSameSurface,
-	uint8 *pSrcData, uint8 *pDestData, 
+	uint8 *pSrcData, uint8 *pDestData,
 	long srcPitch, long destPitch, LTRect *pSrcRect, LTRect *pDestRect)
 {
 	uint32 y, rectWidth, rectHeight;
 	uint8 *pSrcLine, *pDestLine;
-	
+
 	rectWidth = (uint32)(pSrcRect->right - pSrcRect->left);
 	rectHeight = (uint32)(pSrcRect->bottom - pSrcRect->top);
 
@@ -224,7 +225,7 @@ static LTRESULT cis_TransparentDraw(bool bSameSurface,
 		{
 			cis_TransparentDrawLine(pSrcLine, pDestLine, rectWidth, (Pixel32*)LTNULL);
 		}
-		
+
 		pSrcLine += srcPitch;
 		pDestLine += destPitch;
 	}
@@ -327,7 +328,7 @@ static void cis_OptimizeDirty(CisSurface *pSurface)
 {
 	if(!pSurface)
 		return;
-	
+
 	if((pSurface->m_Flags & SURFFLAG_OPTIMIZED) && (pSurface->m_Flags & SURFFLAG_OPTIMIZEDIRTY))
 	{
 		g_pCisRenderStruct->OptimizeSurface(pSurface->m_hBuffer, pSurface->m_OptimizedTransparentColor);
@@ -345,7 +346,7 @@ static LTRESULT cis_MaskedDraw(bool bSameSurface,
 	uint32 y, maskMaskX, maskMaskY;
 	long maskPitch;
 	uint32 rectWidth, rectHeight;
-	
+
 	CHECK_PARAMS2(g_pMask && g_pMask->m_Width <= 256 && g_pMask->m_Height <= 256);
 
 	maskMaskX = g_MaskLookup[g_pMask->m_Width];
@@ -368,11 +369,11 @@ static LTRESULT cis_MaskedDraw(bool bSameSurface,
 	{
 		if(g_ScreenFormat.GetType() == BPP_16)
 		{
-			
+
 			cis_MaskedDrawLine16(pSrcLine, pDestLine, rectWidth,
 				&pMaskData[((pSrcRect->top+y)&maskMaskY)*maskPitch], maskMaskX,
 				pSrcRect->left);
-			
+
 		}
 		else if(g_ScreenFormat.GetType() == BPP_32)
 		{
@@ -380,7 +381,7 @@ static LTRESULT cis_MaskedDraw(bool bSameSurface,
 				&pMaskData[((pSrcRect->top+y)&maskMaskY)*maskPitch], maskMaskX,
 				pSrcRect->left);
 		}
-		
+
 		pSrcLine += srcPitch;
 		pDestLine += destPitch;
 	}
@@ -390,7 +391,7 @@ static LTRESULT cis_MaskedDraw(bool bSameSurface,
 }
 
 
-static LTRESULT cis_DoDrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc, 
+static LTRESULT cis_DoDrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	LTRect *pSrcRect, int destX, int destY, DrawPixelsFn fn)
 {
 	FN_NAME(cis_DoDrawSurfaceToSurface);
@@ -409,7 +410,7 @@ static LTRESULT cis_DoDrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	if(pSrcRect)
 	{
 		bIsInside = cis_ClipRectsNonScaled(
-			pSrc->m_Width, pSrc->m_Height, pSrcRect->left, pSrcRect->top, pSrcRect->right, pSrcRect->bottom, 
+			pSrc->m_Width, pSrc->m_Height, pSrcRect->left, pSrcRect->top, pSrcRect->right, pSrcRect->bottom,
 			pDest->m_Width, pDest->m_Height, destX, destY, &srcRect, &destRect);
 	}
 	else
@@ -421,9 +422,9 @@ static LTRESULT cis_DoDrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 
 	if(!bIsInside)
 		return LT_OK;
-	
+
 	// Try to translate the command to let the RenderStruct do it.
-	if(fn == cis_OpaqueDraw || 
+	if(fn == cis_OpaqueDraw ||
 		fn == cis_TransparentDraw)
 	{
 		if(pDest == &g_ScreenSurface)
@@ -438,13 +439,13 @@ static LTRESULT cis_DoDrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 				blitRequest.m_pDestRect = &destRect;
 				blitRequest.m_BlitOptions = (fn == cis_TransparentDraw) ? BLIT_TRANSPARENT : 0;
 				blitRequest.m_Alpha = pSrc->m_Alpha;
-				
+
 				r_GetRenderStruct()->BlitToScreen(&blitRequest);
 
 				cis_SetDirty(pDest);
 				return LT_OK;
 			}
-		} 
+		}
 		else if (pSrc==&g_ScreenSurface)
 		{
 			// do a screen read...
@@ -455,7 +456,7 @@ static LTRESULT cis_DoDrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 				blitRequest.m_pSrcRect = &srcRect;
 				blitRequest.m_pDestRect = &destRect;
 				blitRequest.m_BlitOptions = (fn == cis_TransparentDraw) ? BLIT_TRANSPARENT : 0;
-				
+
 				r_GetRenderStruct()->BlitFromScreen(&blitRequest);
 				return LT_OK;
 			}
@@ -463,7 +464,8 @@ static LTRESULT cis_DoDrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	}
 
 	bOk = false;
-	if(pSrcData = (uint8*)cis_LockSurface(pSrc, srcPitch))
+	pSrcData = static_cast<uint8*>(cis_LockSurface(pSrc, srcPitch));
+	if(pSrcData != nullptr)
 	{
 		if(pSrc == pDest)
 		{
@@ -472,15 +474,16 @@ static LTRESULT cis_DoDrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 		}
 		else
 		{
-			if(pDestData = (uint8*)cis_LockSurface(pDest, destPitch, true))
+			pDestData = static_cast<uint8*>(cis_LockSurface(pDest, destPitch));
+			if(pDestData != nullptr)
 			{
 				if(fn(false, pSrcData, pDestData, srcPitch, destPitch, &srcRect, &destRect) == LT_OK)
 					bOk = true;
-				
+
 				cis_UnlockSurface(pDest);
 			}
 		}
-		
+
 		cis_UnlockSurface(pSrc);
 	}
 
@@ -505,7 +508,7 @@ static void cis_InternalBitmapToSurface(CisSurface *pDest, LoadedBitmap *pSrc,
 	if(pSrcRect)
 	{
 		bIsInside = cis_ClipRectsNonScaled(
-			pSrc->m_Width, pSrc->m_Height, pSrcRect->left, pSrcRect->top, pSrcRect->right, pSrcRect->bottom, 
+			pSrc->m_Width, pSrc->m_Height, pSrcRect->left, pSrcRect->top, pSrcRect->right, pSrcRect->bottom,
 			pDest->m_Width, pDest->m_Height, destX, destY, &srcRect, &destRect);
 	}
 	else
@@ -528,7 +531,7 @@ static void cis_InternalBitmapToSurface(CisSurface *pDest, LoadedBitmap *pSrc,
 	request.m_pSrc += srcRect.top*pSrc->m_Pitch + srcRect.left;
 	request.m_pSrcPalette = pSrc->m_Palette;
 	request.m_SrcPitch = pSrc->m_Pitch;
-	
+
 	request.m_Width = (uint32)(srcRect.right - srcRect.left);
 	request.m_Height = (uint32)(srcRect.bottom - srcRect.top);
 
@@ -536,7 +539,7 @@ static void cis_InternalBitmapToSurface(CisSurface *pDest, LoadedBitmap *pSrc,
 	cis_UnlockSurface(pDest);
 }
 
-static LTRESULT cis_InternalWarpSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc, 
+static LTRESULT cis_InternalWarpSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	LTWarpPt *pCoords, int nCoords, DrawWarpFn fn)
 {
 	CisSurface *pSrc, *pDest;
@@ -545,12 +548,12 @@ static LTRESULT cis_InternalWarpSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	WarpCoords leftCoords[1024], rightCoords[1024];
 	uint32 minY, maxY;
 
-	
+
 	pSrc = (CisSurface*)hSrc;
 	pDest = (CisSurface*)hDest;
 	if(!pSrc || !pDest)
 		RETURN_ERROR(1, InternalWarpSurfaceToSurface, LT_INVALIDPARAMS);
-	
+
 	// Make sure they specified the coordinates correctly.
 	if(nCoords > MAX_WARP_POINTS)
 		nCoords = MAX_WARP_POINTS;
@@ -566,7 +569,7 @@ static LTRESULT cis_InternalWarpSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	}
 
 	// Clip the dest coordinates..
-	bIsVisible = cis_Clip2dPoly(pCoords, nCoords, 0.0f, 0.0f, 
+	bIsVisible = cis_Clip2dPoly(pCoords, nCoords, 0.0f, 0.0f,
 		(float)(pDest->m_Width-1), (float)(pDest->m_Height-1));
 	if(!bIsVisible)
 		return LT_OK;
@@ -589,7 +592,7 @@ static LTRESULT cis_InternalTransformSurfaceToSurface(HSURFACE hDest, HSURFACE h
 	LTFloatPt points[4], translate, shiftBack;
 	BlitRequest blitRequest;
 	int i;
-	
+
 	pSrc = (CisSurface*)hSrc;
 	pDest = (CisSurface*)hDest;
 	if(!pSrc || !pDest)
@@ -607,7 +610,7 @@ static LTRESULT cis_InternalTransformSurfaceToSurface(HSURFACE hDest, HSURFACE h
 		rotOrigin.y = (float)destY + halfSrcHeight;
 	}
 
-	
+
 	// Setup the points at the rotation origin.
 	translate.x = (float)destX - rotOrigin.x;
 	translate.y = (float)destY - rotOrigin.y;
@@ -626,7 +629,7 @@ static LTRESULT cis_InternalTransformSurfaceToSurface(HSURFACE hDest, HSURFACE h
 
 	shiftBack.x = -translate.x + (float)destX;
 	shiftBack.y = -translate.y + (float)destY;
-	
+
 	for(i=0; i < 4; i++)
 	{
 		points[i].x *= scaleX;
@@ -744,10 +747,10 @@ static LTRESULT cis_InternalScaleSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 		if(pDest == &g_ScreenSurface)
 		{
 			bIsInside = cis_ClipRectsScaled(
-				pSrc->m_Width, pSrc->m_Height, srcRect.left, srcRect.top, srcRect.right, srcRect.bottom, 
+				pSrc->m_Width, pSrc->m_Height, srcRect.left, srcRect.top, srcRect.right, srcRect.bottom,
 				pDest->m_Width, pDest->m_Height, destRect.left, destRect.top, destRect.right, destRect.bottom,
 				&srcRect, &destRect);
-			
+
 			if(bIsInside)
 			{
 				if(r_GetRenderStruct()->BlitToScreen)
@@ -761,7 +764,7 @@ static LTRESULT cis_InternalScaleSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 					blitRequest.m_BlitOptions = (tType == 0) ? BLIT_TRANSPARENT : 0;
 					blitRequest.m_Alpha = pSrc->m_Alpha;
 					blitRequest.m_bUseOld = true;
-					
+
 					r_GetRenderStruct()->BlitToScreen(&blitRequest);
 
 					cis_SetDirty(pDest);
@@ -804,7 +807,7 @@ static void cis_DeleteSurfaceBuffer(CisSurface *pSurface)
 	if(pSurface->m_hBuffer)
 	{
 		ASSERT(g_pCisRenderStruct);
-		
+
 		g_pCisRenderStruct->DeleteSurface(pSurface->m_hBuffer);
 		pSurface->m_hBuffer = LTNULL;
 	}
@@ -880,7 +883,7 @@ static bool cis_RestoreSurface(CisSurface *pSurface)
 		return false;
 
 	request.m_DestPitch = iPitch;
-	
+
 	request.m_pSrcFormat = &g_PrevScreenFormat;
 	request.m_pSrc = pSurface->m_pBackupBuffer;
 	request.m_SrcPitch = pSurface->m_Width * g_nPrevScreenPixelBytes;
@@ -889,7 +892,7 @@ static bool cis_RestoreSurface(CisSurface *pSurface)
 	request.m_Height = pSurface->m_Height;
 
 	dResult = format_mgr->Mgr()->ConvertPixels(&request);
-	g_pCisRenderStruct->UnlockSurface(pSurface->m_hBuffer);	
+	g_pCisRenderStruct->UnlockSurface(pSurface->m_hBuffer);
 
 	if(dResult != LT_OK)
 	{
@@ -953,7 +956,7 @@ static void cis_DeleteSurfaces()
 
 		cis_DeleteSurfaceBackupBuffer(pSurface);
 		cis_DeleteSurfaceBuffer(pSurface);
-		
+
 		sb_Free(&g_SurfaceBank, pSurface);
 	}
 
@@ -989,7 +992,7 @@ CisSurface* cis_InternalCreateSurface(uint32 width, uint32 height)
 	pSurface->m_pUserData = LTNULL;
 	pSurface->m_Alpha = 1.0f;
 
-	g_Surfaces.AddHead(pSurface);	
+	g_Surfaces.AddHead(pSurface);
 	return pSurface;
 }
 
@@ -1031,7 +1034,7 @@ static bool IsVertSpanSolidColor(uint8 *pBuf, GenericColor color, uint32 height,
 		{
 			if(*((uint16*)pBuf) != color.wVal)
 				return false;
-			
+
 			pBuf += pitch;
 			--height;
 		}
@@ -1042,7 +1045,7 @@ static bool IsVertSpanSolidColor(uint8 *pBuf, GenericColor color, uint32 height,
 		{
 			if(*((uint32*)pBuf) != color.dwVal)
 				return false;
-			
+
 			pBuf += pitch;
 			--height;
 		}
@@ -1059,7 +1062,7 @@ static bool IsHorzSpanSolidColor(uint8 *pBuf, GenericColor color, uint32 width)
 		{
 			if(*((uint16*)pBuf) != color.wVal)
 				return false;
-			
+
 			--width;
 			pBuf += sizeof(uint16);
 		}
@@ -1070,7 +1073,7 @@ static bool IsHorzSpanSolidColor(uint8 *pBuf, GenericColor color, uint32 width)
 		{
 			if(*((uint32*)pBuf) != color.dwVal)
 				return false;
-			
+
 			--width;
 			pBuf += sizeof(uint32);
 		}
@@ -1110,8 +1113,8 @@ static LTRESULT cis_GetBorderSize(HSURFACE hSurface, HLTCOLOR hColor, LTRect *pR
 
 	while(pRect->bottom < (int)pSurface->m_Height && IsHorzSpanSolidColor(&pBuf[(pSurface->m_Height-pRect->bottom-1)*iPitch], theColor, pSurface->m_Width)) {
 		++pRect->bottom; }
-		
-	g_pCisRenderStruct->UnlockSurface(pSurface->m_hBuffer);	
+
+	g_pCisRenderStruct->UnlockSurface(pSurface->m_hBuffer);
 	return LT_OK;
 }
 
@@ -1125,8 +1128,8 @@ static LTRESULT cis_OptimizeSurface(HSURFACE hSurface, HLTCOLOR hTransparentColo
 	pSurface = (CisSurface*)hSurface;
 	pSurface->m_OptimizedTransparentColor = (uint32)hTransparentColor;
 
-	// The render driver wants a uint32 color so either get rid of the 
-	// COLOR_TRANSPARENCY_MASK or set it to OPTIMIZE_NO_TRANSPARENCY.	
+	// The render driver wants a uint32 color so either get rid of the
+	// COLOR_TRANSPARENCY_MASK or set it to OPTIMIZE_NO_TRANSPARENCY.
 	if(pSurface->m_OptimizedTransparentColor & COLOR_TRANSPARENCY_MASK)
 		pSurface->m_OptimizedTransparentColor &= ~COLOR_TRANSPARENCY_MASK;
 	else
@@ -1231,7 +1234,7 @@ static LTRESULT cis_CreateHeightmapFromBitmap(const char* pBitmap, uint32* pWidt
 		return LT_INVALIDPARAMS;
 
 	//load up the bitmap
-	LoadedBitmap Bitmap;	
+	LoadedBitmap Bitmap;
 	if(!cis_LoadPcx((char*)pBitmap, &Bitmap))
 		return LT_ERROR;
 
@@ -1251,8 +1254,8 @@ static LTRESULT cis_CreateHeightmapFromBitmap(const char* pBitmap, uint32* pWidt
 
 	for(uint32 nCurrColor = 0; nCurrColor < 256; nCurrColor++)
 	{
-		nPalette[nCurrColor] =	(uint8)(((uint32)Bitmap.m_Palette[nCurrColor].rgb.r + 
-										 (uint32)Bitmap.m_Palette[nCurrColor].rgb.g + 
+		nPalette[nCurrColor] =	(uint8)(((uint32)Bitmap.m_Palette[nCurrColor].rgb.r +
+										 (uint32)Bitmap.m_Palette[nCurrColor].rgb.g +
 										 (uint32)Bitmap.m_Palette[nCurrColor].rgb.b) / 3);
 	}
 
@@ -1291,7 +1294,7 @@ static HSURFACE cis_CreateSurfaceFromBitmap(const char *pBitmapName)
 	LoadedBitmap bitmap;
 	HSURFACE hRet;
 
-	
+
 	if(!cis_LoadPcx(pBitmapName, &bitmap))
 		return LTNULL;
 
@@ -1398,7 +1401,7 @@ static void cis_GetSurfaceDims(HSURFACE hSurf, uint32 *pWidth, uint32 *pHeight)
 	{
 		if(pWidth)
 			*pWidth = pSurface->m_Width;
-		
+
 		if(pHeight)
 			*pHeight = pSurface->m_Height;
 	}
@@ -1408,7 +1411,7 @@ static void cis_GetSurfaceDims(HSURFACE hSurf, uint32 *pWidth, uint32 *pHeight)
 	}
 }
 
-static bool cis_DrawBitmapToSurface(HSURFACE hDest, const char *pSourceBitmapName, 
+static bool cis_DrawBitmapToSurface(HSURFACE hDest, const char *pSourceBitmapName,
 	const LTRect *pSrcRect, int destX, int destY)
 {
 	LoadedBitmap bitmap;
@@ -1448,7 +1451,7 @@ static LTRESULT cis_DrawSurfaceMasked(HSURFACE hDest, HSURFACE hSrc, HSURFACE hM
 	return cis_DoDrawSurfaceToSurface(hDest, hSrc, pSrcRect, destX, destY, cis_MaskedDraw);
 }
 
-LTRESULT cis_DrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc, 
+LTRESULT cis_DrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	LTRect *pSrcRect, int destX, int destY)
 {
 	if(!g_pCisRenderStruct)
@@ -1457,7 +1460,7 @@ LTRESULT cis_DrawSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	return cis_DoDrawSurfaceToSurface(hDest, hSrc, pSrcRect, destX, destY, cis_OpaqueDraw);
 }
 
-static LTRESULT cis_DrawSurfaceToSurfaceTransparent(HSURFACE hDest, HSURFACE hSrc, 
+static LTRESULT cis_DrawSurfaceToSurfaceTransparent(HSURFACE hDest, HSURFACE hSrc,
 	LTRect *pSrcRect, int destX, int destY, HLTCOLOR hColor)
 {
 	if(!g_pCisRenderStruct)
@@ -1498,7 +1501,7 @@ static LTRESULT cis_ScaleSurfaceToSurfaceSolidColor(HSURFACE hDest, HSURFACE hSr
 	return cis_InternalScaleSurfaceToSurface(hDest, hSrc, pDestRect, pSrcRect, 2, hTransColor, hFillColor);
 }
 
-static LTRESULT cis_WarpSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc, 
+static LTRESULT cis_WarpSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 	LTWarpPt *pCoords, int nCoords)
 {
 	if(!g_pCisRenderStruct)
@@ -1508,7 +1511,7 @@ static LTRESULT cis_WarpSurfaceToSurface(HSURFACE hDest, HSURFACE hSrc,
 }
 
 
-static LTRESULT cis_WarpSurfaceToSurfaceTransparent(HSURFACE hDest, HSURFACE hSrc, 
+static LTRESULT cis_WarpSurfaceToSurfaceTransparent(HSURFACE hDest, HSURFACE hSrc,
 	LTWarpPt *pCoords, int nCoords, HLTCOLOR hColor)
 {
 	if(!g_pCisRenderStruct)
@@ -1519,7 +1522,7 @@ static LTRESULT cis_WarpSurfaceToSurfaceTransparent(HSURFACE hDest, HSURFACE hSr
 }
 
 
-static LTRESULT cis_WarpSurfaceToSurfaceSolidColor(HSURFACE hDest, HSURFACE hSrc, 
+static LTRESULT cis_WarpSurfaceToSurfaceSolidColor(HSURFACE hDest, HSURFACE hSrc,
 	LTWarpPt *pCoords, int nCoords, HLTCOLOR hTransColor, HLTCOLOR hFillColor)
 {
 	if(!g_pCisRenderStruct)
@@ -1608,7 +1611,7 @@ static LTRESULT cis_GetSurfaceAlpha(HSURFACE hSurface, float &alpha)
 	CisSurface *pSurface;
 
 	CHECK_PARAMS2(hSurface);
-	
+
 	pSurface = (CisSurface*)hSurface;
 	alpha = pSurface->m_Alpha;
 	return LT_OK;
@@ -1621,7 +1624,7 @@ static LTRESULT cis_SetSurfaceAlpha(HSURFACE hSurface, float alpha)
 	CisSurface *pSurface;
 
 	CHECK_PARAMS2(hSurface);
-	
+
 	pSurface = (CisSurface*)hSurface;
 	pSurface->m_Alpha = LTCLAMP(alpha, 0.0f, 1.0f);
 	return LT_OK;
@@ -1662,7 +1665,7 @@ static LTRESULT cis_GetEngineHook(const char *pName, void **pData)
 		*pData = (void*)r_GetRenderStruct()->GetD3DDevice();
 		return LT_OK;
 	}
-	
+
 	return LT_ERROR;
 }
 
@@ -1688,7 +1691,7 @@ static LTRESULT cis_QueryGraphicDevice(LTGraphicsCaps* pCaps)
 
 	pCaps->PixelShaderVersion = (uint32)caps.PixelShaderVersion;
 	pCaps->VertexShaderVersion = (uint32)caps.VertexShaderVersion;
-	
+
 
 	return LT_OK;
 }
@@ -1705,7 +1708,7 @@ static LTRESULT cis_FlipScreen(uint32 flags)
 		cis_End3D(END3D_CANDRAWCONSOLE);
 	}
 
-	g_pClientMgr->ShowDrawSurface(flags);	
+	g_pClientMgr->ShowDrawSurface(flags);
 	return LT_OK;
 }
 
@@ -1834,7 +1837,7 @@ static LTRESULT cis_StartOptimized2D()
 
 	if(!pStruct->IsIn3D())
 		RETURN_ERROR(1, StartOptimized2D, LT_NOTIN3D);
-	
+
 	++(pStruct->m_nInOptimized2D);
 
 	if (pStruct->m_nInOptimized2D == 1)
@@ -1854,10 +1857,10 @@ static LTRESULT cis_EndOptimized2D()
 
 	if(!pStruct->IsIn3D())
 		RETURN_ERROR(1, EndOptimized2D, LT_NOTIN3D);
-	
+
 	if(!pStruct->IsInOptimized2D())
 		RETURN_ERROR(1, EndOptimized2D, LT_NOTIN3D);
-	
+
 	--(pStruct->m_nInOptimized2D);
 
 	if (pStruct->m_nInOptimized2D == 0)
@@ -1877,7 +1880,7 @@ static LTRESULT cis_SetOptimized2DBlend(LTSurfaceBlend blend)
 
 	if(!pStruct->IsIn3D())
 		RETURN_ERROR(1, SetOptimized2DBlend, LT_NOTIN3D);
-	
+
 	// This shouldn't ever fail unless an invalid blend mode is specified
 	bool bResult = pStruct->SetOptimized2DBlend(blend);
 	ASSERT(bResult);
@@ -1909,7 +1912,7 @@ static LTRESULT cis_SetOptimized2DColor(HLTCOLOR hColor)
 
 	if(!pStruct->IsIn3D())
 		RETURN_ERROR(1, SetOptimized2DColor, LT_NOTIN3D);
-	
+
 	// This shouldn't ever fail unless an invalid blend mode is specified
 	bool bResult = pStruct->SetOptimized2DColor(hColor);
 	ASSERT(bResult);
@@ -2018,7 +2021,7 @@ void cis_Init()
 	ilt_client->GetSurfaceDims = cis_GetSurfaceDims;
 	ilt_client->GetScreenSurface = cis_GetScreenSurface;
 	ilt_client->DrawSurfaceToSurfaceTransparent = cis_DrawSurfaceToSurfaceTransparent;
-	
+
 	ilt_client->CreateHeightmapFromBitmap = cis_CreateHeightmapFromBitmap;
 	ilt_client->FreeHeightmap = cis_FreeHeightmap;
 	ilt_client->CreateSurfaceFromBitmap = cis_CreateSurfaceFromBitmap;
@@ -2055,7 +2058,7 @@ void cis_Init()
 void cis_Term()
 {
 	cis_DeleteSurfaces();
-	
+
 	// Shutdown the allocators.
 	sb_Term(&g_SurfaceBank);
 #ifndef USE_DXVK
@@ -2097,7 +2100,7 @@ unsigned long GetInterfaceSurfaceMemory()
 	for(pos=g_Surfaces; pos; )
 	{
 		pSurface = g_Surfaces.GetNext(pos);
-	
+
 		total += pSurface->m_Width * pSurface->m_Height * 2;
 		if(pSurface->m_Flags & SURFFLAG_OPTIMIZED)
 		{

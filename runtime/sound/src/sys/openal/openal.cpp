@@ -11,6 +11,7 @@
 #endif
 #include <mpg123.h>
 #include <vector>
+#include <algorithm>
 
 typedef sint16	S16;
 typedef uint16	U16;
@@ -46,6 +47,88 @@ enum
 #endif
 
 #define C3D_REFERENCE_DISTANCE 2000.0f
+class OpenALSources
+{
+	ALuint sources[256]{0};
+	bool in_use[256]{false};
+public:
+	void init();
+	void term();
+	ALuint GetNextSource();
+	void ReleaseSource(ALuint src);
+	void reset();
+};
+
+static OpenALSources oalSource;
+
+void
+OpenALSources::init()
+{
+	alGenSources(256, sources);
+	std::cout << "init all 256 OpenAL sources\n";
+}
+
+void
+OpenALSources::term()
+{
+	{
+		auto beg = std::begin(in_use);
+		auto end = std::end(in_use);
+		std::cout << std::count(beg, end, true) << '\n';
+		std::fill(beg, end, false);
+	}
+	std::cout << "release all 256 OpenAL sources\n";
+
+	alDeleteSources(256, sources);
+	alGetError();
+	for(auto &&s: sources)
+		s = 0;
+}
+
+ALuint
+OpenALSources::GetNextSource()
+{
+	auto beg = std::begin(in_use);
+	auto end = std::end(in_use);
+	auto next = std::find(beg, end, false);
+
+	if (next == end)
+		return 0;
+	auto idx = next - beg;
+	// if (in_use[next - beg]) return GetNextSource();
+	std::cout << idx << ',' << std::count(beg, end, true) << '\n';
+	in_use[idx] = true;
+	return sources[idx];
+}
+
+void
+OpenALSources::ReleaseSource(ALuint src)
+{
+	auto beg = std::begin(sources);
+	auto end = std::end(sources);
+	auto next = std::find(beg, end, src);
+
+	if (next == end) return;
+
+	auto idx = next - beg;
+
+	alSourcei(src, AL_BYTE_OFFSET, 0);
+	alSourcei(src, AL_LOOPING, AL_FALSE);
+	alSourcei(src, AL_BUFFER, 0);
+	alGetError();
+
+	in_use[idx] = false;
+	// std::cout << "releaseing '" << src << "' back to source pool\n";
+}
+
+void
+OpenALSources::reset()
+{
+	alDeleteSources(256, sources);
+	alGenSources(256, sources);
+	for(auto &&u: in_use)
+		u = false;
+}
 
 //ADPCM decoding from https://github.com/dbry/adpcm-xq/
 //see adpcm_license.txt for details.
@@ -319,6 +402,7 @@ public:
 //	===========================================================================
 //	Incorporation of DSMStrm* required functionality
 public:
+	void assignBuffer();
 	bool IsPlaying( );
 	virtual void SetLooping( COpenALSoundSys* pSoundSys, bool bLoop );
 	bool IsLooping( ) { return m_bLooping; }
@@ -391,27 +475,29 @@ void CSample::DisplayError()
 	switch (error) {
 	case AL_NO_ERROR: break;
 	case AL_INVALID_NAME:
-		std::cout << "OpenAL invalid name\n";
+		std::cout << "OpenAL invalid name (" << source << ", " << buffer << ")\n";
+		throw std::string{"OpenAL Invalid Name"};
 		break;
 	case AL_INVALID_ENUM:
-		std::cout << "OpenAL invalid Enum\n";
+		std::cout << "OpenAL invalid Enum (" << source << ", " << buffer << ")\n";
 		break;
 	case AL_INVALID_VALUE:
-		std::cout << "OpenAL invalid Value\n";
+		std::cout << "OpenAL invalid Value (" << source << ", " << buffer << ")\n";
 		break;
 	case AL_INVALID_OPERATION:
-		std::cout << "OpenAL invalid Operation\n";
+		std::cout << "OpenAL invalid Operation (" << source << ", " << buffer << ")\n";
 		break;
 	case AL_OUT_OF_MEMORY:
-		std::cout << "OpenAL Out of Memory\n";
+		std::cout << "OpenAL Out of Memory (" << source << ", " << buffer << ")\n";
 		break;
 	}
 }
 
 void CSample::Term( )
 {
-	alDeleteSources(1, &source);
-	alDeleteBuffers(1, &buffer);
+	//alDeleteSources(1, &source);
+	//alDeleteBuffers(1, &buffer);
+	oalSource.ReleaseSource(source);
 
 	if( m_bAllocatedSoundData && m_pSoundData != NULL )
 		delete[] m_pSoundData;
@@ -467,21 +553,23 @@ bool CSample::IsPlaying( )
 
 void CSample::SetLooping( COpenALSoundSys* pSoundSys, bool bLoop )
 {
-	if( bLoop != m_bLooping )
+	bool playing = IsPlaying();
+	if (m_bLooping != bLoop && playing)
 	{
-		if( IsPlaying( ))
-		{
-			Stop( false );
-			Play( );
-		}
+		Stop(false);
 	}
 
-	m_bLooping = bLoop;
-	alSourcei(source, AL_LOOPING, m_bLooping ? AL_TRUE : AL_FALSE);
+	alSourcei(source, AL_LOOPING, bLoop? AL_TRUE: AL_FALSE);
+
+	if (m_bLooping != bLoop && playing)
+	{
+		Play();
+	}
 }
 
 bool CSample::GetCurrentPosition( unsigned int* pdwPlayPos, unsigned int* pdwWritePos )
 {
+
 	if( source == 0 )
 		return false;
 
@@ -489,10 +577,28 @@ bool CSample::GetCurrentPosition( unsigned int* pdwPlayPos, unsigned int* pdwWri
 	return true;
 }
 
+void CSample::assignBuffer()
+{
+	if ( buffer == 0 )
+		return;
+
+	if ( source == 0 )
+		source = oalSource.GetNextSource();
+	alGetError();
+	alSourcei(source, AL_BUFFER, buffer);
+	alSourcei(source, AL_BYTE_OFFSET, m_nLastPlayPos);
+	alSourcei(source, AL_SOURCE_RELATIVE, AL_TRUE);
+	error = alGetError();
+	DisplayError();
+}
+
 bool CSample::SetCurrentPosition( unsigned int dwStartOffset )
 {
-	if( source == 0 )
+	if (buffer == 0)
 		return false;
+
+	if( source == 0 )
+		assignBuffer();
 
 	alSourcei(source, AL_BYTE_OFFSET, dwStartOffset);
 
@@ -511,13 +617,8 @@ bool CSample::Play( )
 	if (source == 0)
 	{
 		alGetError(); // clear errors, prior to create a new source
-		alGenSources(1, &source);
-		error = alGetError();
-		if (error != AL_NO_ERROR) {
-			std::cout << "CSample::Play genSources: ";
-			DisplayError();
-			return false;
-		}
+		assignBuffer();
+		std::cout <<  "CSample::Play assigned source (" << source << ", " << buffer << ")\n";
 	}
 
 	alSourcei(source, AL_BUFFER, buffer);
@@ -525,6 +626,7 @@ bool CSample::Play( )
 	alSource3i(source, AL_POSITION, 0, 0, 0);
 	alSourcei(source, AL_LOOPING, m_bLooping ? AL_TRUE : AL_FALSE);
 	alSourcef(source, AL_GAIN, m_fVolume);
+	alGetError();
 	alSourcePlay(source);
 	error = alGetError();
 	if (error != AL_NO_ERROR){
@@ -545,11 +647,10 @@ bool CSample::Stop( bool bReset )
 	if( bReset )
 	{
 		m_nLastPlayPos = 0;
-
 	}
 	if (! m_bLooping )
 	{
-		alDeleteSources(1, &source);
+		oalSource.ReleaseSource(source);
 		source = 0;
 	}
 	return true;
@@ -750,22 +851,16 @@ void C3DSample::Term( )
 
 void C3DSample::SetPosition( LTVector& pos )
 {
-	LTVector vPosInner;
-//	float fRatioInnerToDist, fDistSquared;
-
 	I3DObject::SetPosition(	pos );
 	if(m_sample.source == 0)
-		return;
-
-	alSource3f(m_sample.source, AL_POSITION, pos.x, pos.y, pos.z);
+		m_sample.assignBuffer();
 
 	alSourcef(m_sample.source, AL_REFERENCE_DISTANCE, C3D_REFERENCE_DISTANCE);
 
-/*
 	// we want the relative position of the object to the inner
 	// radius of the object
-	fDistSquared = pos.MagSqr();
-	fRatioInnerToDist = sqrtf(m_innerRadiusSquared)/sqrtf(fDistSquared);
+	auto fDistSquared = pos.MagSqr();
+	auto fRatioInnerToDist = sqrtf(m_innerRadiusSquared)/sqrtf(fDistSquared);
 
 	// if it's inside the inner radius
 	if ( fRatioInnerToDist > 1.0f )
@@ -778,11 +873,11 @@ void C3DSample::SetPosition( LTVector& pos )
 		// otherwise build a vector that is at the appropriate distance
 
 		// get a vector to the inner radius in the appropriate direction
-		vPosInner = pos * fRatioInnerToDist;
+		auto vPosInner = pos * fRatioInnerToDist;
 		// get the relative position of the object outside the inner radius
 		pos = pos - vPosInner;
 	}
-*/
+	alSource3f(m_sample.source, AL_POSITION, pos.x, pos.y, pos.z);
 	PRINTSTUB;
 }
 
@@ -790,7 +885,7 @@ void C3DSample::SetVelocity( LTVector& vel )
 {
 	I3DObject::SetVelocity( vel );
 	if(m_sample.source == 0)
-		return;
+		m_sample.assignBuffer();
 
 	alSource3f(m_sample.source, AL_VELOCITY, vel.x, vel.y, vel.z);
 	PRINTSTUB;
@@ -807,6 +902,7 @@ void C3DSample::SetRadiusData( float& fInnerRadius, float& fOuterRadius )
 	m_innerRadius = fInnerRadius;
 	m_outerRadius = fOuterRadius;
 	m_innerRadiusSquared = fInnerRadius * fInnerRadius;
+
 }
 
 void C3DSample::GetRadiusData( float* fInnerRadius, float* fInnerRadiusSquared )
@@ -1105,13 +1201,27 @@ uint32 CStream::FillBuffer( COpenALSoundSys* pSoundSys )
 
 void CStream::SetLooping( COpenALSoundSys* pSoundSys, bool bLoop )
 {
+	bool playing = IsPlaying();
+	if (m_bLooping != bLoop && playing)
+	{
+		Stop(false);
+	}
+	alSourcei(source, AL_LOOPING, bLoop? AL_TRUE: AL_FALSE);
+	if (m_bLooping != bLoop && playing)
+	{
+		Play();
+	}
 	m_bLooping = bLoop;
+
 }
 
 bool CStream::SetCurrentPosition( unsigned int dwStartOffset )
 {
-	if( source == 0 )
+	if( buffer == 0 )
 		return false;
+
+	if (source == 0)
+		assignBuffer();
 
 	alSourcef(source, AL_BYTE_OFFSET, dwStartOffset);
 
@@ -1300,6 +1410,7 @@ public:
 bool COpenALSoundSys::Init( )
 {
 	LT_MEM_TRACK_ALLOC(m_pStreams = new CStream( NULL, NULL ),LT_MEM_TYPE_SOUND);
+	oalSource.init();
 	return true;
 }
 
@@ -1333,6 +1444,8 @@ S32	COpenALSoundSys::Startup( void )
 	alcontext = alcCreateContext(aldevice, 0);
 	alcMakeContextCurrent(alcontext);
 
+    oalSource.init();
+
 	mpg_error = mpg123_init();
 
 	if (mpg_error != MPG123_OK)
@@ -1345,6 +1458,7 @@ S32	COpenALSoundSys::Startup( void )
 
 void COpenALSoundSys::Shutdown( void )
 {
+	oalSource.term();
 	alcMakeContextCurrent(0);
 	if (alcontext)
 	{
@@ -1546,7 +1660,7 @@ void COpenALSoundSys::Set3DVelocityVector( LH3DPOBJECT hObj, float fDX_per_ms, f
 
 	C3DSample *p3dSample = (C3DSample*)hObj;
 	LTVector vel{fDX_per_ms,fDY_per_ms,fDZ_per_ms};
-	p3dSample->SetVelocity(vel);		
+	p3dSample->SetVelocity(vel);
 }
 
 void COpenALSoundSys::Set3DOrientation( LH3DPOBJECT hObj, float fX_face, float fY_face, float fZ_face, float fX_up, float fY_up, float fZ_up )
