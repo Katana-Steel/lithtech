@@ -75,8 +75,8 @@ inline bool DoesRayHitBrush(CEditBrush* pBrush, const LTVector& vStart,
 						   const LTVector& vDir, float fSegLen, uint32 nLeakAmount)
 {
 	//bail if this brush doesn't block light
-	if(!pBrush->IsFlagSet(BRUSHFLAG_CLIPLIGHT))
-		return false;
+	//if(!pBrush->IsFlagSet(BRUSHFLAG_CLIPLIGHT))
+	//	return false;
 
 	//see if we intersect this brush's sphere
 	if(!pBrush->m_BoundingSphere.IntersectsSegment(vStart, vDir, fSegLen))

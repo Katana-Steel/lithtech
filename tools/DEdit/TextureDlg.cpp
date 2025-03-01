@@ -2394,7 +2394,7 @@ bool CTextureDlg::DoScaleTextureCoords( void )
 	EndWaitCursor();
 
 	// delete all the texture info
-	for( i = 0; i < textureInfo; i++ )
+	for( int i = 0; i < textureInfo; i++ )
 	{
 		delete textureInfo[i];
 	}

@@ -152,7 +152,7 @@ BOOL CEditBrush::LoadLTA( CLTANode* pNode, CStringHolder *pStringHolder )
 	CLTANode* pPolyList = PairCdrNode(pData->GetElement(2)); // PairCdrNode(shallow_find_list(pNode, "polylist" ));
 	listSize = pPolyList->GetNumElements();
 	m_Polies.SetSize( listSize );
-	for( i=0; i < listSize; i++ )
+	for( int i=0; i < listSize; i++ )
 	{
 		m_Polies[i] = new CEditPoly( this );
 		if( !m_Polies[i]->LoadEditPolyLTA(pPolyList->GetElement(i), pStringHolder ) )

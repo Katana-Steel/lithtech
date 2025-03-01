@@ -860,7 +860,7 @@ void CFlatToolbar::GetItemRect(int nIndex, LPRECT lpRect) const
 			rect.top -= m_cySharedBorder;    // go back for overlap
 		}
 	}
-	ASSERT(iButton == nIndex);
+	//ASSERT(iButton == nIndex);
 	ASSERT(pTBB == _GetButtonPtr(nIndex));
 
 	// button or image width

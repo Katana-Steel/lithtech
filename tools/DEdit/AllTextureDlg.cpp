@@ -178,7 +178,8 @@ void CAllTextureDlg::FillTextureList()
 			if(pIdent)
 			{
 				// Find a location for the entry
-				for (int iIndex = 0; iIndex < m_TextureList.GetCount(); iIndex++)
+				int iIndex = 0;
+				for (iIndex = 0; iIndex < m_TextureList.GetCount(); iIndex++)
 				{
 					CString csHold;
 					m_TextureList.GetText(iIndex, csHold);

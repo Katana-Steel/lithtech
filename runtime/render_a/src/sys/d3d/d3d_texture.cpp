@@ -374,9 +374,14 @@ struct tex {
 struct cube_tex : public tex {
 	LPDIRECT3DCUBETEXTURE9 pD3DDstTexture;
 	D3DCUBEMAP_FACES i;
+
+	// Constructor for cube_tex
+	cube_tex(const tex& t) : tex(t) {}
 };
 struct norm_tex : public tex {
 	LPDIRECT3DTEXTURE9 pD3DDstTexture;
+
+	norm_tex(const tex& t) : tex(t) {}
 };
 
 HRESULT copyCubeTexture(const cube_tex& t )
@@ -453,7 +458,7 @@ bool CTextureManager::UploadRTexture(TextureData* pSrcTexture, uint32 iSrcLvl, R
 	if (pDstTexture->IsCubeMap())
 	{
 		// Cube map texture...
-		cube_tex t{t_i};
+		cube_tex t(t_i);
 		t.pD3DDstTexture = pDstTexture->m_pD3DCubeTexture;
 		for (uint32 i = 0; i < 6; ++i)
 		{
@@ -465,7 +470,7 @@ bool CTextureManager::UploadRTexture(TextureData* pSrcTexture, uint32 iSrcLvl, R
 	else
 	{
 		// Normal texture..
-		norm_tex t{t_i};
+		norm_tex t(t_i);
 		t.pD3DDstTexture = pDstTexture->m_pD3DTexture;
 		if (copyNormalTexture(t) != D3D_OK)
 			return false;

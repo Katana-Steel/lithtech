@@ -1544,7 +1544,7 @@ Sets it up to parse the specified buffer.
 /*!
 The parsed arguments.
 */
-    const char *m_Args[PARSE_MAXTOKENS];
+    char *m_Args[PARSE_MAXTOKENS];
     int m_nArgs;
 
 /*!
@@ -1567,7 +1567,7 @@ You can use this just like Parse like this:
 
 while(ParseFind("AmbientLight", false)) { ... }
 */
-    bool ParseFind(const char *pLookFor, bool bCaseSensitive, uint32 minTokens=1);
+    bool ParseFind(char *pLookFor, bool bCaseSensitive, uint32 minTokens=1);
 
 private:
     const char *m_pCommandPos;

@@ -17,6 +17,8 @@
 #	include "ltanode.h"
 #endif
 
+#undef StrToInt
+
 //determines if the node is a list and if it has 2 elements
 inline bool			IsPair( const CLTANode* pNode );
 

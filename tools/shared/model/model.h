@@ -24,6 +24,7 @@
 	#include <map>
 	#include <string>
 	#include <vector>   
+	#include "../../../libs/lith/lithtypes.h"
 
 	// How the vertex weighting works:
 	// M = skeleton transform for the given frame

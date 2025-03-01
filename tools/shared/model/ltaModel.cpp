@@ -659,7 +659,7 @@ void AnimSetToModelAnim( MetaModel & metaModel, int cur_set,  ModelAnim *pModelA
 {
 	CAnimSet *pAnimSet = metaModel.GetAnimSet(cur_set);
 
-	const CKeyFrame &KeyFrame = *pAnimSet->GetKeyFrame() ;
+	const LTCKeyFrame &KeyFrame = *pAnimSet->GetKeyFrame() ;
 
 	 //set manim->m_pName ;
 	pModelAnim->SetName( pAnimSet->GetName().c_str() );
@@ -721,7 +721,7 @@ AnimSetToModelAnimSkelMerge( MetaModel & metaModel, int va_set, int sk_set, Mode
 	CAnimSet *pAnimSet		= metaModel.GetAnimSet(va_set);
 	CAnimSet *pSkelAnimSet	= metaModel.GetAnimSet(sk_set);
 
-	const CKeyFrame &KeyFrame = *pAnimSet->GetKeyFrame() ;
+	const LTCKeyFrame &KeyFrame = *pAnimSet->GetKeyFrame() ;
 
 	// even though the v-a anim is the host for the p-q anim data, 
 	// we lose the "VA" postfix on the name.

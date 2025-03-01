@@ -66,7 +66,7 @@ private:
 	// Our list of known prefabs
 	CMoArray<CLoadedPrefab *>	m_aPrefabs;
 
-	char						m_pszRootPath[MAX_PATH];
+	char						m_pszRootPath[500];
 };
 
 #endif //__PREFABMGR_H__

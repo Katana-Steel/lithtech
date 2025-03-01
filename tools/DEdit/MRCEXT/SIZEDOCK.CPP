@@ -158,7 +158,7 @@ BEGIN_MESSAGE_MAP(CSizableMiniDockFrameWnd, CMiniDockFrameWnd)
     ON_WM_NCLBUTTONDBLCLK()
     ON_WM_NCLBUTTONDOWN()
     ON_WM_WINDOWPOSCHANGED()
-    ON_WM_NCHITTEST()
+    //ON_WM_NCHITTEST()
 	ON_WM_MOUSEACTIVATE()
 	//}}AFX_MSG_MAP
     // Global help commands
@@ -1246,7 +1246,7 @@ LRESULT CSizeDockBar::OnSizeParent(WPARAM wParam, LPARAM lParam)
 	
 	// construct new array of bars that are hidden in this dockbar
 	m_arrHiddenBars.RemoveAll();
-	for (i = 0; i < m_arrBars.GetSize(); i++)
+	for (int i = 0; i < m_arrBars.GetSize(); i++)
     {
 		CControlBar* pBar = GetDockedControlBar(i);
 		if (pBar != NULL && ! pBar->IsVisible())

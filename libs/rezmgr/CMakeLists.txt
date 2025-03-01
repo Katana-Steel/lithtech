@@ -8,6 +8,9 @@ add_library(${PROJECT_NAME} STATIC
 
 include_directories(../../sdk/inc
 	../lith)
+	
+target_link_libraries(${PROJECT_NAME}
+	LIB_Lith)
 
 if(LINUX)
     set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-fpermissive -fPIC")

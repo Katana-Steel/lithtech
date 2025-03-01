@@ -6,9 +6,6 @@
 // --------------------------------------------
 #pragma warning (disable:4786)
 
-#include "ltaStream.h"
-#include "ltalex.h"
-#include "ltaParseNode.h"
 #include "ltaScene.h"
 
 #include <iostream>

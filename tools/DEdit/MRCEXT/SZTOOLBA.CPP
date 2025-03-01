@@ -288,7 +288,7 @@ afx_msg void CMRCSizeToolBar::OnTBNToolTip(UINT uID, NMHDR *pNMHDR, LRESULT * pR
 	CString strText;
 	if (strText.LoadString(ButtonId))
 	{
-		char * pTipText = strchr(strText, '\n');   // tool tip is after "\n" in the string
+		const char * pTipText = strchr(strText, '\n');   // tool tip is after "\n" in the string
 		if (pTipText != NULL)
 		{	
 			strcpy(pTip->szText, pTipText + 1);
@@ -335,7 +335,7 @@ afx_msg void CMRCSizeToolBar::OnTBNGetButtonInfo(UINT nID, NMHDR *pNMHDR, LRESUL
 			CString strText;
 			if (strText.LoadString(nButtonId))
 			{
-				char * pTipText = strchr(strText, '\n');   // tool tip is after "\n" in the string
+				const char * pTipText = strchr(strText, '\n');   // tool tip is after "\n" in the string
 				if (pTipText != NULL)
 				{	
 					strncpy(pTBN->pszText, pTipText + 1, pTBN->cchText);

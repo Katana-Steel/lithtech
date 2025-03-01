@@ -76,14 +76,14 @@ BOOL CAddObjectDlg::OnInitDialog()
 
 	m_ObjectTree.DeleteAllItems();
 
-	hItem = m_ObjectTree.InsertItem( g_BaseTypeName );
-	m_ObjectTree.InsertItem( g_LightTypeName, hItem );
-	m_ObjectTree.InsertItem( g_ModelTypeName, hItem );
-	m_ObjectTree.InsertItem( g_SpriteTypeName, hItem );
-	m_ObjectTree.InsertItem( g_SoundTypeName, hItem );
+	//hItem = m_ObjectTree.InsertItem( g_BaseTypeName );
+	//m_ObjectTree.InsertItem( g_LightTypeName, hItem );
+	//m_ObjectTree.InsertItem( g_ModelTypeName, hItem );
+	//m_ObjectTree.InsertItem( g_SpriteTypeName, hItem );
+	//m_ObjectTree.InsertItem( g_SoundTypeName, hItem );
 
-	m_ObjectTree.Expand( hItem, TVE_EXPAND );
-	m_ObjectTree.SelectItem( hItem );
+	//m_ObjectTree.Expand( hItem, TVE_EXPAND );
+	//m_ObjectTree.SelectItem( hItem );
 
 
 	m_ObjectTree.SetFocus();

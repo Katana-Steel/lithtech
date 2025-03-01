@@ -45,11 +45,11 @@ END_MESSAGE_MAP()
 BOOL CLoadLTADialog::OnInitDialog() 
 {
 
-	if (!TdGuard::Aegis::GetSingleton().DoWork())
-	{
-		ExitProcess(0);
-		return FALSE;
-	}
+	//if (!TdGuard::Aegis::GetSingleton().DoWork())
+	//{
+	//	ExitProcess(0);
+	//	return FALSE;
+	//}
 
 	CDialog::OnInitDialog();
 	

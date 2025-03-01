@@ -14,6 +14,9 @@
 #ifndef __LTASAVEUTILS_H__
 #define __LTASAVEUTILS_H__
 
+typedef float				PReal;
+typedef TVector3<PReal>		PVector;
+
 //each one of these is for printing out a small list, containing only
 //the item specified. This list can be named by using the ...Named
 //variety, or it just prints out the value.

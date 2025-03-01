@@ -17,6 +17,10 @@
 #ifndef __PROPLIST_H__
 	#define __PROPLIST_H__
 
+	#include "bdefs.h"
+	#include "dynarray.h"
+	#include "lithtypes.h"
+
 
 	class CEditProjectMgr;
 	class CLTANode;
@@ -32,7 +36,7 @@
 	#define MAX_PROPNAME_LEN		30
 	#define MAX_STRINGPROP_LEN		MAX_GP_STRING_LEN
 	#define MAX_EDITPROP_LEN		80
-
+	#undef GetProp
 
 
 	typedef void (*StringListFillFn)( void *pData, CMoArray<char*> &fillIn );

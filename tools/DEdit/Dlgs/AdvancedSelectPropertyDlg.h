@@ -18,7 +18,7 @@ public:
 
 // Dialog Data
 	//{{AFX_DATA(CAdvancedSelectPropertyDlg)
-	enum { IDD = IDD_ADVANCEDSELECT_PROPERTY };
+	enum { IDD = 0 };
 	CString	m_sName;
 	CString	m_sValue;
 	int		m_nSelPropertyIndex;

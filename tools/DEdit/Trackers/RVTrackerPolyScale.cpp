@@ -87,7 +87,7 @@ BOOL CRVTrackerPolyScale::OnStart()
 	BOOL bStart = TRUE;
 	
 	// Setup an undo.
-	for(i=0; i < m_cMovingVerts; i++)
+	for( int i=0; i < m_cMovingVerts; i++)
 	{
 		AddToActionListIfNew(&actionList, 
 			new CPreAction(ACTION_MODIFYNODE, m_cMovingVerts[i].m_pBrush), TRUE);

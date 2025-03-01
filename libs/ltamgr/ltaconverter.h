@@ -16,6 +16,8 @@
 
 #include "ltbasedefs.h"
 
+#undef StrToInt
+
 class CLTAConverter
 {
 public:

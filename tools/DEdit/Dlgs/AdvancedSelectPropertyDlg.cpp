@@ -31,19 +31,19 @@ void CAdvancedSelectPropertyDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CAdvancedSelectPropertyDlg)
-	DDX_Text(pDX, IDC_EDIT_PROPERTY_NAME, m_sName);
-	DDX_Text(pDX, IDC_EDIT_PROPERTY_VALUE, m_sValue);
-	DDX_CBIndex(pDX, IDC_COMBO_PROPERTY_TYPES, m_nSelPropertyIndex);
+	//DDX_Text(pDX, IDC_EDIT_PROPERTY_NAME, m_sName);
+	//DDX_Text(pDX, IDC_EDIT_PROPERTY_VALUE, m_sValue);
+	//DDX_CBIndex(pDX, IDC_COMBO_PROPERTY_TYPES, m_nSelPropertyIndex);
 	//}}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(CAdvancedSelectPropertyDlg, CDialog)
 	//{{AFX_MSG_MAP(CAdvancedSelectPropertyDlg)
-	ON_CBN_SELCHANGE(IDC_COMBO_PROPERTY_TYPES, OnSelchangeComboPropertyTypes)
-	ON_EN_CHANGE(IDC_EDIT_PROPERTY_VALUE, OnChangeEditPropertyValue)
-	ON_EN_CHANGE(IDC_EDIT_PROPERTY_NAME, OnChangeEditPropertyName)
-	ON_BN_CLICKED(IDC_BUTTON_COLOR_PICK, OnButtonColorPick)
+	//ON_CBN_SELCHANGE(IDC_COMBO_PROPERTY_TYPES, OnSelchangeComboPropertyTypes)
+	//ON_EN_CHANGE(IDC_EDIT_PROPERTY_VALUE, OnChangeEditPropertyValue)
+	//ON_EN_CHANGE(IDC_EDIT_PROPERTY_NAME, OnChangeEditPropertyName)
+	//ON_BN_CLICKED(IDC_BUTTON_COLOR_PICK, OnButtonColorPick)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -55,7 +55,7 @@ BOOL CAdvancedSelectPropertyDlg::OnInitDialog()
 	CDialog::OnInitDialog();
 	
 	// Update the formatting text
-	GetDlgItem(IDC_STATIC_FORMATTING_TEXT)->SetWindowText(GetSelectedFormattingText());
+	//GetDlgItem(IDC_STATIC_FORMATTING_TEXT)->SetWindowText(GetSelectedFormattingText());
 	
 	// Update the enabled status of the controls
 	UpdateEnabledStatus();
@@ -69,7 +69,7 @@ void CAdvancedSelectPropertyDlg::OnSelchangeComboPropertyTypes()
 	UpdateData();
 
 	// Update the formatting text
-	GetDlgItem(IDC_STATIC_FORMATTING_TEXT)->SetWindowText(GetSelectedFormattingText());
+	//GetDlgItem(IDC_STATIC_FORMATTING_TEXT)->SetWindowText(GetSelectedFormattingText());
 
 	// Clear the Value string
 	m_sValue="";
@@ -144,12 +144,12 @@ CBaseProp *CAdvancedSelectPropertyDlg::AllocPropertyFromData()
 
 			// Set the property data
 			DRotation rotation;
-			sscanf(m_sValue, "%f %f %f", &rotation.m_Vec.y, &rotation.m_Vec.x, &rotation.m_Vec.z);
+			sscanf(m_sValue, "%f %f %f", &rotation.m_Quat[1], &rotation.m_Quat[0], &rotation.m_Quat[2]);
 
 			// Convert from degrees to radians...
-			VEC_MULSCALAR(rotation.m_Vec, rotation.m_Vec, MATH_CIRCLE / 360.0f);
+			//VEC_MULSCALAR(rotation.m_Vec, rotation.m_Vec, MATH_CIRCLE / 360.0f);
 
-			((CRotationProp *)pProperty)->m_Rotation=rotation;
+			//((CRotationProp *)pProperty)->m_Rotation=rotation;
 			break;
 		}
 	case PT_COLOR:
@@ -370,11 +370,11 @@ void CAdvancedSelectPropertyDlg::UpdateEnabledStatus()
 	// the Pick button.
 	if (GetPropertyTypeFromIndex(m_nSelPropertyIndex) == PT_COLOR)
 	{
-		GetDlgItem(IDC_BUTTON_COLOR_PICK)->ShowWindow(SW_SHOW);
+		//GetDlgItem(IDC_BUTTON_COLOR_PICK)->ShowWindow(SW_SHOW);
 	}
 	else
 	{
-		GetDlgItem(IDC_BUTTON_COLOR_PICK)->ShowWindow(SW_HIDE);
+		//GetDlgItem(IDC_BUTTON_COLOR_PICK)->ShowWindow(SW_HIDE);
 	}
 }
 

@@ -220,7 +220,7 @@ public:
 // time-value pairs, the value is an index
 // (keyframe name (times ( ... ) ) )
 // ------------------------------------------------------------------------
-class CKeyFrame : public ILTAObject {
+class LTCKeyFrame : public ILTAObject {
 
 	struct key_value {
 		key_value( int t, int idx ):time(t),index(idx) {}
@@ -243,7 +243,7 @@ class CKeyFrame : public ILTAObject {
 	// ------------------------------------------------------------------------
 	public :
 	
-		CKeyFrame() :m_LastTime(0) {}
+		LTCKeyFrame() :m_LastTime(0) {}
 
 		// add 
 		void Add( int time, int value  ) ;
@@ -255,7 +255,7 @@ class CKeyFrame : public ILTAObject {
 
 
 	// assignment  
-	void operator=( const CKeyFrame & kf ) ;
+	void operator=( const LTCKeyFrame & kf ) ;
 	
 
 	// accessors 
@@ -291,7 +291,7 @@ class CAnim : public ILTAObject {
 
 	int			m_Type ;
 	int			m_bKF_Shared ; 	// LT_TRUE if shared, LT_FALSE if not
-	CKeyFrame * m_pKeyFrame ;
+	LTCKeyFrame * m_pKeyFrame ;
 
 protected :
 	CAnim( int type ):m_Type(type),m_pKeyFrame(NULL),m_bKF_Shared(LT_FALSE) {}
@@ -313,15 +313,15 @@ public :
 
 	// Make Own Copy of KF
 	// set from a ref
-	void		SetKeyFrameCopy( const CKeyFrame & kf );
+	void		SetKeyFrameCopy( const LTCKeyFrame & kf );
 	
 	
 	// Assign a shared version of the keyframe object
-	void		ShareKeyFrame( CKeyFrame *kf );
+	void		ShareKeyFrame( LTCKeyFrame *kf );
 	
 
 	// getKeyFrame 
-	CKeyFrame *	GetKeyFrame() ;
+	LTCKeyFrame *	GetKeyFrame() ;
 
 	// returns 0 on fail
 	int			GetKeyFrameIndexFromTime( int tm, int &start, int &end, float &percent );
@@ -434,7 +434,7 @@ class CChannelAnim : public CAnim {
 // ------------------------------------------------------------------------
 class CAnimSet : public ILTAObject {
 public :	
-	CKeyFrame m_KeyFrame ;
+	LTCKeyFrame m_KeyFrame ;
 	
 	// list of animation frames
 	std::vector<CAnim*> m_vAnims ;
@@ -458,8 +458,8 @@ public :
 	int NumAnims() { return m_vAnims.size(); }
 	CAnim *GetAnim( uint32 index ) { return m_vAnims[index]; }
 
-	void SetKeyFrame( const CKeyFrame & new_kf );
-	CKeyFrame *GetKeyFrame()  ;
+	void SetKeyFrame( const LTCKeyFrame & new_kf );
+	LTCKeyFrame *GetKeyFrame()  ;
 	
 	// empty returns if there are no anims... 
 	int Empty() ;
@@ -846,12 +846,12 @@ inline void Node::AddChild( Node *new_node ) { children.push_back( new_node ); }
 // ------------------------------------------------------------------------
 // CLTAKeyFrames
 // ------------------------------------------------------------------------
-inline	int  CKeyFrame::Size()           const { return m_times.size() ; }
-inline	void CKeyFrame::Append( const key_value & kv ) { m_times.push_back( kv ) ; }
-inline	void CKeyFrame::Add( int time, int value  ) { m_times.push_back( key_value( time, value ) ) ; } 
-inline	void CKeyFrame::Add( int time , std::string & value ) { m_times.push_back( key_value( time, value ) ) ; }
-inline	void CKeyFrame::AddValue( int index, std::string & val  )   { m_times[ index ] .value = val ; }
-inline	void CKeyFrame::operator=( const CKeyFrame & kf ) 
+inline	int  LTCKeyFrame::Size()           const { return m_times.size() ; }
+inline	void LTCKeyFrame::Append( const key_value & kv ) { m_times.push_back( kv ) ; }
+inline	void LTCKeyFrame::Add( int time, int value  ) { m_times.push_back( key_value( time, value ) ) ; } 
+inline	void LTCKeyFrame::Add( int time , std::string & value ) { m_times.push_back( key_value( time, value ) ) ; }
+inline	void LTCKeyFrame::AddValue( int index, std::string & val  )   { m_times[ index ] .value = val ; }
+inline	void LTCKeyFrame::operator=( const LTCKeyFrame & kf ) 
 {
 	m_times.clear();
 	for( uint32 i = 0 ; i < kf.m_times.size() ; i++ )
@@ -861,20 +861,20 @@ inline	void CKeyFrame::operator=( const CKeyFrame & kf )
 	// accessors 
 
 
-inline	int  CKeyFrame::GetTime( int i ) const { return m_times[i].time ; } 
-inline	void CKeyFrame::SetTime( int index, int new_time ) { m_times[index].time = new_time ;}
+inline	int  LTCKeyFrame::GetTime( int i ) const { return m_times[i].time ; } 
+inline	void LTCKeyFrame::SetTime( int index, int new_time ) { m_times[index].time = new_time ;}
 inline	const std::string& 
-             CKeyFrame::GetVal( int i ) const { return m_times[i].value ; } 
+             LTCKeyFrame::GetVal( int i ) const { return m_times[i].value ; } 
 
 	
 // ------------------------------------------------------------------------
-// ret CKeyFrame::GetIndex( time, start-time, end-time, percent-in-between)
+// ret LTCKeyFrame::GetIndex( time, start-time, end-time, percent-in-between)
 //
 // get the keyframe index, given time.
 // fills ret-params with the the closest frames and the exact parametric point in between
 // returns 1 on success, 0 on not finding any appropriate values
 // ------------------------------------------------------------------------
-inline	int CKeyFrame::GetIndex( int time, int &start, int &end, float &percent_in_between) const 
+inline	int LTCKeyFrame::GetIndex( int time, int &start, int &end, float &percent_in_between) const 
 	{
 		int timesSize = m_times.size();
 
@@ -915,11 +915,11 @@ inline	int CKeyFrame::GetIndex( int time, int &start, int &end, float &percent_i
 inline int CAnim::GetType() { return m_Type ; }
 
 // Make Own Copy of KF set from a ref
-inline void CAnim::SetKeyFrameCopy( const CKeyFrame & kf )
+inline void CAnim::SetKeyFrameCopy( const LTCKeyFrame & kf )
 {
 	if( m_pKeyFrame == NULL )
 	{
-		m_pKeyFrame = new CKeyFrame ;	
+		m_pKeyFrame = new LTCKeyFrame ;	
 	}
 
 	*m_pKeyFrame = kf ;
@@ -927,7 +927,7 @@ inline void CAnim::SetKeyFrameCopy( const CKeyFrame & kf )
 }
 
 // Assign a shared version of the keyframe object
-inline void CAnim::ShareKeyFrame( CKeyFrame *kf )
+inline void CAnim::ShareKeyFrame( LTCKeyFrame *kf )
 {
 	// if not null, if already shared then overwrite the pointer, else delete old
 	// data and assign the reference
@@ -946,7 +946,7 @@ inline void CAnim::ShareKeyFrame( CKeyFrame *kf )
 	m_bKF_Shared = LT_TRUE ;	
 }
 
-inline CKeyFrame *CAnim::GetKeyFrame() { return m_pKeyFrame ; }
+inline LTCKeyFrame *CAnim::GetKeyFrame() { return m_pKeyFrame ; }
 
 // returns 0 on fail
 inline int  CAnim::GetKeyFrameIndexFromTime( int tm, int &start, int &end, float &percent )
@@ -1051,7 +1051,7 @@ inline	void CAnimSet::KFFix()
 {
 	if( m_vAnims.size() > 0 ) 
 	{
-		CKeyFrame *pKF ;
+		LTCKeyFrame *pKF ;
 		for( uint32 i = 0  ; i < m_vAnims.size() ; i++ )
 		{
 			pKF = m_vAnims[0]->GetKeyFrame() ;
@@ -1092,9 +1092,9 @@ inline	CAnim *CAnimSet::FindAnim( const std::string & name )
 	return NULL ;
 }
 
-inline	void CAnimSet::SetKeyFrame( const CKeyFrame & new_kf )	{m_KeyFrame = new_kf ;	}
+inline	void CAnimSet::SetKeyFrame( const LTCKeyFrame & new_kf )	{m_KeyFrame = new_kf ;	}
 
-inline	CKeyFrame *CAnimSet::GetKeyFrame()  { return & m_KeyFrame ; }
+inline	LTCKeyFrame *CAnimSet::GetKeyFrame()  { return & m_KeyFrame ; }
 	
 	// empty returns if there are no anims... 
 inline	int CAnimSet::Empty() 
