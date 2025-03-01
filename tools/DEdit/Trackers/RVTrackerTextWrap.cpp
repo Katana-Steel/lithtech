@@ -65,7 +65,8 @@ BOOL CRVTrackerTextureWrap::OnStart()
 	{
 		// Make sure we've got the poly we're clicking on selected..
 		CPolyRefArray &rTaggedPolies = m_pView->TaggedPolies();
-		for (uint32 nFindBaseLoop = 0; nFindBaseLoop < rTaggedPolies.GetSize(); ++nFindBaseLoop)
+		uint32 nFindBaseLoop = 0;
+		for (nFindBaseLoop = 0; nFindBaseLoop < rTaggedPolies.GetSize(); ++nFindBaseLoop)
 		{
 			if (rTaggedPolies[nFindBaseLoop] == m_rBasePoly)
 				break;
@@ -78,7 +79,8 @@ BOOL CRVTrackerTextureWrap::OnStart()
 	{
 		// Make sure we're clicking on a selected brush poly
 		CEditRegion *pRegion = m_pView->GetRegionDoc()->GetRegion();
-		for (uint32 nBrushSearch = 0; nBrushSearch < pRegion->GetNumSelections(); ++nBrushSearch)
+		uint32 nBrushSearch = 0;
+		for (nBrushSearch = 0; nBrushSearch < pRegion->GetNumSelections(); ++nBrushSearch)
 		{
 			if (pRegion->GetSelection(nBrushSearch)->GetType() == Node_Brush)
 			{
@@ -266,7 +268,8 @@ void CRVTrackerTextureWrap::BuildPolyList(CTWPolyList &aList) const
 				continue;
 			CEditPoly *pTaggedPoly = rTaggedPolies[nFindBaseLoop]();
 			// Make sure this poly isn't already in there
-			for (uint32 nDupeLoop = 0; nDupeLoop < aList.GetSize(); ++nDupeLoop)
+			uint32 nDupeLoop = 0;
+			for (nDupeLoop = 0; nDupeLoop < aList.GetSize(); ++nDupeLoop)
 			{
 				if (pTaggedPoly == aList[nDupeLoop]->m_pPoly)
 					break;
@@ -457,7 +460,8 @@ void CRVTrackerTextureWrap::WrapTexture(CTWPolyInfo *pPoly, const CVector &vWrap
 		pNeighbor->m_bTouched = TRUE;
 
 		// Insert it into the list
-		for (uint32 nInsertLoop = 0; nInsertLoop < aNeighbors.GetSize(); ++nInsertLoop)
+		uint32 nInsertLoop = 0;
+		for (nInsertLoop = 0; nInsertLoop < aNeighbors.GetSize(); ++nInsertLoop)
 		{
 			if (fCurDot > aDots[nInsertLoop])
 				break;
@@ -580,7 +584,8 @@ void CRVTrackerTextureWrap::WrapTexture(CTWPolyInfo *pPoly, const CVector &vWrap
 
 BOOL CRVTrackerTextureWrap::GetFirstTextureMul(CTWPolyList &aList, float &fTextureU, float &fTextureV) const
 {
-	for (uint32 nFindTextureLoop = 0; nFindTextureLoop < aList.GetSize(); ++nFindTextureLoop)
+	uint32 nFindTextureLoop = 0;
+	for (nFindTextureLoop = 0; nFindTextureLoop < aList.GetSize(); ++nFindTextureLoop)
 	{
 		DFileIdent* pTexFile = aList[nFindTextureLoop]->m_pPoly->GetTexture(GetCurrTexture()).m_pTextureFile;
 

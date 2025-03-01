@@ -20,7 +20,7 @@
 
 	
 	// Includes....
-
+#include "lithtypes.h"
 
 	class CBoundingBox
 	{
@@ -35,6 +35,7 @@
 
 			void			Extend( LTVector &extendBy );
 			LTVector		Dims() const;
+			LTVector		Foo() const;
 			BOOL			Intersects( const CBoundingBox &other ) const;
 			LTVector		Center() const;
 

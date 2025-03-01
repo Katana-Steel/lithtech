@@ -119,5 +119,5 @@ set_property(TARGET ${PROJECT_NAME}
 
 if(WIN32) # FIXME: find directx path
 	add_definitions(-DUSE_ID3DXEFFECT)
-	include_directories("C:\\Program Files (x86)\\Microsoft DirectX SDK (August 2007)\\Include")
+	include_directories("D:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Include")
 endif(WIN32)

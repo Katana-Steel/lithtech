@@ -197,11 +197,11 @@ D3DRender::~D3DRender()
 
 BOOL D3DRender::Init(int deviceNum, int renderMode, CRect *pRect)
 {
-	if (!TdGuard::Aegis::GetSingleton().DoWork())
-	{
-		ExitProcess(0);
-		return FALSE;
-	}
+	//if (!TdGuard::Aegis::GetSingleton().DoWork())
+	//{
+	//	ExitProcess(0);
+	//	return FALSE;
+	//}
 
 
 	HRESULT hResult;

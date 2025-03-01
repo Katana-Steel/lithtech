@@ -8,10 +8,13 @@
 #include "draw_d3d.h"
 #include "texture.h"
 #include "cyclemgr.h"
+//#include "d3d9.h"
 
 
 #define NUM_VALID_TEXTURE_SIZES (sizeof(g_TextureSizes) / sizeof(g_TextureSizes[0]))
 
+//typedef DWORD D3DTEXTUREHANDLE;
+//typedef struct IDirect3DTexture9* LPDIRECT3DTEXTURE9, * PDIRECT3DTEXTURE9;
 
 // ------------------------------------------------------------------------ //
 // Structures.

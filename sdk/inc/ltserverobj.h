@@ -232,8 +232,8 @@ class DEditInternal;
 
 struct PropDef {
 
-    PropDef(const char *pName, short type, LTVector valVec,
-        float valFloat, const char *valString, unsigned long propFlags)
+    PropDef(char *pName, short type, LTVector valVec,
+        float valFloat, char *valString, unsigned long propFlags)
     {
         m_PropName = pName;
         m_PropType = type;
@@ -245,7 +245,7 @@ struct PropDef {
         m_pDEditInternal = 0;
     }
 
-    const char *m_PropName;
+    char *m_PropName;
 
 /*!
 One of the \b PT_ defines above.
@@ -258,7 +258,7 @@ Default vector/color value.
     LTVector m_DefaultValueVector;
 
     float m_DefaultValueFloat;
-    const char *m_DefaultValueString;
+    char *m_DefaultValueString;
 
     unsigned long m_PropFlags;
 
@@ -290,7 +290,7 @@ public:
 
 public:
 
-    const char *m_ClassName;
+    char *m_ClassName;
     ClassDef *m_ParentClass;
 
 /*!

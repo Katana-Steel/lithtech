@@ -222,7 +222,8 @@ bool CSurfaceLMTextureMgr::SetupPolyLightmap(CPolyLightMap *pPoly)
 	if((nWidth == 0) || (nHeight == 0))
 		return false;
 
-	TextureFormat *pFormat = d3d_GetLMTextureFormat(m_pBoundTo);
+	TextureFormat* pFormat = nullptr;
+	//TextureFormat* pFormat = d3d_GetLMTextureFormat(m_pBoundTo);
 	if(!pFormat)
 		return false;
 

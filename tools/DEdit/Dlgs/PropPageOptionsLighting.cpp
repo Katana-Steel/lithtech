@@ -73,24 +73,24 @@ void CPropPageOptionsLighting::SaveOptions()
 	UpdateData(TRUE);
 
 	// Get the options class
-	COptionsLighting *pOptions		= GetApp()->GetOptions().GetLightingOptions();
-	COptionsDisplay  *pDispOptions	= GetApp()->GetOptions().GetDisplayOptions();
+	//COptionsLighting *pOptions		= GetApp()->GetOptions().GetLightingOptions();
+	//COptionsDisplay  *pDispOptions	= GetApp()->GetOptions().GetDisplayOptions();
 
-	if (pOptions)
-	{
-		pOptions->SetLambertian(m_bLambertian);
-		pOptions->SetShadows(m_bShadows);
-		pOptions->SetMaxLMSize(m_nLightMapSize);
-		pOptions->SetLMTexelSize(m_nTexelSize);
-		pOptions->SetTimeSlice(m_nTimeSlice);
-		pOptions->SetMinLMSize(m_nMinLightMapSize);
-		pOptions->SetLightLeakDist(m_nLightLeakDist);
+	//if (pOptions)
+	//{
+	//	pOptions->SetLambertian(m_bLambertian);
+	//	pOptions->SetShadows(m_bShadows);
+	//	pOptions->SetMaxLMSize(m_nLightMapSize);
+	//	pOptions->SetLMTexelSize(m_nTexelSize);
+	//	pOptions->SetTimeSlice(m_nTimeSlice);
+	//	pOptions->SetMinLMSize(m_nMinLightMapSize);
+	//	pOptions->SetLightLeakDist(m_nLightLeakDist);
 
-		pOptions->SetVertex((m_nLightMode == LIGHT_VERTEX) || (m_nLightMode == LIGHT_LIGHTMAPPED));
-		pOptions->SetLightMap(m_nLightMode == LIGHT_LIGHTMAPPED);
+	//	pOptions->SetVertex((m_nLightMode == LIGHT_VERTEX) || (m_nLightMode == LIGHT_LIGHTMAPPED));
+	//	pOptions->SetLightMap(m_nLightMode == LIGHT_LIGHTMAPPED);
 
-		pDispOptions->SetShadePolygons(m_nLightMode == LIGHT_SHADED);
-	}
+	//	pDispOptions->SetShadePolygons(m_nLightMode == LIGHT_SHADED);
+	//}
 }
 
 //handles updating the enabled status of the controls
@@ -134,36 +134,36 @@ BOOL CPropPageOptionsLighting::OnInitDialog()
 {
 	CPropertyPage::OnInitDialog();
 
-	COptionsLighting *pOptions		= GetApp()->GetOptions().GetLightingOptions();
-	COptionsDisplay  *pDispOptions	= GetApp()->GetOptions().GetDisplayOptions();
+	//COptionsLighting *pOptions		= GetApp()->GetOptions().GetLightingOptions();
+	//COptionsDisplay  *pDispOptions	= GetApp()->GetOptions().GetDisplayOptions();
 
-	if (pOptions)
-	{
-		m_bLambertian			= pOptions->IsLambertian() ? TRUE : FALSE;
-		m_bShadows				= pOptions->IsShadows() ? TRUE : FALSE;
-		m_nLightMapSize			= pOptions->GetMaxLMSize();
-		m_nTexelSize			= pOptions->GetLMTexelSize();
-		m_nTimeSlice			= pOptions->GetTimeSlice();
-		m_nMinLightMapSize		= pOptions->GetMinLMSize();
-		m_nLightLeakDist		= pOptions->GetLightLeakDist();
+	//if (pOptions)
+	//{
+	//	m_bLambertian			= pOptions->IsLambertian() ? TRUE : FALSE;
+	//	m_bShadows				= pOptions->IsShadows() ? TRUE : FALSE;
+	//	m_nLightMapSize			= pOptions->GetMaxLMSize();
+	//	m_nTexelSize			= pOptions->GetLMTexelSize();
+	//	m_nTimeSlice			= pOptions->GetTimeSlice();
+	//	m_nMinLightMapSize		= pOptions->GetMinLMSize();
+	//	m_nLightLeakDist		= pOptions->GetLightLeakDist();
 
-		if(pOptions->IsLightMap())
-		{
-			m_nLightMode = LIGHT_LIGHTMAPPED;
-		}
-		else if(pOptions->IsVertex())
-		{
-			m_nLightMode = LIGHT_VERTEX;
-		}
-		else if(pDispOptions->IsShadePolygons())
-		{
-			m_nLightMode = LIGHT_SHADED;
-		}
-		else
-		{
-			m_nLightMode = LIGHT_NONE;
-		}
-	}
+	//	if(pOptions->IsLightMap())
+	//	{
+	//		m_nLightMode = LIGHT_LIGHTMAPPED;
+	//	}
+	//	else if(pOptions->IsVertex())
+	//	{
+	//		m_nLightMode = LIGHT_VERTEX;
+	//	}
+	//	else if(pDispOptions->IsShadePolygons())
+	//	{
+	//		m_nLightMode = LIGHT_SHADED;
+	//	}
+	//	else
+	//	{
+	//		m_nLightMode = LIGHT_NONE;
+	//	}
+	//}
 	
 	m_spinTimeSlice.SetRange(0, 200);
 	m_spinLMMaxSize.SetRange(2, 128);

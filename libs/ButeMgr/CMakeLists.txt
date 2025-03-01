@@ -6,7 +6,7 @@ add_library(${PROJECT_NAME} STATIC
 	butemgr.cpp
 	stdafx.cpp)
 
-add_definitions(-D_NOMFC)
+add_definitions(-D_AFXDLL -D_WIN32_WINNT=0x501)
 if(MSVC)
 	add_definitions(-D_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS)	# VC14 deprecated stdext::hash_*
 endif(MSVC)

@@ -7,6 +7,12 @@
 #ifndef _TEXTURE_HELPER_CPP
 #define _TEXTURE_HELPER_CPP
 
+//#include "dtxmgr.h"
+//#include "dynarray.h"
+//#include "ltcompat.h"
+//#include "lithtypes.h"
+//#include "LTTexture.h"
+
 // =======================================================
 int NumColorsWithAlpha(TextureData *pData, uint8* alpha )
 {
@@ -813,7 +819,7 @@ bool SaveCubeMap( LoadedBitmap* bitmaps, DStream* stream )
 	}
 
 	// create six dtx textures, one for each cube face
-	for( i = 0; i < 6; i++ )
+	for( int i = 0; i < 6; i++ )
 	{
 		data[i] = dtx_Alloc( BPP_32, bitmaps[i].m_Width, bitmaps[i].m_Height, 4, NULL, &dataSize );
 		if( !data[i] )
@@ -863,7 +869,7 @@ bool SaveCubeMap( LoadedBitmap* bitmaps, DStream* stream )
 		data[0]->m_Header.m_IFlags |= DTX_CUBEMAP;
 
 		// copy the texture data into the section data
-		for( i = 0; i < 5; i++ )
+		for( int i = 0; i < 5; i++ )
 		{
 			memcpy( section->m_Data + i * dataSize, data[i+1]->m_pDataBuffer, dataSize );
 		}
@@ -875,7 +881,7 @@ bool SaveCubeMap( LoadedBitmap* bitmaps, DStream* stream )
 	}
 
 	// delete the memory copies of the cube faces
-	for( i = 0; i < 6; i++ )
+	for( int i = 0; i < 6; i++ )
 	{
 		dtx_Destroy( data[i] );
 	}

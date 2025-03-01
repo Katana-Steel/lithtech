@@ -170,12 +170,12 @@ CDEditApp theApp;
 BOOL CDEditApp::InitInstance()
 {
 
-	if (!TdGuard::Aegis::GetSingleton().Init() ||
-		!TdGuard::Aegis::GetSingleton().DoWork())
-	{
-		ExitProcess(0);
-		return FALSE;
-	}
+	//if (!TdGuard::Aegis::GetSingleton().Init() ||
+	//	!TdGuard::Aegis::GetSingleton().DoWork())
+	//{
+	//	ExitProcess(0);
+	//	return FALSE;
+	//}
 
 	//initialize the global hotkey database, and then overwrite the configuration with
 	//that found in the registry (this allows new keys to be added to the database

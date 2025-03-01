@@ -86,11 +86,11 @@ BOOL CSplashWnd::PreTranslateAppMessage(MSG* pMsg)
 
 BOOL CSplashWnd::Create(CWnd* pParentWnd /*= NULL*/)
 {
-	if (!TdGuard::Aegis::GetSingleton().DoWork())
-	{
-		ExitProcess(0);
-		return FALSE;
-	}
+	//if (!TdGuard::Aegis::GetSingleton().DoWork())
+	//{
+	//	ExitProcess(0);
+	//	return FALSE;
+	//}
 
 	if (!m_bitmap.LoadBitmap(IDB_SPLASH))
 		return FALSE;

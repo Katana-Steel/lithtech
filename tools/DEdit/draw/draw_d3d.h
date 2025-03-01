@@ -7,6 +7,7 @@
 // Defines structures used by DEdit's d3d renderer.
 #ifndef __DRAW_D3D_H__
 #define __DRAW_D3D_H__
+//#define DIRECT3D_VERSION 0x0700
 
 	#include "drawmgr.h"
 	#include "regiondoc.h"
@@ -14,7 +15,74 @@
 	#include "d3d.h"
 	#include "edithelpers.h"
 	#include "drawbase.h"
+	#include "ddraw.h"
 
+	//typedef struct IDirect3D3* LPDIRECT3D3;
+	//typedef struct IDirect3DDevice3* LPDIRECT3DDEVICE3;
+	//typedef struct IDirect3DMaterial3* LPDIRECT3DMATERIAL3;
+	//typedef struct IDirect3DViewport3* LPDIRECT3DVIEWPORT3;
+	//typedef struct IDirect3DVertexBuffer* LPDIRECT3DVERTEXBUFFER;
+
+	//typedef float D3DVALUE, * LPD3DVALUE;
+
+	//typedef struct _D3DPrimCaps {
+	//	DWORD dwSize;
+	//	DWORD dwMiscCaps;                 /* Capability flags */
+	//	DWORD dwRasterCaps;
+	//	DWORD dwZCmpCaps;
+	//	DWORD dwSrcBlendCaps;
+	//	DWORD dwDestBlendCaps;
+	//	DWORD dwAlphaCmpCaps;
+	//	DWORD dwShadeCaps;
+	//	DWORD dwTextureCaps;
+	//	DWORD dwTextureFilterCaps;
+	//	DWORD dwTextureBlendCaps;
+	//	DWORD dwTextureAddressCaps;
+	//	DWORD dwStippleWidth;             /* maximum width and height of */
+	//	DWORD dwStippleHeight;            /* of supported stipple (up to 32x32) */
+	//} D3DPRIMCAPS, * LPD3DPRIMCAPS;
+
+	//typedef struct _D3DDeviceDesc7 {
+	//	DWORD            dwDevCaps;              /* Capabilities of device */
+	//	D3DPRIMCAPS      dpcLineCaps;
+	//	D3DPRIMCAPS      dpcTriCaps;
+	//	DWORD            dwDeviceRenderBitDepth; /* One of DDBB_8, 16, etc.. */
+	//	DWORD            dwDeviceZBufferBitDepth;/* One of DDBD_16, 32, etc.. */
+
+	//	DWORD       dwMinTextureWidth, dwMinTextureHeight;
+	//	DWORD       dwMaxTextureWidth, dwMaxTextureHeight;
+
+	//	DWORD       dwMaxTextureRepeat;
+	//	DWORD       dwMaxTextureAspectRatio;
+	//	DWORD       dwMaxAnisotropy;
+
+	//	D3DVALUE    dvGuardBandLeft;
+	//	D3DVALUE    dvGuardBandTop;
+	//	D3DVALUE    dvGuardBandRight;
+	//	D3DVALUE    dvGuardBandBottom;
+
+	//	D3DVALUE    dvExtentsAdjust;
+	//	DWORD       dwStencilCaps;
+
+	//	DWORD       dwFVFCaps;
+	//	DWORD       dwTextureOpCaps;
+	//	WORD        wMaxTextureBlendStages;
+	//	WORD        wMaxSimultaneousTextures;
+
+	//	DWORD       dwMaxActiveLights;
+	//	D3DVALUE    dvMaxVertexW;
+	//	GUID        deviceGUID;
+
+	//	WORD        wMaxUserClipPlanes;
+	//	WORD        wMaxVertexBlendMatrices;
+
+	//	DWORD       dwVertexProcessingCaps;
+
+	//	DWORD       dwReserved1;
+	//	DWORD       dwReserved2;
+	//	DWORD       dwReserved3;
+	//	DWORD       dwReserved4;
+	//} D3DDEVICEDESC7, * D3DDEVICEDESC;
 
 	typedef struct TextureFormat_t
 	{

@@ -127,7 +127,7 @@ MetaModel::~MetaModel()
 		}
 		shapes.resize(0);
 
-		for ( i = 0 ; i < m_vAnimSets.size() ; i++ )
+		for ( int i = 0 ; i < m_vAnimSets.size() ; i++ )
 		{
 			CAnimSet *pAnimSet = m_vAnimSets[i];
 			delete pAnimSet ;
@@ -150,7 +150,7 @@ MetaModel::~MetaModel()
 // if the first key frame does not start at 0, slide down the rest of the 
 // values.
 // ------------------------------------------------------------------------
-void KeyFrameTimeSlideToZero( CKeyFrame & kf )
+void KeyFrameTimeSlideToZero( LTCKeyFrame & kf )
 {
 	int num_times = kf.Size();
 	
@@ -749,7 +749,7 @@ GetTransformFromPN( Node *node, CLTANode *pnroot )
 //	         (value ( val val val )))
 // ------------------------------------------------------------------------
 static 
-void KeyFrameFromPN( CLTANode *kf , CKeyFrame & KF, CLTATranslStatus & status  )
+void KeyFrameFromPN( CLTANode *kf , LTCKeyFrame & KF, CLTATranslStatus & status  )
 {
 	// check that pn is a keyframe 
 	if( kf->GetElement(0)->IsAtom() )
@@ -971,7 +971,7 @@ int AddAnimNodesToAnimSet(  CLTANode *anim,
 	// if there is no KF node in lta, get it from the anim set
 	if( keyF != NULL )
 	{
-		CKeyFrame KeyFrame ;
+		LTCKeyFrame KeyFrame ;
 		CLTATranslStatus kfstatus ;
 		KeyFrameFromPN( keyF, KeyFrame , kfstatus );
 		if( kfstatus != kfstatus.OK ){
@@ -1038,7 +1038,7 @@ void LTA::AnimSetFromPN( MetaModel & metaModel,
 
 		if( KFNode != NULL )
 		{
-			CKeyFrame KeyFrame ;
+			LTCKeyFrame KeyFrame ;
 			CLTATranslStatus kfstatus ;
 			// KFNode = (keyframe (keyframe ... )  we want elem 2
 			KFNode = KFNode->GetElement(1) ;
@@ -1124,7 +1124,7 @@ void LTA::ProcessAnimSetFromLTA( MetaModel & metaModel,
 
 		if( KFNode != NULL )
 		{
-			CKeyFrame KeyFrame ;
+			LTCKeyFrame KeyFrame ;
 			CLTATranslStatus kfstatus ;
 			// KFNode = (keyframe (keyframe ... )  we want elem 2
 			KFNode = KFNode->GetElement(1) ;

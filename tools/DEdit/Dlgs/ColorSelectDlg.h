@@ -9,6 +9,8 @@
 
 	#include "resource.h"
 	#include "dibmgr.h"
+	#include "bdefs.h"
+	#include "dynarray.h"
 
 
 	// Callback for when the color changes..

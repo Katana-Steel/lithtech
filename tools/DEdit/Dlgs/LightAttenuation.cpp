@@ -315,7 +315,7 @@ void CLightAttenuationDlg::DrawGraph( float* values )
 			top = CPoint( rect.left + 1, rect.top + 1 );
 			bottom = CPoint( rect.left + 1, rect.bottom - 1 );
 			dc->SelectObject( &blackPen );
-			for( i = 0; i < m_GraphWidth; i++ )
+			for( int i = 0; i < m_GraphWidth; i++ )
 			{
 				float curVal = 1.0f - values[i] / maxVal;
 				if( curVal > 1.0f ) curVal = 1.0f;
