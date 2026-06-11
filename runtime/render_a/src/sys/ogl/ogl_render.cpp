@@ -4,6 +4,7 @@
 #include <GL/gl.h>
 #include <GL/glx.h>
 #include <vector>
+#include <array>
 
 namespace {
     inline float intToFloatRange(uint8 c) {
