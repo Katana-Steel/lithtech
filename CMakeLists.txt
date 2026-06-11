@@ -3,7 +3,7 @@ project(Lithtech)
 
 if(NOT WIN32)
   find_package(PkgConfig)
-  pkg_check_modules(DXVK dxvk-native)
+  pkg_check_modules(DXVK dxvk-d3d9)
   if(DXVK_FOUND)
     set(GL OFF)
     set(VK ON)
