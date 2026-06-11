@@ -1,12 +1,12 @@
-#ifndef __LTMATRIX_H__
-#define __LTMATRIX_H__
+#ifndef LITHTECH_LTMATRIX_H
+#define LITHTECH_LTMATRIX_H
 
 #ifndef __MATH_H__
 #include <math.h>
 #define __MATH_H__
 #endif
 
- 
+
 #include <math.h>
 #ifndef __LTPLANE_H__
 	#include "ltplane.h"

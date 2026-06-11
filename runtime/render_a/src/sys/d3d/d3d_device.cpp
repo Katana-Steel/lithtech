@@ -730,6 +730,7 @@ bool CD3D_Device::Standby()
 		// Make sure nothing's still stuck between D3D's teeth.
 		PD3DDEVICE->SetStreamSource(0, 0, 0, 0);
 		PD3DDEVICE->SetIndices(0);
+		PD3DDEVICE->SetStates();
 	}
 
 	return g_Device.GetDeviceInfo() != 0;

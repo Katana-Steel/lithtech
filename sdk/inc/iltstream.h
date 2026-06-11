@@ -1,12 +1,7 @@
 #ifndef __ILTSTREAM_H__
 #define __ILTSTREAM_H__
 
-#ifndef __LTBASETYPES_H__
 #include "ltbasetypes.h"
-#endif
-
-
-
 /*!
 Helper macro to read/write data if your stream pointer is called
 \b pStream.

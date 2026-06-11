@@ -82,7 +82,7 @@ void GetPhysicsVector (LTObject *pObj, float dt, LTVector& dr)
                 LTObject* pContainer = pLink->m_pOwner;
 
 //              pContainer->sd->m_pObject->EngineMessageFn(MID_AFFECTPHYSICS, &cPhysics, 0);
-				pContainer->sd->m_pObject->OnAffectPhysics(&cPhysics);
+                pContainer->sd->m_pObject->OnAffectPhysics(&cPhysics);
                 ++nActualContainers;
             }
         }
@@ -121,11 +121,11 @@ void PhysicsUpdateObject(LTObject *pObj)
     if (!(pObj->m_InternalFlags & IFLAG_APPLYPHYSICS))
         return;
 
-	//store the initial position since it can change below and we need to know the delta
+    //store the initial position since it can change below and we need to know the delta
     const LTVector P0 = pObj->GetPos();
 
     // Apply physics stuff.
-	LTVector dr;
+    LTVector dr;
     GetPhysicsVector(pObj, g_pServerMgr->m_FrameTime, dr);
 
     // Reset the acceleration.
@@ -202,7 +202,7 @@ void ServerStringKeyCallback(LTAnimTracker *pTracker, AnimKeyFrame *pFrame)
 
 bool IsObjectInChangedList(LTObject *pObj)
 {
-	return !( pObj->sd->m_ChangedNode.IsTiedOff( ));
+    return !( pObj->sd->m_ChangedNode.IsTiedOff( ));
 }
 
 
@@ -249,10 +249,10 @@ uint32 sm_GetNewObjectChangeFlags(LTObject *pObject)
         changeFlags |= CF_RENDERINFO;
     }
 
-	if(pObject->m_nRenderGroup != 0)
-	{
-		changeFlags |= CF_RENDERINFO;
-	}
+    if(pObject->m_nRenderGroup != 0)
+    {
+        changeFlags |= CF_RENDERINFO;
+    }
 
     if (pObject->m_ObjectType == OT_MODEL)
     {
@@ -263,24 +263,24 @@ uint32 sm_GetNewObjectChangeFlags(LTObject *pObject)
     {
         changeFlags |= CF_ATTACHMENTS;
     }
-	else
-	{
-		//note that the else is because if we have already set the attachment flag, no
-		//need to check for it below then
+    else
+    {
+        //note that the else is because if we have already set the attachment flag, no
+        //need to check for it below then
 
-		//see if this object is a model that has any hidden pieces
-		if(pObject->m_ObjectType == OT_MODEL)
-		{
-			for(uint32 nCurrPiece = 0; nCurrPiece < MAX_PIECES_PER_MODEL / 32; nCurrPiece++)
-			{
-				if(ToModel(pObject)->m_HiddenPieces[nCurrPiece] != 0)
-				{
-					changeFlags |= CF_ATTACHMENTS;
-					break;
-				}
-			}
-		}
-	}
+        //see if this object is a model that has any hidden pieces
+        if(pObject->m_ObjectType == OT_MODEL)
+        {
+            for(uint32 nCurrPiece = 0; nCurrPiece < MAX_PIECES_PER_MODEL / 32; nCurrPiece++)
+            {
+                if(ToModel(pObject)->m_HiddenPieces[nCurrPiece] != 0)
+                {
+                    changeFlags |= CF_ATTACHMENTS;
+                    break;
+                }
+            }
+        }
+    }
 
     return changeFlags;
 }
@@ -293,18 +293,18 @@ uint32 sm_GetNewObjectChangeFlags(LTObject *pObject)
 void FullObjectUpdate(LTObject *pObj)
 {
     // Update its server object if its a model instance.
-	if (pObj->m_ObjectType == OT_MODEL)
+    if (pObj->m_ObjectType == OT_MODEL)
     {
-		if(!pObj->IsPaused())
-		{
-			// Use the TrueFrameTime, otherwise the time will notbe synced with the client.
-			// If time is out of sync between client/server, movement breaks.
-			if (g_pServerMgr->m_nTrueFrameTimeMS > 0)
-			{
-				pObj->ToModel()->SetStringKeyCallback(ServerStringKeyCallback);
-				pObj->ToModel()->ServerUpdate(g_pServerMgr->m_nTrueFrameTimeMS);
-			}
-		}
+        if(!pObj->IsPaused())
+        {
+            // Use the TrueFrameTime, otherwise the time will notbe synced with the client.
+            // If time is out of sync between client/server, movement breaks.
+            if (g_pServerMgr->m_nTrueFrameTimeMS > 0)
+            {
+                pObj->ToModel()->SetStringKeyCallback(ServerStringKeyCallback);
+                pObj->ToModel()->ServerUpdate(g_pServerMgr->m_nTrueFrameTimeMS);
+            }
+        }
     }
 
     // Update the object (if the m_NextUpdate countdown has gone past zero).
@@ -315,7 +315,7 @@ void FullObjectUpdate(LTObject *pObj)
         if (pObj->sd->m_NextUpdate <= 0.0f)
         {
             // Call the update.
-			pObj->sd->m_pObject->OnUpdate();
+            pObj->sd->m_pObject->OnUpdate();
 
             // Don't do anything else if it was removed.
             if (!(pObj->m_InternalFlags & IFLAG_INWORLD))
@@ -349,15 +349,15 @@ LTRESULT LoadObjects(ILTStream *pStream, const char *pWorldName, bool bAllObject
     ObjectCreateStruct createStruct;
     LTRESULT dResult;
     typedef std::vector<uint8> TPropData;
-	TPropData aPropData;
+    TPropData aPropData;
 
-	//make sure that our object create struct has enough room to hold a decent number of properties.
-	//It will resize if it needs more, but we should try and avoid that
-	createStruct.m_cProperties.ReserveProps(256, false);
+    //make sure that our object create struct has enough room to hold a decent number of properties.
+    //It will resize if it needs more, but we should try and avoid that
+    createStruct.m_cProperties.ReserveProps(256, false);
 
-	//preserve the old create struct and replace it with our own
-	ObjectCreateStruct *pOldOCS = g_pServerMgr->m_pCurOCS;
-	g_pServerMgr->m_pCurOCS = &createStruct;
+    //preserve the old create struct and replace it with our own
+    ObjectCreateStruct *pOldOCS = g_pServerMgr->m_pCurOCS;
+    g_pServerMgr->m_pCurOCS = &createStruct;
 
     pClassMgr = &g_pServerMgr->m_ClassMgr;
 
@@ -372,17 +372,18 @@ LTRESULT LoadObjects(ILTStream *pStream, const char *pWorldName, bool bAllObject
         objStartPos = pStream->GetPos();
 
         pStream->ReadString(typeName, sizeof(typeName));
+        if(strlen(typeName)==0) continue;
 
         if (pStream->ErrorStatus() != LT_OK)
         {
             sm_SetupError(LT_INVALIDWORLDFILE, pWorldName);
-			g_pServerMgr->m_pCurOCS = pOldOCS;
+            g_pServerMgr->m_pCurOCS = pOldOCS;
             RETURN_ERROR(1, LoadObjects, LT_INVALIDWORLDFILE);
         }
 
         // Get the class.
-		CClassData *pClassData = g_pServerMgr->m_ClassMgr.FindClassData(typeName);
-		pClass = (pClassData) ? pClassData->m_pClass : LTNULL;
+        CClassData *pClassData = g_pServerMgr->m_ClassMgr.FindClassData(typeName);
+        pClass = (pClassData) ? pClassData->m_pClass : LTNULL;
 
         // Set things up to succeed anyway if we don't have that class
         if (pClass)
@@ -396,14 +397,14 @@ LTRESULT LoadObjects(ILTStream *pStream, const char *pWorldName, bool bAllObject
         }
         else
         {
-			// This can happen if a level used an object that did not exist in the class module.
-			// If it does exist, it can happen if it exists in an obj of a static lib that
-			// is not being referenced, which causes the linker to not use it when linking to
-			// the dll.
-			char szError[256];
-			LTSNPrintF( szError, sizeof(szError), "LoadObjects - Server is missing class %s", typeName );
+            // This can happen if a level used an object that did not exist in the class module.
+            // If it does exist, it can happen if it exists in an obj of a static lib that
+            // is not being referenced, which causes the linker to not use it when linking to
+            // the dll.
+            char szError[256];
+            LTSNPrintF( szError, sizeof(szError), "LoadObjects - Server is missing class %s", typeName );
             dsi_ConsolePrint( szError );
-			ASSERT( !"LoadObjects - Server is missing class" );
+            ASSERT( !"LoadObjects - Server is missing class" );
         }
 
         // Create and construct an instance of it.
@@ -425,11 +426,11 @@ LTRESULT LoadObjects(ILTStream *pStream, const char *pWorldName, bool bAllObject
         // Read in all the properties.
         STREAM_READ(nProperties);
 
-		// Make sure that the object create struct has enough room for all the properties
-		if(createStruct.m_cProperties.GetMaxProps() < nProperties)
-		{
-			createStruct.m_cProperties.ReserveProps(nProperties, false);
-		}
+        // Make sure that the object create struct has enough room for all the properties
+        if(createStruct.m_cProperties.GetMaxProps() < nProperties)
+        {
+            createStruct.m_cProperties.ReserveProps(nProperties, false);
+        }
 
 
         for (k=0; k < nProperties; k++)
@@ -442,7 +443,7 @@ LTRESULT LoadObjects(ILTStream *pStream, const char *pWorldName, bool bAllObject
             STREAM_READ(dummyPropFlags)
             STREAM_READ(propLen);
 
-			LT_MEM_TRACK_ALLOC(aPropData.resize(propLen), LT_MEM_TYPE_PROPERTY);
+            LT_MEM_TRACK_ALLOC(aPropData.resize(propLen), LT_MEM_TYPE_PROPERTY);
 
             if (propCode == PT_STRING)
             {
@@ -453,77 +454,77 @@ LTRESULT LoadObjects(ILTStream *pStream, const char *pWorldName, bool bAllObject
                 pStream->Read(static_cast<void*>(&(*aPropData.begin())), propLen);
             }
 
-			// Add it as a property if we're going to tell them about it
-			if (pClass && pObject)
-			{
-				switch (propCode)
-				{
-					case LT_PT_VECTOR :
-					case LT_PT_COLOR :
-					{
-						ASSERT(propLen == sizeof(LTVector));
-						createStruct.m_cProperties.AddProp(propName, GenericProp(*(LTVector*)(&(*aPropData.begin())), propCode));
-						break;
-					}
-					case LT_PT_STRING :
-					{
-						createStruct.m_cProperties.AddProp(propName, GenericProp((const char *)(&(*aPropData.begin())), propCode));
-						break;
-					}
-					case LT_PT_REAL :
-					{
-						ASSERT(propLen == sizeof(float));
-						createStruct.m_cProperties.AddProp(propName, GenericProp(*(float*)(&(*aPropData.begin())), propCode));
-						break;
-					}
-					case LT_PT_LONGINT :
-					case LT_PT_FLAGS :
-					{
-						ASSERT(propLen == sizeof(float));
-						// Note : LONGINT/FLAGS properties are stored as a float, cast to an int.
-						// This is because from the tools perspective, there's no such thing
-						// as an integer property.
-						createStruct.m_cProperties.AddProp(propName, GenericProp((int32)(*(float*)(&(*aPropData.begin()))), propCode));
-						break;
-					}
-					case LT_PT_BOOL :
-					{
-						ASSERT(propLen == sizeof(uint8));
-						createStruct.m_cProperties.AddProp(propName, GenericProp(*aPropData.begin() != 0, propCode));
-						break;
-					}
-					case LT_PT_ROTATION :
-					{
-						ASSERT(propLen == sizeof(LTRotation));
-						// These need to be handled a bit differently due to being
-						// stored as eulers embedded in an LTRotation.  (Hey, don't blame
-						// me, I wasn't the one that started this mess...)
-						GenericProp cRotationProp(*(LTVector*)(&(*aPropData.begin())), propCode);
-						cRotationProp.m_Rotation = LTRotation(VEC_EXPAND(cRotationProp.m_Vec));
-						createStruct.m_cProperties.AddProp(propName, cRotationProp);
-						break;
-					}
-					default :
-					{
-						ASSERT(!"Unknown property type encountered on object load");
-						break;
-					}
-				}
-			}
+            // Add it as a property if we're going to tell them about it
+            if (pClass && pObject)
+            {
+                switch (propCode)
+                {
+                    case LT_PT_VECTOR :
+                    case LT_PT_COLOR :
+                    {
+                        ASSERT(propLen == sizeof(LTVector));
+                        createStruct.m_cProperties.AddProp(propName, GenericProp(*(LTVector*)(&(*aPropData.begin())), propCode));
+                        break;
+                    }
+                    case LT_PT_STRING :
+                    {
+                        createStruct.m_cProperties.AddProp(propName, GenericProp((const char *)(&(*aPropData.begin())), propCode));
+                        break;
+                    }
+                    case LT_PT_REAL :
+                    {
+                        ASSERT(propLen == sizeof(float));
+                        createStruct.m_cProperties.AddProp(propName, GenericProp(*(float*)(&(*aPropData.begin())), propCode));
+                        break;
+                    }
+                    case LT_PT_LONGINT :
+                    case LT_PT_FLAGS :
+                    {
+                        ASSERT(propLen == sizeof(float));
+                        // Note : LONGINT/FLAGS properties are stored as a float, cast to an int.
+                        // This is because from the tools perspective, there's no such thing
+                        // as an integer property.
+                        createStruct.m_cProperties.AddProp(propName, GenericProp((int32)(*(float*)(&(*aPropData.begin()))), propCode));
+                        break;
+                    }
+                    case LT_PT_BOOL :
+                    {
+                        ASSERT(propLen == sizeof(uint8));
+                        createStruct.m_cProperties.AddProp(propName, GenericProp(*aPropData.begin() != 0, propCode));
+                        break;
+                    }
+                    case LT_PT_ROTATION :
+                    {
+                        ASSERT(propLen == sizeof(LTRotation));
+                        // These need to be handled a bit differently due to being
+                        // stored as eulers embedded in an LTRotation.  (Hey, don't blame
+                        // me, I wasn't the one that started this mess...)
+                        GenericProp cRotationProp(*(LTVector*)(&(*aPropData.begin())), propCode);
+                        cRotationProp.m_Rotation = LTRotation(VEC_EXPAND(cRotationProp.m_Vec));
+                        createStruct.m_cProperties.AddProp(propName, cRotationProp);
+                        break;
+                    }
+                    default :
+                    {
+                        ASSERT(!"Unknown property type encountered on object load");
+                        break;
+                    }
+                }
+            }
         }
 
         // Send it the precreate message so it can read in its properties.
         if (pClass && pObject)
         {
-			createStruct.m_hClass = (HCLASS)pClassData;
-			uint32 nPreCreateResult = pObject->OnPrecreate(&createStruct, PRECREATE_WORLDFILE);
-			if (nPreCreateResult && ((pClass->m_ClassFlags & CF_CLASSONLY) == 0))
-			{
-	            dResult = sm_AddObjectToWorld(pObject, pClass, &createStruct,
-		            INVALID_OBJECTID, OBJECTCREATED_WORLDFILE, &pObj);
-			}
-			else
-				dResult = LT_OK;
+            createStruct.m_hClass = (HCLASS)pClassData;
+            uint32 nPreCreateResult = pObject->OnPrecreate(&createStruct, PRECREATE_WORLDFILE);
+            if (nPreCreateResult && ((pClass->m_ClassFlags & CF_CLASSONLY) == 0))
+            {
+                dResult = sm_AddObjectToWorld(pObject, pClass, &createStruct,
+                    INVALID_OBJECTID, OBJECTCREATED_WORLDFILE, &pObj);
+            }
+            else
+                dResult = LT_OK;
             if ((!nPreCreateResult) || (dResult != LT_OK))
             {
                 sm_FreeObjectOfClass(pClass, pObject);
@@ -531,7 +532,7 @@ LTRESULT LoadObjects(ILTStream *pStream, const char *pWorldName, bool bAllObject
         }
     }
 
-	g_pServerMgr->m_pCurOCS = pOldOCS;
+    g_pServerMgr->m_pCurOCS = pOldOCS;
 
     if (pStream->ErrorStatus() != LT_OK)
     {
@@ -629,7 +630,7 @@ LTLink* sm_FindInFreeList(uint16 objectID)
 void sm_SetObjectSpecialEffectMessage(LTObject *pObj, const CPacket_Read &cPacket)
 {
     // Point at the packet
-	pObj->sd->m_cSpecialEffectMsg = cPacket;
+    pObj->sd->m_cSpecialEffectMsg = cPacket;
 
     sm_UpdateInBspStatus(pObj);
 }
@@ -652,12 +653,12 @@ void sm_SetObjectStateFlags(LTObject *pObj, uint32 flags)
         if (flags)
         {
             dl_AddTail(&g_pServerMgr->m_Objects, &pObj->sd->m_ListNode, pObj);
-			pObj->sd->m_pObject->OnDeactivate();
+            pObj->sd->m_pObject->OnDeactivate();
         }
         else
         {
             dl_AddHead(&g_pServerMgr->m_Objects, &pObj->sd->m_ListNode, pObj);
-			pObj->sd->m_pObject->OnActivate();
+            pObj->sd->m_pObject->OnActivate();
         }
     }
 }
@@ -724,7 +725,7 @@ bool CanOptimizeObject(LTObject *pObj)
 {
 
     return (pObj->m_Flags & FLAG_FORCEOPTIMIZEOBJECT) || 
-		( pObj->sd->m_cSpecialEffectMsg.Empty() && !( pObj->m_Flags & FLAG_OPTIMIZEMASK ));
+        ( pObj->sd->m_cSpecialEffectMsg.Empty() && !( pObj->m_Flags & FLAG_OPTIMIZEMASK ));
 
 }
 
@@ -744,8 +745,8 @@ void AddObjectToChangeList(LTObject *pObj)
         return;
     }
 
-	if( pObj->m_InternalFlags & IFLAG_OBJECTGOINGAWAY )
-		return;
+    if( pObj->m_InternalFlags & IFLAG_OBJECTGOINGAWAY )
+        return;
  
     // This object should be in the world..
     ASSERT(pObj->m_InternalFlags & IFLAG_INWORLD);
@@ -753,7 +754,7 @@ void AddObjectToChangeList(LTObject *pObj)
     // Better not be re-adding it!
     ASSERT(!IsObjectInChangedList(pObj));
 
-	dl_AddHead( &g_pServerMgr->m_ChangedObjectHead, &pObj->sd->m_ChangedNode, pObj );
+    dl_AddHead( &g_pServerMgr->m_ChangedObjectHead, &pObj->sd->m_ChangedNode, pObj );
 }
 
 LTRESULT SetObjectChangeFlags(LTObject *pObj, uint32 flags)
@@ -794,7 +795,7 @@ LPBASECLASS sm_AllocateObjectOfClass(ClassDef *pClass)
 
     pClassData = (CClassData*)pClass->m_pInternal[g_pServerMgr->m_ClassMgr.m_ClassIndex];
 
-	LT_MEM_TRACK_ALLOC(pObject = (LPBASECLASS)sb_Allocate(&pClassData->m_ObjectBank), LT_MEM_TYPE_MISC);
+    LT_MEM_TRACK_ALLOC(pObject = (LPBASECLASS)sb_Allocate(&pClassData->m_ObjectBank), LT_MEM_TYPE_MISC);
     pObject->m_hObject = 0;
     pObject->m_pFirstAggregate = LTNULL;
     pClass->m_ConstructFn(pObject);

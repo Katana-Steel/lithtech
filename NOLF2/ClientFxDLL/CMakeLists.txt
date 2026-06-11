@@ -1,6 +1,6 @@
 # FIXME: Looks like the code in Engine/clientfx is newer
 project(NOLF2_ClientFXDLL)
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.16)
 
 find_package(SDL2 REQUIRED)
 

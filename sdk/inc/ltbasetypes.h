@@ -170,7 +170,7 @@ More complicated types.
     #include "ltvector.h"
     #endif
 
-    #ifndef __LTROTATION_H__
+    #ifndef LITHTECH_LTROTATION_H
     #include "ltrotation.h"
     #endif
 

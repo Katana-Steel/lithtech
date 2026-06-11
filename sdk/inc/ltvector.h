@@ -34,7 +34,7 @@ __inline T LTLERP(T min, TMAX max, TINTERP t);
 Used for:  Obsolete.
 */
 //---------------------------------------------------------------------------//
-template<class T>
+template<typename T>
 struct TVector3 {
     T x, y, z;
 
@@ -221,9 +221,8 @@ struct TVector3 {
     void NormApprox(T nVal = 1);
 };
 
-
 //Don't worry about all the template stuff, just always use this.
-typedef TVector3<float> LTVector;
+using LTVector = TVector3<float>;
 
 template<class T>
 inline void LTStream_Read(ILTStream *pStream, TVector3<T> &vec)

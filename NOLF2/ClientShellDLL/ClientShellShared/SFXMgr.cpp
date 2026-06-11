@@ -72,6 +72,7 @@
 #include "TriggerFX.h"
 #include "RadarObjectFX.h"
 #include "ActivateObjectFX.h"
+#include <cmath>
 
 // NOTE:  These indexes should map EXACTLY to the SFX ids defined
 // in SFXMsgIds.h...
@@ -278,8 +279,7 @@ void CSFXMgr::HandleSFXMsg(HLOCALOBJ hObj, ILTMessage_Read *pMsg)
 			debris.vPos			= pMsg->ReadCompPos();
 			debris.nDebrisId	= pMsg->Readuint8();
 
-			if (std::isnan(debris.rRot[0]) || std::isnan(debris.rRot[1]) ||
-				std::isnan(debris.rRot[2]) || std::isnan(debris.rRot[3]))
+			if(debris.rRot.is_nan())
 			{
 				debris.rRot.Identity();
 			}

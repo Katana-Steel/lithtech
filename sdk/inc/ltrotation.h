@@ -1,8 +1,7 @@
-#ifndef _LTROTATION_H_
-#define _LTROTATION_H_
+#ifndef LITHTECH_LTROTATION_H
+#define LITHTECH_LTROTATION_H
 
 
-#include "ltbasetypes.h"
 #include "ltvector.h"
 #include "ltquatbase.h"
 #include "ltmatrix.h"
@@ -234,6 +233,14 @@ struct LTRotation
 	{
 		LTRotation rTemp(vAxis, fAngle);
 		*this = rTemp * *this;
+	}
+
+	bool is_nan() const
+	{
+		for (float f : m_Quat)
+			if(std::isnan(f))
+				return true;
+		return false;
 	}
 };
 

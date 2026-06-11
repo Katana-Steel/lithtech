@@ -757,7 +757,7 @@ void C3DSample::SetPosition( LTVector& pos )
 	if(m_sample.source == 0)
 		return;
 
-	alSource3f(m_sample.source, AL_POSITION, pos.x, pos.y, pos.z);
+	alSource3f(m_sample.source, AL_POSITION, -pos.x, pos.y, pos.z);
 
 	alSourcef(m_sample.source, AL_REFERENCE_DISTANCE, C3D_REFERENCE_DISTANCE);
 

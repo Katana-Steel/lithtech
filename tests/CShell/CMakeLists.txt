@@ -1,5 +1,5 @@
 project(Test_CShell)
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.16)
 
 include(FindPkgConfig)
 find_package(SDL2 REQUIRED)

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.16)
 project(Lithtech)
 
 if(NOT WIN32)
@@ -43,10 +43,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED 17)
 
 if (ENABLE_DXVK)
 	option(ENABLE_D3D "Enable Direct3D" ON)
-	pkg_check_modules(DXVK dxvk-native)
+	pkg_check_modules(DXVK dxvk-d3d9)
 	add_definitions(-DUSE_DXVK)
-	set(DXVK_INCLUDE_DIRS ${DXVK_INCLUDEDIR}/native/windows ${DXVK_INCLUDEDIR}/native/directx)
-	set(DXVK_LIB_DIRS ${DXVK_LIBDIR})
 endif()
 
 if (ENABLE_OPENAL AND NOT WIN32)

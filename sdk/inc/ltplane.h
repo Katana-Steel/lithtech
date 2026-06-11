@@ -1,9 +1,7 @@
 #ifndef __LTPLANE_H__
 #define __LTPLANE_H__
 
-#ifndef __LTVECTOR_H__
 #include "ltvector.h"
-#endif
 
 //---------------------------------------------------------------------------//
 /*!
