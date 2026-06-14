@@ -500,7 +500,7 @@ void CUserProfile::LoadControls()
 		
 	}
 
-	for (int a = 0; a < g_pProfileMgr->GetNumPOV(); a++)
+	for (int a = 0; a < g_pProfileMgr->GetNumPOV() && a < kMaxDevicePOV; a++)
 	{
 		CDevicePOVData *pPOVData = g_pProfileMgr->GetPOVData(a);
 		char szPOV[8] = "";
@@ -1316,7 +1316,7 @@ void CUserProfile::ApplyJoystick()
 		}
 	}
 
-	for (int a = 0; a < g_pProfileMgr->GetNumPOV(); a++)
+	for (int a = 0; a < g_pProfileMgr->GetNumPOV() && a < kMaxDevicePOV; a++)
 	{
 		CDevicePOVData *pPOVData = g_pProfileMgr->GetPOVData(a);
 		if (!pPOVData || m_nPOV[a] == eJoystick_None) continue;
