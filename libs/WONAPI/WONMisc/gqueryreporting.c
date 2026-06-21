@@ -398,7 +398,8 @@ Note: the value is stored in a common buffer. If you want to keep it, make a cop
 static char *value_for_key(const char *s, const char *key)
 {
 	static int valueindex;
-	char *pos,*pos2;
+	const char *pos;
+	char *pos2;
 	char keyspec[256]="\\";
 	static char value[2][256];
 
