@@ -1091,10 +1091,10 @@ public:
 	{
 		//rotate the position of the coordinate frame about the axis
 		const LTMatrix3f M = RotationMatrix( a, u );
-		const LTMatrix3f v = M * (this->m_O - p0);
+		const LTVector3f v = M * (this->m_O - p0);
 
 		// not sure what a const cast from matrix to vector does:		
-		this->m_O = p0 + v(0);//new position
+		this->m_O = p0 + v;//new position
 		// or this:
 		//this->m_O = p0 + (LTVector3f{1.0,1.0,1.0} * v);//new position
 
