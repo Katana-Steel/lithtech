@@ -25,6 +25,7 @@
 #include "CMoveMgr.h"
 #include "MsgIDs.h"
 #include "VersionMgr.h"
+#include <algorithm>
 
 extern CGameClientShell* g_pGameClientShell;
 
@@ -500,7 +501,8 @@ void CUserProfile::LoadControls()
 		
 	}
 
-	for (int a = 0; a < g_pProfileMgr->GetNumPOV() && a < kMaxDevicePOV; a++)
+	int countPOV = std::min(kMaxDevicePOV, g_pProfileMgr->GetNumPOV());
+	for (int a = 0; a < countPOV; a++)
 	{
 		CDevicePOVData *pPOVData = g_pProfileMgr->GetPOVData(a);
 		char szPOV[8] = "";
@@ -1316,7 +1318,8 @@ void CUserProfile::ApplyJoystick()
 		}
 	}
 
-	for (int a = 0; a < g_pProfileMgr->GetNumPOV() && a < kMaxDevicePOV; a++)
+	int countPOV = std::min(kMaxDevicePOV, g_pProfileMgr->GetNumPOV());
+	for (int a = 0; a < countPOV; a++)
 	{
 		CDevicePOVData *pPOVData = g_pProfileMgr->GetPOVData(a);
 		if (!pPOVData || m_nPOV[a] == eJoystick_None) continue;
