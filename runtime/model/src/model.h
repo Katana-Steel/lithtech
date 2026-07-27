@@ -260,7 +260,7 @@ public:
 
     virtual void GetData(const uint8* pData, uint32 index, LTVector& vPos ) const
 	{
-        memcpy(&vPos, pData + sizeof(LTVector) * index, sizeof(LTVector)) ;
+        memcpy((void*)&vPos, pData + sizeof(LTVector) * index, sizeof(LTVector)) ;
     }
 };
 
@@ -286,7 +286,7 @@ public:
 
     virtual void GetData(const uint8* pData, uint32 index, LTRotation& rRot) const
     {
-        memcpy(&rRot, pData + sizeof(LTRotation) * index, sizeof(LTRotation) );
+        memcpy((void*)&rRot, pData + sizeof(LTRotation) * index, sizeof(LTRotation) );
     }
 };
 

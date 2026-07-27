@@ -228,7 +228,8 @@ void CTO2GameServerShell::Update(LTFLOAT timeElapsed)
 		char fname[_MAX_FNAME] = "";
 		_splitpath( GetCurLevel(), NULL, NULL, fname, NULL );
 #else
-		const char *fname = split(std::string{GetCurLevel()}, '/').back().c_str();
+		auto strCurLevel{split(std::string{GetCurLevel()}, '/').back()};
+		const char *fname = strCurLevel.c_str();
 #endif
 		// Update the summary info
 		cMsg.WriteString(g_pVersionMgr->GetBuild());

@@ -199,7 +199,7 @@ bool d3d_InitFrustum2(ViewParams *pParams,
 
 	/////// Copy stuff in and setup view limits.
 
-	memcpy(&pParams->m_ViewBox, pViewBox, sizeof(pParams->m_ViewBox));
+	memcpy((void*)&pParams->m_ViewBox, pViewBox, sizeof(pParams->m_ViewBox));
 	pMat->GetTranslation(pParams->m_Pos);
 
 	pParams->m_FarZ = pViewBox->m_FarZ;

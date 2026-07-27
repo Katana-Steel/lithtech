@@ -249,7 +249,7 @@ CRenderModelPieceList& CRenderModelPieceList::GetSingleton()
 CRenderModelPieceList::SQueuedPiece& CRenderModelPieceList::SQueuedPiece::operator=(const SQueuedPiece& rhs)
 {
 	//just copy
-	memcpy(this, &rhs, sizeof(rhs));
+	memcpy((void*)this, &rhs, sizeof(rhs));
 	return *this;
 }
 
@@ -397,7 +397,7 @@ void CRenderModelPieceList::RenderPieceList(float fAlpha)
 	PD3DDEVICE->GetRenderState(D3DRS_DEPTHBIAS, &nOldDepthBias);
 
 	//clear out the texture list
-	memset(PrevTextureList, 0, sizeof(PrevTextureList));
+	memset((void*)PrevTextureList, 0, sizeof(PrevTextureList));
 
 	for(uint32 nCurrPiece = 0; nCurrPiece < m_cPieceList.size();)
 	{
@@ -451,7 +451,7 @@ void CRenderModelPieceList::RenderPieceList(float fAlpha)
 			IncFrameStat(eFS_ModelRender_TextureSets, 1);
 
 			//update our texture list information since the render style set them
-			memcpy(PrevTextureList, m_cPieceList[nStartPiece].m_TextureList, sizeof(PrevTextureList));
+			memcpy((void*)PrevTextureList, m_cPieceList[nStartPiece].m_TextureList, sizeof(PrevTextureList));
 
 			//now we need to render each piece of this pass
 			for(uint32 nRSPiece = nStartPiece; nRSPiece < nCurrPiece; nRSPiece++)
@@ -467,7 +467,7 @@ void CRenderModelPieceList::RenderPieceList(float fAlpha)
 				{
 					//need to swap textures
 					g_RenderStateMgr.SetRenderStyleTextures(pCurrRenderStyle, 0, Piece.m_TextureList);
-					memcpy(PrevTextureList, Piece.m_TextureList, sizeof(PrevTextureList));
+					memcpy((void*)PrevTextureList, Piece.m_TextureList, sizeof(PrevTextureList));
 					IncFrameStat(eFS_ModelRender_TextureSets, 1);
 				}
 
@@ -608,7 +608,7 @@ void CRenderModelPieceList::RenderPieceList(float fAlpha)
 				IncFrameStat(eFS_ModelRender_TextureSets, 1);
 
 				//update our texture list information since the render style set them
-				memcpy(PrevTextureList, m_cPieceList[nStartPiece].m_TextureList, sizeof(PrevTextureList));
+				memcpy((void*)PrevTextureList, m_cPieceList[nStartPiece].m_TextureList, sizeof(PrevTextureList));
 
 				//now we need to render each piece of this pass
 				for(uint32 nRSPiece = nStartPiece; nRSPiece < nCurrPiece; nRSPiece++)
@@ -624,7 +624,7 @@ void CRenderModelPieceList::RenderPieceList(float fAlpha)
 					{
 						//need to swap textures
 						g_RenderStateMgr.SetRenderStyleTextures(pCurrRenderStyle, nCurrPass, Piece.m_TextureList);
-						memcpy(PrevTextureList, Piece.m_TextureList, sizeof(PrevTextureList));
+						memcpy((void*)PrevTextureList, Piece.m_TextureList, sizeof(PrevTextureList));
 						IncFrameStat(eFS_ModelRender_TextureSets, 1);
 					}
 

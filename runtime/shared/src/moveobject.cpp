@@ -1460,7 +1460,7 @@ void MoveObject
 	// Stack the collision info so this function is re-entrant
 	pOldCollisionInfo = pState->m_pAbstract->GetCollisionInfo();
 	pState->m_pAbstract->GetCollisionInfo() = &collisionInfo;
-	memset( &collisionInfo, 0, sizeof( CollisionInfo ));
+	memset( (void*)&collisionInfo, 0, sizeof( CollisionInfo ));
 
 	// Set the moving flag so we can't be moved by things we push. 
 	// Also set the apply physics flag so we do physics calcs next time around.
@@ -1787,7 +1787,7 @@ void RotateWorldModel(MoveState *pState,
 	// Stack the collision info so this function is re-entrant
 	pOldCollisionInfo = pState->m_pAbstract->GetCollisionInfo( );
 	pState->m_pAbstract->GetCollisionInfo( ) = &collisionInfo;
-	memset( &collisionInfo, 0, sizeof( CollisionInfo ));
+	memset( (void*)&collisionInfo, 0, sizeof( CollisionInfo ));
 
 	// Transfer the objects that are on object now, so we can move them later...
 	pCur = pObj->m_ObjectsStandingOn.m_pNext;

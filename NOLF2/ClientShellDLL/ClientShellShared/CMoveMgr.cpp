@@ -1745,7 +1745,7 @@ void CMoveMgr::UpdatePushers()
 				dist = VEC_DIST(pPusher->m_Pos, myPos);
 				if(dist < pPusher->m_Radius)
 				{
-					memset(&iQuery, 0, sizeof(iQuery));
+					memset((void*)&iQuery, 0, sizeof(iQuery));
 					iQuery.m_From = pPusher->m_Pos;
 					iQuery.m_To = myPos;
 					if(!g_pLTClient->IntersectSegment(&iQuery, &iInfo))

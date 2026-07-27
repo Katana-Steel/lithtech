@@ -68,7 +68,7 @@ struct LSLineStruct
 
 inline LSLineStruct::LSLineStruct()
 {
-	memset(this, 0, sizeof(LSLineStruct));
+	memset((void*)this, 0, sizeof(LSLineStruct));
 }
 
 typedef void (*RemoveLineFn)(void *pUserData, LSLineStruct* pLine);

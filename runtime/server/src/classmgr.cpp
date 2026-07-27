@@ -399,7 +399,7 @@ void CClassData::GetClassName(char* pClassNameBuffer, uint32 nBufferLen, LTBOOL 
 
 CClassMgr::CClassMgr()
 {
-    memset(this, 0, sizeof(CClassMgr));
+    memset((void*)this, 0, sizeof(CClassMgr));
 }
 
 CClassMgr::~CClassMgr()
@@ -408,7 +408,7 @@ CClassMgr::~CClassMgr()
 }
 
 LTBOOL CClassMgr::Init() {
-    memset(this, 0, sizeof(CClassMgr));
+    memset((void*)this, 0, sizeof(CClassMgr));
 
     return LTTRUE;
 }
@@ -712,7 +712,7 @@ static LTRESULT InitExtraClassData(CClassMgr *pClassMgr)
         LT_MEM_TRACK_ALLOC(pClassMgr->m_ClassDatas = new CClassData[nClasses],LT_MEM_TYPE_MISC);
         pClassMgr->m_nClassDatas = nClasses;
 
-        memset(pClassMgr->m_ClassDatas, 0, sizeof(CClassData)*nClasses);
+        memset((void*)pClassMgr->m_ClassDatas, 0, sizeof(CClassData)*nClasses);
 
  
         for (i=0; i < nClasses; i++)

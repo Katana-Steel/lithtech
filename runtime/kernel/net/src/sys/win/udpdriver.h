@@ -77,7 +77,7 @@ public:
             delete m_pName;
         }
 
-        memcpy(this, &other, sizeof(*this));
+        memcpy((void*)this, &other, sizeof(*this));
         if (other.m_pName) {
             LT_MEM_TRACK_ALLOC(m_pName = new char[strlen(other.m_pName) + 1],LT_MEM_TYPE_NETWORKING);
             strcpy(m_pName, other.m_pName);

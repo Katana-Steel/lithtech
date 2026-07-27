@@ -1530,7 +1530,7 @@ bool udp_BuildSockaddrFromString(const char *pCmdData, sockaddr_in *pSockInfo)
 	const char *pTest = strchr(pCmdData, ':');
 	if(pTest)
 	{
-		memcpy(ip, pCmdData, pTest-pCmdData);
+		memcpy((void*)ip, pCmdData, pTest-pCmdData);
 		ip[pTest-pCmdData] = 0;
 		port = (u_short)atoi(pTest+1);
 	}
@@ -1564,7 +1564,7 @@ bool udp_BuildSockaddrFromString(const char *pCmdData, sockaddr_in *pSockInfo)
 		}
 	}
 
-	memset(pSockInfo, 0, sizeof(*pSockInfo));
+	memset((void*)pSockInfo, 0, sizeof(*pSockInfo));
 	pSockInfo->sin_family = AF_INET;
 	pSockInfo->sin_addr.s_addr = htonl(longAddr);
 	pSockInfo->sin_port = (u_short)htons(port);
@@ -1575,7 +1575,7 @@ bool udp_BuildSockaddrFromString(const char *pCmdData, sockaddr_in *pSockInfo)
 
 void udp_SetupLocalSockaddr(sockaddr_in *pSockInfo, u_short portNum)
 {
-	memset(pSockInfo, 0, sizeof(*pSockInfo));
+	memset((void*)pSockInfo, 0, sizeof(*pSockInfo));
 	pSockInfo->sin_family = AF_INET;
 	pSockInfo->sin_port = htons(portNum);
 
@@ -1860,7 +1860,7 @@ CUDPDriver::CUDPDriver()
 	SAFE_STRCPY(m_Name, "internet");
 	m_DriverFlags = NETDRIVER_TCPIP;
 	m_nCurPingID = 0;
-	memset(&m_cGUID, 0, sizeof(m_cGUID));
+	memset((void*)&m_cGUID, 0, sizeof(m_cGUID));
 }
 
 
@@ -2037,7 +2037,7 @@ LTRESULT CUDPDriver::GetServiceList(NetService* &pListHead)
 	m_DummyService.m_pDriver = this;
 	pRet->m_handle = (HNETSERVICE)&m_DummyService;
 	pRet->m_dwFlags = NETSERVICE_TCPIP;
-	memset(&pRet->m_guidService, 0, sizeof(pRet->m_guidService));
+	memset((void*)&pRet->m_guidService, 0, sizeof(pRet->m_guidService));
 	SAFE_STRCPY(pRet->m_sName, g_pUDPServiceName);
 	
 	pRet->m_pNext = pListHead;
@@ -2230,7 +2230,7 @@ LTRESULT CUDPDriver::UpdateQuery()
 		if (iQuery == -1)
 		{
 			CUDPQuery newQuery;
-			memset(&newQuery, 0, sizeof(newQuery));
+			memset((void*)&newQuery, 0, sizeof(newQuery));
 			newQuery.m_Addr = senderAddr;
 			if (m_Queries.Append(newQuery))
 			{
@@ -2304,11 +2304,11 @@ LTRESULT CUDPDriver::GetQueryResults(NetSession* &pListHead)
 				pSession->m_Ping = (uint32)(pQuery->m_Ping * 1000.0f);
 				
 				// Fill in its unique guid.
-				memset(&pSession->m_guidInst, 0, sizeof(pSession->m_guidInst));
+				memset((void*)&pSession->m_guidInst, 0, sizeof(pSession->m_guidInst));
 				 // this looks really unused and doesn't seem to ever be converted back to a pointer.
 				pSession->m_guidInst.guid_64.a = (uintptr_t)pQuery;
 
-				memset(&pSession->m_guidApp, 0, sizeof(pSession->m_guidApp));
+				memset((void*)&pSession->m_guidApp, 0, sizeof(pSession->m_guidApp));
 
 				// Fill in the host info.
 				LTSNPrintF(pSession->m_HostIP, MAX_HOSTIP_LEN, "%d.%d.%d.%d", EXPAND_BASEADDR(pQuery->m_Addr));

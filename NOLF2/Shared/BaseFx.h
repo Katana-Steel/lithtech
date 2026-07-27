@@ -154,7 +154,7 @@
 
 											FX_BASEDATA()
 											{
-												memset(this, 0, sizeof(FX_BASEDATA));
+												memset((void*)this, 0, sizeof(FX_BASEDATA));
 											}
 
 		uint32			 					m_dwID;
@@ -179,12 +179,12 @@
 	{
 											CLIENTFX_CREATESTRUCT()
 											{
-												memset(this, 0, sizeof(CLIENTFX_CREATESTRUCT));
+												memset((void*)this, 0, sizeof(CLIENTFX_CREATESTRUCT));
 											}
 
 											CLIENTFX_CREATESTRUCT(const char *sName, uint32 dwFlags, const LTVector &vPos)
 											{
-												memset(this, 0, sizeof(CLIENTFX_CREATESTRUCT));
+												CLIENTFX_CREATESTRUCT();
 
 												LTStrCpy(m_sName, sName, sizeof(m_sName));
 												m_dwFlags    = dwFlags;
@@ -194,7 +194,7 @@
 
 											CLIENTFX_CREATESTRUCT(const char *sName, uint32 dwFlags,const LTVector &vPos,const LTRotation &rRot)
 											{
-												memset(this, 0, sizeof(CLIENTFX_CREATESTRUCT));
+												CLIENTFX_CREATESTRUCT();
 
 												LTStrCpy(m_sName, sName, sizeof(m_sName));
 												m_dwFlags    = dwFlags;
@@ -204,7 +204,7 @@
 
 											CLIENTFX_CREATESTRUCT(const char *sName, uint32 dwFlags, HOBJECT hParent)
 											{
-												memset(this, 0, sizeof(CLIENTFX_CREATESTRUCT));
+												CLIENTFX_CREATESTRUCT();
 
 												LTStrCpy(m_sName, sName, sizeof(m_sName));
 												m_dwFlags    = dwFlags;

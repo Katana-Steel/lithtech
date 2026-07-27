@@ -34,7 +34,7 @@ struct CLIENTWEAPONFX
 
 inline CLIENTWEAPONFX::CLIENTWEAPONFX()
 {
-	memset(this, 0, sizeof(CLIENTWEAPONFX));
+	memset((void*)this, 0, sizeof(CLIENTWEAPONFX));
 	nShooterId = -1;
 }
 

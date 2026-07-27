@@ -197,7 +197,8 @@ class CSaveLoadMgr
 			// Split the worldname up into parts so we can get the title.
 			_splitpath( pszWorld, NULL, NULL, fname, NULL );
 #else
-			const char *fname = split(std::string{pszWorld}, '/').back().c_str();
+			auto strFileName = split(std::string{pszWorld}, '/').back();
+			const char *fname = strFileName.c_str();
 #endif
 			// Create a save file name based on the world title.
 			sprintf( szSavePath, "%s%s%s", GetSaveWorkingDir(), PSEP, fname );

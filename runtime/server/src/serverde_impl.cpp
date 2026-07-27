@@ -508,7 +508,7 @@ bool CLTServer::GetClientData(HCLIENT hClient, uint8* pData, int& maxLen)
 
 	if( pData )
 	{
-		memcpy( pData, pClient->m_pClientData, nCopyLength );
+		memcpy( (void*)pData, pClient->m_pClientData, nCopyLength );
 	}
 
 	maxLen = nCopyLength;
@@ -536,7 +536,7 @@ bool CLTServer::SetClientData( HCLIENT hClient, uint8 const* pData, int len)
 		return true;
 
     LT_MEM_TRACK_ALLOC(pClient->m_pClientData = new char[len],LT_MEM_TYPE_NETWORKING);
-	memcpy( pClient->m_pClientData, pData, len );
+	memcpy( (void*)pClient->m_pClientData, pData, len );
 	pClient->m_ClientDataLen = len;
 
 	return true;
@@ -1902,7 +1902,7 @@ LPBASECLASS si_CreateObjectProps(HCLASS hClass, ObjectCreateStruct *pStruct, con
 						++pFinger;
 						++nLength;
 					}
-					memcpy(pFinger, parse.m_Args[i], nCurLength);
+					memcpy((void*)pFinger, parse.m_Args[i], nCurLength);
 					pFinger += nCurLength;
 				}
 				if (nLength <= MAX_GP_STRING_LEN)
@@ -2001,13 +2001,13 @@ void si_BPrint(const char *pMsg, ...)
 
 LTRESULT si_GetSkyDef(SkyDef *pDef)
 {
-	memcpy(pDef, &g_pServerMgr->m_SkyDef, sizeof(SkyDef));
+	memcpy((void*)pDef, &g_pServerMgr->m_SkyDef, sizeof(SkyDef));
 	return LT_OK;
 }
 
 LTRESULT si_SetSkyDef(SkyDef *pDef)
 {
-	memcpy(&g_pServerMgr->m_SkyDef, pDef, sizeof(SkyDef));
+	memcpy((void*)&g_pServerMgr->m_SkyDef, pDef, sizeof(SkyDef));
 	sm_SetSendSkyDef();
 	return LT_OK;
 }

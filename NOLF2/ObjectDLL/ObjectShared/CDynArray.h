@@ -71,7 +71,7 @@ int CDynArray<T>::Grow()
 
 	if (m_bMemCopyable)
 	{
-		memcpy (pNewArray, m_pItems, m_nArraySize * sizeof(T));
+		memcpy ((void*)pNewArray, m_pItems, m_nArraySize * sizeof(T));
 	}
 	else
 	{

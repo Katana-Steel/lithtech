@@ -458,9 +458,9 @@ void CUIList_Impl::Draw()
 	CUIPolyString*	pStr;
 	int32			curindex = 0;
 
-	CUIRECT			clip (m_Rect.x + m_GutterLeft, m_Rect.y + m_GutterTop,
+	CUIRECT			clip {m_Rect.x + m_GutterLeft, m_Rect.y + m_GutterTop,
 						  m_Rect.width - m_GutterLeft - m_GutterRight,
-						  m_Rect.height - m_GutterTop - m_GutterBottom);
+						  m_Rect.height - m_GutterTop - m_GutterBottom};
 
 	// draw the bg image
 	CUIWidget_Impl::Draw();

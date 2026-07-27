@@ -64,10 +64,10 @@ LT_PT_ROTATION - m_Rotation and m_Vec (with euler rotation).
 
 struct GenericProp {
 	GenericProp() {}
-	GenericProp(const GenericProp &cOther) { memcpy(this, &cOther, sizeof(*this)); }
+	GenericProp(const GenericProp &cOther) { memcpy((void*)this, &cOther, sizeof(*this)); }
 	GenericProp &operator=(const GenericProp &cOther) {
 		if (&cOther != this)
-			memcpy(this, &cOther, sizeof(*this));
+			memcpy((void*)this, &cOther, sizeof(*this));
 		return *this;
 	}
 

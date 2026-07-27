@@ -278,7 +278,7 @@ void CPlaySoundFX::PlaySound()
 	// Play the sound
 
 	PlaySoundInfo psi;
-	memset(&psi, 0, sizeof(PlaySoundInfo));
+	memset((void*)&psi, 0, sizeof(PlaySoundInfo));
 
 	psi.m_dwFlags = PLAYSOUND_GETHANDLE |
 				    PLAYSOUND_CTRL_VOL |

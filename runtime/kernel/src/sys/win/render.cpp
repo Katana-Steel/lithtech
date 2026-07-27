@@ -577,10 +577,10 @@ unsigned long GetRendererTextureMemory()
 void r_InitRenderStruct(bool bFullClear)
 {
 	if(bFullClear)
-		memset(&g_Render, 0, sizeof(g_Render));
+		memset((void*)&g_Render, 0, sizeof(g_Render));
 	else {
 		auto size = (char*)&g_Render.m_DontClearMarker - (char*)&g_Render;
-		memset(&g_Render, 0, size);
+		memset((void*)&g_Render, 0, size);
 	}
 	
 	g_Render.ProcessAttachment			= r_ProcessAttachment;	

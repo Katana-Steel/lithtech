@@ -172,7 +172,7 @@ void _GetRModeFromConsoleVariables(RMode *pMode)
     LTCommandVar *pVar;
 
     // Init the renderer.
-    memset(pMode, 0, sizeof(*pMode));
+    memset((void*)pMode, 0, sizeof(*pMode));
     pMode->m_Width = g_ScreenWidth;
     pMode->m_Height = g_ScreenHeight;
     pMode->m_BitDepth = g_CV_BitDepth;
@@ -247,7 +247,7 @@ LTRESULT CClientMgr::Init(const char **resTrees, uint32 nResTrees, uint32 nNumCo
 
     // Setup some default data.
     m_AxisOffsets[0] = m_AxisOffsets[1] = m_AxisOffsets[2] = 0.0f;
-    memset(m_Commands, 0, sizeof(m_Commands));
+    memset((void*)m_Commands, 0, sizeof(m_Commands));
     m_iCurInputSlot = 0;
 
 
@@ -262,7 +262,7 @@ LTRESULT CClientMgr::Init(const char **resTrees, uint32 nResTrees, uint32 nNumCo
         RETURN_ERROR(1, CClientMgr::Init, LT_NOGAMERESOURCES);
     }
 
-    memcpy(m_ResTrees, resTrees, sizeof(m_ResTrees));
+    memcpy((void*)m_ResTrees, resTrees, sizeof(m_ResTrees));
     m_nResTrees = nResTrees;
 
     client_file_mgr->AddResourceTrees(resTrees, nResTrees, treeTypes, &nTreesLoaded);
@@ -1096,13 +1096,13 @@ void CClientMgr::ProcessAllInput(bool bForceClear) {
     pPrevSlot = m_Commands[m_iCurInputSlot];
     pCurSlot = m_Commands[!m_iCurInputSlot];
 
-	memset(pCurSlot, 0, MAX_CLIENT_COMMANDS);
+	memset((void*)pCurSlot, 0, MAX_CLIENT_COMMANDS);
 	m_InputMgr->ReadInput(m_InputMgr, pCurSlot, m_AxisOffsets, (void*)g_ClientGlob.m_SDLInputs, g_ClientGlob.m_mousedown, g_ClientGlob.m_mouserel, g_ClientGlob.m_mousewheel);
 
     if (!m_bInputState || (bForceClear || dsi_IsConsoleUp()))
     {
-        memset(pCurSlot, 0, MAX_CLIENT_COMMANDS);
-        memset(m_AxisOffsets, 0, sizeof(m_AxisOffsets));
+        memset((void*)pCurSlot, 0, MAX_CLIENT_COMMANDS);
+        memset((void*)m_AxisOffsets, 0, sizeof(m_AxisOffsets));
     }
 
     // Find out how many have changed.
@@ -1408,7 +1408,7 @@ void CClientMgr::Term()
     // Stop getting input.
     m_InputMgr->Term(m_InputMgr);
 
-    memset(m_SkyObjects, 0xFF, sizeof(m_SkyObjects));
+    memset((void*)m_SkyObjects, 0xFF, sizeof(m_SkyObjects));
 
     GetClientILTSoundMgrImpl()->Term();
 
@@ -1751,7 +1751,7 @@ void CClientMgr::OnEnterServer() {
     client_file_mgr->OnConnect(m_pCurShell->m_HostID);
 
     // Init the server mirror state.
-    memset(&m_ServerConsoleMirror, 0, sizeof(m_ServerConsoleMirror));
+    memset((void*)&m_ServerConsoleMirror, 0, sizeof(m_ServerConsoleMirror));
     m_ServerConsoleMirror.Alloc = dalloc;
     m_ServerConsoleMirror.Free = dfree;
     cc_InitState(&m_ServerConsoleMirror);
@@ -1762,7 +1762,7 @@ void CClientMgr::OnExitServer(CClientShell *pShell) {
     if (pShell != m_pCurShell)
         return;
 
-    memset(m_SkyObjects, 0xFF, sizeof(m_SkyObjects));
+    memset((void*)m_SkyObjects, 0xFF, sizeof(m_SkyObjects));
 
     // Tell the file manager.
     client_file_mgr->OnDisconnect();
@@ -1988,7 +1988,7 @@ bool CClientMgr::Render(CameraInstance *pCamera, int drawMode, LTObject **pObjec
     pDesc->m_ObjectListSize = nObjects;
 
     // Sky info.
-    memcpy(&pDesc->m_SkyDef, &m_SkyDef, sizeof(pDesc->m_SkyDef));
+    memcpy((void*)&pDesc->m_SkyDef, &m_SkyDef, sizeof(pDesc->m_SkyDef));
 
     pDesc->m_nSkyObjects = 0;
     pDesc->m_SkyObjects = skyObjects;
@@ -2097,7 +2097,7 @@ bool CClientMgr::MakeCubicEnvMap(CameraInstance *pCamera, uint32 nSize, const ch
 	Desc.m_fActualFrameTime	= 0.0f;
 
     // Sky info.
-    memcpy(&Desc.m_SkyDef, &m_SkyDef, sizeof(Desc.m_SkyDef));
+    memcpy((void*)&Desc.m_SkyDef, &m_SkyDef, sizeof(Desc.m_SkyDef));
 
     Desc.m_nSkyObjects = 0;
     Desc.m_SkyObjects = skyObjects;

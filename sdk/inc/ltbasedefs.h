@@ -1366,7 +1366,7 @@ played with different volume ranges
 #define PLAYSOUNDINFO_COPY(dest, src) \
     memcpy((void *)&(dest), (void *)&(src), sizeof(PlaySoundInfo));
 
-#define PLAYSOUNDINFO_INIT(x) memset(&x, 0, sizeof(x));
+#define PLAYSOUNDINFO_INIT(x) memset((void*)&x, 0, sizeof(x));
 
 
 

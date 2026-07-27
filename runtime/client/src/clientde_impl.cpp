@@ -2475,7 +2475,7 @@ float ci_GetGameFrameTime()
 
 LTRESULT ci_GetSkyDef(SkyDef *pDef)
 {
-	memcpy(pDef, &g_pClientMgr->m_SkyDef, sizeof(SkyDef));
+	memcpy((void*)pDef, &g_pClientMgr->m_SkyDef, sizeof(SkyDef));
 	return LT_OK;
 }
 

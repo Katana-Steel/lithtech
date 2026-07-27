@@ -853,7 +853,7 @@ CServerEvent* CreateServerEvent(int type)
 		return LTNULL;
 
     CServerEvent *pRet = (CServerEvent*)sb_Allocate(&g_pServerMgr->m_ServerEventBank);
-    memset(pRet, 0, sizeof(*pRet));
+    memset((void*)pRet, 0, sizeof(*pRet));
     dl_InitList(&pRet->m_ClientStructNodeList);
 
     // Add the events to the client structs.
@@ -891,7 +891,7 @@ CServerEvent* CreateServerToClientEvent(int type, Client *pClient)
         return LTNULL;
 
     pRet = (CServerEvent*)sb_Allocate(&g_pServerMgr->m_ServerEventBank);
-    memset(pRet, 0, sizeof(*pRet));
+    memset((void*)pRet, 0, sizeof(*pRet));
 
     dl_InitList(&pRet->m_ClientStructNodeList);
 
@@ -1269,7 +1269,7 @@ LTRESULT ProcessIncomingPackets() {
 
 void InitServerNetHandlers()
 {
-    memset(g_ServerHandlers, 0, sizeof(g_ServerHandlers));
+    memset((void*)g_ServerHandlers, 0, sizeof(g_ServerHandlers));
 
     g_ServerHandlers[CMSG_GOODBYE].m_Fn = &OnClientDisconnectPacket;
     g_ServerHandlers[CMSG_UPDATE].m_Fn = &OnClientUpdatePacket;

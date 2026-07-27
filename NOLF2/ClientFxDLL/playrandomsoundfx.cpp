@@ -266,7 +266,7 @@ void CPlayRandomSoundFX::PlaySound()
 	if (m_hSound) return;
 
 	PlaySoundInfo psi;
-	memset(&psi, 0, sizeof(PlaySoundInfo));
+	memset((void*)&psi, 0, sizeof(PlaySoundInfo));
 
 	psi.m_dwFlags = PLAYSOUND_GETHANDLE |
 				    PLAYSOUND_CTRL_VOL |

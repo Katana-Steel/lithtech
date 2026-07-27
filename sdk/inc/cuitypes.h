@@ -933,6 +933,27 @@ height.
 /*! 
 CUI Rectangle struct.
 */
+
+struct CUIRECT {
+/*!
+x coordinate
+*/
+	float x;
+/*!
+y coordinate.
+*/
+	float y;
+/*!
+width.
+*/
+	float width;
+/*!
+height.
+*/
+	float height;
+};
+
+/* old definition
 class CUIRECT {
 
 	public:
@@ -955,24 +976,12 @@ class CUIRECT {
 		}
 
 	public:
-/*! 
-x coordinate
-*/
 		float x;
-/*! 
-y coordinate.
-*/
 		float y;
-/*! 
-width.
-*/
 		float width;
-/*! 
-height.
-*/
 		float height;
 };
-
+*/
 
 #endif //__CUITYPES_H__
 

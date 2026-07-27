@@ -149,7 +149,7 @@ CRBSection::CRBSection(const CRBSection &cOther) :
 	if (m_nLightmapSize)
 	{
 		LT_MEM_TRACK_ALLOC(m_pLightmapData = new uint8[m_nLightmapSize],LT_MEM_TYPE_RENDER_LIGHTMAP);
-		memcpy(m_pLightmapData, cOther.m_pLightmapData, m_nLightmapSize);
+		memcpy((void*)m_pLightmapData, cOther.m_pLightmapData, m_nLightmapSize);
 	}
 }
 
@@ -199,7 +199,7 @@ CRBSection &CRBSection::operator=(const CRBSection &cOther)
 	if (m_nLightmapSize)
 	{
 		LT_MEM_TRACK_ALLOC(m_pLightmapData = new uint8[m_nLightmapSize],LT_MEM_TYPE_RENDER_LIGHTMAP);
-		memcpy(m_pLightmapData, cOther.m_pLightmapData, m_nLightmapSize);
+		memcpy((void*)m_pLightmapData, cOther.m_pLightmapData, m_nLightmapSize);
 	}
 	return *this;
 }
@@ -892,7 +892,7 @@ bool CD3D_RenderBlock::GetLitVertexData(SRBVertex *&pVertices) const
 	// Create our new buffer
 	LT_MEM_TRACK_ALLOC(pVertices = new SRBVertex[m_nVertexCount],LT_MEM_TYPE_RENDER_WORLD);
 
-	memcpy(pVertices, m_aVertices, sizeof(SRBVertex) * m_nVertexCount);
+	memcpy((void*)pVertices, m_aVertices, sizeof(SRBVertex) * m_nVertexCount);
 
 	// Fill it
 	iCurLG = m_aLightGroups.begin();
@@ -1764,7 +1764,7 @@ void CD3D_RenderBlock::GetIntersectInfo(const SIntersection &sIntersect,
 					uint32 nTextureY = (uint32)(fTextureV * (float)cTopMip.m_Height);
 					uint32 nTexelIndex = cTopMip.m_Pitch * nTextureY + cTextureFormat.GetBytesPerPixel() * nTextureX;
 					GenericColor Texel;
-					memcpy(&Texel, &cTopMip.m_Data[nTexelIndex], cTextureFormat.GetBytesPerPixel());
+					memcpy((void*)&Texel, &cTopMip.m_Data[nTexelIndex], cTextureFormat.GetBytesPerPixel());
 
 					// Convert it from the texture format
 					PValue nFinalColor;
