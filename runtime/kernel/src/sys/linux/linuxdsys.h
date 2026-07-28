@@ -47,8 +47,9 @@ typedef struct {
 #define MAX_KEYBUFFER           100
 #define SOUND_DRIVER_NAME_LEN    32
 #define SOUND_DRIVER_NAME_ARG   "+soundso"
+#ifndef MAX_PATH
 #define MAX_PATH               1024
-
+#endif
 // ------------------------------------------------------------------------- //
 // Prototypes (Public C methods)
 // ------------------------------------------------------------------------- //
